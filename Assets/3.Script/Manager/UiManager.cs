@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
@@ -9,35 +10,40 @@ public class UiManager : MonoBehaviour
     [SerializeField] GameObject settingWindow;
 
     [Header("Setting Window")]
-    [SerializeField] Slider BGM_Slider;
-    [SerializeField] Slider SFX_Slider;
+    [SerializeField] Slider BGMSlider;
+    [SerializeField] Slider SFXSlider;
 
-    float bgmValue = 1f;
-    float sfxValue = 1f;
+    float BGMValue = 1f;
+    float SFXValue = 1f;
 
     public void BGM_VolumeSetting()
     {
-        AudioManager.instance.BGM_Play.volume = BGM_Slider.value;
+        AudioManager.instance.BGMPlay.volume = BGMSlider.value;
     }
 
     public void SFX_VolumeSetting()
     {
         for (int i = 0; i < AudioManager.instance.SFX_Play.Length; i++)
         {
-            AudioManager.instance.SFX_Play[i].volume = SFX_Slider.value;
+            AudioManager.instance.SFX_Play[i].volume = SFXSlider.value;
         }
     }
 
     public void SaveButton()
     {
-        bgmValue = BGM_Slider.value;
-        sfxValue = SFX_Slider.value;
+        BGMValue = BGMSlider.value;
+        SFXValue = SFXSlider.value;
     }
 
-    public void BackButton()
+    public void BackButton() 
     {
-        BGM_Slider.value = bgmValue;
-        SFX_Slider.value = sfxValue;
+        BGMSlider.value = BGMValue;
+        SFXSlider.value = SFXValue;
         settingWindow.SetActive(false);
+    }
+
+    public void SoundCheck(BaseEventData eventdata)
+    {
+        AudioManager.instance.PlaySFX("SoundCheck");
     }
 }

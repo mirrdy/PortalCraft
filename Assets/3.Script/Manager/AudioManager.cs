@@ -19,7 +19,7 @@ public class AudioManager : MonoBehaviour
 
     [Space(10f)]
     [Header("Audio Source")]
-    [SerializeField] public AudioSource BGM_Play;
+    [SerializeField] public AudioSource BGMPlay;
     [SerializeField] public AudioSource[] SFX_Play;
 
     private void Awake()
@@ -38,7 +38,7 @@ public class AudioManager : MonoBehaviour
 
     private void AudioSetting()
     {
-        BGM_Play = transform.GetChild(0).GetComponent<AudioSource>();
+        BGMPlay = transform.GetChild(0).GetComponent<AudioSource>();
         SFX_Play = transform.GetChild(1).GetComponents<AudioSource>();
         PlayerBGM("Title");
     }
@@ -49,8 +49,8 @@ public class AudioManager : MonoBehaviour
         {
             if (s.name.Equals(name))
             {
-                BGM_Play.clip = s.clip;
-                BGM_Play.Play();
+                BGMPlay.clip = s.clip;
+                BGMPlay.Play();
                 break;
             }
             print(string.Format("BGM_Play : {0}가 없습니다.", name));
@@ -59,7 +59,7 @@ public class AudioManager : MonoBehaviour
 
     public void StopBGM()
     {
-        BGM_Play.Stop();
+        BGMPlay.Stop();
     }
 
     public void PlaySFX(string name)
