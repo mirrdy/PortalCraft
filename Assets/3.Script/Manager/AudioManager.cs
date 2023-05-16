@@ -14,13 +14,13 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     [Header("Audio Clip")]
-    public Sound[] BGM;
-    public Sound[] SFX;
+    public Sound[] bgm;
+    public Sound[] sfx;
 
     [Space(10f)]
     [Header("Audio Source")]
-    [SerializeField] public AudioSource BGMPlay;
-    [SerializeField] public AudioSource[] SFX_Play;
+    [SerializeField] public AudioSource bgmPlay;
+    [SerializeField] public AudioSource[] sfxPlay;
 
     private void Awake()
     {
@@ -36,21 +36,21 @@ public class AudioManager : MonoBehaviour
         AudioSetting();
     }
 
-    private void AudioSetting()
+    private void AudioSetting() 
     {
-        BGMPlay = transform.GetChild(0).GetComponent<AudioSource>();
-        SFX_Play = transform.GetChild(1).GetComponents<AudioSource>();
+        bgmPlay = transform.GetChild(0).GetComponent<AudioSource>();
+        sfxPlay = transform.GetChild(1).GetComponents<AudioSource>();
         PlayerBGM("Title");
     }
 
     public void PlayerBGM(string name)
     {
-        foreach (Sound s in BGM)
+        foreach (Sound s in bgm)
         {
             if (s.name.Equals(name))
             {
-                BGMPlay.clip = s.clip;
-                BGMPlay.Play();
+                bgmPlay.clip = s.clip;
+                bgmPlay.Play();
                 break;
             }
             print(string.Format("BGM_Play : {0}가 없습니다.", name));
@@ -59,21 +59,21 @@ public class AudioManager : MonoBehaviour
 
     public void StopBGM()
     {
-        BGMPlay.Stop();
+        bgmPlay.Stop();
     }
 
     public void PlaySFX(string name)
     {
-        foreach (Sound s in SFX)
+        foreach (Sound s in sfx)
         {
             if (s.name.Equals(name))  // clip을 찾고 
             {
-                for (int i = 0; i < SFX_Play.Length; i++)
+                for (int i = 0; i < sfxPlay.Length; i++)
                 {
-                    if (!SFX_Play[i].isPlaying)
+                    if (!sfxPlay[i].isPlaying)
                     {
-                        SFX_Play[i].clip = s.clip;
-                        SFX_Play[i].Play();
+                        sfxPlay[i].clip = s.clip;
+                        sfxPlay[i].Play();
                         return;
                     }
                 }
