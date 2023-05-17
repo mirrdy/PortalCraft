@@ -36,6 +36,14 @@ public class TitleUiManager : MonoBehaviour
     {
         AudioManager.instance.bgmPlay.volume = slider_Bgm.value;
 
+        if(slider_Bgm.value == 0)
+        {
+            image_Bgm.sprite = sprite_Bgm[1];
+        }
+        else
+        {
+            image_Bgm.sprite = sprite_Bgm[0];
+        }
     }
 
     public void SFX_VolumeSetting()  // 효과음 소리 설정
@@ -43,6 +51,15 @@ public class TitleUiManager : MonoBehaviour
         for (int i = 0; i < AudioManager.instance.sfxPlay.Length; i++)
         {
             AudioManager.instance.sfxPlay[i].volume = slider_Sfx.value;
+        }
+
+        if (slider_Sfx.value == 0)
+        {
+            image_Sfx.sprite = sprite_Sfx[1];
+        }
+        else
+        {
+            image_Sfx.sprite = sprite_Sfx[0];
         }
     }
 
