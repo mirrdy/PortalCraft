@@ -8,5 +8,4 @@ public abstract class EntityState
     public abstract void EnterState(LivingEntity entity);
     public abstract void ExitState(LivingEntity entity);
 
-
 }

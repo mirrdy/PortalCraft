@@ -11,6 +11,7 @@ public class LivingEntity : MonoBehaviour
     public float atk { get; protected set; }
     public float attackTime { get; protected set; }
     public float moveSpeed { get; protected set; }
+    public float attackRange { get; protected set; }
     public bool isDead { get; protected set; }
 
     public Animator animator;
@@ -19,7 +20,7 @@ public class LivingEntity : MonoBehaviour
     protected virtual void Start()
     {
         // 초기 상태로 IdleState를 설정
-        currentState = new IdleState();
+        currentState = new MonsterIdleState();
        
     }
     protected virtual void Update()

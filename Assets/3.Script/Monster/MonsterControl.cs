@@ -18,16 +18,25 @@ public class MonsterControl : LivingEntity
     protected override void Update()
     {
         base.Update();
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (target != null)
         {
-            ChangeState(new HitState());
+            Vector3 direction = target.transform.position - transform.position;
+            float distance = direction.magnitude;
+            if (distance <= attackRange)
+            {
+                ChangeState(new MonsterAttackState());
+            }
         }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    ChangeState(new MonsterHitState());
+        //}
     }
 
     public override void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
     {
         base.OnDamage(damage, on, hitNomal);
-        ChangeState(new HitState());
+        ChangeState(new MonsterHitState());
     }
     private void ItemDrop()
     {
@@ -43,16 +52,14 @@ public class MonsterControl : LivingEntity
         def = data.def;
         attackTime = data.attackTime;
         dropItemList = data.dropItemList;
+        moveSpeed = data.moveSpeed;
+        attackRange = data.attackRange;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            ChangeState(new MoveState());
-            //target = player.transform;
         }
     }
-
-
 }
