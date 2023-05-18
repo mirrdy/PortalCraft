@@ -8,7 +8,7 @@ public class MonsterChaseState : EntityState
     public override void EnterState(LivingEntity entity)
     {
         entity.animator.SetBool("isMove", true);
-        monster = entity.GetComponentInChildren<MonsterControl>();
+        monster = entity.GetComponent<MonsterControl>();
     }
 
     public override void ExitState(LivingEntity entity)
@@ -18,12 +18,20 @@ public class MonsterChaseState : EntityState
 
     public override void UpdateState(LivingEntity entity)
     {
+        Debug.Log("업데이트실행중");
+        Debug.Log(monster.target);
+        
         if (monster.target != null)
         {
             Vector3 direction = monster.target.transform.position - entity.transform.position;
             direction.Normalize();
-            Vector3 newPosition = entity.transform.position + direction * monster.moveSpeed * Time.deltaTime;
+            Debug.Log(direction);
+            Vector3 newPosition = entity.transform.position + direction * 10 * Time.deltaTime;
             entity.transform.position = newPosition;
+
+            // 몬스터가 플레이어 쪽을 바라보도록 회전 설정
+            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+            entity.transform.rotation = targetRotation;
 
         }
         else

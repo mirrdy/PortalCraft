@@ -18,19 +18,24 @@ public class MonsterControl : LivingEntity
     protected override void Update()
     {
         base.Update();
+        Debug.Log(currentState);
         if (target != null)
         {
             Vector3 direction = target.transform.position - transform.position;
             float distance = direction.magnitude;
-            if (distance <= attackRange)
+            if (distance <= 2)
             {
                 ChangeState(new MonsterAttackState());
             }
         }
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    ChangeState(new MonsterHitState());
-        //}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ChangeState(new MonsterAttackState());
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            ChangeState(new MonsterHitState());
+        }
     }
 
     public override void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
