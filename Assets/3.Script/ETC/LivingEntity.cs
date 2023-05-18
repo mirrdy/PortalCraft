@@ -10,6 +10,7 @@ public class LivingEntity : MonoBehaviour
     public float def { get; protected set; }
     public float atk { get; protected set; }
     public float attackTime { get; protected set; }
+    public float moveSpeed { get; protected set; }
     public bool isDead { get; protected set; }
 
     public Animator animator;

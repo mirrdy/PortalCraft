@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterControl : LivingEntity
 {
     private GameObject[] dropItemList;
-    private Transform target;
+    public Transform target;
 
     protected override void Start()
     {
