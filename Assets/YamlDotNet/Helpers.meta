@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 184057bfc1c4c1f4680fad31ff1eb68a
+<<<<<<<< HEAD:Assets/YamlDotNet/Helpers.meta
+guid: 451d38934dd424c4690d626628cc1213
+========
+guid: 78205c538ae0c4640add8fd33f4a37ea
+>>>>>>>> DG:Assets/3.Script/State.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

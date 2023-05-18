@@ -1,7 +1,18 @@
+<<<<<<<< HEAD:Assets/YamlDotNet/Examples.unity.meta
 fileFormatVersion: 2
-guid: a5b20befc03909345bd7d08158c02462
+guid: 3834352077ac9904ebad11ff3259fa4e
 DefaultImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+========
+fileFormatVersion: 2
+guid: 280cd5d712582104fb3f3d308f8c8924
+folderAsset: yes
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>>> DG:Assets/3.Script/ETC.meta

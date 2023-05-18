@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: c9a0c98588a87144b9a010eafb05eeb0
+<<<<<<<< HEAD:Assets/1.Scene/TestScene.unity.meta
+guid: 10149b753d37ca5468f1c376f9ef9745
+========
+guid: 0756f3a4ca00bda4c906409a211dc324
+>>>>>>>> DG:Assets/1.Scene/MonsterTest.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
