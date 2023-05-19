@@ -18,15 +18,17 @@ public class Movement3D : MonoBehaviour
     private Animator anim;
     public Transform cam;
 
+    float idle_move_ratio;
+
     private void Awake()
     {
         TryGetComponent(out charController);
-        anim = transform.GetChild(0).GetComponent<Animator>();
+        anim = transform.GetChild(1).GetComponent<Animator>();
     }
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
@@ -34,7 +36,10 @@ public class Movement3D : MonoBehaviour
         //캐릭터 움직임 && 바라보는방향
         if (moveDirection.x != 0 || moveDirection.z != 0)
         {
-            anim.SetBool("isMove", true); 
+            idle_move_ratio = Mathf.Lerp(idle_move_ratio, 1, 15.0f * Time.deltaTime);
+            anim.SetFloat("idle_move_ratio", idle_move_ratio);
+            anim.Play("Idle_Move");
+
             targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothVelocity, smoothTime);
             transform.rotation = Quaternion.Euler(0, angle, 0);
@@ -45,7 +50,9 @@ public class Movement3D : MonoBehaviour
         }
         else
         {
-            anim.SetBool("isMove", false);
+            idle_move_ratio = Mathf.Lerp(idle_move_ratio, 0, 15.0f * Time.deltaTime);
+            anim.SetFloat("idle_move_ratio", idle_move_ratio);
+            anim.Play("Idle_Move");
         }
                              
         //중력구현
