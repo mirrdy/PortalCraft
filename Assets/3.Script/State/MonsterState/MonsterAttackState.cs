@@ -17,14 +17,17 @@ public class MonsterAttackState : EntityState
         if (canAttack)
         {
             entity.animator.SetBool("isAttack", true);
+            entity.GetComponent<CapsuleCollider>().enabled = true;
             monoBehaviour.StartCoroutine(Attack_co(entity));
         }
+       
     }
 
     public override void ExitState(LivingEntity entity)
     {
         entity.animator.SetBool("isAttack", false);
         monoBehaviour.StopCoroutine(Attack_co(entity));
+        entity.GetComponent<CapsuleCollider>().enabled= false;
     }
 
     public override void UpdateState(LivingEntity entity)
@@ -34,7 +37,6 @@ public class MonsterAttackState : EntityState
     private IEnumerator Attack_co(LivingEntity entity)
     {
         canAttack = false;
-        entity.GetComponent<CapsuleCollider>();
         yield return waitForSeconds;
         canAttack = true;
     }

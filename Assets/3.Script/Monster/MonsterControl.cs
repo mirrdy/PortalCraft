@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MonsterControl : LivingEntity
 {
-    private GameObject[] dropItemList;
     public Transform target;
+    public Vector3 spawnPoint;
+    public float patrolRange;
 
     protected override void Start()
     {
@@ -13,6 +14,8 @@ public class MonsterControl : LivingEntity
         Animator monsterAnimator = GetComponent<Animator>();
         animator = monsterAnimator;
         onDeath.AddListener(ItemDrop);
+        spawnPoint = transform.position;
+        patrolRange = 30f;
 
     }
     protected override void Update()
@@ -21,13 +24,29 @@ public class MonsterControl : LivingEntity
         Debug.Log(currentState);
         if (target != null)
         {
-            Vector3 direction = target.transform.position - transform.position;
-            float distance = direction.magnitude;
-            if (distance <= 2)
+
+            Vector3 targetPosition = target.transform.position;
+            targetPosition.y = transform.position.y;
+            Vector3 direction = targetPosition - transform.position;
+            direction.Normalize();
+            float distance = Vector3.Distance(transform.position, targetPosition);
+            if (distance < 3)
             {
                 ChangeState(new MonsterAttackState());
             }
+            else
+            {
+                if (!(currentState is MonsterChaseState))
+                {
+                    ChangeState(new MonsterChaseState());
+                }
+            }
         }
+        if (target == null && !(currentState is MonsterPatrolState))
+        {
+            ChangeState(new MonsterPatrolState());
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ChangeState(new MonsterAttackState());
@@ -45,10 +64,7 @@ public class MonsterControl : LivingEntity
     }
     private void ItemDrop()
     {
-       for(int i =0; i < dropItemList.Length; i++)
-        {   
-            Instantiate(dropItemList[i], transform.position, Quaternion.identity);
-        }
+       
     }   
     public void DataSetting(MonsterData data)
     {
@@ -56,15 +72,16 @@ public class MonsterControl : LivingEntity
         atk = data.atk;
         def = data.def;
         attackTime = data.attackTime;
-        dropItemList = data.dropItemList;
         moveSpeed = data.moveSpeed;
         attackRange = data.attackRange;
+        patrolRange = data.patrolRange;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("ÃÄ¸Â¾Ñ³×");
         }
     }
 }

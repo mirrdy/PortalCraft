@@ -14,24 +14,36 @@ public class MonsterChaseState : EntityState
     public override void ExitState(LivingEntity entity)
     {
         entity.animator.SetBool("isMove", false);
+        monster.target = null;
     }
 
     public override void UpdateState(LivingEntity entity)
     {
-        Debug.Log("업데이트실행중");
-        Debug.Log(monster.target);
         
         if (monster.target != null)
-        {
-            Vector3 direction = monster.target.transform.position - entity.transform.position;
+        {   
+            Vector3 targetPosition = monster.target.transform.position;
+            targetPosition.y = entity.transform.position.y;
+            Vector3 direction = targetPosition - entity.transform.position;
             direction.Normalize();
-            Debug.Log(direction);
-            Vector3 newPosition = entity.transform.position + direction * 10 * Time.deltaTime;
-            entity.transform.position = newPosition;
+            //Debug.Log(direction);
+
+
+            Vector3 newPosition = entity.transform.position + direction * 1 * Time.deltaTime;
+
+            Debug.Log($"타겟 포지션: {targetPosition}");
+            Debug.Log($"몬스터 포지션: {entity.transform.position}");
+            Debug.Log($"이동할 포지션: {newPosition - entity.transform.position}");
+
+            //entity.transform.position = newPosition;
+            entity.transform.position += direction * 10 * Time.deltaTime;
+            
 
             // 몬스터가 플레이어 쪽을 바라보도록 회전 설정
-            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-            entity.transform.rotation = targetRotation;
+            Vector3 playerDirection = monster.target.position - entity.transform.position;
+            playerDirection.y = 0f; // Y 축 방향을 무시하여 평면 상의 방향만 고려합니다.
+            Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
+            monster.transform.rotation = targetRotation;
 
         }
         else
