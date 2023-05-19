@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
@@ -23,6 +24,10 @@ public class TitleUiManager : MonoBehaviour
     [SerializeField] Sprite[] sprite_Bgm;
     [SerializeField] Sprite[] sprite_Sfx;
 
+    [Header("Continu Btn")]
+    [SerializeField] GameObject onContinu;
+    [SerializeField] GameObject offContinu;
+
     private bool isResolution = false;
 
     private void Start()
@@ -30,6 +35,7 @@ public class TitleUiManager : MonoBehaviour
         slider_Bgm.value = DataManager.instance.LoadSound()[0];
         slider_Sfx.value = DataManager.instance.LoadSound()[1];
         resolution.value = DataManager.instance.LoadResolution();
+        ContinuBtnOnOff();
     }
 
     public void BGM_VolumeSetting()  // 배경음 소리 설정
@@ -155,5 +161,22 @@ public class TitleUiManager : MonoBehaviour
         StopCoroutine(nameof(ResolutionSetting_co));
         resolutionWindow.SetActive(false);
         DataManager.instance.SaveResolution(resolution.value);
+    }
+
+    public void ContinuBtnOnOff()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            string filePath = Application.dataPath + "/PlayerData" + i + ".xml";
+
+            if(File.Exists(filePath))
+            {
+                onContinu.SetActive(true);
+                offContinu.SetActive(false);
+                break;
+            }
+        }
+        onContinu.SetActive(false);
+        offContinu.SetActive(true);
     }
 }
