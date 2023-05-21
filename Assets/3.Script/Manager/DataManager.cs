@@ -36,7 +36,7 @@ public class DataManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (!File.Exists(Path.Combine(Application.dataPath, "settingData.yaml")))  // 파일 유무 확인
+        if (!File.Exists(Path.Combine(Application.persistentDataPath, "settingData.yaml")))  // 파일 유무 확인
         {
             // 데이터 초기화
             settingData.bgmSound = 1f;
@@ -44,13 +44,13 @@ public class DataManager : MonoBehaviour
             settingData.resolutionSize = 0;
 
             string yamlData = serializer.Serialize(settingData);  // 데이터 직렬화
-            string filePath = Path.Combine(Application.dataPath, "settingData.yaml");  // 파일을 생성할 위치 지정후 파일 생성
+            string filePath = Path.Combine(Application.persistentDataPath, "settingData.yaml");  // 파일을 생성할 위치 지정후 파일 생성
 
             File.WriteAllText(filePath, yamlData);  // 파일에 직렬화 한 데이터를 저장
         }
         else
         {
-            string filedata = File.ReadAllText(Path.Combine(Application.dataPath, "settingData.yaml"));  // 파일을 생성할 위치 지정후 파일 생성
+            string filedata = File.ReadAllText(Path.Combine(Application.persistentDataPath, "settingData.yaml"));  // 파일을 생성할 위치 지정후 파일 생성
             settingData = deserializer.Deserialize<SettingData>(filedata);  // 데이터 역직렬화 하여 데이터를 가지고 옴
         }
     }
@@ -61,14 +61,14 @@ public class DataManager : MonoBehaviour
         settingData.sfxSound = sfx;
 
         string yamlData = serializer.Serialize(settingData);  // 데이터 직렬화
-        string filePath = Path.Combine(Application.dataPath, "settingData.yaml");  // 파일을 생성할 위치 지정후 파일 생성
+        string filePath = Path.Combine(Application.persistentDataPath, "settingData.yaml");  // 파일을 생성할 위치 지정후 파일 생성
 
         File.WriteAllText(filePath, yamlData);  // 파일에 직렬화 한 데이터를 저장
     }
 
     public float[] LoadSound()  // 사운드 정보 가져오는 메소드
     {
-        string filedata = File.ReadAllText(Path.Combine(Application.dataPath, "settingData.yaml"));  // 파일을 생성할 위치 지정후 파일 생성
+        string filedata = File.ReadAllText(Path.Combine(Application.persistentDataPath, "settingData.yaml"));  // 파일을 생성할 위치 지정후 파일 생성
         settingData = deserializer.Deserialize<SettingData>(filedata);  // 데이터 역직렬화 하여 데이터를 가지고 옴
 
         float[] sound = new float[2] { settingData.bgmSound, settingData.sfxSound };
@@ -81,7 +81,7 @@ public class DataManager : MonoBehaviour
         settingData.resolutionSize = resolution;
 
         string yamlData = serializer.Serialize(settingData);  // 데이터 직렬화
-        string filePath = Path.Combine(Application.dataPath, "settingData.yaml");  // 파일을 생성할 위치 지정후 파일 생성
+        string filePath = Path.Combine(Application.persistentDataPath, "settingData.yaml");  // 파일을 생성할 위치 지정후 파일 생성
 
         File.WriteAllText(filePath, yamlData);  // 파일에 직렬화 한 데이터를 저장
 
@@ -90,7 +90,7 @@ public class DataManager : MonoBehaviour
 
     public int LoadResolution()  // 해상조 정보를 가져오는 메소드
     {
-        string filedata = File.ReadAllText(Path.Combine(Application.dataPath, "settingData.yaml"));  // 파일을 생성할 위치 지정후 파일 생성
+        string filedata = File.ReadAllText(Path.Combine(Application.persistentDataPath, "settingData.yaml"));  // 파일을 생성할 위치 지정후 파일 생성
         settingData = deserializer.Deserialize<SettingData>(filedata);  // 데이터 역직렬화 하여 데이터를 가지고 옴
 
         return settingData.resolutionSize;
@@ -100,7 +100,7 @@ public class DataManager : MonoBehaviour
     public void SettingData(int num)  // Player의 정보(xml 파일의 유무)를 확인 하고 없으면 생성하고 있으면 Load 하는 메소드
     {
         // 파일의 경로와 이름을 지정
-        string filePath = Application.dataPath + "/PlayerData" + 1 + ".xml";
+        string filePath = Application.persistentDataPath + "/PlayerData" + 1 + ".xml";
 
         if (!File.Exists(filePath))  // xml의 데이터에 따라서 저장 데이터를 전달 초기화 이후에 대입하여 기본값을 설정
         {
@@ -150,7 +150,7 @@ public class DataManager : MonoBehaviour
     public void LoadData(int num)  // 저장된 xml의 데이터를 가져오는 메소드
     {
         // 파일의 경로와 이름을 지정
-        string filePath = Application.dataPath + "/PlayerData" + num + ".xml";
+        string filePath = Application.persistentDataPath + "/PlayerData" + num + ".xml";
 
         // 가져올 파일의 정보를 역직렬화
         XmlSerializer serializer = new XmlSerializer(typeof(PlayerData));
@@ -194,7 +194,7 @@ public class DataManager : MonoBehaviour
     public void SaveData(PlayerData playerData, int num)  // 사용한 데이터를 받아와 다시 xml파일에 저장하는 메소드
     {
         // 파일의 경로와 이름을 지정
-        string filePath = Application.dataPath + "/PlayerData" + num + ".xml";
+        string filePath = Application.persistentDataPath + "/PlayerData" + num + ".xml";
 
         XmlSerializer serializers = new XmlSerializer(typeof(PlayerData));  // 받아온 데이터를 직렬화
         using (StreamWriter writer = new StreamWriter(filePath))  // 데이터를 저장할 파일을 열기

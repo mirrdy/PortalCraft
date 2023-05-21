@@ -167,7 +167,7 @@ public class TitleUiManager : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            string filePath = Application.dataPath + "/PlayerData" + i + ".xml";
+            string filePath = Application.persistentDataPath + "/PlayerData" + i + ".xml";
 
             if(File.Exists(filePath))
             {
