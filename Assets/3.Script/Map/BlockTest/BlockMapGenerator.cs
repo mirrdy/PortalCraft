@@ -36,15 +36,18 @@ public class BlockMapGenerator : MonoBehaviour
     public bool isTest = false;
 
     private List<GameObject> list_Block = new List<GameObject>();
+
     private void Start()
     {
-        for (int x = 0; x < widthX; x++)
-        {
-            for (int z = 0; z < widthZ; z++)
-            {
-                list_Block.Add(Instantiate(block_Black, new Vector3(x, 0, z), Quaternion.identity));
-            }
-        }
+        //for (int x = 0; x < widthX; x++)
+        //{
+        //    for (int z = 0; z < widthZ; z++)
+        //    {
+        //        list_Block.Add(Instantiate(block_Black, new Vector3(x, 0, z), Quaternion.identity));
+        //    }
+        //}
+
+
         //for (int i = 0; i < list_Block.Count; i++)
         //{
         //    float xCoord = list_Block[i].transform.position.x / waveLength;
@@ -53,6 +56,27 @@ public class BlockMapGenerator : MonoBehaviour
         //    list_Block[i].transform.position = new Vector3(list_Block[i].transform.position.x, y, list_Block[i].transform.position.z);
         //}
         seed = Random.Range(-10000, 10000);
+
+
+        Vector3 offset = new Vector3(0, 0);
+
+        float[,] noiseMap = Noise.GenerateNoiseMap(widthX, widthZ, seed, noiseScale, octaves, persistance, lacunarity, offset);
+
+        for (int z = 0; z < widthZ; z++)
+        {
+            for (int x = 0; x < widthX; x++)
+            {
+                float currentHeight = noiseMap[x, z];
+                for (int i = 0; i < blocks.Length; i++)
+                {
+                    if (currentHeight <= blocks[i].height)
+                    {
+                        list_Block.Add(Instantiate(blocks[i].block, new Vector3(x, (int)currentHeight * amplitude, z), Quaternion.identity));
+                        break;
+                    }
+                }
+            }
+        }
     }
     public void GenerateMap()
     {
@@ -69,9 +93,10 @@ public class BlockMapGenerator : MonoBehaviour
                 {
                     if (currentHeight <= blocks[i].height)
                     {
+                        //list_Block[z * widthX + x].GetComponentInChildren<MeshRenderer>().sharedMaterial = blocks[i].block.GetComponentInChildren<MeshRenderer>().sharedMaterial;
+                        MeshRenderer[] tmpRenderers = list_Block[z * widthX + x].GetComponentsInChildren<MeshRenderer>();
+
                         list_Block[z * widthX + x].transform.position = new Vector3(x, (int)(currentHeight * amplitude), z);
-                        //list_Block.Add(Instantiate(blocks[i].block, new Vector3(x, currentHeight * amplitude, z), Quaternion.identity));
-                        //colorMap[z * widthX + x] = blocks[i].color;
                         break;
                     }
                 }
