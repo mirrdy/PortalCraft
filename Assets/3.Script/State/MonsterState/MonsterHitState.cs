@@ -27,7 +27,7 @@ public class MonsterHitState : EntityState
     }
 
     private IEnumerator Hit_co(LivingEntity entity)
-    {
+    {   
         yield return new WaitForSeconds(hitTIme);
         entity.ChangeState(new MonsterIdleState());
 

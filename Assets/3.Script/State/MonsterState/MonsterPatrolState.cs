@@ -14,7 +14,6 @@ public class MonsterPatrolState : EntityState
             entity.TryGetComponent(out monster);
         }
         entity.StartCoroutine(patrol_co);
-        Debug.Log("위치선정");
     }
 
     public override void ExitState(LivingEntity entity)
@@ -26,6 +25,10 @@ public class MonsterPatrolState : EntityState
 
     public override void UpdateState(LivingEntity entity)
     {
+        if (monster.target != null)
+        {
+            entity.ChangeState(new MonsterChaseState());
+        }
        
     }
 
@@ -38,7 +41,7 @@ public class MonsterPatrolState : EntityState
             // 이동 가능한 범위 내에서 랜덤한 위치 선택
             Vector3 targetPosition = monster.spawnPoint + Random.insideUnitSphere * monster.patrolRange;
             targetPosition.y = monster.spawnPoint.y;
-            Debug.Log("위치선정: " + targetPosition);
+            //Debug.Log("위치선정: " + targetPosition);
 
             // 몬스터가 플레이어 쪽을 바라보도록 회전 설정
             Vector3 patrolDirection = targetPosition - monster.transform.position;

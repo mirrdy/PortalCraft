@@ -21,40 +21,44 @@ public class MonsterControl : LivingEntity
     protected override void Update()
     {
         base.Update();
-        Debug.Log(currentState);
-        if (target != null)
-        {
+        //Debug.Log(currentState);
+        //if (target != null)
+        //{
+                
+        //    Vector3 targetPosition = target.transform.position;
+        //    targetPosition.y = transform.position.y;
+        //    Vector3 direction = targetPosition - transform.position;
+        //    direction.Normalize();
+        //    float distance = Vector3.Distance(transform.position, targetPosition);
+            //if (distance < 5&&!(currentState is MonsterAttackState))
+            //{
+            //    Debug.Log(currentState);        
+            //    Debug.Log("여기들어옴");
+            //    ChangeState(new MonsterAttackState());
+            //    Debug.Log(currentState);
+            //}
+        //    else
+        //    {
+        //        if (!(currentState is MonsterChaseState))
+        //        {
+        //            ChangeState(new MonsterChaseState());
+        //        }
+        //    }
+        //}
+        //if (target == null && !(currentState is MonsterPatrolState)&&!(currentState is MonsterReturnState))
+        //{
+        //    Debug.Log("추적상태");
+        //    ChangeState(new MonsterPatrolState());
+        //}
 
-            Vector3 targetPosition = target.transform.position;
-            targetPosition.y = transform.position.y;
-            Vector3 direction = targetPosition - transform.position;
-            direction.Normalize();
-            float distance = Vector3.Distance(transform.position, targetPosition);
-            if (distance < 3)
-            {
-                ChangeState(new MonsterAttackState());
-            }
-            else
-            {
-                if (!(currentState is MonsterChaseState))
-                {
-                    ChangeState(new MonsterChaseState());
-                }
-            }
-        }
-        if (target == null && !(currentState is MonsterPatrolState))
-        {
-            ChangeState(new MonsterPatrolState());
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ChangeState(new MonsterAttackState());
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ChangeState(new MonsterHitState());
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    ChangeState(new MonsterAttackState());
+        //}
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
+        //    ChangeState(new MonsterHitState());
+        //}
     }
 
     public override void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
@@ -82,6 +86,8 @@ public class MonsterControl : LivingEntity
         if (other.CompareTag("Player"))
         {
             Debug.Log("쳐맞앗네");
+            CapsuleCollider attackCol = GetComponent<CapsuleCollider>();
+            attackCol.enabled = false;
         }
     }
 }

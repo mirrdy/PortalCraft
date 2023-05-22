@@ -16,7 +16,6 @@ public class MonsterChase : MonoBehaviour
         {
             Debug.Log("ºÎµúÈû");
             monsterControl.target = other.transform;
-            monsterControl.ChangeState(new MonsterChaseState());
         }
     }
     private void OnTriggerStay(Collider other)
@@ -31,7 +30,6 @@ public class MonsterChase : MonoBehaviour
     {
         Debug.Log("³ª°¨");
         monsterControl.target = null;
-        monsterControl.ChangeState(new MonsterReturnState());
     }
 
 }
