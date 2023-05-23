@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(BlockMapGenerator))]
+[CustomEditor(typeof(BlockMapGeneratorForNoise))]
 public class BlockMapGeneratorEditor : Editor
 {
     // 에디터에서 BlockMapGenerator 컴포넌트
     public override void OnInspectorGUI()
     {
-        BlockMapGenerator mapGen = (BlockMapGenerator)target;
+        BlockMapGeneratorForNoise mapGen = (BlockMapGeneratorForNoise)target;
 
         if (DrawDefaultInspector())
         {
