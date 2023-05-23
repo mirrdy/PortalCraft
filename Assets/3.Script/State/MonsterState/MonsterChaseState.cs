@@ -14,7 +14,6 @@ public class MonsterChaseState : EntityState
     public override void ExitState(LivingEntity entity)
     {
         entity.animator.SetBool("isMove", false);
-        monster.target = null;
     }
 
     public override void UpdateState(LivingEntity entity)   
@@ -22,10 +21,12 @@ public class MonsterChaseState : EntityState
         
         if (monster.target != null)
         {   
+
             Vector3 targetPosition = monster.target.transform.position;
             targetPosition.y = entity.transform.position.y;
             Vector3 direction = targetPosition - entity.transform.position;
             direction.Normalize();
+            float distance = Vector3.Distance(monster.transform.position, targetPosition);
             entity.transform.position += direction * 10 * Time.deltaTime;
             
             // 몬스터가 플레이어 쪽을 바라보도록 회전 설정
@@ -33,11 +34,16 @@ public class MonsterChaseState : EntityState
             playerDirection.y = 0f; // Y 축 방향을 무시하여 평면 상의 방향만 고려합니다.
             Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
             monster.transform.rotation = targetRotation;
+            if(distance <= monster.attackRange)
+            {
+                Debug.Log("이건실행됨");
+                entity.ChangeState(new MonsterAttackState());
+            }
 
         }
-        else
+        if (monster.target == null)
         {
-            entity.ChangeState(new MonsterIdleState());
+            entity.ChangeState(new MonsterReturnState());
         }
     }
 }

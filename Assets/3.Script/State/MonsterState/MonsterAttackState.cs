@@ -15,15 +15,12 @@ public class MonsterAttackState : EntityState
         {
             monoBehaviour = entity.GetComponent<MonoBehaviour>();
         }   
-        if (attack_co == null)
-        {
-            attack_co = Attack_co(entity);
-        }
+        
         if (monster == null)
         {
             entity.TryGetComponent(out monster);
         }
-        waitForSeconds = new WaitForSeconds(3f);
+        waitForSeconds = new WaitForSeconds(2f);
        
        
     }
@@ -41,31 +38,29 @@ public class MonsterAttackState : EntityState
         {
             entity.ChangeState(new MonsterReturnState());
         }
-        else
+       
+        Vector3 direction = monster.target.position - monster.transform.position;
+        direction.Normalize();
+        float distance = Vector3.Distance(monster.transform.position, monster.target.position);
+
+        //매프레임 마다 캐싱을해줘서 전에 사용된 코루틴이 영향을 끼치지 않도록 함
+        attack_co = Attack_co(entity);
+        if (canAttack)
         {
-            Vector3 direction = monster.target.position - monster.transform.position;
-            direction.Normalize();
-            float distance = Vector3.Distance(monster.transform.position, monster.target.position);
-            if (distance <= monster.attackRange)
-            {
-                if (canAttack)
-                {
-                    monoBehaviour.StartCoroutine(attack_co);
-                }
-            }
-            else
-            {
-                entity.ChangeState(new MonsterChaseState());
-            }
+            canAttack = false;
+            monoBehaviour.StartCoroutine(attack_co);
+        }   
+        if (distance > monster.attackRange)// monster attackRange를써야함
+        {
+            entity.ChangeState(new MonsterChaseState());
         }
+        
         //EnterState(entity);
-    }
+    }   
     private IEnumerator Attack_co(LivingEntity entity)
     {
-
-        canAttack = false;
         entity.animator.SetBool("isAttack", true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         entity.animator.SetBool("isAttack", false);
         yield return waitForSeconds;
         canAttack = true;

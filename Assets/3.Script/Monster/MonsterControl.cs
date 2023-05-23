@@ -7,6 +7,7 @@ public class MonsterControl : LivingEntity
     public Transform target;
     public Vector3 spawnPoint;
     public float patrolRange;
+    [SerializeField] private MonsterData monsterdata;
 
     protected override void Start()
     {
@@ -15,56 +16,23 @@ public class MonsterControl : LivingEntity
         animator = monsterAnimator;
         onDeath.AddListener(ItemDrop);
         spawnPoint = transform.position;
-        patrolRange = 30f;
+        DataSetting(monsterdata);//나중에지워야함 필요없음
 
     }
     protected override void Update()
     {
         base.Update();
-        //Debug.Log(currentState);
-        //if (target != null)
-        //{
-                
-        //    Vector3 targetPosition = target.transform.position;
-        //    targetPosition.y = transform.position.y;
-        //    Vector3 direction = targetPosition - transform.position;
-        //    direction.Normalize();
-        //    float distance = Vector3.Distance(transform.position, targetPosition);
-            //if (distance < 5&&!(currentState is MonsterAttackState))
-            //{
-            //    Debug.Log(currentState);        
-            //    Debug.Log("여기들어옴");
-            //    ChangeState(new MonsterAttackState());
-            //    Debug.Log(currentState);
-            //}
-        //    else
-        //    {
-        //        if (!(currentState is MonsterChaseState))
-        //        {
-        //            ChangeState(new MonsterChaseState());
-        //        }
-        //    }
-        //}
-        //if (target == null && !(currentState is MonsterPatrolState)&&!(currentState is MonsterReturnState))
-        //{
-        //    Debug.Log("추적상태");
-        //    ChangeState(new MonsterPatrolState());
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    ChangeState(new MonsterAttackState());
-        //}
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    ChangeState(new MonsterHitState());
-        //}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ChangeState(new MonsterHitState());
+        }
     }
 
     public override void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
     {
         base.OnDamage(damage, on, hitNomal);
         ChangeState(new MonsterHitState());
+        target = gameObject.transform;
     }
     private void ItemDrop()
     {
