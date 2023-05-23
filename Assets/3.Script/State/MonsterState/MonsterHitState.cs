@@ -8,7 +8,10 @@ public class MonsterHitState : EntityState
     private MonoBehaviour monoBehaviour;
     public override void EnterState(LivingEntity entity)
     {
-        entity.TryGetComponent(out this.monoBehaviour);
+        if (monoBehaviour == null)
+        {
+            monoBehaviour = entity.GetComponent<MonoBehaviour>();
+        }
         entity.animator.SetBool("isHit", true);
         monoBehaviour.StartCoroutine(Hit_co(entity));
 
@@ -24,7 +27,7 @@ public class MonsterHitState : EntityState
     }
 
     private IEnumerator Hit_co(LivingEntity entity)
-    {
+    {   
         yield return new WaitForSeconds(hitTIme);
         entity.ChangeState(new MonsterIdleState());
 
