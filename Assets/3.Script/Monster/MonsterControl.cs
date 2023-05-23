@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class MonsterControl : LivingEntity
 {
-    private GameObject[] dropItemList;
     public Transform target;
+    public Vector3 spawnPoint;
+    public float patrolRange;
+    [SerializeField] private MonsterData monsterdata;
 
     protected override void Start()
     {
@@ -13,37 +15,28 @@ public class MonsterControl : LivingEntity
         Animator monsterAnimator = GetComponent<Animator>();
         animator = monsterAnimator;
         onDeath.AddListener(ItemDrop);
+        spawnPoint = transform.position;
+        DataSetting(monsterdata);//나중에지워야함 필요없음
 
     }
     protected override void Update()
     {
         base.Update();
-        if (target != null)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Vector3 direction = target.transform.position - transform.position;
-            float distance = direction.magnitude;
-            if (distance <= attackRange)
-            {
-                ChangeState(new MonsterAttackState());
-            }
+            ChangeState(new MonsterHitState());
         }
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    ChangeState(new MonsterHitState());
-        //}
     }
 
     public override void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
     {
         base.OnDamage(damage, on, hitNomal);
         ChangeState(new MonsterHitState());
+        target = gameObject.transform;
     }
     private void ItemDrop()
     {
-       for(int i =0; i < dropItemList.Length; i++)
-        {   
-            Instantiate(dropItemList[i], transform.position, Quaternion.identity);
-        }
+       
     }   
     public void DataSetting(MonsterData data)
     {
@@ -51,15 +44,18 @@ public class MonsterControl : LivingEntity
         atk = data.atk;
         def = data.def;
         attackTime = data.attackTime;
-        dropItemList = data.dropItemList;
         moveSpeed = data.moveSpeed;
         attackRange = data.attackRange;
+        patrolRange = data.patrolRange;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("쳐맞앗네");
+            CapsuleCollider attackCol = GetComponent<CapsuleCollider>();
+            attackCol.enabled = false;
         }
     }
 }

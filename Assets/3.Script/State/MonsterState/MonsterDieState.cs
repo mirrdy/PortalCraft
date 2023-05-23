@@ -9,6 +9,7 @@ public class DieState : EntityState
         if (entity.onDeath != null && entity.isDead)
         {
             entity.onDeath.Invoke();
+            entity.gameObject.SetActive(false);
         }
     }
 

@@ -11,7 +11,8 @@ public class MonsterData : ScriptableObject
     public float attackTime = 1f;
     public float moveSpeed = 0.5f;
     public float attackRange = 2f;
-    public GameObject[] dropItemList;
+    public float patrolRange = 2f;
+    
 
 
 }

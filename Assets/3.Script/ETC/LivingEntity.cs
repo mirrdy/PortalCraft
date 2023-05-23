@@ -21,7 +21,7 @@ public class LivingEntity : MonoBehaviour
     {
         // 초기 상태로 IdleState를 설정
         currentState = new MonsterIdleState();
-       
+        ChangeState(new MonsterIdleState());
     }
     protected virtual void Update()
     {
