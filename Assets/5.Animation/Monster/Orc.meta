@@ -1,10 +1,15 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 <<<<<<<< HEAD:Assets/1.Scene/Player Test Scene.unity.meta
 guid: 6df5cfecaec85284d9dab108b01c56fe
 ========
 guid: 2126a202dbb97e246b5567c2aaf7fc6a
 folderAsset: yes
 >>>>>>>> DG:Assets/5.Animation/Monster/Orc.meta
+=======
+guid: e6e5a8ff49f8bd9469d2298cd5e65958
+folderAsset: yes
+>>>>>>> KY
 DefaultImporter:
   externalObjects: {}
   userData: 

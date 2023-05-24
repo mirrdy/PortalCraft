@@ -27,8 +27,13 @@ public class MonsterChaseState : EntityState
             Vector3 direction = targetPosition - entity.transform.position;
             direction.Normalize();
             float distance = Vector3.Distance(monster.transform.position, targetPosition);
+<<<<<<< HEAD
             //entity.transform.position += direction * 10 * Time.deltaTime;
             monster.entityController.Move(direction * monster.moveSpeed * Time.deltaTime);
+=======
+            entity.transform.position += direction * 10 * Time.deltaTime;
+            
+>>>>>>> KY
             // 몬스터가 플레이어 쪽을 바라보도록 회전 설정
             Vector3 playerDirection = monster.target.position - entity.transform.position;
             playerDirection.y = 0f; // Y 축 방향을 무시하여 평면 상의 방향만 고려합니다.

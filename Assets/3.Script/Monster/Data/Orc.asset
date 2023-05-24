@@ -16,6 +16,12 @@ MonoBehaviour:
   atk: 25
   def: 10
   attackTime: 2
+<<<<<<< HEAD
   moveSpeed: 2
   attackRange: 3
   patrolRange: 10
+=======
+  moveSpeed: 1
+  attackRange: 3
+  patrolRange: 30
+>>>>>>> KY
