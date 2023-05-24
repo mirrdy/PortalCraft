@@ -40,7 +40,7 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
     [XmlElement]
     public Staters staters;
     [XmlElement]
-    public Skill[] skill = new Skill[6];
+    public Skill[] skill = new Skill[3];
     [XmlElement]
     public Inventory[] inventory = new Inventory[40];
 }
