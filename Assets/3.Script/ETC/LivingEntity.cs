@@ -13,8 +13,9 @@ public class LivingEntity : MonoBehaviour
     public float moveSpeed { get; protected set; }
     public float attackRange { get; protected set; }
     public bool isDead { get; protected set; }
-
+    public float gravity { get; protected set; }     // 중력 계수
     public Animator animator;
+    public CharacterController entityController;
 
     protected EntityState currentState;
     protected virtual void Start()
@@ -26,6 +27,10 @@ public class LivingEntity : MonoBehaviour
     protected virtual void Update()
     {
         currentState.UpdateState(this);
+        if (!entityController.isGrounded)
+        {
+            entityController.Move(new Vector3(0, gravity, 0) * Time.deltaTime);
+        }
     }
     public void ChangeState(EntityState newState)
     {
