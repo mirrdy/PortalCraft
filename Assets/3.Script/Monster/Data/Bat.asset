@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c13bb114d69f4f4188bf1b2362859fc, type: 3}
-  m_Name: Ghost
+  m_Name: Bat
   m_EditorClassIdentifier: 
   hp: 50
-  atk: 20
+  atk: 10
   def: 0
   attackTime: 0.7
-  moveSpeed: 1
+  moveSpeed: 1.5
+  attackRange: 2
+  patrolRange: 7

@@ -16,6 +16,6 @@ MonoBehaviour:
   atk: 25
   def: 10
   attackTime: 2
-  moveSpeed: 1
+  moveSpeed: 2
   attackRange: 3
-  patrolRange: 30
+  patrolRange: 10

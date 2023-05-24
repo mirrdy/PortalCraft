@@ -6,29 +6,21 @@ public class MonsterAttackState : EntityState
 {
     private bool canAttack = true;
     private WaitForSeconds waitForSeconds;
-    private MonoBehaviour monoBehaviour;
     private IEnumerator attack_co;
     private MonsterControl monster;
     public override void EnterState(LivingEntity entity)
     {
-        if (monoBehaviour == null)
-        {
-            monoBehaviour = entity.GetComponent<MonoBehaviour>();
-        }   
-        
         if (monster == null)
         {
             entity.TryGetComponent(out monster);
         }
         waitForSeconds = new WaitForSeconds(2f);
-       
-       
     }
 
     public override void ExitState(LivingEntity entity)
     {
         entity.animator.SetBool("isAttack", false);
-        monoBehaviour.StopCoroutine(attack_co);
+        entity.StopCoroutine(attack_co);
         entity.GetComponent<CapsuleCollider>().enabled= false;
     }
 
@@ -48,7 +40,7 @@ public class MonsterAttackState : EntityState
         if (canAttack)
         {
             canAttack = false;
-            monoBehaviour.StartCoroutine(attack_co);
+            entity.StartCoroutine(attack_co);
         }   
         if (distance > monster.attackRange)// monster attackRange를써야함
         {
