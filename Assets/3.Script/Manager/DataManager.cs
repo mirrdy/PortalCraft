@@ -17,7 +17,7 @@ public class SettingData  // Yaml 데이터형 class생성
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;  // DataManager 싱글톤 생성
-    PlayerData playerData = new PlayerData();  // Player의 데이터 클래스 가져오기
+    public PlayerData playerData = new PlayerData();  // Player의 데이터 클래스 가져오기
 
     // Yaml 데이터형 변수 지정
     SettingData settingData = new SettingData();
@@ -92,7 +92,6 @@ public class DataManager : MonoBehaviour
         return settingData.resolutionSize;
     }
 
-
     public void PlayerDataSet(int num)  // Player의 정보(xml 파일의 유무)를 확인 하고 없으면 생성하고 있으면 Load 하는 메소드
     {
         // 파일의 경로와 이름을 지정
@@ -101,6 +100,12 @@ public class DataManager : MonoBehaviour
         if (!File.Exists(filePath))  // xml의 데이터에 따라서 저장 데이터를 전달 초기화 이후에 대입하여 기본값을 설정
         {
             playerData.staters = new Staters();
+
+            playerData.hair = 0;
+            playerData.eye = 0;
+            playerData.mouth = 0;
+            playerData.mouth = 0;
+            playerData.body = 0;
 
             playerData.playerName = " ";
             playerData.playerLevel = 0;

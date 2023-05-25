@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private Movement3D movement3D;
     private CharacterController charController;
 
+    public PlayerData playerData = new PlayerData();
+
     private void Awake()
     {
         TryGetComponent(out movement3D);
@@ -31,6 +33,16 @@ public class PlayerController : MonoBehaviour
 [Serializable]
 public class PlayerData  // 플레이어 데이터 관리 클레스
 {
+    [XmlElement]
+    public int hair;
+    [XmlElement]
+    public int eye;
+    [XmlElement]
+    public int mouth;
+    [XmlElement]
+    public int mustache;
+    [XmlElement]
+    public int body;
     [XmlElement]
     public string playerName;
     [XmlElement]

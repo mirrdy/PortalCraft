@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/1.Scene/Title.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/1.Scene/In Game.unity
-    guid: 17e6008ea4ef9c443bd3abfcf5f85bfa
+    path: Assets/1.Scene/PlayerCustomizeTest.unity
+    guid: ba0e6fd211d63794bb3342275160cd79
   - enabled: 1
     path: Assets/1.Scene/MapTest.unity
     guid: 122fc30e62d0edd478869cc711c627fa
+  - enabled: 1
+    path: Assets/1.Scene/In Game.unity
+    guid: 17e6008ea4ef9c443bd3abfcf5f85bfa
   m_configObjects: {}
