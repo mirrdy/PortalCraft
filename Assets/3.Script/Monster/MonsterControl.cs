@@ -15,12 +15,8 @@ public class MonsterControl : LivingEntity
         Animator monsterAnimator = GetComponent<Animator>();
         animator = monsterAnimator;
         onDeath.AddListener(ItemDrop);
-<<<<<<< HEAD
         spawnPoint = Vector3.zero;
         entityController = GetComponent<CharacterController>();
-=======
-        spawnPoint = transform.position;
->>>>>>> KY
         DataSetting(monsterdata);//나중에지워야함 필요없음
 
     }
@@ -31,10 +27,7 @@ public class MonsterControl : LivingEntity
         {
             ChangeState(new MonsterHitState());
         }
-<<<<<<< HEAD
         Debug.Log(spawnPoint);
-=======
->>>>>>> KY
     }
 
     public override void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
@@ -56,10 +49,7 @@ public class MonsterControl : LivingEntity
         moveSpeed = data.moveSpeed;
         attackRange = data.attackRange;
         patrolRange = data.patrolRange;
-<<<<<<< HEAD
         gravity = -6;
-=======
->>>>>>> KY
     }
 
     private void OnTriggerEnter(Collider other)

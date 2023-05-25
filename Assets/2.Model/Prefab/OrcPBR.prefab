@@ -1350,11 +1350,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 0}
-<<<<<<< HEAD
   target: {fileID: 7139044276081327506, guid: 90af384486570974085c4e7771883d00, type: 3}
-=======
-  target: {fileID: 0}
->>>>>>> KY
   spawnPoint: {x: 0, y: 0, z: 0}
   patrolRange: 0
   monsterdata: {fileID: 11400000, guid: 8e049a0a82924244ba4851d16466855f, type: 2}

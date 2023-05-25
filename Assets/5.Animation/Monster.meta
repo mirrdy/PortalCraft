@@ -1,15 +1,10 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 <<<<<<<< HEAD:Assets/1.Scene/MapTest.unity.meta
 guid: b5fe3e21ffd761b4395162909cbf50ab
 ========
 guid: aebdbb0b6dd45074786f78eca6b1ded6
 folderAsset: yes
 >>>>>>>> DG:Assets/5.Animation/Monster.meta
-=======
-guid: b17ae5c2d8468a24a8e00960d31659f3
-folderAsset: yes
->>>>>>> KY
 DefaultImporter:
   externalObjects: {}
   userData: 

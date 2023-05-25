@@ -1,15 +1,10 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 <<<<<<<< HEAD:Assets/1.Scene/PlayerCustomizeTest.unity.meta
 guid: 10a573444312cac4688c0cb154ed29bd
 ========
 guid: 8ce360b6118387c428635b4912c29d48
 folderAsset: yes
 >>>>>>>> DG:Assets/2.Model/Prefab.meta
-=======
-guid: 22a35da6f54ac3f4f8ba576e6ac188dc
-folderAsset: yes
->>>>>>> KY
 DefaultImporter:
   externalObjects: {}
   userData: 

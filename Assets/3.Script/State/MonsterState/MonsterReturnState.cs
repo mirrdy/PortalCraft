@@ -29,14 +29,9 @@ public class MonsterReturnState : EntityState
         {
             Vector3 direction = monster.spawnPoint - monster.transform.position;
             direction.Normalize();
-<<<<<<< HEAD
             //Vector3 newPosition = monster.transform.position + direction * monster.moveSpeed * Time.deltaTime;
             //monster.transform.position = newPosition;
             monster.entityController.Move(direction * monster.moveSpeed * Time.deltaTime);
-=======
-            Vector3 newPosition = monster.transform.position + direction * 10f * Time.deltaTime;
-            monster.transform.position = newPosition;
->>>>>>> KY
             float distance = Vector3.Distance(monster.transform.position, monster.spawnPoint);
             // 몬스터가 스폰 포인트 쪽을 바라보도록 회전 설정
             Vector3 spawnDirection = monster.spawnPoint - entity.transform.position;
