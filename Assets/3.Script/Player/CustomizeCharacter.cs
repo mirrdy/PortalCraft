@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class CustomizeCharacter : MonoBehaviour
 {
@@ -41,6 +40,7 @@ public class CustomizeCharacter : MonoBehaviour
     private const int MAX_MUSTACHE = 13;
     private const int MAX_BODY = 5;
 
+    private PlayerController player;
 
     private void Start()
     {
@@ -51,6 +51,8 @@ public class CustomizeCharacter : MonoBehaviour
         mouthParts = new GameObject[MAX_MOUTH];
         mustacheParts = new GameObject[MAX_MUSTACHE];
         bodyParts = new GameObject[MAX_BODY];
+
+        player = FindObjectOfType<PlayerController>();
 
         for (int i = 0; i < MAX_HAIR; i++)
         {
@@ -244,6 +246,14 @@ public class CustomizeCharacter : MonoBehaviour
 
     public void Confirm_Button()
     {
-        SceneManager.LoadScene("Player Test Scene");
+        player.playerData.hair = indexHair;
+        player.playerData.eye = indexEye;
+        player.playerData.mouth = indexMouth;
+        player.playerData.mustache = indexMustache;
+        player.playerData.body = indexBody;
+
+        DataManager.instance.SaveData(player.playerData, 0);
+        print(player.playerData.hair);
+        LoadingSceneManager.Instance.LoadScene("MapTest");
     }
 }
