@@ -182,6 +182,6 @@ public class TitleUiManager : MonoBehaviour
 
     public void NewGameButton()
     {
-        LoadingSceneManager.LoadScene("MapTest");
+        LoadingSceneManager.Instance.LoadScene("MapTest");
     }
 }
