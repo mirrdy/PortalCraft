@@ -179,4 +179,9 @@ public class TitleUiManager : MonoBehaviour
         onContinu.SetActive(false);
         offContinu.SetActive(true);
     }
+
+    public void NewGameButton()
+    {
+        LoadingSceneManager.LoadScene("MapTest");
+    }
 }

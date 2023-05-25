@@ -29,8 +29,6 @@ public class DataManager : MonoBehaviour
     private const int SaltSize = 16;  // salt의 비트 값을 지정
     private const int Iterations = 10000;  // 해싱을 몇번 반복할지 횟수를 지정
 
-    byte[] settingKey;
-
     private void Awake()
     {
         if(instance == null)  // 싱글톤 설정
@@ -50,11 +48,7 @@ public class DataManager : MonoBehaviour
             settingData.sfxSound = 1f;
             settingData.resolutionSize = 0;
 
-            string yamlData = serializer.Serialize(settingData);  // 데이터 직렬화
-
-            string filePath = Path.Combine(Application.persistentDataPath, "settingData.yaml");  // 세팅파일을 생성할 위치 지정후 파일 생성
-
-            File.WriteAllText(filePath, yamlData);  // 파일에 직렬화 한 데이터를 저장
+            YamlSet();
         }
         else
         {
