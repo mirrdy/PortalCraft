@@ -141,6 +141,7 @@ public class BlockMapGenerator : MonoBehaviour
                 if (visible)
                 {
                     GameObject block = Instantiate(blockPrefabInfos[i].block, blockPos, Quaternion.identity);
+
                     worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, block);
 
                     // 생성한 블록 위에 오브젝트 설치
@@ -252,7 +253,7 @@ public class BlockMapGenerator : MonoBehaviour
                 }
             }
 
-            Instantiate(envirionmentsInfos[objectIndex].mapObject, objectPos, Quaternion.identity);
+            GameObject environment = Instantiate(envirionmentsInfos[objectIndex].mapObject, objectPos, Quaternion.identity);
         }
         yield return null;
     }
