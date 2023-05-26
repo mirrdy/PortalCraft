@@ -4,23 +4,38 @@ using UnityEngine;
 
 public class FlyingMonster : MonoBehaviour
 {
-    CharacterController entityController;
+    MonsterControl monster;
     private float gravity = 6;
     // Update is called once per frame
     private void Start()
     {
-        entityController = GetComponent<CharacterController>();
+        monster = GetComponent<MonsterControl>();
     }
     void Update()
     {
+        //if (monster.entityController.isGrounded)
+        //{
+        //    monster.entityController.Move(new Vector3(0, gravity, 0) * Time.deltaTime);
+        //}
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1f))
+        int layerMask = ~LayerMask.GetMask("Monster");
+        if (Physics.Raycast(transform.position, Vector3.down, 0.5f, layerMask))
         {
-            // 레이가 어떤 객체와 충돌했을 때 null이 아닌 경우에만 이동을 수행합니다
-            if (hit.collider == null || hit.distance <= 1f)
-            {
-                entityController.Move(new Vector3(0, gravity, 0) * Time.deltaTime);
-            }
+            monster.entityController.Move(new Vector3(0, gravity, 0) * Time.deltaTime);
         }
+        else
+        {
+            // 충돌 객체가 없으면 중력을 적용하여 아래로 이동
+            monster.entityController.Move(new Vector3(0, -gravity, 0) * Time.deltaTime);
+        }
+        //if (monster.entityController.isGrounded)
+        //{
+        //    monster.entityController.Move(new Vector3(0, gravity, 0) * Time.deltaTime);
+        //}
+        //if (!monster.entityController.isGrounded)
+        //{
+        //    monster.entityController.Move(new Vector3(0, -gravity, 0) * Time.deltaTime);
+        //}
+
     }
 }

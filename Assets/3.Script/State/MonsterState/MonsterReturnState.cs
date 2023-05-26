@@ -28,6 +28,11 @@ public class MonsterReturnState : EntityState
         if (monster.target == null)
         {
             Vector3 direction = monster.spawnPoint - monster.transform.position;
+            direction.y = 0f;
+            if (direction.magnitude <= 0.1f)
+            {
+                entity.ChangeState(new MonsterIdleState());
+            }
             direction.Normalize();
             //Vector3 newPosition = monster.transform.position + direction * monster.moveSpeed * Time.deltaTime;
             //monster.transform.position = newPosition;
@@ -36,13 +41,15 @@ public class MonsterReturnState : EntityState
             // 몬스터가 스폰 포인트 쪽을 바라보도록 회전 설정
             Vector3 spawnDirection = monster.spawnPoint - entity.transform.position;
             spawnDirection.y = 0f; // Y 축 방향을 무시하여 평면 상의 방향만 고려합니다.
+
+
             Quaternion targetRotation = Quaternion.LookRotation(spawnDirection);
             monster.transform.rotation = targetRotation;
 
-            if (distance<0.1f)
-            {
-                entity.ChangeState(new MonsterIdleState());
-            }
+            //if (distance<0.2f)
+            //{
+            //    entity.ChangeState(new MonsterIdleState());
+            //}
         }
         else
         {

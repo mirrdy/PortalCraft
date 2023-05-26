@@ -28,8 +28,6 @@ public class MonsterControl : LivingEntity
         {
             ChangeState(new MonsterHitState());
         }
-        Debug.Log(currentState);
-        Debug.Log(target);
     }
 
     public override void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
@@ -51,7 +49,7 @@ public class MonsterControl : LivingEntity
         moveSpeed = data.moveSpeed;
         attackRange = data.attackRange;
         patrolRange = data.patrolRange;
-        gravity = -6;
+        gravity = data.gravity;
     }
 
     private void OnTriggerEnter(Collider other)
