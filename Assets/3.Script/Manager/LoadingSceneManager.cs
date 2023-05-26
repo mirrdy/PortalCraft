@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
-using System;
 
 public class LoadingSceneManager : MonoBehaviour
 {
@@ -129,7 +127,7 @@ public class LoadingSceneManager : MonoBehaviour
         while (blockMap.progress < 100f)
         {
             text_Loding.text = "Loading... " + (int)blockMap.progress + "%";
-            slider_Loding.value = blockMap.progress/100f;
+            slider_Loding.value = blockMap.progress * 0.01f;
             yield return null;
         }
         StartCoroutine(Fade_co(false));
