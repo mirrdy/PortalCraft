@@ -29,6 +29,8 @@ public class DataManager : MonoBehaviour
     private const int SaltSize = 16;  // salt의 비트 값을 지정
     private const int Iterations = 10000;  // 해싱을 몇번 반복할지 횟수를 지정
 
+    public int saveNumber = 0;
+
     private void Awake()
     {
         if(instance == null)  // 싱글톤 설정
@@ -100,6 +102,8 @@ public class DataManager : MonoBehaviour
         if (!File.Exists(filePath))  // xml의 데이터에 따라서 저장 데이터를 전달 초기화 이후에 대입하여 기본값을 설정
         {
             playerData.staters = new Staters();
+
+            playerData.job = null;
 
             playerData.hair = 0;
             playerData.eye = 0;
@@ -311,7 +315,6 @@ public class DataManager : MonoBehaviour
     {
         using (AesManaged aes = new AesManaged())
         {
-            
             aes.Key = key;  // 사용할 키 값 
 
             // 벡터(iv)저장할 바이트 배열 선언
@@ -329,6 +332,23 @@ public class DataManager : MonoBehaviour
                 decryptedText = reader.ReadToEnd();  // StreamReader를 사용하여 복호화된 데이터를 끝까지 읽어와 decryptedText 변수에 할당
             }
             return decryptedText;
+        }
+    }
+
+    public void NewGameSlot()  // 새 게임 선택 시 세이브 데이터 확인 및 데이터 번호 저장
+    {
+        for(int i = 1; i < 4; i++)
+        {
+            // 파일의 경로와 이름을 지정
+            string filePath = Application.persistentDataPath + "/PlayerData" + i + ".xml";
+
+            if(!File.Exists(filePath))
+            {
+                saveNumber = i;  // 데이터의 번호를 가져온다.
+                PlayerDataSet(i);  // 해당 번호의 데이터를 생성
+                break;
+            }
+            saveNumber = 0;  // 모든 슬롯이 차서 데이터 생성이 불가
         }
     }
 }
