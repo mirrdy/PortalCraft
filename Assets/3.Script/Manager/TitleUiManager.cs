@@ -28,6 +28,9 @@ public class TitleUiManager : MonoBehaviour
     [SerializeField] GameObject onContinu;
     [SerializeField] GameObject offContinu;
 
+    [Header("NewGame Btn")]
+    [SerializeField] GameObject image_Message;
+
     private bool isResolution = false;
 
     private void Start()
@@ -165,7 +168,7 @@ public class TitleUiManager : MonoBehaviour
 
     public void ContinuBtnOnOff()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 1; i < 4; i++)
         {
             string filePath = Application.persistentDataPath + "/PlayerData" + i + ".xml";
 
@@ -175,14 +178,27 @@ public class TitleUiManager : MonoBehaviour
                 offContinu.SetActive(false);
                 break;
             }
+            onContinu.SetActive(false);
+            offContinu.SetActive(true);
         }
-        onContinu.SetActive(false);
-        offContinu.SetActive(true);
     }
 
     public void NewGameButton()
     {
-        AudioManager.instance.StopBGM();
-        LoadingSceneManager.Instance.LoadScene("PlayerCustomizeTest");
+        DataManager.instance.NewGameSlot();
+        if (DataManager.instance.saveNumber != 0)
+        {
+            AudioManager.instance.StopBGM();
+            LoadingSceneManager.Instance.LoadScene("PlayerCustomizeTest");
+        }
+        else
+        {
+            image_Message.SetActive(true);
+        }
+    }
+
+    public void MessageClose()
+    {
+        image_Message.SetActive(false);
     }
 }

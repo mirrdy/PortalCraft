@@ -17,6 +17,11 @@ public class PlayerController : MonoBehaviour
         TryGetComponent(out charController);
     }
 
+    private void Start()
+    {
+        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
+    }
+
     void Update()
     {
         float x = Input.GetAxisRaw("Horizontal");
@@ -33,6 +38,8 @@ public class PlayerController : MonoBehaviour
 [Serializable]
 public class PlayerData  // 플레이어 데이터 관리 클레스
 {
+    [XmlElement]
+    public string job;
     [XmlElement]
     public int hair;
     [XmlElement]
