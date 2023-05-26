@@ -11,11 +11,16 @@ public class CustomizeClass : MonoBehaviour
     public GameObject character_Warrior;
     public GameObject character_Archer;
 
+    public string job = null;
+
     public void Warrior_Button()
     {
         character_Warrior.SetActive(true);
         character_Archer.SetActive(false);
         Debug.Log("전사선택");
+
+        job = "전사";
+
         transform.GetChild(3).gameObject.SetActive(true);
         transform.GetChild(4).gameObject.SetActive(false);
     }
@@ -25,10 +30,13 @@ public class CustomizeClass : MonoBehaviour
         character_Warrior.SetActive(false);
         character_Archer.SetActive(true);
         Debug.Log("레인저선택");
+
+        job = "레인저";
+
         transform.GetChild(3).gameObject.SetActive(false);
         transform.GetChild(4).gameObject.SetActive(true);
     }
-        
+
     public void Confirm_Button()
     {
         player.SetActive(true);

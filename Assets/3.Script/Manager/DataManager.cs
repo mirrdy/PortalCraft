@@ -11,6 +11,11 @@ public class SettingData  // Yaml 데이터형 class생성
     public float bgmSound;  // BGM 사운드 저장할 변수
     public float sfxSound;  // SFX 사운드 저장할 변수
     public int resolutionSize;  // 해상도 번호 저장할 변수
+    public SaveDataNumber[] dataKey = new SaveDataNumber[3];  // 플레이어 슬롯 선택에 따른 키 선택
+}
+
+public class SaveDataNumber
+{
     public byte[] playerDataKey;  // 플레이어 데이터 정보를 열고 닫는데 필요한 데이터 변수
 }
 
@@ -41,6 +46,11 @@ public class DataManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        for (int i = 0; i < settingData.dataKey.Length; i++)
+        {
+            settingData.dataKey[i] = new SaveDataNumber();
         }
 
         if (!File.Exists(Path.Combine(Application.persistentDataPath, "settingData.yaml")))  // 세팅파일 유무 확인
@@ -145,7 +155,7 @@ public class DataManager : MonoBehaviour
             // 암호화 키 생성
             byte[] key = CreateKey(serializedData);
 
-            settingData.playerDataKey = key;  // 키값 데이터 저장
+            settingData.dataKey[num -1].playerDataKey = key;  // 키값 데이터 저장
 
             YamlSet();  // yaml 데이터 저장
 
@@ -169,7 +179,7 @@ public class DataManager : MonoBehaviour
         byte[] encryptedData = LoadEncryptDataFile(filePath);
 
         // 암호화된 데이터를 복호화하여 XML 데이터로 변환
-        string decryptedData = Decrypt(encryptedData, settingData.playerDataKey);
+        string decryptedData = Decrypt(encryptedData, settingData.dataKey[num - 1].playerDataKey);
 
         // XML 데이터를 역직렬화하여 객체로 변환
         PlayerData playerData = DeserializeData(decryptedData);
@@ -188,7 +198,7 @@ public class DataManager : MonoBehaviour
         // 암호화 키 생성
         byte[] key = CreateKey(serializedData);
 
-        settingData.playerDataKey = key;  // 키값 데이터 저장
+        settingData.dataKey[num - 1].playerDataKey = key;  // 키값 데이터 저장
 
         YamlSet();  // yaml 데이터 저장
 
@@ -335,7 +345,7 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void NewGameSlot()  // 새 게임 선택 시 세이브 데이터 확인 및 데이터 번호 저장
+    public void NewGameSlot()  // 새 게임 선택 시 세이브 가녕 여부 확인
     {
         for(int i = 1; i < 4; i++)
         {
@@ -345,10 +355,15 @@ public class DataManager : MonoBehaviour
             if(!File.Exists(filePath))
             {
                 saveNumber = i;  // 데이터의 번호를 가져온다.
-                PlayerDataSet(i);  // 해당 번호의 데이터를 생성
                 break;
             }
             saveNumber = 0;  // 모든 슬롯이 차서 데이터 생성이 불가
         }
+    }
+
+    public void DeleteData(int num)
+    {
+        string filePath = Application.persistentDataPath + "/PlayerData" + num + ".xml";
+        File.Delete(filePath);
     }
 }

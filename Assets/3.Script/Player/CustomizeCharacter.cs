@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class CustomizeCharacter : MonoBehaviour
 {
@@ -40,7 +41,15 @@ public class CustomizeCharacter : MonoBehaviour
     private const int MAX_MUSTACHE = 13;
     private const int MAX_BODY = 5;
 
-    private PlayerController player;
+    private string name;
+    private PlayerData playerData;
+    [SerializeField] private CustomizeClass playerJob;
+
+    [Header("Player Name")]
+    [SerializeField] InputField playerName;
+    [SerializeField] GameObject button_Check;
+    [SerializeField] GameObject image_Check;
+    [SerializeField] Text duplicateCheck;
 
     private void Start()
     {
@@ -52,26 +61,26 @@ public class CustomizeCharacter : MonoBehaviour
         mustacheParts = new GameObject[MAX_MUSTACHE];
         bodyParts = new GameObject[MAX_BODY];
 
-        player = FindObjectOfType<PlayerController>();
+        Transform head = customChar.transform.GetChild(0).GetChild(23).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0);
 
         for (int i = 0; i < MAX_HAIR; i++)
         {
-            hairParts[i] = customChar.transform.GetChild(0).GetChild(23).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0).GetChild(0).GetChild(i).gameObject;
+            hairParts[i] = head.GetChild(0).GetChild(i).gameObject;
         }
 
         for (int i = 0; i < MAX_EYE; i++)
         {
-            eyeParts[i] = customChar.transform.GetChild(0).GetChild(23).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0).GetChild(1).GetChild(i).gameObject;
+            eyeParts[i] = head.GetChild(1).GetChild(i).gameObject;
         }
 
         for (int i = 0; i < MAX_MOUTH; i++)
         {
-            mouthParts[i] = customChar.transform.GetChild(0).GetChild(23).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0).GetChild(2).GetChild(i).gameObject;
+            mouthParts[i] = head.GetChild(2).GetChild(i).gameObject;
         }
 
         for (int i = 0; i < MAX_MUSTACHE; i++)
         {
-            mustacheParts[i] = customChar.transform.GetChild(0).GetChild(23).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(4).GetChild(0).GetChild(3).GetChild(i).gameObject;
+            mustacheParts[i] = head.GetChild(3).GetChild(i).gameObject;
         }
 
         for (int i = 0; i < MAX_BODY; i++)
@@ -246,14 +255,70 @@ public class CustomizeCharacter : MonoBehaviour
 
     public void Confirm_Button()
     {
-        player.playerData.hair = indexHair;
-        player.playerData.eye = indexEye;
-        player.playerData.mouth = indexMouth;
-        player.playerData.mustache = indexMustache;
-        player.playerData.body = indexBody;
+        DataManager.instance.PlayerDataSet(DataManager.instance.saveNumber);
 
-        DataManager.instance.SaveData(player.playerData, 0);
-        print(player.playerData.hair);
+        playerData = DataManager.instance.playerData;
+
+        playerData.playerName = playerName.text;
+        playerData.job = playerJob.job;
+        playerData.hair = indexHair;
+        playerData.eye = indexEye;
+        playerData.mouth = indexMouth;
+        playerData.mustache = indexMustache;
+        playerData.body = indexBody;
+
+        DataManager.instance.SaveData(playerData, DataManager.instance.saveNumber);
+
         LoadingSceneManager.Instance.LoadScene("MapTest");
+    }
+
+    public void OnInputValueChanged()
+    { 
+        button_Check.SetActive(false);
+        image_Check.SetActive(true);
+    }
+
+    public void OnInputClick()
+    {
+        for(int i = 1; i < 4; i++)
+        {
+            // 파일의 경로와 이름을 지정
+            string filePath = Application.persistentDataPath + "/PlayerData" + i + ".xml";
+
+            if(File.Exists(filePath))
+            {
+                if(playerName.text.Equals(DataManager.instance.playerData.playerName))
+                {
+                    button_Check.SetActive(false);
+                    image_Check.SetActive(true);
+
+                    StartCoroutine(nameof(TextAlpa_co));
+                    break;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        button_Check.SetActive(true);
+        image_Check.SetActive(false);
+    }
+
+    IEnumerator TextAlpa_co()
+    {
+        float timer = 0f;
+        while (timer < 1f)
+        {
+            timer += Time.unscaledDeltaTime * 3f;
+            duplicateCheck.color = new Color(0f, 0f, 0f, timer);
+            yield return null;
+        }
+        while (timer > 0f)
+        {
+            timer -= Time.unscaledDeltaTime * 3f;
+            duplicateCheck.color = new Color(0f, 0f, 0f, timer);
+            yield return null;
+        }
     }
 }
