@@ -10,10 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c13bb114d69f4f4188bf1b2362859fc, type: 3}
-  m_Name: Dragon
+  m_Name: Skeleton
   m_EditorClassIdentifier: 
-  hp: 5000
-  atk: 300
-  def: 50
-  attackTime: 3
-  moveSpeed: 0.7
+  hp: 200
+  atk: 30
+  def: 15
+  attackTime: 2
+  moveSpeed: 2
+  attackRange: 2
+  patrolRange: 5
+  gravity: -6

@@ -19,3 +19,4 @@ MonoBehaviour:
   moveSpeed: 1.5
   attackRange: 2
   patrolRange: 7
+  gravity: -6

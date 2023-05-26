@@ -70,7 +70,9 @@ public class MonsterPatrolState : EntityState
                 Vector3 direction = targetPosition - monster.transform.position;
                 direction.y = 0f; // Y값을 0으로 설정하여 수직 이동을 방지합니다.
                 if (direction.magnitude <= 0.1f)
+                {
                     break; // 거리 값이 0.1 이하인 경우 반복 종료
+                }
                 direction.Normalize();
                 monster.entityController.Move(direction * monster.moveSpeed * Time.deltaTime);
                 yield return null;
