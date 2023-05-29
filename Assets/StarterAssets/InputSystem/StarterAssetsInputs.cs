@@ -20,15 +20,6 @@ namespace StarterAssets
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
 
-
-
-
-
-
-
-
-
-
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		public void OnMove(InputValue value)
 		{
@@ -55,12 +46,6 @@ namespace StarterAssets
 #endif
 
 
-
-
-
-
-
-
 		public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
@@ -80,15 +65,6 @@ namespace StarterAssets
 		{
 			sprint = newSprintState;
 		}
-
-
-
-
-
-
-
-
-
 
 		private void OnApplicationFocus(bool hasFocus)
 		{

@@ -49,13 +49,19 @@ public class PlayerControl : MonoBehaviour
 
     private bool hasAnimator;
 
+    //애니메이션 파라미터 ID
     private int animID_Speed;
     private int animID_Ground;
     private int animID_Jump;
     private int animID_Falling;
+    private int animID_Attack;
+    private int animID_Swing;
+    private int animID_Shot;
 
-
-
+    private bool canAttack;
+    public float weaponAttackCool;
+    public float 
+    public Weapon equipWeapon;
 
 
 
@@ -84,7 +90,8 @@ public class PlayerControl : MonoBehaviour
 
         JumpAndGravity();
         GroundCheck();
-        Move();          
+        Move();
+        Attack();
     }
     private void LateUpdate()
     {
@@ -152,11 +159,15 @@ public class PlayerControl : MonoBehaviour
         #region 플레이어 방향 설정
         Vector3 inputDirection = new Vector3(input.move.x, 0f, input.move.y).normalized;
 
-        if (input.move != Vector2.zero)
+        if (input.move != Vector2.zero) 
         {
             targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
             transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+        }
+        if (input.move != Vector2.zero && input.attack)
+        {
+            transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
         }
         #endregion
 
@@ -240,6 +251,34 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    private void Attack()
+    {
+        weaponAttackCool += Time.deltaTime;
+        canAttack = equipWeapon.rate < weaponAttackCool;
+
+        if (input.attack && equipWeapon == null)
+        {
+            animator.SetTrigger(animID_Attack);
+        }
+
+        if (equipWeapon.type == Weapon.Type.Melee && input.attack && canAttack)
+        {
+            equipWeapon.Use();
+            animator.SetTrigger(animID_Swing);
+            weaponAttackCool = 0;
+        }
+
+        if (input.attack && equipWeapon.type == Weapon.Type.Range && canAttack)
+        {
+            equipWeapon.Use();
+            animator.SetTrigger(animID_Shot);
+            weaponAttackCool = 0;
+        }
+        
+
+        
+    }
+
 
 
 
@@ -278,6 +317,9 @@ public class PlayerControl : MonoBehaviour
         animID_Ground = Animator.StringToHash("Ground");
         animID_Jump = Animator.StringToHash("Jump");
         animID_Falling = Animator.StringToHash("Falling");
+        animID_Attack = Animator.StringToHash("Attack");
+        animID_Swing = Animator.StringToHash("Swing");
+        animID_Shot = Animator.StringToHash("Shot");
     }
 
 }

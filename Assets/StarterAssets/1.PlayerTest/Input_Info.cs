@@ -10,6 +10,7 @@ public class Input_Info : MonoBehaviour
     public Vector2 look;
     public bool sprint;
     public bool jump;
+    public bool attack;
 
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
@@ -35,6 +36,11 @@ public class Input_Info : MonoBehaviour
     public void OnJump(InputValue value)
     {
         jump = value.isPressed;
+    }
+
+    public void OnAttack(InputValue value)
+    {
+        attack = value.isPressed;
     }
 
     private void OnApplicationFocus(bool hasFocus)
