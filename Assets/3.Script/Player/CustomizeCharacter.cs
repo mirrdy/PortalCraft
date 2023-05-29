@@ -287,7 +287,8 @@ public class CustomizeCharacter : MonoBehaviour
 
             if(File.Exists(filePath))
             {
-                if(playerName.text.Equals(DataManager.instance.playerData.playerName))
+                PlayerData playerData = DataManager.instance.PlayerDataGet(i);
+                if (playerName.text.Equals(playerData.playerName))
                 {
                     button_Check.SetActive(false);
                     image_Check.SetActive(true);
@@ -298,11 +299,11 @@ public class CustomizeCharacter : MonoBehaviour
             }
             else
             {
-                break;
+                continue;
             }
+            button_Check.SetActive(true);
+            image_Check.SetActive(false);
         }
-        button_Check.SetActive(true);
-        image_Check.SetActive(false);
     }
 
     IEnumerator TextAlpa_co()

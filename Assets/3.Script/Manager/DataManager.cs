@@ -48,7 +48,7 @@ public class DataManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        for (int i = 0; i < settingData.dataKey.Length; i++)
+        for (int i = 1; i < settingData.dataKey.Length + 1; i++)
         {
             settingData.dataKey[i] = new SaveDataNumber();
         }
@@ -140,12 +140,14 @@ public class DataManager : MonoBehaviour
 
                 playerData.skill[j].skillNum = j;
                 playerData.skill[j].skillLevel = 0;
+                playerData.skill[j].hasSkill = false;
             }
             for (int k = 0; k < playerData.inventory.Length; k++)
             {
                 playerData.inventory[k] = new Inventory();
 
                 playerData.inventory[k].slot = k;
+                playerData.inventory[k].quantity = 0;
                 playerData.inventory[k].hasItem = false;
             }
 
@@ -155,7 +157,7 @@ public class DataManager : MonoBehaviour
             // 암호화 키 생성
             byte[] key = CreateKey(serializedData);
 
-            settingData.dataKey[num -1].playerDataKey = key;  // 키값 데이터 저장
+            settingData.dataKey[num].playerDataKey = key;  // 키값 데이터 저장
 
             YamlSet();  // yaml 데이터 저장
 
@@ -179,7 +181,7 @@ public class DataManager : MonoBehaviour
         byte[] encryptedData = LoadEncryptDataFile(filePath);
 
         // 암호화된 데이터를 복호화하여 XML 데이터로 변환
-        string decryptedData = Decrypt(encryptedData, settingData.dataKey[num - 1].playerDataKey);
+        string decryptedData = Decrypt(encryptedData, settingData.dataKey[num].playerDataKey);
 
         // XML 데이터를 역직렬화하여 객체로 변환
         PlayerData playerData = DeserializeData(decryptedData);
@@ -198,7 +200,7 @@ public class DataManager : MonoBehaviour
         // 암호화 키 생성
         byte[] key = CreateKey(serializedData);
 
-        settingData.dataKey[num - 1].playerDataKey = key;  // 키값 데이터 저장
+        settingData.dataKey[num].playerDataKey = key;  // 키값 데이터 저장
 
         YamlSet();  // yaml 데이터 저장
 

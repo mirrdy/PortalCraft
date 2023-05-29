@@ -3933,96 +3933,142 @@ MonoBehaviour:
     skill:
     - skillNum: 0
       skillLevel: 0
+      hasSkill: 0
     - skillNum: 0
       skillLevel: 0
+      hasSkill: 0
     - skillNum: 0
       skillLevel: 0
+      hasSkill: 0
     - skillNum: 0
       skillLevel: 0
+      hasSkill: 0
     - skillNum: 0
       skillLevel: 0
+      hasSkill: 0
     - skillNum: 0
       skillLevel: 0
+      hasSkill: 0
     inventory:
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
     - slot: 0
+      quantity: 0
       hasItem: 0
   saveNumber: 0
 --- !u!4 &1041589069
@@ -8469,7 +8515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1953818052
 RectTransform:
   m_ObjectHideFlags: 0

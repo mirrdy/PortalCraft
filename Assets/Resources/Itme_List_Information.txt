@@ -1,0 +1,9 @@
+1	Block	Sand	모래 블록	1	50	TRUE	FALSE
+2	Block	Grass	잔디 블록	1	80	TRUE	FALSE
+3	Block	Snow	눈 블록	1	30	TRUE	FALSE
+4	Block	Metal	철 블록	1	150	TRUE	FALSE
+5	Block	Gold	금 블록	1	120	TRUE	FALSE
+6	Block	Coal	석탄 블록	1	100	TRUE	FALSE
+7	Block	Brick_Brown	황토색 벽돌 블록	1	140	TRUE	FALSE
+8	Block	Brick_Black	검은색 벽돌 블록	1	140	TRUE	FALSE
+9	Block	Random	랜덤 블록	1	80	TRUE	FALSE
