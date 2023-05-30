@@ -58,8 +58,10 @@ public class PlayerControl : MonoBehaviour
     private int animID_Swing;
     private int animID_Shot;
 
-    private bool canAttack;
-    public float weaponAttackCool;
+    private bool can_NormalAttack;
+    private bool can_WeaponAttack;
+    public float normal_AttackCool;
+    public float weapon_AttackCool;  
     public Weapon equipWeapon;
 
     public GameObject[] QuickSlotItem;
@@ -82,7 +84,7 @@ public class PlayerControl : MonoBehaviour
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
 
-        //QuickSlotItem = new GameObject[???];
+        //QuickSlotItem = new GameObject[8];
     }
     private void Update()
     {
@@ -244,30 +246,58 @@ public class PlayerControl : MonoBehaviour
             verticalVelocity += gravity * Time.deltaTime;
         }
     }
-    private void Attack()
-    {
-        weaponAttackCool += Time.deltaTime;
-        if(equipWeapon != null) canAttack = equipWeapon.rate < weaponAttackCool;
-
-        if (equipWeapon == null && input.attack)
+    private void Attack() //마우스좌클릭 
+    {            
+        //무기 O
+        if (equipWeapon != null)
         {
-            animator.SetTrigger(animID_Attack);
+            weapon_AttackCool += Time.deltaTime;
+            can_WeaponAttack = weapon_AttackCool > equipWeapon.rate;
+
+            if (equipWeapon.type == Weapon.Type.Melee && input.attack && can_WeaponAttack)
+            {               
+                transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);               
+                animator.SetTrigger(animID_Swing);
+                equipWeapon.Use();
+                weapon_AttackCool = 0;
+            }
+            else if (equipWeapon.type == Weapon.Type.Range && input.attack && can_WeaponAttack)
+            {               
+                transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);               
+                animator.SetTrigger(animID_Shot);
+                equipWeapon.Use();
+                weapon_AttackCool = 0;
+            }
         }
 
-        if (equipWeapon.type == Weapon.Type.Melee && input.attack && canAttack)
+        //무기 X
+        else if (equipWeapon == null)
         {
-            equipWeapon.Use();
-            animator.SetTrigger(animID_Swing);
-            weaponAttackCool = 0;
-        }
+            normal_AttackCool += Time.deltaTime;
+            can_NormalAttack = normal_AttackCool > 0.6f;
 
-        if (equipWeapon.type == Weapon.Type.Range && input.attack && canAttack)
-        {
-            equipWeapon.Use();
-            animator.SetTrigger(animID_Shot);
-            weaponAttackCool = 0;
-        }              
+            if (equipWeapon == null && input.attack && can_NormalAttack)
+            {                
+                transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+                animator.SetTrigger(animID_Attack);
+                StopCoroutine("NormalAttack_co");
+                StartCoroutine("NormalAttack_co");
+                normal_AttackCool = 0;
+            }
+        }                      
     }
+    private void Skill_1() //Q 
+    {
+        
+    }
+    private void Skill_2() //E
+    {
+
+    }
+
+
+
+
     private void ItemSelect()
     {
         
@@ -315,4 +345,8 @@ public class PlayerControl : MonoBehaviour
         animID_Shot = Animator.StringToHash("Shot");
     }
 
+    IEnumerator NormalAttack_co()
+    {
+        yield return new WaitForSeconds(0.1f);
+    }
 }
