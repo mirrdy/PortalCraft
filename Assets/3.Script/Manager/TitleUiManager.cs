@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.EventSystems;
@@ -31,21 +30,36 @@ public class TitleUiManager : MonoBehaviour
     [Header("NewGame Btn")]
     [SerializeField] GameObject image_Message;
 
+    [Header("Continu Btn")]
+    [SerializeField] GameObject image_DataSlot;
+    [SerializeField] GameObject image_DeleteData;
+    [SerializeField] Text[] playerInpomation;
+
     private bool isResolution = false;
+    private int saveDataNumber = 0;
 
     private void Start()
     {
         slider_Bgm.value = DataManager.instance.LoadSound()[0];
         slider_Sfx.value = DataManager.instance.LoadSound()[1];
         resolution.value = DataManager.instance.LoadResolution();
+    }
+
+    private void OnEnable()
+    {
         ContinuBtnOnOff();
+
+        settingWindow.SetActive(false);
+        resolutionWindow.SetActive(false);
+        image_Message.SetActive(false);
+        image_DataSlot.SetActive(false);
     }
 
     public void BGM_VolumeSetting()  // 배경음 소리 설정
     {
         AudioManager.instance.bgmPlay.volume = slider_Bgm.value;
 
-        if(slider_Bgm.value == 0)
+        if (slider_Bgm.value == 0)
         {
             image_Bgm.sprite = sprite_Bgm[1];
         }
@@ -104,20 +118,20 @@ public class TitleUiManager : MonoBehaviour
 
     public void DropDownValue()
     {
-        if(!isResolution)
+        if (!isResolution)
         {
             return;
         }
 
-        if(resolution.value == 0)
+        if (resolution.value == 0)
         {
             Screen.SetResolution(1920, 1080, false);
         }
-        else if(resolution.value == 1)
+        else if (resolution.value == 1)
         {
             Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
         }
-        else if(resolution.value == 2)
+        else if (resolution.value == 2)
         {
             Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
         }
@@ -129,7 +143,7 @@ public class TitleUiManager : MonoBehaviour
     {
         resolutionWindow.SetActive(true);
 
-        for (int i=0; i<5; i++)
+        for (int i = 0; i < 5; i++)
         {
             resolutionCount.text = $"{5 - i}";
             yield return new WaitForSeconds(1);
@@ -172,7 +186,7 @@ public class TitleUiManager : MonoBehaviour
         {
             string filePath = Application.persistentDataPath + "/PlayerData" + i + ".xml";
 
-            if(File.Exists(filePath))
+            if (File.Exists(filePath))
             {
                 onContinu.SetActive(true);
                 offContinu.SetActive(false);
@@ -200,5 +214,92 @@ public class TitleUiManager : MonoBehaviour
     public void MessageClose()
     {
         image_Message.SetActive(false);
+    }
+
+    public void ContinuGameButton()
+    {
+        image_DataSlot.SetActive(true);
+        for(int i = 1; i < 4; i++)
+        {
+            string filePath = Application.persistentDataPath + "/PlayerData" + i + ".xml";
+
+            if (File.Exists(filePath))
+            {
+                PlayerData playerData = DataManager.instance.PlayerDataGet(i);
+
+                playerInpomation[i - 1].text =
+                    "이름 : " + playerData.playerName + "\n\n" +
+                    "직업 : " + playerData.job + "\n\n" +
+                    "레벨 : " + playerData.playerLevel + "\n\n" +
+                    "공격력 : " + playerData.staters.attack + "\n\n" +
+                    "방어력 : " + playerData.staters.defens;
+            }
+            else
+            {
+                playerInpomation[i - 1].text =
+                    "이름 : OOOO" + "\n\n" +
+                    "직업 : OOOO" + "\n\n" +
+                    "레벨 : 0" + "\n\n" +
+                    "공격력 : 0" + "\n\n" +
+                    "방어력 : 0";
+            }
+        }
+    }
+
+    public void SlotDelete(int num)
+    {
+        image_DeleteData.SetActive(true);
+
+        saveDataNumber = num;
+    }
+
+    public void DeleteCheck()
+    {
+        DataManager.instance.DeleteData(saveDataNumber);
+
+        for (int i = 1; i < 4; i++)
+        {
+            string filePath = Application.persistentDataPath + "/PlayerData" + i + ".xml";
+
+            if (File.Exists(filePath))
+            {
+                PlayerData playerData = DataManager.instance.PlayerDataGet(i);
+
+                playerInpomation[i - 1].text =
+                    "이름 : " + playerData.playerName + "\n\n" +
+                    "직업 : " + playerData.job + "\n\n" +
+                    "레벨 : " + playerData.playerLevel + "\n\n" +
+                    "공격력 : " + playerData.staters.attack + "\n\n" +
+                    "방어력 : " + playerData.staters.defens;
+            }
+            else
+            {
+                playerInpomation[i - 1].text =
+                    "이름 : OOOO" + "\n\n" +
+                    "직업 : OOOO" + "\n\n" +
+                    "레벨 : 0" + "\n\n" +
+                    "공격력 : 0" + "\n\n" +
+                    "방어력 : 0";
+            }
+        }
+
+        image_DeleteData.SetActive(false);
+    }
+
+    public void DeleteClose()
+    {
+        image_DeleteData.SetActive(false);
+    }
+
+    public void CopntinuSlotClose()
+    {
+        image_DataSlot.SetActive(false);
+        ContinuBtnOnOff();
+    }
+
+    public void SlotClick(int num)
+    {
+        DataManager.instance.saveNumber = num;
+        LoadingSceneManager.Instance.LoadScene("In Game");
     }
 }

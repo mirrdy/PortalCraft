@@ -12,6 +12,7 @@ public class MonsterData : ScriptableObject
     public float moveSpeed = 0.5f;
     public float attackRange = 2f;
     public float patrolRange = 2f;
+    public float gravity = -6f;
     
 
 

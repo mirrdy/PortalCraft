@@ -9,12 +9,16 @@ public class PlayerController : MonoBehaviour
     private Movement3D movement3D;
     private CharacterController charController;
 
-    public PlayerData playerData = new PlayerData();
+    public PlayerData playerData;
+    public ItemManager itemInfo;
+    public SkillManager skillInfo;
 
     private void Awake()
     {
         TryGetComponent(out movement3D);
         TryGetComponent(out charController);
+        TryGetComponent(out itemInfo);
+        TryGetComponent(out skillInfo);
     }
 
     private void Start()
@@ -59,7 +63,7 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
     [XmlElement]
     public Staters staters;
     [XmlElement]
-    public Skill[] skill = new Skill[6];
+    public Skill[] skill = new Skill[3];
     [XmlElement]
     public Inventory[] inventory = new Inventory[40];
 }
@@ -68,9 +72,9 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
 public class Staters  // 플레이어 스텟 관리 클래스
 {
     [XmlElement]
-    public int hp;
+    public int maxHp;
     [XmlElement]
-    public int mp;
+    public int maxMp;
     [XmlElement]
     public float moveSpeed;
     [XmlElement]
@@ -89,7 +93,9 @@ public class Staters  // 플레이어 스텟 관리 클래스
 public class Inventory  // 인벤토리 정보 관리 클레스
 {
     [XmlElement]
-    public int slot;
+    public int tag;
+    [XmlElement]
+    public int quantity;
     [XmlElement]
     public bool hasItem;
 }
@@ -101,4 +107,6 @@ public class Skill  // 스킬 정보 관리 클레스
     public int skillNum;
     [XmlElement]
     public int skillLevel;
+    [XmlElement]
+    public bool hasSkill;
 }
