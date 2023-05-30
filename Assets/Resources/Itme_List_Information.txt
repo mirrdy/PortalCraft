@@ -1,9 +1,40 @@
-1	Block	Sand	모래 블록	1	50	TRUE	FALSE
-2	Block	Grass	잔디 블록	1	80	TRUE	FALSE
-3	Block	Snow	눈 블록	1	30	TRUE	FALSE
-4	Block	Metal	철 블록	1	150	TRUE	FALSE
-5	Block	Gold	금 블록	1	120	TRUE	FALSE
-6	Block	Coal	석탄 블록	1	100	TRUE	FALSE
-7	Block	Brick_Brown	황토색 벽돌 블록	1	140	TRUE	FALSE
-8	Block	Brick_Black	검은색 벽돌 블록	1	140	TRUE	FALSE
-9	Block	Random	랜덤 블록	1	80	TRUE	FALSE
+1	Block	모래	모래 블록	1	99	50	TRUE	FALSE	
+2	Block	잔디	잔디 블록	1	99	80	TRUE	FALSE	
+3	Block	눈	눈 블록	1	99	30	TRUE	FALSE	
+4	Block	철	철 블록	1	99	150	TRUE	FALSE	
+5	Block	금	금 블록	1	99	120	TRUE	FALSE	
+6	Block	석탄	석탄 블록	1	99	100	TRUE	FALSE	
+7	Block	황토색 벽돌	황토색 벽돌 블록	1	99	140	TRUE	FALSE	
+8	Block	검은색 벽돌	검은색 벽돌 블록	1	99	140	TRUE	FALSE	
+9	Block	랜덤 블록	랜덤 블록	1	99	80	TRUE	FALSE	
+10	Block	나무 판자	나무 판자	1	99	50	TRUE	FALSE	
+11	Block	포탈 블록 T1	포탈 블록 T1	1	99	150	TRUE	FALSE	
+12	Block	포탈 블록 T2	포탈 블록 T2	1	99	151	TRUE	FALSE	
+101	Armor	궁수 옷 T1	궁수 옷 T1	1	1	10	10	FALSE	TRUE
+102	Armor	궁수 옷 T2	궁수 옷 T2	1	1	15	15	FALSE	TRUE
+103	Armor	전사 옷 T1	전사 옷 T1	1	1	10	10	FALSE	TRUE
+104	Armor	전사 옷 T2	전사 옷 T2	1	1	15	15	FALSE	TRUE
+105	Helmet	궁수 투구 T1	궁수 투구 T1	1	1	10	FALSE	TRUE	
+106	Helmet	궁수 투구 T2	궁수 투구 T2	1	1	15	FALSE	TRUE	
+107	Helmet	전사 투구 T1	전사 투구 T1	1	1	10	FALSE	TRUE	
+108	Helmet	전사 투구 T2	전사 투구 T2	1	1	15	FALSE	TRUE	
+201	Arms	곡갱이	곡갱이	1	1	10	10	FALSE	FALSE
+202	Arms	도끼	도끼	1	1	10	10	FALSE	FALSE
+203	Arms	기본 검	기본 검	1	1	10	10	FALSE	FALSE
+204	Arms	검 T1	검 T1	1	1	10	10	FALSE	FALSE
+205	Arms	검 T2	검 T2	1	1	10	10	FALSE	FALSE
+206	Arms	기본 활	기본 활	1	1	10	10	FALSE	FALSE
+207	Arms	활 T1	활 T1	1	1	10	10	FALSE	FALSE
+208	Arms	활 T2	활 T2	1	1	10	10	FALSE	FALSE
+209	Arms	횃불	횃불	1	99	10	10	FALSE	FALSE
+301	Etc	포탈 조각 T1	포탈 조각 T1	1	99	FALSE	FALSE		
+302	Etc	포탈 조각 T2	포탈 조각 T2	1	99	FALSE	FALSE		
+303	Etc	거미 줄	박쥐 가죽	1	99	FALSE	FALSE		
+304	Etc	슬라임 점액	슬라임 점액	1	99	FALSE	FALSE		
+305	Etc	오크 가죽	오크 가죽	1	99	FALSE	FALSE		
+306	Etc	뼈 다귀	뼈 다귀	1	99	FALSE	FALSE		
+307	Etc	보스 템	보스 템	1	99	FALSE	FALSE		
+308	Etc	통 나무	통 나무	1	99	FALSE	FALSE		
+309	Etc	조합 대	조합 대	1	1	FALSE	FALSE		
+401	About	HP포션	HP포션	1	99	30	0	FALSE	FALSE
+402	About	MP포션	MP포션	1	99	0	30	FALSE	FALSE

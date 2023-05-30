@@ -72,9 +72,9 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
 public class Staters  // 플레이어 스텟 관리 클래스
 {
     [XmlElement]
-    public int hp;
+    public int maxHp;
     [XmlElement]
-    public int mp;
+    public int maxMp;
     [XmlElement]
     public float moveSpeed;
     [XmlElement]
@@ -93,7 +93,7 @@ public class Staters  // 플레이어 스텟 관리 클래스
 public class Inventory  // 인벤토리 정보 관리 클레스
 {
     [XmlElement]
-    public int slot;
+    public int tag;
     [XmlElement]
     public int quantity;
     [XmlElement]
