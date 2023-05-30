@@ -15,7 +15,7 @@ public class MonsterControl : LivingEntity
         Animator monsterAnimator = GetComponent<Animator>();
         animator = monsterAnimator;
         onDeath.AddListener(ItemDrop);
-        spawnPoint = Vector3.zero;
+        spawnPoint = transform.position;
         entityController = GetComponent<CharacterController>();
         target = null;
         DataSetting(monsterdata);//나중에지워야함 필요없음
