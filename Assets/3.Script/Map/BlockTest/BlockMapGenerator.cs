@@ -28,6 +28,7 @@ public struct BlockPrefabInfo
 {
     public Region region;
     public int height;
+    public bool isFlat;
     public GameObject block;
 }
 
@@ -72,13 +73,15 @@ public class BlockMapGenerator : MonoBehaviour
     [Header("맵정보")]
     public float waveLength = 0;
     public float amplitude = 0;
+    
+    private int seed;
 
     public BlockInfo[,,] worldBlocks = new BlockInfo[widthX, height, widthZ];
 
     public float groundHeightOffset = 20;
     public bool isFinishGeneration = false;
     public float progress = 0;
-    private int seed;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -115,7 +118,7 @@ public class BlockMapGenerator : MonoBehaviour
                 float xCoord = (x + 0) / waveLength;
                 float zCoord = (z + 0) / waveLength;
                 int noiseValueY = (int)(Mathf.PerlinNoise(xCoord, zCoord) * amplitude + groundHeightOffset);
-
+                
                 Vector3 pos = new Vector3(x, noiseValueY, z);
                 StartCoroutine(CreateBlock(noiseValueY, pos, true));
 
@@ -132,15 +135,29 @@ public class BlockMapGenerator : MonoBehaviour
         progress = 100;
         isFinishGeneration = true;
     }
+
+    private bool CheckFlat()
+    {
+        bool isFlat = false;
+
+        
+
+
+        return isFlat;
+    }
     IEnumerator CreateBlock(int y, Vector3 blockPos, bool visible)
     {
         for(int i = 0; i<blockPrefabInfos.Length; i++)
         {
-            if(blockPrefabInfos[i].height < y)
+            int blockHeight = blockPrefabInfos[i].height;
+            //blockPos.y = 0;
+            
+            if(blockHeight < y)
             {
                 if (visible)
                 {
                     GameObject block = Instantiate(blockPrefabInfos[i].block, blockPos, Quaternion.identity);
+
                     worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, block);
 
                     // 생성한 블록 위에 오브젝트 설치
@@ -252,7 +269,7 @@ public class BlockMapGenerator : MonoBehaviour
                 }
             }
 
-            Instantiate(envirionmentsInfos[objectIndex].mapObject, objectPos, Quaternion.identity);
+            GameObject environment = Instantiate(envirionmentsInfos[objectIndex].mapObject, objectPos, Quaternion.identity);
         }
         yield return null;
     }
