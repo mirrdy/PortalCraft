@@ -150,6 +150,7 @@ public class BlockMapGenerator : MonoBehaviour
         for(int i = 0; i<blockPrefabInfos.Length; i++)
         {
             int blockHeight = blockPrefabInfos[i].height;
+            //blockPos.y = 0;
             
             if(blockHeight < y)
             {

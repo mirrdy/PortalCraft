@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class PortalController : MonoBehaviour
 {
-    [SerializeField] private PortalController destPortal;
+    public PortalController destPortal;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            if(other.TryGetComponent(out PlayerController player))
+            if (other.TryGetComponent(out PlayerControl player))
             {
+                if (destPortal.TryGetComponent(out Collider coll))
+                {
+                    StartCoroutine(SetEnablePortalCollider(coll));
+                }
                 player.transform.position = destPortal.transform.position + Vector3.forward;
+
             }
-            
         }
+    }
+    IEnumerator SetEnablePortalCollider(Collider coll)
+    {
+        coll.enabled = false;
+        yield return new WaitForSeconds(3f);
+        coll.enabled = true;
     }
 }

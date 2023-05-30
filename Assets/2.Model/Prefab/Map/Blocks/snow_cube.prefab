@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8167295211839137574}
   - component: {fileID: 8151963368548645386}
   - component: {fileID: 8143839863098877032}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: snow_block_1_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 8162596043316321672}
   - component: {fileID: 8151751040925426860}
   - component: {fileID: 8144033845377174486}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: snow_block_1_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 8162406779830825686}
   - component: {fileID: 8151967671587206318}
   - component: {fileID: 8143202233423930228}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: snow_block_1_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,8 @@ GameObject:
   - component: {fileID: 8162646140880487086}
   - component: {fileID: 8326491629683824940}
   - component: {fileID: 5381380878169423402}
-  m_Layer: 0
+  - component: {fileID: -4042811606641631895}
+  m_Layer: 8
   m_Name: snow_cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -321,3 +322,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4042811606641631895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166117886805122766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc914542fd6dbda4587680517f2262e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 10
+  currentHp: 0
+  dropTables:
+  - {fileID: 7684998079876651198, guid: 70564351e8706854690d699838cf71c0, type: 3}
