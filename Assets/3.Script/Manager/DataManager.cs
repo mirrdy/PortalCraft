@@ -125,8 +125,8 @@ public class DataManager : MonoBehaviour
             playerData.playerLevel = 0;
             playerData.playerExp = 0.0f;
 
-            playerData.staters.hp = 100;
-            playerData.staters.mp = 50;
+            playerData.staters.maxHp = 100;
+            playerData.staters.maxMp = 50;
             playerData.staters.attackSpeed = 5f;
             playerData.staters.moveSpeed = 3f;
             playerData.staters.skillPoint = 10;
@@ -146,7 +146,7 @@ public class DataManager : MonoBehaviour
             {
                 playerData.inventory[k] = new Inventory();
 
-                playerData.inventory[k].slot = k;
+                playerData.inventory[k].tag = k;
                 playerData.inventory[k].quantity = 0;
                 playerData.inventory[k].hasItem = false;
             }

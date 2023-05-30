@@ -6,7 +6,7 @@ using System;
 [System.Serializable]
 public class SkillInfo
 {
-    public SkillInfo(int _tag, string _name, int _level, int _levelLimit, string _job, int _damage, int _mp, int _coolTime, string _tooltip, bool _hasSkill)
+    public SkillInfo(int _tag, string _name, int _level, int _levelLimit, string _job, int _damage, int _mp, int _coolTime, string _tooltip, bool _hasSkill, int _skillUpPoint)
     {
         tag = _tag;
         name = _name;
@@ -18,6 +18,7 @@ public class SkillInfo
         coolTime = _coolTime;
         tooltip = _tooltip;
         hasSkill = _hasSkill;
+        skillUpPoint = _skillUpPoint;
     }
 
     public int tag;
@@ -30,6 +31,7 @@ public class SkillInfo
     public int coolTime;
     public string tooltip;
     public bool hasSkill;
+    public int skillUpPoint;
 }
 
 public class SkillManager : MonoBehaviour
@@ -43,7 +45,7 @@ public class SkillManager : MonoBehaviour
         for(int i = 0; i < line.Length; i++)
         {
             string[] row = line[i].Split('\t');
-            list_Skill.Add(new SkillInfo(Int32.Parse(row[0]), row[1], Int32.Parse(row[2]), Int32.Parse(row[3]), row[4], Int32.Parse(row[5]), Int32.Parse(row[6]), Int32.Parse(row[7]), row[8], row[9].Equals("TRUE")));
+            list_Skill.Add(new SkillInfo(Int32.Parse(row[0]), row[1], Int32.Parse(row[2]), Int32.Parse(row[3]), row[4], Int32.Parse(row[5]), Int32.Parse(row[6]), Int32.Parse(row[7]), row[8], row[9].Equals("TRUE"), Int32.Parse(row[10])));
         }
     }
 
