@@ -43,6 +43,10 @@ public class Input_Info : MonoBehaviour
         attack = value.isPressed;
     }
 
+
+
+
+
     private void OnApplicationFocus(bool hasFocus)
     {
         SetCursorState(cursorLocked);

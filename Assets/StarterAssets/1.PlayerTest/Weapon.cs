@@ -20,6 +20,10 @@ public class Weapon : MonoBehaviour
             StopCoroutine("Swing");
             StartCoroutine("Swing");
         }
+        else if (type == Type.Range)
+        {
+            StartCoroutine("Shot");
+        }
     }
 
     IEnumerator Swing()
@@ -31,5 +35,11 @@ public class Weapon : MonoBehaviour
         meleeArea.enabled = false;
         yield return new WaitForSeconds(0.3f);
         trailEffect.enabled = false;
+    }
+
+    IEnumerator Shot()
+    {
+
+        yield return null;
     }
 }

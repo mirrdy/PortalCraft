@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour
     public float speedChangeRate = 10.0f; //가속,감속
     public float rotationSmoothTime = 0.12f;
 
-    public bool grounded; //플레이어가 땅을 밟고 있는가?
+    public bool grounded; //플레이어가 땅을 밟고 있는지
     public float groundedRadius = 0.4f;
     public float groundedOffset = -0.3f;
     public float jumpCool = 0.3f; //착지하고 다시 점프가능하기 까지의 시간
@@ -60,16 +60,15 @@ public class PlayerControl : MonoBehaviour
 
     private bool canAttack;
     public float weaponAttackCool;
-    public float 
     public Weapon equipWeapon;
 
-
+    public GameObject[] QuickSlotItem;
+    public GameObject equipItem;
 
     private void Awake()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
-
     private void Start()
     {
         AssignAnimationID();
@@ -82,8 +81,9 @@ public class PlayerControl : MonoBehaviour
 
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
-    }
 
+        //QuickSlotItem = new GameObject[???];
+    }
     private void Update()
     {
         hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
@@ -186,17 +186,15 @@ public class PlayerControl : MonoBehaviour
     {
         if (grounded)
         {
-            // reset the fall timeout timer
             fallTimeDelta = fallTime;
 
-            // update animator if using character
             if (hasAnimator)
             {
                 animator.SetBool(animID_Jump, false);
                 animator.SetBool(animID_Falling, false);
             }
 
-            // stop our velocity dropping infinitely when grounded
+
             if (verticalVelocity < 0.0f)
             {
                 verticalVelocity = -2f;
@@ -205,7 +203,7 @@ public class PlayerControl : MonoBehaviour
             // Jump
             if (input.jump && jumpCoolDelta <= 0.0f)
             {
-                // the square root of H * -2 * G = how much velocity needed to reach desired height
+
                 verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
                 // update animator if using character
@@ -215,7 +213,6 @@ public class PlayerControl : MonoBehaviour
                 }
             }
 
-            // jump timeout
             if (jumpCoolDelta >= 0.0f)
             {
                 jumpCoolDelta -= Time.deltaTime;
@@ -223,40 +220,36 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            // reset the jump timeout timer
             jumpCoolDelta = jumpCool;
 
-            // fall timeout
             if (fallTimeDelta >= 0.0f)
             {
                 fallTimeDelta -= Time.deltaTime;
             }
             else
             {
-                // update animator if using character
+
                 if (hasAnimator)
                 {
                     animator.SetBool(animID_Falling, true);
                 }
             }
 
-            // if we are not grounded, do not jump
             input.jump = false;
         }
 
-        // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+  
         if (verticalVelocity < terminalVelocity)
         {
             verticalVelocity += gravity * Time.deltaTime;
         }
     }
-
     private void Attack()
     {
         weaponAttackCool += Time.deltaTime;
-        canAttack = equipWeapon.rate < weaponAttackCool;
+        if(equipWeapon != null) canAttack = equipWeapon.rate < weaponAttackCool;
 
-        if (input.attack && equipWeapon == null)
+        if (equipWeapon == null && input.attack)
         {
             animator.SetTrigger(animID_Attack);
         }
@@ -268,14 +261,15 @@ public class PlayerControl : MonoBehaviour
             weaponAttackCool = 0;
         }
 
-        if (input.attack && equipWeapon.type == Weapon.Type.Range && canAttack)
+        if (equipWeapon.type == Weapon.Type.Range && input.attack && canAttack)
         {
             equipWeapon.Use();
             animator.SetTrigger(animID_Shot);
             weaponAttackCool = 0;
-        }
-        
-
+        }              
+    }
+    private void ItemSelect()
+    {
         
     }
 
@@ -305,7 +299,6 @@ public class PlayerControl : MonoBehaviour
         if (grounded) Gizmos.color = transparentGreen;
         else Gizmos.color = transparentRed;
 
-        // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
         Gizmos.DrawSphere(
             new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z),
             groundedRadius);
