@@ -21,7 +21,6 @@ public class MonsterAttackState : EntityState
     {
         entity.animator.SetBool("isAttack", false);
         entity.StopCoroutine(attack_co);
-        entity.GetComponent<CapsuleCollider>().enabled= false;
     }
 
     public override void UpdateState(LivingEntity entity)
