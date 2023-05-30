@@ -349,7 +349,9 @@ public class PlayerControl : MonoBehaviour
 
     IEnumerator NormalAttack_co()
     {
-        yield return new WaitForSeconds(0.1f);
+        Ray ray;
+        //Physics.Raycast(ray, 10f, out RaycastHit hit);
+        yield return null;
     }
 }
 
