@@ -299,10 +299,10 @@ public class CustomizeCharacter : MonoBehaviour
             }
             else
             {
+                button_Check.SetActive(true);
+                image_Check.SetActive(false);
                 continue;
             }
-            button_Check.SetActive(true);
-            image_Check.SetActive(false);
         }
     }
 
