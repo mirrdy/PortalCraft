@@ -17,7 +17,7 @@ public class FlyingMonster : MonoBehaviour
         //{
         //    monster.entityController.Move(new Vector3(0, gravity, 0) * Time.deltaTime);
         //}
-        RaycastHit hit;
+        //RaycastHit hit;
         int layerMask = ~LayerMask.GetMask("Monster");
         if (Physics.Raycast(transform.position, Vector3.down, 0.5f, layerMask))
         {
