@@ -9,9 +9,9 @@ public class PlayerController : MonoBehaviour
     private Movement3D movement3D;
     private CharacterController charController;
 
-    public PlayerData playerData = new PlayerData();
-    public ItemManager itemInfo = new ItemManager();
-    public SkillManager skillInfo = new SkillManager();
+    public PlayerData playerData;
+    public ItemManager itemInfo;
+    public SkillManager skillInfo;
 
     private void Awake()
     {

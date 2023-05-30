@@ -41,7 +41,6 @@ public class CustomizeCharacter : MonoBehaviour
     private const int MAX_MUSTACHE = 13;
     private const int MAX_BODY = 5;
 
-    private string name;
     private PlayerData playerData;
     [SerializeField] private CustomizeClass playerJob;
 

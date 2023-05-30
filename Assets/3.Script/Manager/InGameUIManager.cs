@@ -49,7 +49,7 @@ public class InGameUIManager : MonoBehaviour
     [Header("Player Stateers")]
     [SerializeField] Text playerStat;
 
-    PlayerController player = new PlayerController();
+    PlayerController player;
 
     private bool isResolution = false;
 
