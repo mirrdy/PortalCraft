@@ -28,6 +28,7 @@ public struct BlockPrefabInfo
 {
     public Region region;
     public int height;
+    public bool isFlat;
     public GameObject block;
 }
 
@@ -72,13 +73,15 @@ public class BlockMapGenerator : MonoBehaviour
     [Header("∏ ¡§∫∏")]
     public float waveLength = 0;
     public float amplitude = 0;
+    
+    private int seed;
 
     public BlockInfo[,,] worldBlocks = new BlockInfo[widthX, height, widthZ];
 
     public float groundHeightOffset = 20;
     public bool isFinishGeneration = false;
     public float progress = 0;
-    private int seed;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -115,7 +118,7 @@ public class BlockMapGenerator : MonoBehaviour
                 float xCoord = (x + 0) / waveLength;
                 float zCoord = (z + 0) / waveLength;
                 int noiseValueY = (int)(Mathf.PerlinNoise(xCoord, zCoord) * amplitude + groundHeightOffset);
-
+                
                 Vector3 pos = new Vector3(x, noiseValueY, z);
                 StartCoroutine(CreateBlock(noiseValueY, pos, true));
 
@@ -132,11 +135,23 @@ public class BlockMapGenerator : MonoBehaviour
         progress = 100;
         isFinishGeneration = true;
     }
+
+    private bool CheckFlat()
+    {
+        bool isFlat = false;
+
+        
+
+
+        return isFlat;
+    }
     IEnumerator CreateBlock(int y, Vector3 blockPos, bool visible)
     {
         for(int i = 0; i<blockPrefabInfos.Length; i++)
         {
-            if(blockPrefabInfos[i].height < y)
+            int blockHeight = blockPrefabInfos[i].height;
+            
+            if(blockHeight < y)
             {
                 if (visible)
                 {
