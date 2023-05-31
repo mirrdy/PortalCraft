@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossControl : MonoBehaviour
+public class BossControl : MonoBehaviour ,IDamage
 {
     public float hp;
     public float def;

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MonsterAttackState : EntityState
 {
-    private bool canAttack = true;
-    private WaitForSeconds waitForSeconds;
-    private IEnumerator attack_co;
+    //private bool canAttack = true;
+    //private WaitForSeconds waitForSeconds;
+    //private IEnumerator attack_co;
     private MonsterControl monster;
     public override void EnterState(LivingEntity entity)
     {
@@ -14,13 +14,15 @@ public class MonsterAttackState : EntityState
         {
             entity.TryGetComponent(out monster);
         }
-        waitForSeconds = new WaitForSeconds(2f);
+        monster.animator.SetBool("isAttack", true);
+        //waitForSeconds = new WaitForSeconds(2f);
     }
 
     public override void ExitState(LivingEntity entity)
     {
         entity.animator.SetBool("isAttack", false);
-        entity.StopCoroutine(attack_co);
+        entity.StartCoroutine(AttackCool_co(monster));
+        //entity.StopCoroutine(attack_co);
     }
 
     public override void UpdateState(LivingEntity entity)
@@ -35,12 +37,12 @@ public class MonsterAttackState : EntityState
         float distance = Vector3.Distance(monster.transform.position, monster.target.position);
 
         //매프레임 마다 캐싱을해줘서 전에 사용된 코루틴이 영향을 끼치지 않도록 함
-        attack_co = Attack_co(entity);
-        if (canAttack)
-        {
-            canAttack = false;
-            entity.StartCoroutine(attack_co);
-        }   
+        //attack_co = Attack_co(entity);
+        //if (canAttack)
+        //{
+        //    canAttack = false;
+        //    entity.StartCoroutine(attack_co);
+        //}   
         if (distance > monster.attackRange)// monster attackRange를써야함
         {
             entity.ChangeState(new MonsterChaseState());
@@ -48,12 +50,18 @@ public class MonsterAttackState : EntityState
         
         //EnterState(entity);
     }   
-    private IEnumerator Attack_co(LivingEntity entity)
+    //private IEnumerator Attack_co(LivingEntity entity)
+    //{
+    //    entity.animator.SetBool("isAttack", true);
+    //    yield return new WaitForSeconds(2f);
+    //    entity.animator.SetBool("isAttack", false);
+    //    yield return waitForSeconds;
+    //    canAttack = true;
+    //}
+    private IEnumerator AttackCool_co(MonsterControl monster)
     {
-        entity.animator.SetBool("isAttack", true);
-        yield return new WaitForSeconds(2f);
-        entity.animator.SetBool("isAttack", false);
-        yield return waitForSeconds;
-        canAttack = true;
+        monster.canAttack = false;
+        yield return new WaitForSeconds(monster.attackTime);
+        monster.canAttack = true;
     }
 }

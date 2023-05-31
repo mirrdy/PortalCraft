@@ -8,12 +8,14 @@ public class MonsterControl : LivingEntity
     public Vector3 spawnPoint;
     public float patrolRange;
     [SerializeField] private MonsterData monsterdata;
+    public bool canAttack;
 
    
     
 
     protected override void Start()
     {
+        canAttack = true;
         base.Start();
         Animator monsterAnimator = GetComponent<Animator>();
         animator = monsterAnimator;
@@ -55,11 +57,8 @@ public class MonsterControl : LivingEntity
         gravity = data.gravity;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void EndAttack()
     {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("ÃÄ¸Â¾Ñ³×");
-        }
+        ChangeState(new MonsterChaseState());
     }
 }
