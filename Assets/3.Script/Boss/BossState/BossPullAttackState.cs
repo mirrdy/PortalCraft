@@ -6,16 +6,17 @@ public class BossPullAttackState : BossState
 {
     public override void EnterState(BossControl boss)
     {
-        throw new System.NotImplementedException();
+        boss.animator.SetBool("isPullAttack", true);
+        boss.atk *= boss.pullCoefficient;
     }
 
     public override void ExitState(BossControl boss)
     {
-        throw new System.NotImplementedException();
+        boss.animator.SetBool("isPullAttack", false);
+        boss.atk /= boss.pullCoefficient;
     }
 
     public override void UpdateState(BossControl boss)
     {
-        throw new System.NotImplementedException();
     }
 }

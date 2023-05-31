@@ -8,13 +8,11 @@ public class MonsterChase : MonoBehaviour
     private void Start()
     {
         monsterControl = transform.parent.GetComponent<MonsterControl>();
-        Debug.Log("½ÇÇàµÊ");
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("ºÎµúÈû");
             monsterControl.target = other.transform;
         }
     }
@@ -22,13 +20,11 @@ public class MonsterChase : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("À¯ÁöÁß");
             monsterControl.target = other.transform;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("³ª°¨");
         monsterControl.target = null;
     }
 
