@@ -94,8 +94,8 @@ public class PlayerControl : MonoBehaviour
             }             
         }
 
-        TryGetComponent(out itemInfo);
-        TryGetComponent(out skillInfo);
+        itemInfo = FindObjectOfType<ItemManager>();
+        skillInfo = FindObjectOfType<SkillManager>();
         playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
 
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
