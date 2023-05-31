@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.InputSystem;
+using System.Xml.Serialization;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -18,7 +20,7 @@ public class PlayerControl : MonoBehaviour
     public float jumpCool = 0.3f; //착지하고 다시 점프가능하기 까지의 시간
     public float fallTime = 0.15f; //떨어지는 상태로 가기까지의 시간 
 
-    public LayerMask groundLayers;
+    public LayerMask LayerMask_Ground;
 
     //카메라 관련 
     public GameObject cinemachineCameraTarget;
@@ -58,16 +60,23 @@ public class PlayerControl : MonoBehaviour
     private int animID_Swing;
     private int animID_Shot;
 
-    private bool canAttack;
-    public float weaponAttackCool;
+    private bool can_NormalAttack;
+    private bool can_WeaponAttack;
+    public float normal_AttackCool;
+    public float weapon_AttackCool;  
     public Weapon equipWeapon;
 
     public GameObject[] QuickSlotItem;
     public GameObject equipItem;
 
+    private Transform rayPoint;
+    public LayerMask LayerMask_Destroyable;
+    private int normalDamage = 21;
+
     private void Awake()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
     }
     private void Start()
     {
@@ -82,10 +91,10 @@ public class PlayerControl : MonoBehaviour
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
 
-        //QuickSlotItem = new GameObject[???];
+        //QuickSlotItem = new GameObject[8];
     }
     private void Update()
-    {
+    {                   
         hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
 
         JumpAndGravity();
@@ -98,14 +107,11 @@ public class PlayerControl : MonoBehaviour
         CameraRotation();
     }
 
-
-
-
     private void GroundCheck()
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
 
-        grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
+        grounded = Physics.CheckSphere(spherePosition, groundedRadius, LayerMask_Ground, QueryTriggerInteraction.Ignore);
 
         if (hasAnimator)
         {
@@ -244,30 +250,86 @@ public class PlayerControl : MonoBehaviour
             verticalVelocity += gravity * Time.deltaTime;
         }
     }
-    private void Attack()
-    {
-        weaponAttackCool += Time.deltaTime;
-        if(equipWeapon != null) canAttack = equipWeapon.rate < weaponAttackCool;
 
-        if (equipWeapon == null && input.attack)
+    
+
+    private void Attack() //마우스좌클릭 
+    {            
+        //무기 O
+        if (equipWeapon != null)
         {
-            animator.SetTrigger(animID_Attack);
+            weapon_AttackCool += Time.deltaTime;
+            can_WeaponAttack = weapon_AttackCool > equipWeapon.rate;
+
+            if (equipWeapon.type == Weapon.Type.Melee && input.attack && can_WeaponAttack)
+            {               
+                transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);               
+                animator.SetTrigger(animID_Swing);
+                equipWeapon.Use();
+                weapon_AttackCool = 0;
+            }
+            else if (equipWeapon.type == Weapon.Type.Range && input.attack && can_WeaponAttack)
+            {               
+                transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);               
+                animator.SetTrigger(animID_Shot);
+                equipWeapon.Use();
+                weapon_AttackCool = 0;
+            }
         }
-
-        if (equipWeapon.type == Weapon.Type.Melee && input.attack && canAttack)
+     
+        //무기 X -> 파괴가능한 오브젝트의 HP에 데미지
+        else if (equipWeapon == null)
         {
-            equipWeapon.Use();
-            animator.SetTrigger(animID_Swing);
-            weaponAttackCool = 0;
-        }
+            normal_AttackCool += Time.deltaTime;
+            can_NormalAttack = normal_AttackCool > 0.6f;
 
-        if (equipWeapon.type == Weapon.Type.Range && input.attack && canAttack)
-        {
-            equipWeapon.Use();
-            animator.SetTrigger(animID_Shot);
-            weaponAttackCool = 0;
-        }              
+            if (equipWeapon == null && input.attack && can_NormalAttack)
+            {
+                Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+                Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+                if (Physics.Raycast(ray, out RaycastHit hitInfo, 13f, LayerMask_Destroyable)) //설정한 레이어마스크
+                {
+                    Debug.Log(hitInfo.transform.name);
+
+                    if (Vector3.Distance(mainCamera.transform.position, rayPoint.position) <
+                        Vector3.Distance(mainCamera.transform.position, hitInfo.transform.position))
+                    {
+                        //Debug.DrawRay(rayPoint.position, (hitInfo.transform.position - rayPoint.position), Color.blue);
+                        //Debug.Log("{0} 에게 {1} 의 데미지", hitInfo.transform.name, normalDamage);
+                        if(hitInfo.transform.TryGetComponent(out BlockObject block))
+                        {
+                            block.TakeDamage(normalDamage);
+                        }
+                    }
+                    else //플레이어가 오브젝트에 의해 가려져서 안보이는 경우
+                    {
+                        Debug.Log("못캐요");
+                    }
+                }
+                else
+                {
+                    Debug.Log("헛손질");
+                }
+
+                transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+                animator.SetTrigger(animID_Attack);
+                normal_AttackCool = 0;
+            }
+        }                      
     }
+    private void Skill_1() //Q 
+    {
+        
+    }
+    private void Skill_2() //E
+    {
+
+    }
+
+
+
+
     private void ItemSelect()
     {
         
@@ -316,3 +378,5 @@ public class PlayerControl : MonoBehaviour
     }
 
 }
+
+

@@ -13,6 +13,14 @@ public class Weapon : MonoBehaviour
     public BoxCollider meleeArea;
     public TrailRenderer trailEffect;
 
+    public GameObject arrowPrefab;
+    public Transform arrowPoint;
+    private Camera mainCamera;
+
+    private void Start()
+    {
+        mainCamera = Camera.main;
+    }
     public void Use()
     {
         if (type == Type.Melee)
@@ -22,6 +30,7 @@ public class Weapon : MonoBehaviour
         }
         else if (type == Type.Range)
         {
+            StopCoroutine("Shot");
             StartCoroutine("Shot");
         }
     }
@@ -39,7 +48,8 @@ public class Weapon : MonoBehaviour
 
     IEnumerator Shot()
     {
-
+        GameObject arrow = Instantiate(arrowPrefab, arrowPoint.position, mainCamera.transform.rotation);
+        arrow.GetComponent<Rigidbody>().velocity = arrow.transform.forward * 20f;
         yield return null;
     }
 }
