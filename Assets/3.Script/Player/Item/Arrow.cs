@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    Rigidbody rigid;
+    private float arrowSpeed = 20f;
+    private Rigidbody rigid;
     
     private void Start()
     {
         TryGetComponent(out rigid);
+        rigid.velocity = transform.forward * arrowSpeed;
     }
 
     private void Update()

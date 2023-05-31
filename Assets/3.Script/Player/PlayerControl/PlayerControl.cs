@@ -94,7 +94,12 @@ public class PlayerControl : MonoBehaviour
         //QuickSlotItem = new GameObject[8];
     }
     private void Update()
-    {                   
+    {
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+        //Debug.DrawRay()
+
         hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
 
         JumpAndGravity();
@@ -261,15 +266,17 @@ public class PlayerControl : MonoBehaviour
             weapon_AttackCool += Time.deltaTime;
             can_WeaponAttack = weapon_AttackCool > equipWeapon.rate;
 
-            if (equipWeapon.type == Weapon.Type.Melee && input.attack && can_WeaponAttack)
+            if (equipWeapon.type == Weapon.Type.Melee && input.attack && can_WeaponAttack) //°Ë
             {               
                 transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);               
                 animator.SetTrigger(animID_Swing);
                 equipWeapon.Use();
                 weapon_AttackCool = 0;
             }
-            else if (equipWeapon.type == Weapon.Type.Range && input.attack && can_WeaponAttack)
-            {               
+            else if (equipWeapon.type == Weapon.Type.Range && input.attack && can_WeaponAttack) //È°
+            {
+                Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+
                 transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);               
                 animator.SetTrigger(animID_Shot);
                 equipWeapon.Use();

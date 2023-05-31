@@ -48,8 +48,15 @@ public class Weapon : MonoBehaviour
 
     IEnumerator Shot()
     {
-        GameObject arrow = Instantiate(arrowPrefab, arrowPoint.position, mainCamera.transform.rotation);
-        arrow.GetComponent<Rigidbody>().velocity = arrow.transform.forward * 20f;
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 50f))
+        {
+
+        }
+
+
+        //GameObject arrow = Instantiate(arrowPrefab, arrowPoint.position, Quaternion.LookRotation(aimDir));
         yield return null;
     }
 }
