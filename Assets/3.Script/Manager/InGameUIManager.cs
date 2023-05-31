@@ -63,6 +63,8 @@ public class InGameUIManager : MonoBehaviour
     private bool isResolution = false;
 
     PlayerControl player;
+    private ItemManager itemInfo;
+    private SkillManager skillInfo;
 
     public delegate PlayerData PlayerControlDelegate();
     public PlayerControlDelegate playerContorldelegate;
@@ -72,8 +74,8 @@ public class InGameUIManager : MonoBehaviour
         slider_Bgm.value = DataManager.instance.LoadSound()[0];
         slider_Sfx.value = DataManager.instance.LoadSound()[1];
         resolution.value = DataManager.instance.LoadResolution();
-
-
+        TryGetComponent(out itemInfo);
+        TryGetComponent(out skillInfo);
     }
 
     private void OnEnable()
@@ -82,6 +84,11 @@ public class InGameUIManager : MonoBehaviour
         settingMenu.SetActive(false);
         resolutionWindow.SetActive(false);
         inventory.SetActive(false);
+    }
+
+    private void Update()
+    {
+        StatersOnOff();
     }
 
     public void BGM_VolumeSetting()  // 배경음 소리 설정
@@ -224,8 +231,85 @@ public class InGameUIManager : MonoBehaviour
         LoadingSceneManager.Instance.LoadScene("Title");
     }
 
-    public void playerDataCall()
+    public void StatersOnOff()
     {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            if(!image_Staters.activeSelf)
+            {
+                OnSkillStatersCall();
+            }
+            else
+            {
+                image_Staters.SetActive(false);
+            }
+        }
+    }
 
+    public void OnSkillStatersCall()
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        image_Staters.SetActive(true);
+        
+        if(playerData.job.Equals("전사"))
+        {
+            skillImage[0].sprite = sprite_Skill[0];
+            skillImage[1].sprite = sprite_Skill[1];
+        }
+        else
+        {
+            skillImage[0].sprite = sprite_Skill[2];
+            skillImage[1].sprite = sprite_Skill[3];
+        }
+
+        skillLevel[0].text = "레벨 : " + playerData.skill[0].skillLevel;
+        skillLevel[0].text = "레벨 : " + playerData.skill[1].skillLevel;
+
+        skillPoint.text = "스킬 포인트 : " + playerData.staters.skillPoint;
+
+        if(playerData.skill[0].skillLevel > 0)
+        {
+            int skillNum = 0;
+
+            for (int i = 0; i < skillInfo.list_Skill.Count; i++)
+            {
+                if(skillInfo.list_Skill[i].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[i].tag == playerData.skill[0].skillNum)
+                {
+                    skillNum = i;
+                }
+            }
+            skillTooltip[0].text = "데미지 : " + skillInfo.list_Skill[skillNum].damage + "\n" +
+                "쿨타임 : " + skillInfo.list_Skill[skillNum].coolTime + " (S)\n" +
+                "설명 : \n" + skillInfo.list_Skill[skillNum].tooltip;
+        }
+        else
+        {
+            skillTooltip[0].text = "데미지 : " + "000" + "\n" +
+                "쿨타임 : " + "000" + "\n" +
+                "설명 : \n" + "---";
+        }
+
+        if (playerData.skill[1].skillLevel > 0)
+        {
+            int skillNum = 0;
+
+            for (int i = 0; i < skillInfo.list_Skill.Count; i++)
+            {
+                if (skillInfo.list_Skill[i].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[i].tag == playerData.skill[0].skillNum)
+                {
+                    skillNum = i;
+                }
+            }
+            skillTooltip[1].text = "데미지 : " + skillInfo.list_Skill[skillNum].damage + "\n" +
+                "쿨타임 : " + skillInfo.list_Skill[skillNum].coolTime + " (S)\n" +
+                "설명 : \n" + skillInfo.list_Skill[skillNum].tooltip;
+        }
+        else
+        {
+            skillTooltip[1].text = "데미지 : " + "000" + "\n" +
+                "쿨타임 : " + "000" + "\n" +
+                "설명 : \n" + "---";
+        }
     }
 }

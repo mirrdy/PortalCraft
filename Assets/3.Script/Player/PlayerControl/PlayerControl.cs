@@ -434,7 +434,7 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
     [XmlElement]
     public Staters staters;
     [XmlElement]
-    public Skill[] skill = new Skill[3];
+    public Skill[] skill = new Skill[2];
     [XmlElement]
     public Inventory[] inventory = new Inventory[40];
 }
@@ -446,6 +446,10 @@ public class Staters  // 플레이어 스텟 관리 클래스
     public int maxHp;
     [XmlElement]
     public int maxMp;
+    [XmlElement]
+    public int currentHp;
+    [XmlElement]
+    public int currentMp;
     [XmlElement]
     public float moveSpeed;
     [XmlElement]
