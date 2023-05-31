@@ -132,7 +132,7 @@ public class DataManager : MonoBehaviour
             playerData.staters.attackSpeed = 1f;
             playerData.staters.moveSpeed = 5f;
             playerData.staters.skillPoint = 0;
-            playerData.staters.statersPoint = 0;
+            playerData.staters.statersPoint = 5;
             playerData.staters.attack = 10;
             playerData.staters.defens = 5;
 

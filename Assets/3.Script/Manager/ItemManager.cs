@@ -78,7 +78,7 @@ public class Helmet : Item
 [System.Serializable]
 public class Arms : Item
 {
-    public Arms(int _tag, string _type, string _name, string _tooltip, int _quantity, int _maxQuantity, int _attack, int _attackSpeed, bool _canInstallation, bool _canWear)
+    public Arms(int _tag, string _type, string _name, string _tooltip, int _quantity, int _maxQuantity, int _attack, float _attackSpeed, bool _canInstallation, bool _canWear)
     {
         tag = _tag;
         type = _type;
@@ -93,7 +93,7 @@ public class Arms : Item
     }
 
     public int attack;
-    public int attackSpeed;
+    public float attackSpeed;
 }
 
 [System.Serializable]
@@ -166,7 +166,7 @@ public class ItemManager : MonoBehaviour
             }
             else if (row[1].Equals("Arms"))
             {
-                list_Arms.Add(new Arms(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), Int32.Parse(row[6]), Int32.Parse(row[7]), row[8].Equals("TRUE"), row[9].Equals("TRUE")));
+                list_Arms.Add(new Arms(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), Int32.Parse(row[6]), float.Parse(row[7]), row[8].Equals("TRUE"), row[9].Equals("TRUE")));
             }
             else if (row[1].Equals("Etc"))
             {
@@ -196,7 +196,7 @@ public class ItemManager : MonoBehaviour
             }
             else if (row[1].Equals("Arms"))
             {
-                list_AllItem.Add(new Arms(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), Int32.Parse(row[6]), Int32.Parse(row[7]), row[8].Equals("TRUE"), row[9].Equals("TRUE")));
+                list_AllItem.Add(new Arms(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), Int32.Parse(row[6]), float.Parse(row[7]), row[8].Equals("TRUE"), row[9].Equals("TRUE")));
             }
             else if (row[1].Equals("Etc"))
             {
