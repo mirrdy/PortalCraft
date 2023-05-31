@@ -91,6 +91,7 @@ MonoBehaviour:
   maxHp: 100
   currentHp: 0
   dropTables: []
+  blockMapGenerator: {fileID: 2239545170735302340, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}
 --- !u!1 &980174450489593326
 GameObject:
   m_ObjectHideFlags: 0

@@ -338,3 +338,4 @@ MonoBehaviour:
   currentHp: 0
   dropTables:
   - {fileID: 7684998079876651198, guid: 70564351e8706854690d699838cf71c0, type: 3}
+  blockMapGenerator: {fileID: 2239545170735302340, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}

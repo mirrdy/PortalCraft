@@ -46,6 +46,17 @@ public struct MapObjectPrefabInfo
 
 public class BlockMapGenerator : MonoBehaviour
 {
+    public static BlockMapGenerator instance;
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
+
     static public int widthX = 225;
     static public int widthZ = 225;
     static public int height = 225;
@@ -108,17 +119,18 @@ public class BlockMapGenerator : MonoBehaviour
 
     IEnumerator MapInit()
     {
-        seed = Random.Range(0, 100); // юс╫ц
+        float randomOffsetX = Random.Range(0, 100);
+        float randomOffsetZ = Random.Range(0, 100);
 
         for (int x = 0; x < widthX; x++)
         {
             progress = x / (float)widthX * 100;
             for (int z = 0; z < widthZ; z++)
             {
-                float xCoord = (x + 0) / waveLength;
-                float zCoord = (z + 0) / waveLength;
+                float xCoord = x / waveLength + randomOffsetX;
+                float zCoord = z / waveLength + randomOffsetZ;
                 int noiseValueY = (int)(Mathf.PerlinNoise(xCoord, zCoord) * amplitude + groundHeightOffset);
-                
+
                 Vector3 pos = new Vector3(x, noiseValueY, z);
                 StartCoroutine(CreateBlock(noiseValueY, pos, true));
 
@@ -136,15 +148,6 @@ public class BlockMapGenerator : MonoBehaviour
         isFinishGeneration = true;
     }
 
-    private bool CheckFlat()
-    {
-        bool isFlat = false;
-
-        
-
-
-        return isFlat;
-    }
     IEnumerator CreateBlock(int y, Vector3 blockPos, bool visible)
     {
         for(int i = 0; i<blockPrefabInfos.Length; i++)
@@ -247,6 +250,62 @@ public class BlockMapGenerator : MonoBehaviour
         }*/
 
         yield return null;
+    }
+    public void CheckAroundDestroyedBlock(Vector3 blockPos)
+    {
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                for (int z = -1; z <= 1; z++)
+                {
+                    if (!(x == 0 && y == 0 && z == 0))
+                    {
+                        if (blockPos.x + x < 0 || blockPos.x + x >= widthX)
+                        {
+                            continue;
+                        }
+                        if (blockPos.y + y < 0 || blockPos.y + y >= height)
+                        {
+                            continue;
+                        }
+                        if (blockPos.z + z < 0 || blockPos.z + z >= widthZ)
+                        {
+                            continue;
+                        }
+                        Vector3 neighbour = new Vector3(blockPos.x + x, blockPos.y + y, blockPos.z + z);
+                        DrawBlock(neighbour);
+                    }
+                }
+            }
+        }
+    }
+    private void DrawBlock(Vector3 blockPos)
+    {
+        BlockInfo worldBlock = worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z];
+
+        if (worldBlock.block == null)
+        {
+            return;
+        }
+        if (!worldBlock.isVisible)
+        {
+            GameObject newBlock = null;
+            worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isVisible = true;
+
+            for (int i = 0; i < blockPrefabInfos.Length; i++)
+            {
+                if ((int)worldBlock.region == i)
+                {
+                    newBlock = Instantiate(blockPrefabInfos[i].block, blockPos, Quaternion.identity);
+                    break;
+                }
+            }
+            if (newBlock != null)
+            {
+                worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].block = newBlock;
+            }
+        }
     }
     IEnumerator CreateObject(Vector3 objectPos, Region region)
     {
