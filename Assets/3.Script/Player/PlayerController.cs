@@ -19,10 +19,6 @@ public class PlayerController : MonoBehaviour
         TryGetComponent(out charController);
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
-    }
-
-    private void Start()
-    {
         playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
     }
 
