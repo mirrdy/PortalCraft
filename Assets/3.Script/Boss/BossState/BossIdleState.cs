@@ -6,16 +6,17 @@ public class BossIdleState : BossState
 {
     public override void EnterState(BossControl boss)
     {
-        throw new System.NotImplementedException();
     }
 
     public override void ExitState(BossControl boss)
     {
-        throw new System.NotImplementedException();
     }
 
     public override void UpdateState(BossControl boss)
     {
-        throw new System.NotImplementedException();
+        if (boss.target != null)
+        {
+            boss.ChangeState(new BossSpawnState());
+        }
     }
 }

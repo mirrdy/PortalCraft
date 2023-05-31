@@ -6,16 +6,17 @@ public class BossWingSpinAttack : BossState
 {
     public override void EnterState(BossControl boss)
     {
-        throw new System.NotImplementedException();
+        boss.animator.SetBool("isSpinWingSlash", true);
+        boss.atk *= boss.spinCoefficient;
     }
 
     public override void ExitState(BossControl boss)
     {
-        throw new System.NotImplementedException();
+        boss.animator.SetBool("isSpinWingSlash", false);
+        boss.atk /= boss.spinCoefficient;
     }
 
     public override void UpdateState(BossControl boss)
     {
-        throw new System.NotImplementedException();
     }
 }

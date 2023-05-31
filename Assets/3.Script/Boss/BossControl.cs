@@ -4,21 +4,38 @@ using UnityEngine;
 
 public class BossControl : MonoBehaviour
 {
-    public float hp { get; private set; }
-    public float def { get; private set; }
-    public float atk { get; private set; }
-    public float attackTime { get; private set; }
-    public float moveSpeed { get; private set; }
-    public float attackRange { get; private set; }
-    public bool isDead { get; private set; }
+    public float hp;
+    public float def;
+    public float atk;
+    public float attackTime;
+    public float moveSpeed;
+    public float attackRange;
+    public bool isDead;
+    //데미지계수
+    public float rushCoefficient = 0.7f;
+    public float slashCoefficient = 1f;
+    public float stabCoefficient = 1.2f;
+    public float spinCoefficient = 1.4f;
+    public float pullCoefficient = 1.5f;
+    public float magicCoefficient = 1f;
 
     public BossState currentState;
 
+    public Animator animator;
+
+    public bool canRush;
+
+    public Transform target;
+
+    public CharacterController bossControl;
     [SerializeField]private MonsterData bossData;
     private void Start()
     {
+        animator = GetComponent<Animator>();
         DataSetting(bossData);
         currentState = new BossIdleState();
+        bossControl = GetComponent<CharacterController>();
+            
     }
     private void Update()   
     {
@@ -43,7 +60,13 @@ public class BossControl : MonoBehaviour
 
     public virtual void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
     {
-        hp -= (damage - def);
+        hp -= damage-(damage * Mathf.RoundToInt(def/(def+50)*100)*0.01f);
+    }
+    public void EndAttack()
+    {
+        currentState.ExitState(this);
+        currentState = new BossChaseState();
+        currentState.EnterState(this);
     }
 
 
