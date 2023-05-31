@@ -14,7 +14,7 @@ public class BlockObject : MonoBehaviour, IDestroyable
     }
     private void Update()
     {
-        TakeDamage(5);
+        //TakeDamage(5);
     }
     public void TakeDamage(int damage)
     {

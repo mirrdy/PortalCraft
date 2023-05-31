@@ -20,7 +20,7 @@ public class PlayerControl : MonoBehaviour
     public float jumpCool = 0.3f; //착지하고 다시 점프가능하기 까지의 시간
     public float fallTime = 0.15f; //떨어지는 상태로 가기까지의 시간 
 
-    public LayerMask groundLayers;
+    public LayerMask LayerMask_Ground;
 
     //카메라 관련 
     public GameObject cinemachineCameraTarget;
@@ -69,9 +69,14 @@ public class PlayerControl : MonoBehaviour
     public GameObject[] QuickSlotItem;
     public GameObject equipItem;
 
+    private Transform rayPoint;
+    public LayerMask LayerMask_Destroyable;
+    private int normalDamage = 21;
+
     private void Awake()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
     }
     private void Start()
     {
@@ -89,7 +94,7 @@ public class PlayerControl : MonoBehaviour
         //QuickSlotItem = new GameObject[8];
     }
     private void Update()
-    {
+    {                   
         hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
 
         JumpAndGravity();
@@ -102,14 +107,11 @@ public class PlayerControl : MonoBehaviour
         CameraRotation();
     }
 
-
-
-
     private void GroundCheck()
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
 
-        grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
+        grounded = Physics.CheckSphere(spherePosition, groundedRadius, LayerMask_Ground, QueryTriggerInteraction.Ignore);
 
         if (hasAnimator)
         {
@@ -248,6 +250,9 @@ public class PlayerControl : MonoBehaviour
             verticalVelocity += gravity * Time.deltaTime;
         }
     }
+
+    
+
     private void Attack() //마우스좌클릭 
     {            
         //무기 O
@@ -271,19 +276,44 @@ public class PlayerControl : MonoBehaviour
                 weapon_AttackCool = 0;
             }
         }
-
-        //무기 X
+     
+        //무기 X -> 파괴가능한 오브젝트의 HP에 데미지
         else if (equipWeapon == null)
         {
             normal_AttackCool += Time.deltaTime;
             can_NormalAttack = normal_AttackCool > 0.6f;
 
             if (equipWeapon == null && input.attack && can_NormalAttack)
-            {                
+            {
+                Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+                Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+                if (Physics.Raycast(ray, out RaycastHit hitInfo, 13f, LayerMask_Destroyable)) //설정한 레이어마스크
+                {
+                    Debug.Log(hitInfo.transform.name);
+
+                    if (Vector3.Distance(mainCamera.transform.position, rayPoint.position) <
+                        Vector3.Distance(mainCamera.transform.position, hitInfo.transform.position))
+                    {
+                        //Debug.DrawRay(rayPoint.position, (hitInfo.transform.position - rayPoint.position), Color.blue);
+                        //Debug.Log("{0} 에게 {1} 의 데미지", hitInfo.transform.name, normalDamage);
+                        if(hitInfo.transform.TryGetComponent(out BlockObject block))
+                        {
+                            block.TakeDamage(normalDamage);
+                        }
+                    }
+                    else //플레이어가 오브젝트에 의해 가려져서 안보이는 경우
+                    {
+                        Debug.Log("못캐요");
+                    }
+                }
+                else
+                {
+                    Debug.Log("헛손질");
+                }
+
                 transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
                 animator.SetTrigger(animID_Attack);
-                StopCoroutine("NormalAttack_co");
-                StartCoroutine("NormalAttack_co");
                 normal_AttackCool = 0;
             }
         }                      
@@ -347,12 +377,6 @@ public class PlayerControl : MonoBehaviour
         animID_Shot = Animator.StringToHash("Shot");
     }
 
-    IEnumerator NormalAttack_co()
-    {
-        Ray ray;
-        //Physics.Raycast(ray, 10f, out RaycastHit hit);
-        yield return null;
-    }
 }
 
 
