@@ -16,11 +16,13 @@ public struct BlockInfo
     public Region region;
     public bool isVisible;
     public GameObject block;
-    public BlockInfo(Region type, bool isVisible, GameObject block)
+    public bool isExist;
+    public BlockInfo(Region type, bool isVisible, GameObject block, bool isExist)
     {
         this.region = type;
         this.isVisible = isVisible;
         this.block = block;
+        this.isExist = isExist;
     }
 }
 [System.Serializable]
@@ -109,14 +111,26 @@ public class BlockMapGenerator : MonoBehaviour
     IEnumerator InitGame()
     {
         // 맵 생성
-
         yield return StartCoroutine(MapInit());
 
-        // 생성1
+        // 포탈 생성
+        while (true)
+        {
+            if(isFinishGeneration)
+            {
+                break;
+            }
+            yield return null;
+        }
+        CreatePortal();
+        
 
         // 생성2
     }
+    private void CreatePortal()
+    {
 
+    }
     IEnumerator MapInit()
     {
         float randomOffsetX = Random.Range(0, 100);
@@ -161,98 +175,35 @@ public class BlockMapGenerator : MonoBehaviour
                 {
                     GameObject block = Instantiate(blockPrefabInfos[i].block, blockPos, Quaternion.identity);
 
-                    worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, block);
+                    worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, block, true);
 
                     // 생성한 블록 위에 오브젝트 설치
-                    StartCoroutine(CreateObject(blockPos + Vector3.up, blockPrefabInfos[i].region));
+                    StartCoroutine(CreateObject(blockPos + new Vector3(0, 0.5f, 0), blockPrefabInfos[i].region));
                 }
                 else
                 {
-                    worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, null);
+                    // 가장자리 블럭 생성
+                    if (blockPos.x == 0 || blockPos.x == widthX - 1 || blockPos.z == 0 || blockPos.z == widthZ - 1)
+                    {
+                        GameObject block = Instantiate(blockPrefabInfos[i].block, blockPos, Quaternion.identity);
+
+                        worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, true, block, true);
+                    }
+                    else
+                    {
+                        // 보이지 않는 부분은 생성은 하지 않고 블록정보만 저장
+                        worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, null, true);
+                    }
                 }
                 break;
             }
         }
 
-        /*if(y>40)
-        {
-            if(visible)
-            {
-                GameObject block = Instantiate(prefab_SnowBlock, blockPos, Quaternion.identity);
-                worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(Region.Snow, visible, block);
-            }
-            else
-            {
-                worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(Region.Snow, visible, null);
-            }
-        }
-
-        else if (y > 35)
-        {
-            if (visible)
-            {
-                GameObject block = Instantiate(prefab_GrassBlock, blockPos, Quaternion.identity);
-                worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(Region.Grass, visible, block);
-            }
-            else
-            {
-                worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(Region.Grass, visible, null);
-            }
-        }
-        else if (y > 20)
-        {
-            if (visible)
-            {
-                GameObject block = Instantiate(prefab_GroundBlock, blockPos, Quaternion.identity);
-                worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(Region.Grass, visible, block);
-            }
-            else
-            {
-                worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(Region.Grass, visible, null);
-            }
-        }
-
-        int prob = 3;
-        // 높이 0~7 범위에서 prob 확률로 리소스 블록 생성
-        if (y > 0 && y < 7 && Random.Range(0, 100) < prob)
-        {
-            if (worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].block != null)
-            {
-                Destroy(worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].block);
-            }
-
-            if (visible)
-            {
-                GameObject block = Instantiate(prefab_CoalBlock, blockPos, Quaternion.identity);
-                worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(Region.Soil, true, block);
-            }
-            else
-            {
-                worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(Region.Soil, true, null);
-            }
-            
-        }
-
-        if(y==0)
-        {
-            if(visible)
-            {
-                if (visible)
-                {
-                    GameObject block = Instantiate(prefab_FloorBlock, blockPos, Quaternion.identity);
-                    worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(Region.Soil, visible, block);
-                }
-                else
-                {
-                    worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(Region.Soil, visible, null);
-                }
-            }
-        }*/
-
         yield return null;
     }
     public void CheckAroundDestroyedBlock(Vector3 blockPos)
     {
+        worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isExist = false;
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
@@ -284,26 +235,30 @@ public class BlockMapGenerator : MonoBehaviour
     {
         BlockInfo worldBlock = worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z];
 
-        if (worldBlock.block == null)
+        if(!worldBlock.isExist)
         {
             return;
         }
+
         if (!worldBlock.isVisible)
         {
             GameObject newBlock = null;
-            worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isVisible = true;
-
+            
             for (int i = 0; i < blockPrefabInfos.Length; i++)
             {
-                if ((int)worldBlock.region == i)
+                int blockHeight = blockPrefabInfos[i].height;
+
+                if (blockHeight < blockPos.y)
                 {
                     newBlock = Instantiate(blockPrefabInfos[i].block, blockPos, Quaternion.identity);
                     break;
                 }
             }
+
             if (newBlock != null)
             {
                 worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].block = newBlock;
+                worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isVisible = true;
             }
         }
     }
@@ -318,6 +273,7 @@ public class BlockMapGenerator : MonoBehaviour
             }
 
             // 오브젝트 타입이 현재 지역과 일치할때까지 랜덤하게 찾음
+            // 만약 볼륨이 더 커지면 지역과 일치하는 오브젝트를 먼저 찾고 그 범위 내에서 랜덤으로 선택하는 로직으로 수정
             int objectIndex = 0;
             while (true)
             {
@@ -327,11 +283,9 @@ public class BlockMapGenerator : MonoBehaviour
                     break;
                 }
             }
-
+            
             GameObject environment = Instantiate(envirionmentsInfos[objectIndex].mapObject, objectPos, Quaternion.identity);
         }
         yield return null;
     }
-
-
 }

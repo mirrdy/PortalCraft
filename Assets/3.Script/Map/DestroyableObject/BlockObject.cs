@@ -12,10 +12,6 @@ public class BlockObject : MonoBehaviour, IDestroyable
     {
         currentHp = maxHp;
     }
-    private void Update()
-    {
-
-    }
     public void TakeDamage(int damage)
     {
         if (currentHp <= 0)
