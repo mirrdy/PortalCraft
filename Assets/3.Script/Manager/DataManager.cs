@@ -126,7 +126,9 @@ public class DataManager : MonoBehaviour
             playerData.playerExp = 0.0f;
 
             playerData.staters.maxHp = 100;
+            playerData.staters.currentHp = playerData.staters.maxHp;
             playerData.staters.maxMp = 100;
+            playerData.staters.currentMp = playerData.staters.maxMp;
             playerData.staters.attackSpeed = 1f;
             playerData.staters.moveSpeed = 5f;
             playerData.staters.skillPoint = 0;
