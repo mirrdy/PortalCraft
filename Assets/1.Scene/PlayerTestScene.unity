@@ -1032,6 +1032,200 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298602121}
   m_CullTransparentMesh: 1
+--- !u!1 &1685221794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1685221796}
+  - component: {fileID: 1685221795}
+  m_Layer: 0
+  m_Name: DataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1685221795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685221794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788433a00849b2b4a81940917a94a3e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData:
+    job: 
+    hair: 0
+    eye: 0
+    mouth: 0
+    mustache: 0
+    body: 0
+    playerName: 
+    playerLevel: 0
+    playerExp: 0
+    staters:
+      maxHp: 0
+      maxMp: 0
+      moveSpeed: 0
+      attackSpeed: 0
+      attack: 0
+      defens: 0
+      statersPoint: 0
+      skillPoint: 0
+    skill:
+    - skillNum: 0
+      skillLevel: 0
+      hasSkill: 0
+    - skillNum: 0
+      skillLevel: 0
+      hasSkill: 0
+    - skillNum: 0
+      skillLevel: 0
+      hasSkill: 0
+    inventory:
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+  saveNumber: 0
+--- !u!4 &1685221796
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685221794}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.62561274, y: -0.59308314, z: -10.953371}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1950827100
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,17 +1292,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2117206912210303966 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7956126942099907332, guid: c359da797bdab3149ac950964e36e32d, type: 3}
-  m_PrefabInstance: {fileID: 8288878640168196314}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2508df253b01c8a4db548ab0745f0062, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2117206912440826491 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7956126941793559201, guid: c359da797bdab3149ac950964e36e32d, type: 3}
@@ -1241,7 +1424,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 445519019563474938, guid: c359da797bdab3149ac950964e36e32d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1008226316438403686, guid: c359da797bdab3149ac950964e36e32d, type: 3}
       propertyPath: m_IsActive
@@ -1250,7 +1433,7 @@ PrefabInstance:
     - target: {fileID: 7956126940439938340, guid: c359da797bdab3149ac950964e36e32d, type: 3}
       propertyPath: equipWeapon
       value: 
-      objectReference: {fileID: 2117206912210303966}
+      objectReference: {fileID: 0}
     - target: {fileID: 7956126940439938342, guid: c359da797bdab3149ac950964e36e32d, type: 3}
       propertyPath: m_Name
       value: Player

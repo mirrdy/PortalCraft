@@ -88,8 +88,8 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            if (instance != this)
             {
+            if (instance != this)
                 Destroy(this.gameObject);
             }             
         }
@@ -135,6 +135,10 @@ public class PlayerControl : MonoBehaviour
         CameraRotation();
     }
 
+    private void VeiwChange()
+    {
+
+    }
     private void GroundCheck()
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
