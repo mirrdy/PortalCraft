@@ -9,6 +9,9 @@ public class MonsterControl : LivingEntity
     public float patrolRange;
     [SerializeField] private MonsterData monsterdata;
 
+   
+    
+
     protected override void Start()
     {
         base.Start();

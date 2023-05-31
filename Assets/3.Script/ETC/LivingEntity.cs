@@ -41,7 +41,7 @@ public class LivingEntity : MonoBehaviour
 
     public virtual void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
     {
-        hp -= (damage-def);
+        hp -= damage - (damage * Mathf.RoundToInt(def / (def + 50) * 100) * 0.01f);
     }
 
 
