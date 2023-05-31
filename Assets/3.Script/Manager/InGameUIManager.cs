@@ -45,19 +45,35 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] GameObject[] itemCount;  // 아이템 수량 표시 창
     [SerializeField] Text[] itemQuantity;  // 아이템 수량 표시
     [SerializeField] Sprite[] frameColor;  // 아이템 종류에 따른 프레임 컬러 보관 스프라이트
+    [SerializeField] Sprite[] image_Item;  // 아이템 2D스프라이트
 
     [Header("Player Stateers")]
-    [SerializeField] Text playerStat;
-
-    PlayerController player;
+    [SerializeField] GameObject image_Staters;  // 스테이터스 창
+    [SerializeField] Text playerStat;  // 플레이어 스탯 표시
+    [SerializeField] Text curruntStat;  // 플레이어 스탯 올리고 내리는 텍스트
+    [SerializeField] Button[] statUp;  // 스탯 업 버튼
+    [SerializeField] Button[] statDown;  // 스탯 다운 버튼
+    [SerializeField] Image[] skillImage;  // 직업에 맞는 스킬 표시
+    [SerializeField] Text[] skillLevel;  // 현재 스킬 레벨 표시
+    [SerializeField] Text[] skillTooltip; // 현재 스킬 정보 표시
+    [SerializeField] Button[] skillUp;  // 스킬 레벨 올리는 버튼
+    [SerializeField] Button[] skillDown;  // 스킬 레벨 내리는 버튼
+    [SerializeField] Text skillPoint; // 현재 스킬 포인트 표시
 
     private bool isResolution = false;
+
+    PlayerControl player;
+
+    public delegate PlayerData PlayerControlDelegate();
+    public PlayerControlDelegate playerContorldelegate;
 
     private void Start()
     {
         slider_Bgm.value = DataManager.instance.LoadSound()[0];
         slider_Sfx.value = DataManager.instance.LoadSound()[1];
         resolution.value = DataManager.instance.LoadResolution();
+
+
     }
 
     private void OnEnable()
@@ -206,5 +222,10 @@ public class InGameUIManager : MonoBehaviour
     public void BackTitleSceneBtn()
     {
         LoadingSceneManager.Instance.LoadScene("Title");
+    }
+
+    public void playerDataCall()
+    {
+
     }
 }
