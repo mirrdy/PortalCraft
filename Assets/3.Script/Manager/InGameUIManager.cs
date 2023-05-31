@@ -60,9 +60,9 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] Button[] skillDown;  // 스킬 레벨 내리는 버튼
     [SerializeField] Text skillPoint; // 현재 스킬 포인트 표시
 
-    PlayerController player;
-
     private bool isResolution = false;
+
+    PlayerControl player;
 
     public delegate PlayerData PlayerControlDelegate();
     public PlayerControlDelegate playerContorldelegate;
