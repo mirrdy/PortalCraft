@@ -1,5 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7956126942099907332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445519019563474938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2508df253b01c8a4db548ab0745f0062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  damage: 10
+  rate: 0.4
+  meleeArea: {fileID: 0}
+  trailEffect: {fileID: 0}
+  arrowPrefab: {fileID: 0}
+  arrowPoint: {fileID: 8288878640223928045}
+--- !u!65 &7956126941622096085
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008226316438403686}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 1.45, z: 0.25}
+  m_Center: {x: -0.000000014617058, y: 0.88, z: 0.000000013246272}
+--- !u!114 &7956126941622096090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008226316438403686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2508df253b01c8a4db548ab0745f0062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  damage: 10
+  rate: 0.4
+  meleeArea: {fileID: 7956126941622096085}
+  trailEffect: {fileID: 7956126942405177626}
+  arrowPrefab: {fileID: 0}
+  arrowPoint: {fileID: 0}
 --- !u!1 &7956126940439938342
 GameObject:
   m_ObjectHideFlags: 0
@@ -35,6 +86,7 @@ Transform:
   - {fileID: 7956126941793559201}
   - {fileID: 8288878640223928045}
   - {fileID: 8288878638258037468}
+  - {fileID: 7131576055198458617}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -107,6 +159,158 @@ MonoBehaviour:
   LayerMask_Destroyable:
     serializedVersion: 2
     m_Bits: 256
+  playerData:
+    job: 
+    hair: 0
+    eye: 0
+    mouth: 0
+    mustache: 0
+    body: 0
+    playerName: 
+    playerLevel: 0
+    playerExp: 0
+    staters:
+      maxHp: 0
+      maxMp: 0
+      moveSpeed: 0
+      attackSpeed: 0
+      attack: 0
+      defens: 0
+      statersPoint: 0
+      skillPoint: 0
+    skill:
+    - skillNum: 0
+      skillLevel: 0
+      hasSkill: 0
+    - skillNum: 0
+      skillLevel: 0
+      hasSkill: 0
+    - skillNum: 0
+      skillLevel: 0
+      hasSkill: 0
+    inventory:
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+    - tag: 0
+      quantity: 0
+      hasItem: 0
+  itemInfo: {fileID: 0}
+  skillInfo: {fileID: 0}
 --- !u!114 &7956126940439938346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,57 +549,6 @@ Transform:
   m_Father: {fileID: 7956126940439938343}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7956126942099907332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 445519019563474938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2508df253b01c8a4db548ab0745f0062, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 1
-  damage: 10
-  rate: 0.4
-  meleeArea: {fileID: 0}
-  trailEffect: {fileID: 0}
-  arrowPrefab: {fileID: 0}
-  arrowPoint: {fileID: 8288878640223928045}
---- !u!65 &7956126941622096085
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1008226316438403686}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.4, y: 1.45, z: 0.25}
-  m_Center: {x: -0.000000014617058, y: 0.88, z: 0.000000013246272}
---- !u!114 &7956126941622096090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1008226316438403686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2508df253b01c8a4db548ab0745f0062, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  damage: 10
-  rate: 0.4
-  meleeArea: {fileID: 7956126941622096085}
-  trailEffect: {fileID: 7956126942405177626}
-  arrowPrefab: {fileID: 0}
-  arrowPoint: {fileID: 0}
 --- !u!1 &8288878640223928044
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,6 +579,108 @@ Transform:
   m_Father: {fileID: 7956126940439938343}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &823283935594389146
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 7956126940439938343}
+    m_Modifications:
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607871437225507951, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+      propertyPath: m_Name
+      value: Player Target Canvas
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+--- !u!224 &7131576055198458617 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7607871437225507939, guid: ad4ef2a691aaa87459ea0b55b400f29d, type: 3}
+  m_PrefabInstance: {fileID: 823283935594389146}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7956126941838460721
 PrefabInstance:
   m_ObjectHideFlags: 0
