@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
-    private Movement3D movement3D;
+    //private Movement3D movement3D;
     private CharacterController charController;
 
     public PlayerData playerData;
@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        TryGetComponent(out movement3D);
+        //TryGetComponent(out movement3D);
         TryGetComponent(out charController);
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
@@ -30,11 +30,11 @@ public class PlayerController : MonoBehaviour
     {
         float x = Input.GetAxisRaw("Horizontal");
         float z = Input.GetAxisRaw("Vertical");
-        movement3D.MoveTo(new Vector3(x, 0, z));
+        //movement3D.MoveTo(new Vector3(x, 0, z));
 
         if (Input.GetKeyDown(KeyCode.Space) && charController.isGrounded)
         {
-            movement3D.Jump();
+            //movement3D.Jump();
         }
     }
 }
