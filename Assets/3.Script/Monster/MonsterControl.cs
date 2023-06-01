@@ -34,11 +34,10 @@ public class MonsterControl : LivingEntity
     protected override void Update()
     {
         base.Update();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ChangeState(new MonsterHitState());
-        }
-        Debug.Log(currentState);
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    ChangeState(new MonsterHitState());
+        //}
     }
 
     public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
