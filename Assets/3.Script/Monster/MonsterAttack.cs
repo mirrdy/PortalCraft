@@ -10,6 +10,7 @@ public class MonsterAttack : MonoBehaviour
         Debug.Log("트리거는 들어옴");
         if (other.CompareTag("Player"))
         {
+            gameObject.SetActive(false);
             Debug.Log("플레이어맞음");
             other.TryGetComponent(out PlayerControl player);
             damage = Mathf.RoundToInt(GetComponentInParent<MonsterControl>().atk);
