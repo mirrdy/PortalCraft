@@ -71,6 +71,8 @@ public class InGameUIManager : MonoBehaviour
     private ItemManager itemInfo;
     private SkillManager skillInfo;
 
+    public int PlayerHand = 30;
+
     private void Start()
     {
         slider_Bgm.value = DataManager.instance.LoadSound()[0];
@@ -812,6 +814,6 @@ public class InGameUIManager : MonoBehaviour
 
     public void SetQuickSlot()
     {
-
+        
     }
 }

@@ -22660,6 +22660,14 @@ MonoBehaviour:
   - {fileID: 51395722}
   - {fileID: 967598348}
   - {fileID: 1599247921}
+  - {fileID: 1795523000}
+  - {fileID: 1291886070}
+  - {fileID: 154156518}
+  - {fileID: 1431244174}
+  - {fileID: 824498340}
+  - {fileID: 363954804}
+  - {fileID: 826348}
+  - {fileID: 1749047652}
   itemFrame:
   - {fileID: 1712146940}
   - {fileID: 1810089169}
@@ -22699,8 +22707,6 @@ MonoBehaviour:
   - {fileID: 312676460}
   - {fileID: 854793636}
   - {fileID: 1337300861}
-  - {fileID: 1041473774}
-  - {fileID: 969261399}
   itemSlot:
   - {fileID: 1228622882}
   - {fileID: 1364936560}
@@ -22742,6 +22748,7 @@ MonoBehaviour:
   - {fileID: 446097409}
   - {fileID: 1949054011}
   - {fileID: 1302393903}
+  - {fileID: 1796550502}
   itemCount:
   - {fileID: 270767750}
   - {fileID: 717794112}
@@ -22898,6 +22905,7 @@ MonoBehaviour:
   - {fileID: 1587230972}
   - {fileID: 1018818109}
   skillPoint: {fileID: 561858334}
+  PlayerHand: 30
 --- !u!4 &1908376998
 Transform:
   m_ObjectHideFlags: 0
