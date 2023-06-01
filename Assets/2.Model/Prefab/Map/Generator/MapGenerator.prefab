@@ -47,30 +47,39 @@ MonoBehaviour:
   blockPrefabInfos:
   - region: 3
     height: 40
+    isFlat: 0
     block: {fileID: 8166117886805122766, guid: e43caa5e91edea449ab9fd27a8323770, type: 3}
   - region: 2
     height: 35
+    isFlat: 0
     block: {fileID: 2798252439276858965, guid: 103261567964d944b993222ea36d9b08, type: 3}
   - region: 0
     height: 15
+    isFlat: 0
     block: {fileID: 7046385389970361336, guid: abe1c9c921894c341ba53610dbfc4b45, type: 3}
   - region: 0
     height: -100
+    isFlat: 0
     block: {fileID: 2623577146027670363, guid: 33c5ff3dbba128b4088742f221934526, type: 3}
   - region: 0
     height: -100
+    isFlat: 0
     block: {fileID: 980022880161522404, guid: 591956de7c3e02a47a6bee8b60567e4f, type: 3}
   - region: 0
     height: -100
+    isFlat: 0
     block: {fileID: 7904534992761962485, guid: f6808914d0bc40447b455f538684570e, type: 3}
   - region: 0
     height: -100
+    isFlat: 0
     block: {fileID: 4625200858391869461, guid: 794055c33a78a544399c87c1f7f497af, type: 3}
   - region: 0
     height: -100
+    isFlat: 0
     block: {fileID: 4103336137684002277, guid: 4513b8f2ba1fa594d8dfd1f13c498073, type: 3}
   - region: 0
     height: -100
+    isFlat: 0
     block: {fileID: 3656896222450881595, guid: 5e564769bd463104193cb6f04e938903, type: 3}
   envirionmentsInfos:
   - region: 2
@@ -84,11 +93,16 @@ MonoBehaviour:
   - region: 2
     mapObject: {fileID: 3801620228127628461, guid: 816e294422ec8264f93385c957f186e0, type: 3}
   prob_NonObject: 99
+  maps:
+  - {fileID: 3310538545261093053, guid: 8a72ad4fb657fe04c9729dacf050a877, type: 3}
+  - {fileID: 7362577846431514578, guid: f4e1e58ff2c69294985787d040385f2f, type: 3}
+  - {fileID: 7928230092247990305, guid: 1bb8e2c6c0fadbe4a8f16312c6624d8d, type: 3}
   waveLength: 50
   amplitude: 20
   groundHeightOffset: 20
   isFinishGeneration: 0
   progress: 0
+  portal: {fileID: 0}
 --- !u!65 &2239545170735302342
 BoxCollider:
   m_ObjectHideFlags: 0

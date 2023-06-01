@@ -94,11 +94,15 @@ public class BlockMapGenerator : MonoBehaviour
     public float groundHeightOffset = 20;
     public bool isFinishGeneration = false;
     public float progress = 0;
-    
+
+    [Header("器呕")]
+    public GameObject portal;
+
+
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
         StartCoroutine(InitGame());
     }
 
@@ -110,6 +114,7 @@ public class BlockMapGenerator : MonoBehaviour
 
     IEnumerator InitGame()
     {
+        PlayerControl.instance.enabled = false;
         // 甘 积己
         yield return StartCoroutine(MapInit());
 
@@ -123,7 +128,7 @@ public class BlockMapGenerator : MonoBehaviour
             yield return null;
         }
         CreatePortal();
-        
+        PlayerControl.instance.enabled = true;
 
         // 积己2
     }
@@ -160,6 +165,7 @@ public class BlockMapGenerator : MonoBehaviour
         Debug.Log("积己场");
         progress = 100;
         isFinishGeneration = true;
+        
     }
 
     IEnumerator CreateBlock(int y, Vector3 blockPos, bool visible)
