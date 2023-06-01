@@ -26914,6 +26914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9728f1bb29ac614d81e36577b69e78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentView: 0
   moveSpeed: 4
   sprintSpeed: 7.3
   jumpHeight: 2.3
@@ -26928,13 +26929,15 @@ MonoBehaviour:
   LayerMask_Ground:
     serializedVersion: 2
     m_Bits: 256
-  cinemachineCameraTarget: {fileID: 476575461999973274}
+  cinemachineCameraTarget_Third: {fileID: 0}
+  cinemachineCameraTarget_First: {fileID: 0}
   topClamp: 70
   bottomClamp: -30
   cameraAngleOverride: 0
   mainCamera: {fileID: 0}
-  virtualCamera_Third: {fileID: 0}
-  virtualCamera_First: {fileID: 0}
+  virtualCamera:
+  - {fileID: 0}
+  - {fileID: 0}
   normal_AttackCool: 0
   weapon_AttackCool: 0
   equipWeapon: {fileID: 0}
