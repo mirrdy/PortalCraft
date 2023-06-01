@@ -139,6 +139,18 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     private void Update()
     {
+        //switch(currentView)
+        //{
+        //    case cameraView.ThirdPerson:
+        //        {
+        //            break;
+        //        }
+        //    case cameraView.FirstPerson:
+        //        {
+        //            break;
+        //        }
+        //}
+
         hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
 
         JumpAndGravity();
@@ -220,6 +232,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                 }
         }       
     }
+
     private void Move()
     {
         #region 플레이어 스피드 설정
@@ -356,7 +369,6 @@ public class PlayerControl : MonoBehaviour, IDamage
             verticalVelocity += gravity * Time.deltaTime;
         }
     }
-
     private void Attack() //마우스좌클릭 
     {            
         //무기 O
@@ -536,7 +548,7 @@ public class Staters  // 플레이어 스텟 관리 클래스
     [XmlElement]
     public float attackSpeed;
     [XmlElement]
-    public int attack = 10;
+    public int attack;
     [XmlElement]
     public int defens = 5;
     [XmlElement]

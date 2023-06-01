@@ -15,12 +15,16 @@ public class MonsterControl : LivingEntity
     private void OnEnable()
     {
         currentHp = hp;
+        isDead = false;
+        entityController.gameObject.SetActive(true);
+
         currentState = new MonsterIdleState();
         ChangeState(new MonsterIdleState());
     }
 
     protected override void Start()
     {
+        DataSetting(monsterdata);//나중에지워야함 필요없음
         canAttack = true;
         base.Start();
         Animator monsterAnimator = GetComponent<Animator>();
@@ -29,7 +33,6 @@ public class MonsterControl : LivingEntity
         spawnPoint = transform.position;
         entityController = GetComponent<CharacterController>();
         target = null;
-        DataSetting(monsterdata);//나중에지워야함 필요없음
         isDead = false;
 
     }
@@ -45,9 +48,12 @@ public class MonsterControl : LivingEntity
     public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
     {
         base.OnDamage(damage, on, hitNomal);
+        Debug.Log(currentHp);
         if (currentHp <= 0&&!isDead)
         {
+            isDead = true;
             ChangeState(new MonsterDieState());
+            //entityController.gameObject.SetActive(false);
         }
         else
         {
@@ -58,7 +64,7 @@ public class MonsterControl : LivingEntity
     }
     private void ItemDrop()
     {
-       
+        Debug.Log("아이템떨굼 나는 두ㅢ짐");
     }   
     public void DataSetting(MonsterData data)
     {
@@ -74,7 +80,10 @@ public class MonsterControl : LivingEntity
 
     public void EndAttack()
     {
-        ChangeState(new MonsterChaseState());
+        if (!(currentState is MonsterDieState))
+        {
+            ChangeState(new MonsterChaseState());
+        }
     }
     private void Die()
     {
