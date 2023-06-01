@@ -807,7 +807,10 @@ public class InGameUIManager : MonoBehaviour
             else
             {
                 itemSlot[i].gameObject.SetActive(false);
-                itemFrame[i].sprite = frameColor[0];
+                if (i < 38)
+                {
+                    itemFrame[i].sprite = frameColor[0];
+                }
             }
         }
     }
