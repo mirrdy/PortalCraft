@@ -10,7 +10,7 @@ public class SpawnerTest : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             Instantiate(monsterspawner,transform.position,Quaternion.identity);
         }

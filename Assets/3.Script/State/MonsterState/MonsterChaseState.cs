@@ -31,7 +31,7 @@ public class MonsterChaseState : EntityState
             monster.entityController.Move(direction * monster.moveSpeed * Time.deltaTime);
             // 몬스터가 플레이어 쪽을 바라보도록 회전 설정
             Vector3 playerDirection = monster.target.position - entity.transform.position;
-            playerDirection.y = monster.transform.position.y; // Y 축 방향을 무시하여 평면 상의 방향만 고려합니다.
+            playerDirection.y = 0; // Y 축 방향을 무시하여 평면 상의 방향만 고려합니다.
             Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
             monster.transform.rotation = targetRotation;
             if(distance <= monster.attackRange && monster.canAttack)

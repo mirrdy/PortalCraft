@@ -1,5 +1,63 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6619940353058250814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7360781433612506284}
+  - component: {fileID: 127712060804335146}
+  - component: {fileID: 8048657718676393515}
+  m_Layer: 0
+  m_Name: Chase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7360781433612506284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6619940353058250814}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8636904723608555124}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &127712060804335146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6619940353058250814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f72064ec04bfe747bbacc0d55c338e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &8048657718676393515
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6619940353058250814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 8
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7158306250764380713
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,6 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7158306250764380718}
   - component: {fileID: 7158306250764380719}
+  - component: {fileID: 7889417798011821681}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -44,6 +103,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 2.2}
   m_Center: {x: 0, y: 0.5, z: 1.8}
+--- !u!114 &7889417798011821681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7158306250764380713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b703db17af13545990ff1d11789a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8631183984788240398
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,6 +455,7 @@ Transform:
   - {fileID: 8629985819690484648}
   - {fileID: 8629472003992470134}
   - {fileID: 7158306250764380718}
+  - {fileID: 7360781433612506284}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -439,12 +511,14 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  currentHp: 0
   animator: {fileID: 0}
   entityController: {fileID: 0}
   target: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
   patrolRange: 0
   monsterdata: {fileID: 11400000, guid: 3634494251791d3448da9369c519dae0, type: 2}
+  canAttack: 0
 --- !u!1 &8631377078005571626
 GameObject:
   m_ObjectHideFlags: 0
