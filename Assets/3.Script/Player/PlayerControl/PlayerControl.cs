@@ -88,10 +88,10 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     public static PlayerControl instance = null;
 
-    private Staters staters;
-
     public delegate void WhenPlayerDie();
     public event WhenPlayerDie whenPlayerDie;
+
+    private InGameUIManager uiManager;
 
     private void Awake()
     {
@@ -99,14 +99,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         if (instance == null) 
         {
             instance = this; 
-            DontDestroyOnLoad(gameObject); 
-        }
-        else
-        {
-            {
-            if (instance != this)
-                Destroy(this.gameObject);
-            }             
         }
         #endregion
 
@@ -114,9 +106,10 @@ public class PlayerControl : MonoBehaviour, IDamage
         virtualCamera[1] = GameObject.FindGameObjectWithTag("FirstPersonCamera");
         virtualCamera[1].SetActive(false);
 
-        staters = new Staters();
-        TryGetComponent(out itemInfo);
-        TryGetComponent(out skillInfo);
+        uiManager = FindObjectOfType<InGameUIManager>();
+        itemInfo = FindObjectOfType<ItemManager>();
+        skillInfo = FindObjectOfType<SkillManager>();
+
         playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
 
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -134,6 +127,8 @@ public class PlayerControl : MonoBehaviour, IDamage
 
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
+
+        uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
 
         //QuickSlotItem = new GameObject[8];
     }
@@ -452,11 +447,13 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
     {
-        staters.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * staters.defens / (staters.defens + 50)) * 0.01f);
-        if(staters.currentHp <= 0)
+        Status status = playerData.status;
+        status.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * status.defens / (status.defens + 50)) * 0.01f);
+        if(status.currentHp <= 0)
         {
             whenPlayerDie.Invoke();
         }
+        uiManager.HpCheck(status.maxHp, status.currentHp);
     }
 
 
@@ -525,7 +522,7 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
     [XmlElement]
     public float playerExp;
     [XmlElement]
-    public Staters staters;
+    public Status status;
     [XmlElement]
     public Skill[] skill = new Skill[2];
     [XmlElement]
@@ -533,14 +530,14 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
 }
 
 [Serializable]
-public class Staters  // 플레이어 스텟 관리 클래스
+public class Status  // 플레이어 스텟 관리 클래스
 {
     [XmlElement]
     public int maxHp;
     [XmlElement]
     public int maxMp;
     [XmlElement]
-    public int currentHp = 100;
+    public int currentHp;
     [XmlElement]
     public int currentMp;
     [XmlElement]
@@ -550,9 +547,9 @@ public class Staters  // 플레이어 스텟 관리 클래스
     [XmlElement]
     public int attack;
     [XmlElement]
-    public int defens = 5;
+    public int defens;
     [XmlElement]
-    public int statersPoint;
+    public int statusPoint;
     [XmlElement]
     public int skillPoint;
 }

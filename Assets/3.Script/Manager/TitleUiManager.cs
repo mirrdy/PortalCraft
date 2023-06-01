@@ -233,8 +233,8 @@ public class TitleUiManager : MonoBehaviour
                     "이름 : " + playerData.playerName + "\n\n" +
                     "직업 : " + playerData.job + "\n\n" +
                     "레벨 : " + playerData.playerLevel + "\n\n" +
-                    "공격력 : " + playerData.staters.attack + "\n\n" +
-                    "방어력 : " + playerData.staters.defens;
+                    "공격력 : " + playerData.status.attack + "\n\n" +
+                    "방어력 : " + playerData.status.defens;
             }
             else
             {
@@ -271,8 +271,8 @@ public class TitleUiManager : MonoBehaviour
                     "이름 : " + playerData.playerName + "\n\n" +
                     "직업 : " + playerData.job + "\n\n" +
                     "레벨 : " + playerData.playerLevel + "\n\n" +
-                    "공격력 : " + playerData.staters.attack + "\n\n" +
-                    "방어력 : " + playerData.staters.defens;
+                    "공격력 : " + playerData.status.attack + "\n\n" +
+                    "방어력 : " + playerData.status.defens;
             }
             else
             {

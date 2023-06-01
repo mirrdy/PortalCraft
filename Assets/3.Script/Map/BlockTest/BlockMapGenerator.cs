@@ -233,8 +233,8 @@ public class BlockMapGenerator : MonoBehaviour
     private void ResetPlayer()
     {
         PlayerControl.instance.transform.position = portalPos + Vector3.forward;
-        PlayerControl.instance.playerData.staters.currentHp = PlayerControl.instance.playerData.staters.maxHp;
-        PlayerControl.instance.playerData.staters.currentMp = PlayerControl.instance.playerData.staters.maxMp;
+        PlayerControl.instance.playerData.status.currentHp = PlayerControl.instance.playerData.status.maxHp;
+        PlayerControl.instance.playerData.status.currentMp = PlayerControl.instance.playerData.status.maxMp;
     }
     public void CheckAroundDestroyedBlock(Vector3 blockPos)
     {
