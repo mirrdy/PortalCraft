@@ -109,7 +109,7 @@ public class LoadingSceneManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        if(arg0.name.Equals("MapTest"))
+        if(arg0.name.Equals("MapTest") || arg0.name.Equals("In Game"))
         {
             StartCoroutine(nameof(MapLoading));
         }
@@ -124,11 +124,11 @@ public class LoadingSceneManager : MonoBehaviour
     {
         blockMap = FindObjectOfType<BlockMapGenerator>();
         slider_Loding.value = 0f;
-        while (blockMap.progress < 100f)
+        while (blockMap.progress < 99f)
         {
+            yield return null;
             text_Loding.text = "Loading... " + (int)blockMap.progress + "%";
             slider_Loding.value = blockMap.progress * 0.01f;
-            yield return null;
         }
         StartCoroutine(Fade_co(false));
         SceneManager.sceneLoaded -= OnSceneLoaded;

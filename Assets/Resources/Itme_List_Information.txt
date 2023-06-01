@@ -25,14 +25,14 @@
 207	Arms	활 T1	활 T1	1	1	15	0.4	FALSE	FALSE
 208	Arms	활 T2	활 T2	1	1	20	0.3	FALSE	FALSE
 209	Arms	횃불	횃불	1	99	5	0.6	FALSE	FALSE
-301	Etc	포탈 조각 T1	포탈 조각 T1	1	99	FALSE	FALSE		
-302	Etc	포탈 조각 T2	포탈 조각 T2	1	99	FALSE	FALSE		
-303	Etc	거미 줄	박쥐 가죽	1	99	FALSE	FALSE		
-304	Etc	슬라임 점액	슬라임 점액	1	99	FALSE	FALSE		
-305	Etc	오크 가죽	오크 가죽	1	99	FALSE	FALSE		
-306	Etc	뼈 다귀	뼈 다귀	1	99	FALSE	FALSE		
-307	Etc	보스 템	보스 템	1	99	FALSE	FALSE		
-308	Etc	통 나무	통 나무	1	99	FALSE	FALSE		
-309	Etc	조합 대	조합 대	1	1	FALSE	FALSE		
-401	About	HP포션	HP포션	1	99	30	0	FALSE	FALSE
-402	About	MP포션	MP포션	1	99	0	30	FALSE	FALSE
+301	Cloak	망토	보스 증표	1	1	FALSE	TRUE		
+401	Etc	포탈 조각 T1	포탈 조각 T1	1	99	FALSE	FALSE		
+402	Etc	포탈 조각 T2	포탈 조각 T2	1	99	FALSE	FALSE		
+403	Etc	거미 줄	박쥐 가죽	1	99	FALSE	FALSE		
+404	Etc	슬라임 점액	슬라임 점액	1	99	FALSE	FALSE		
+405	Etc	오크 가죽	오크 가죽	1	99	FALSE	FALSE		
+406	Etc	뼈 다귀	뼈 다귀	1	99	FALSE	FALSE		
+407	Etc	통 나무	통 나무	1	99	FALSE	FALSE		
+408	Etc	조합 대	조합 대	1	1	FALSE	FALSE		
+501	About	HP포션	HP포션	1	99	30	FALSE	FALSE	
+502	About	MP포션	MP포션	1	99	30	FALSE	FALSE	

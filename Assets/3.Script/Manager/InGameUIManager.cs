@@ -16,6 +16,7 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] Text player_Level;  // Player 레벨
     [SerializeField] Slider expBar;  // 경험치 바
     [SerializeField] Text expCheck;  // 경험치 양 표시
+    [SerializeField] GameObject playerView;  // 캐릭터 비추는 카메라
 
     [Header("Menu")]
     [SerializeField] GameObject menuImage;  // 메뉴 이미지
@@ -40,12 +41,17 @@ public class InGameUIManager : MonoBehaviour
 
     [Header("Inventory")]
     [SerializeField] GameObject inventory;  // 인벤토리 창
+    [SerializeField] Text invenStaters;  // 장비창 플레이어 스테이터스 표시
+    [SerializeField] Image[] itemBorder;  // 슬롯 테두리 이미지 
     [SerializeField] Image[] itemFrame;  // 아이템 종류에 따른 프레임
     [SerializeField] Image[] itemSlot;  // 아이템 이미지 들어갈 변수
     [SerializeField] GameObject[] itemCount;  // 아이템 수량 표시 창
     [SerializeField] Text[] itemQuantity;  // 아이템 수량 표시
     [SerializeField] Sprite[] frameColor;  // 아이템 종류에 따른 프레임 컬러 보관 스프라이트
     [SerializeField] Sprite[] image_Item;  // 아이템 2D스프라이트
+    [SerializeField] GameObject image_Tooltip;  // 아이템 툴팁;
+    [SerializeField] Text tooltip;  // 아이템 설명 표시
+    [SerializeField] Sprite[] border;  // 슬롯에 마우스 올라갈때 테두리 변경용 이미지
 
     [Header("Player Stateers")]
     [SerializeField] GameObject image_Staters;  // 스테이터스 창
@@ -72,6 +78,12 @@ public class InGameUIManager : MonoBehaviour
         resolution.value = DataManager.instance.LoadResolution();
         itemInfo = FindObjectOfType<ItemManager>();
         skillInfo = FindObjectOfType<SkillManager>();
+
+        for (int i = 1; i < 8; i++)
+        {
+            itemBorder[30 + i].sprite = border[0];
+        }
+        itemBorder[30].sprite = border[1];
     }
 
     private void OnEnable()
@@ -81,6 +93,8 @@ public class InGameUIManager : MonoBehaviour
         resolutionWindow.SetActive(false);
         image_Staters.SetActive(false);
         inventory.SetActive(false);
+        playerView.SetActive(false);
+        image_Tooltip.SetActive(false);
     }
 
     private void Update()
@@ -88,6 +102,7 @@ public class InGameUIManager : MonoBehaviour
         MenuOnOff();
         StatersOnOff();
         InventoryOnOff();
+        InventoryCheck();
     }
 
     public void BGM_VolumeSetting()  // 배경음 소리 설정
@@ -146,12 +161,18 @@ public class InGameUIManager : MonoBehaviour
         {
             if (!menuImage.activeSelf)
             {
+                SetCursorState(false);
+                Time.timeScale = 0;
                 menuImage.SetActive(true);
                 image_Staters.SetActive(false);
-                inventory.SetActive(false);
+                inventory.SetActive(false); 
+                playerView.SetActive(false);
             }
             else
             {
+                image_Tooltip.SetActive(false);
+                SetCursorState(true);
+                Time.timeScale = 1;
                 menuImage.SetActive(false);
             }
         }
@@ -246,16 +267,23 @@ public class InGameUIManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.K))
         {
-            if(!image_Staters.activeSelf)
+            if (!image_Staters.activeSelf)
             {
+                SetCursorState(false);
+                Time.timeScale = 0;
                 OnSkillStatersCall();
                 image_Staters.SetActive(true);
                 inventory.SetActive(false);
                 menuImage.SetActive(false);
+                playerView.SetActive(true);
             }
             else
             {
+                image_Tooltip.SetActive(false);
+                SetCursorState(true);
                 image_Staters.SetActive(false);
+                playerView.SetActive(false);
+                Time.timeScale = 1;
             }
         }
     }
@@ -368,6 +396,21 @@ public class InGameUIManager : MonoBehaviour
             }
         }
 
+        if(playerData.staters.statersPoint > 0)
+        {
+            for (int i = 0; i < statUp.Length; i++)
+            {
+                statUp[i].interactable = true;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < statUp.Length; i++)
+            {
+                statUp[i].interactable = false;
+            }
+        }
+
         playerStat.text = "Player Staters\n\n" +
                             "이름 : " + playerData.playerName + "\n" +
                             "레벨 : " + playerData.playerLevel + "\n" +
@@ -383,6 +426,14 @@ public class InGameUIManager : MonoBehaviour
                             " " + playerData.playerLevel + "\n" +
                             " " + playerData.playerLevel + "\n" +
                             " " + playerData.staters.statersPoint;
+
+        invenStaters.text = "Player Staters\n" +
+                            "체력 : " + playerData.playerLevel + "\n" +
+                            "마나 : " + playerData.playerLevel + "\n" +
+                            "이동 속도 : " + playerData.playerLevel + "\n" +
+                            "공격 속도 : " + playerData.playerLevel + "\n" +
+                            "공격력 : " + playerData.playerLevel + "\n" +
+                            "방어력 : " + playerData.playerLevel;
     }
 
     public void OneSkillUpDown(int value)
@@ -398,6 +449,27 @@ public class InGameUIManager : MonoBehaviour
         else
         {
             playerData.skill[0].hasSkill = false;
+        }
+
+        if (value > 0)
+        {
+            for (int k = 0; k < skillInfo.list_Skill.Count; k++)
+            {
+                if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
+                {
+                    playerData.staters.skillPoint -= skillInfo.list_Skill[k + 1].skillUpPoint;
+                }
+            }
+        }
+        else
+        {
+            for (int k = 0; k < skillInfo.list_Skill.Count; k++)
+            {
+                if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
+                {
+                    playerData.staters.skillPoint += skillInfo.list_Skill[k].skillUpPoint;
+                }
+            }
         }
 
         SkillCheck();
@@ -418,6 +490,27 @@ public class InGameUIManager : MonoBehaviour
             playerData.skill[1].hasSkill = false;
         }
 
+        if (value > 0)
+        {
+            for (int k = 0; k < skillInfo.list_Skill.Count; k++)
+            {
+                if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum)
+                {
+                    playerData.staters.skillPoint -= skillInfo.list_Skill[k + 1].skillUpPoint;
+                }
+            }
+        }
+        else
+        {
+            for (int k = 0; k < skillInfo.list_Skill.Count; k++)
+            {
+                if (skillInfo.list_Skill[k].level == playerData.skill[1].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum)
+                {
+                    playerData.staters.skillPoint += skillInfo.list_Skill[k].skillUpPoint;
+                }
+            }
+        }
+
         SkillCheck();
     }
 
@@ -426,6 +519,15 @@ public class InGameUIManager : MonoBehaviour
         PlayerData playerData = PlayerControl.instance.playerData;
 
         playerData.staters.maxHp += value;
+
+        if (value > 0)
+        {
+            playerData.staters.statersPoint--;
+        }
+        else
+        {
+            playerData.staters.statersPoint++;
+        }
 
         StatersCheck();
     }
@@ -436,6 +538,15 @@ public class InGameUIManager : MonoBehaviour
 
         playerData.staters.maxMp += value;
 
+        if(value > 0)
+        {
+            playerData.staters.statersPoint--;
+        }
+        else
+        {
+            playerData.staters.statersPoint++;
+        }
+
         StatersCheck();
     }
 
@@ -443,7 +554,16 @@ public class InGameUIManager : MonoBehaviour
     {
         PlayerData playerData = PlayerControl.instance.playerData;
 
-        playerData.staters.maxMp += value;
+        playerData.staters.attack += value;
+
+        if (value > 0)
+        {
+            playerData.staters.statersPoint--;
+        }
+        else
+        {
+            playerData.staters.statersPoint++;
+        }
 
         StatersCheck();
     }
@@ -452,7 +572,16 @@ public class InGameUIManager : MonoBehaviour
     {
         PlayerData playerData = PlayerControl.instance.playerData;
 
-        playerData.staters.maxMp += value;
+        playerData.staters.defens += value;
+
+        if (value > 0)
+        {
+            playerData.staters.statersPoint--;
+        }
+        else
+        {
+            playerData.staters.statersPoint++;
+        }
 
         StatersCheck();
     }
@@ -463,14 +592,226 @@ public class InGameUIManager : MonoBehaviour
         {
             if(!inventory.activeSelf)
             {
+                SetCursorState(false);
+                Time.timeScale = 0;
                 inventory.SetActive(true);
                 image_Staters.SetActive(false);
                 menuImage.SetActive(false);
+                playerView.SetActive(true);
             }
             else
             {
+                image_Tooltip.SetActive(false);
+                SetCursorState(true);
+                Time.timeScale = 1;
                 inventory.SetActive(false);
+                playerView.SetActive(false);
             }
         }
+
+        StatersCheck();
+    }
+
+    public void MouseEnter(int value)
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        if(playerData.inventory[value].hasItem)
+        {
+            int num = 0;
+            int tag = playerData.inventory[value].tag;
+
+            image_Tooltip.SetActive(true);
+            image_Tooltip.transform.position = itemSlot[value].transform.position + (Vector3.right * 5);
+
+            for (int i = 0; i < itemInfo.list_AllItem.Count; i++)
+            {
+                if (tag == itemInfo.list_AllItem[i].tag)
+                {
+                    num = i;
+                    break;
+                }
+            }
+
+            if(itemInfo.list_AllItem[num].type.Equals("Block"))
+            {
+                for (int i = 0; i < itemInfo.list_Block.Count; i++)
+                {
+                    if (tag == itemInfo.list_Block[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_Block[i].name + "\n" +
+                                        "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                        "-------------\n" +
+                                        "" + itemInfo.list_Block[i].tooltip;
+                        break;
+                    }
+                }
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("Armor"))
+            {
+                for (int i = 0; i < itemInfo.list_Armor.Count; i++)
+                {
+                    if (tag == itemInfo.list_Armor[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_Armor[i].name + "\n" +
+                                "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                "-------------\n" +
+                                "체력 : " + itemInfo.list_Armor[i].hp + "\n" +
+                                "이동 속도 : " + itemInfo.list_Armor[i].moveSpeed + "\n" +
+                                "-------------\n" +
+                                "" + itemInfo.list_Armor[i].tooltip;
+                        break;
+                    }
+                }
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("Helmet"))
+            {
+                for (int i = 0; i < itemInfo.list_Helmet.Count; i++)
+                {
+                    if (tag == itemInfo.list_Helmet[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_Helmet[i].name + "\n" +
+                                "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                "-------------\n" +
+                                "체력 : " + itemInfo.list_Helmet[i].defens + "\n" +
+                                "-------------\n" +
+                                "" + itemInfo.list_Helmet[i].tooltip;
+                        break;
+                    }
+                }
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("Arms"))
+            {
+                for (int i = 0; i < itemInfo.list_Arms.Count; i++)
+                {
+                    if (tag == itemInfo.list_Arms[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_Arms[i].name + "\n" +
+                                "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                "-------------\n" +
+                                "공격력 : " + itemInfo.list_Arms[i].attack + "\n" +
+                                "공격 속도 : " + itemInfo.list_Arms[i].attackSpeed + "\n" +
+                                "-------------\n" +
+                                "" + itemInfo.list_Arms[i].tooltip;
+                        break;
+                    }
+                }
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("Cloak"))
+            {
+                tooltip.text = "이름 : " + itemInfo.list_Cloak[0].name + "\n" +
+                        "수량 : " + playerData.inventory[value].quantity + "\n" +
+                        "-------------\n" +
+                        "" + itemInfo.list_Cloak[0].tooltip;
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("Etc"))
+            {
+                for (int i = 0; i < itemInfo.list_Etc.Count; i++)
+                {
+                    if (tag == itemInfo.list_Etc[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_Etc[i].name + "\n" +
+                                "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                "-------------\n" +
+                                "" + itemInfo.list_Etc[i].tooltip;
+                        break;
+                    }
+                }
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("About"))
+            {
+                for (int i = 0; i < itemInfo.list_About.Count; i++)
+                {
+                    if (tag == itemInfo.list_About[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_About[i].name + "\n" +
+                                "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                "-------------\n" +
+                                "회복량 : " + itemInfo.list_About[i].recovery + "\n" +
+                                "-------------\n" +
+                                "" + itemInfo.list_About[i].tooltip;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void MouseExit()
+    {
+        image_Tooltip.SetActive(false);
+    }
+
+    public void BorderChange(int value)
+    {
+        for (int i = 0; i < itemBorder.Length - 8; i++)
+        {
+            if (value == i)
+            {
+                itemBorder[value].sprite = border[1];
+                continue;
+            }
+            itemBorder[i].sprite = border[0];
+        }
+    }
+
+    private void SetCursorState(bool cursorState)
+    {
+        Cursor.lockState = cursorState ? CursorLockMode.Locked : CursorLockMode.None;
+    }
+
+    private void InventoryCheck()
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        for (int i = 0; i < playerData.inventory.Length; i++)
+        {
+            if (playerData.inventory[i].hasItem)
+            {
+                for (int k = 0; k < itemInfo.list_AllItem.Count; k++)
+                {
+                    if (playerData.inventory[i].tag == itemInfo.list_AllItem[k].tag)
+                    {
+                        itemSlot[i].gameObject.SetActive(true);
+                        itemSlot[i].sprite = image_Item[k];
+
+                        if(itemInfo.list_AllItem[k].maxQuantity > 2)
+                        {
+                            itemCount[i].SetActive(true);
+                            itemQuantity[i].text = "" + playerData.inventory[i].quantity;
+                        }
+                        else
+                        {
+                            itemCount[i].SetActive(false);
+                        }
+
+                        if(itemInfo.list_AllItem[k].Equals("Helmet") || itemInfo.list_AllItem[k].Equals("Armor") || itemInfo.list_AllItem[k].Equals("Arms"))
+                        {
+                            itemFrame[i].sprite = frameColor[2];
+                        }
+                        else if(itemInfo.list_AllItem[k].Equals("About"))
+                        {
+                            itemFrame[i].sprite = frameColor[1];
+                        }
+                        else if (itemInfo.list_AllItem[k].Equals("Block"))
+                        {
+                            itemFrame[i].sprite = frameColor[3];
+                        }
+
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                itemSlot[i].gameObject.SetActive(false);
+                itemFrame[i].sprite = frameColor[0];
+            }
+        }
+    }
+
+    public void SetQuickSlot()
+    {
+
     }
 }

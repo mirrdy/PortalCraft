@@ -6,11 +6,11 @@ public class MonsterPatrolState : EntityState
 {
     private MonsterControl monster;
     private IEnumerator patrol_co;
-    private bool canPatrol;
+    //private bool canPatrol;
     public override void EnterState(LivingEntity entity)
     {
         patrol_co = Patrol_co();
-        canPatrol = true;
+        //canPatrol = true;
         if (monster == null)
         {
             entity.TryGetComponent(out monster);
@@ -67,8 +67,9 @@ public class MonsterPatrolState : EntityState
             //}
             while (true)
             {
+                targetPosition.y = monster.transform.position.y;
                 Vector3 direction = targetPosition - monster.transform.position;
-                direction.y = 0f; // Y값을 0으로 설정하여 수직 이동을 방지합니다.
+                direction.y = 0; // Y값을 몬스터 위치로 설정하여 수직 이동을 방지합니다.
                 if (direction.magnitude <= 0.1f)
                 {
                     break; // 거리 값이 0.1 이하인 경우 반복 종료

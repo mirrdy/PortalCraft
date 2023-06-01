@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/2.Model/Prefab/Map/Generator/Map3.prefab.meta
+guid: 629b96f5dbc7f16449c9c24dacc7934c
+PrefabImporter:
+========
 guid: b22a5d43f23f2e54490039ca968f4877
 NativeFormatImporter:
+>>>>>>>> main:Assets/5.Animation/Boss/Rush.anim.meta
   externalObjects: {}
   mainObjectFileID: 7400000
   userData: 

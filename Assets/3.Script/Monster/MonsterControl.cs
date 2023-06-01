@@ -10,8 +10,13 @@ public class MonsterControl : LivingEntity
     [SerializeField] private MonsterData monsterdata;
     public bool canAttack;
 
-   
-    
+
+    private void OnEnable()
+    {
+        currentHp = hp;
+        currentState = new MonsterIdleState();
+        ChangeState(new MonsterIdleState());
+    }
 
     protected override void Start()
     {
@@ -29,10 +34,10 @@ public class MonsterControl : LivingEntity
     protected override void Update()
     {
         base.Update();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ChangeState(new MonsterHitState());
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    ChangeState(new MonsterHitState());
+        //}
     }
 
     public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)

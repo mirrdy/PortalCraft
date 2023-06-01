@@ -9,14 +9,12 @@ public class MonsterIdleState : EntityState
     public override void EnterState(LivingEntity entity)
     {
         monster = entity.GetComponent<MonsterControl>();
-        Debug.Log(monster);
     }
 
     public override void UpdateState(LivingEntity entity)
     {
         if (monster.target == null) 
         {   
-            Debug.Log("¿Ã∞≈Ω««‡µ ");
             entity.ChangeState(new MonsterPatrolState());
         }
         if(monster.target!=null)
