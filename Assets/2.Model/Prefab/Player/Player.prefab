@@ -6072,7 +6072,7 @@ GameObject:
   - component: {fileID: 2483909482339931518}
   - component: {fileID: 2483909482339931516}
   m_Layer: 0
-  m_Name: Staters Player View
+  m_Name: Status Player View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18798,7 +18798,7 @@ MonoBehaviour:
     playerName: 
     playerLevel: 0
     playerExp: 0
-    staters:
+    status:
       maxHp: 0
       maxMp: 0
       currentHp: 0
@@ -18807,7 +18807,7 @@ MonoBehaviour:
       attackSpeed: 0
       attack: 0
       defens: 0
-      statersPoint: 0
+      statusPoint: 0
       skillPoint: 0
     skill:
     - skillNum: 0

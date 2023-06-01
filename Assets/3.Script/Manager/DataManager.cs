@@ -22,10 +22,10 @@ public class SaveDataNumber
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;  // DataManager 싱글톤 생성
-    public PlayerData playerData = new PlayerData();  // Player의 데이터 클래스 가져오기
+    public PlayerData playerData = new PlayerData();
 
     // Yaml 데이터형 변수 지정
-    SettingData settingData = new SettingData();
+    SettingData settingData = new SettingData(); 
 
     ISerializer serializer = new SerializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();  // Yaml의 데이터 직렬화를 하는 변수 생성
     IDeserializer deserializer = new DeserializerBuilder().Build();  // Yaml의 데이터 역직렬화 하는 변수 생성
@@ -111,7 +111,7 @@ public class DataManager : MonoBehaviour
 
         if (!File.Exists(filePath))  // xml의 데이터에 따라서 저장 데이터를 전달 초기화 이후에 대입하여 기본값을 설정
         {
-            playerData.staters = new Staters();
+            playerData.status = new Status();
 
             playerData.job = null;
 
@@ -125,16 +125,16 @@ public class DataManager : MonoBehaviour
             playerData.playerLevel = 1;
             playerData.playerExp = 0.0f;
 
-            playerData.staters.maxHp = 100;
-            playerData.staters.currentHp = playerData.staters.maxHp;
-            playerData.staters.maxMp = 100;
-            playerData.staters.currentMp = playerData.staters.maxMp;
-            playerData.staters.attackSpeed = 1f;
-            playerData.staters.moveSpeed = 5f;
-            playerData.staters.skillPoint = 0;
-            playerData.staters.statersPoint = 5;
-            playerData.staters.attack = 10;
-            playerData.staters.defens = 5;
+            playerData.status.maxHp = 100;
+            playerData.status.currentHp = playerData.status.maxHp;
+            playerData.status.maxMp = 100;
+            playerData.status.currentMp = playerData.status.maxMp;
+            playerData.status.attackSpeed = 1f;
+            playerData.status.moveSpeed = 5f;
+            playerData.status.skillPoint = 0;
+            playerData.status.statusPoint = 5;
+            playerData.status.attack = 10;
+            playerData.status.defens = 5;
 
             for (int j = 0; j < playerData.skill.Length; j++)
             {
