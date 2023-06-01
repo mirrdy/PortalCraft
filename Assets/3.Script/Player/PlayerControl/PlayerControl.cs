@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 
 public class PlayerControl : MonoBehaviour, IDamage
 {
+    public enum cameraView { ThirdPerson = 0, FirstPerson = 1 };
+    public cameraView currentView = cameraView.ThirdPerson;
+
     public float moveSpeed = 4.0f;
     public float sprintSpeed = 7.3f;
     public float jumpHeight = 2.3f;
@@ -23,7 +26,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     public LayerMask LayerMask_Ground;
 
     //카메라 관련 
-    public GameObject cinemachineCameraTarget;
+    public GameObject cinemachineCameraTarget_Third;
+    public GameObject cinemachineCameraTarget_First;
     public float topClamp = 70.0f;
     public float bottomClamp = -30.0f;
     public float cameraAngleOverride = 0.0f;
@@ -39,17 +43,20 @@ public class PlayerControl : MonoBehaviour, IDamage
     private float jumpCoolDelta;
     private float fallTimeDelta;
 
-    // cinemachine
-    private float cinemachineTargetYaw;
-    private float cinemachineTargetPitch;
+    // cinemachine 
+    private float cinemachineTargetYaw_Third;
+    private float cinemachineTargetPitch_Third;
+    private float cinemachineTargetPitch_First;
+    private float topClamp_First = 80.0f;
+    private float bottomClamp_First = -80.0f;
+    private float rotationSpeed = 1.0f;
     private const float threshold = 0.01f;
 
     private Animator animator;
     private CharacterController charController;
     private Input_Info input;
     [SerializeField] private GameObject mainCamera;
-    public GameObject virtualCamera_Third;
-    public GameObject virtualCamera_First;
+    public GameObject[] virtualCamera = new GameObject[2];
 
     private bool hasAnimator;
 
@@ -100,10 +107,14 @@ public class PlayerControl : MonoBehaviour, IDamage
         }
         #endregion
 
+        virtualCamera[0] = GameObject.FindGameObjectWithTag("ThirdPersonCamera");
+        virtualCamera[1] = GameObject.FindGameObjectWithTag("FirstPersonCamera");
+        virtualCamera[1].SetActive(false);
+
         staters = new Staters();
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
-        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
+        //playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
 
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
@@ -112,7 +123,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     {      
         AssignAnimationID();
 
-        cinemachineTargetYaw = cinemachineCameraTarget.transform.rotation.eulerAngles.y;
+        cinemachineTargetYaw_Third = cinemachineCameraTarget_Third.transform.rotation.eulerAngles.y;
 
         animator = transform.GetChild(0).GetComponent<Animator>();
         charController = GetComponent<CharacterController>();
@@ -125,6 +136,18 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     private void Update()
     {
+        //switch(currentView)
+        //{
+        //    case cameraView.ThirdPerson:
+        //        {
+        //            break;
+        //        }
+        //    case cameraView.FirstPerson:
+        //        {
+        //            break;
+        //        }
+        //}
+
         hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
 
         JumpAndGravity();
@@ -135,14 +158,28 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     private void LateUpdate()
     {
-        CameraRotation_ThirdPerson();
+        CameraRotation();
     }
+
 
     private void VeiwChange()
     {
         if (input.viewChange)
         {
+            //[0]:3인칭, [1]:1인칭
             Debug.Log("뷰 전환");
+            if (virtualCamera[0].activeSelf == true) //1인칭으로 전환
+            {
+                currentView = cameraView.FirstPerson;
+                virtualCamera[0].SetActive(false);
+                virtualCamera[1].SetActive(true);
+            }
+            else if (virtualCamera[1].activeSelf == true) //3인칭으로 전환
+            {
+                currentView = cameraView.ThirdPerson;
+                virtualCamera[1].SetActive(false);
+                virtualCamera[0].SetActive(true);
+            }
             input.viewChange = false;
         }
     }
@@ -157,23 +194,42 @@ public class PlayerControl : MonoBehaviour, IDamage
             animator.SetBool(animID_Ground, grounded);
         }
     }
-    private void CameraRotation_ThirdPerson()
+    private void CameraRotation()
     {
-        if (input.look.sqrMagnitude > threshold)
+        switch(currentView)
         {
-            cinemachineTargetYaw += input.look.x;
-            cinemachineTargetPitch += input.look.y;
-        }
+            case cameraView.ThirdPerson: //3인칭 카메라 조작
+                {
+                    if (input.look.sqrMagnitude > threshold)
+                    {
+                        cinemachineTargetYaw_Third += input.look.x;
+                        cinemachineTargetPitch_Third += input.look.y;
+                    }
 
-        cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
-        cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
+                    cinemachineTargetYaw_Third = ClampAngle(cinemachineTargetYaw_Third, float.MinValue, float.MaxValue);
+                    cinemachineTargetPitch_Third = ClampAngle(cinemachineTargetPitch_Third, bottomClamp, topClamp);
 
-        cinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch, cinemachineTargetYaw, 0.0f);
+                    cinemachineCameraTarget_Third.transform.rotation = Quaternion.Euler(cinemachineTargetPitch_Third, cinemachineTargetYaw_Third, 0.0f);
+                    break;
+                }
+            case cameraView.FirstPerson: //1인칭 카메라 조작
+                {
+                    if (input.look.sqrMagnitude >= threshold)
+                    {
+                        cinemachineTargetPitch_First += input.look.y * rotationSpeed;
+                        rotationVelocity = input.look.x * rotationSpeed;
+
+                        cinemachineTargetPitch_First = ClampAngle(cinemachineTargetPitch_First, bottomClamp_First, topClamp_First);
+
+                        cinemachineCameraTarget_First.transform.localRotation = Quaternion.Euler(cinemachineTargetPitch_First, 0.0f, 0.0f);
+
+                        transform.Rotate(Vector3.up * rotationVelocity);
+                    }
+                    break;
+                }
+        }       
     }
-    private void CameraRotation_FirstPerson()
-    {
 
-    }
     private void Move()
     {
         #region 플레이어 스피드 설정
@@ -205,26 +261,43 @@ public class PlayerControl : MonoBehaviour, IDamage
         }
         #endregion
 
-        #region 플레이어 방향 설정
         Vector3 inputDirection = new Vector3(input.move.x, 0f, input.move.y).normalized;
 
-        if (input.move != Vector2.zero) 
+        #region 3인칭 && 1인칭 플레이어 방향 설정 및 움직이기
+        switch (currentView)
         {
-            targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, rotation, 0f);
-        }
-        if (input.move != Vector2.zero && input.attack)
-        {
-            transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
-        }
+            case cameraView.ThirdPerson: //3인칭
+                {               
+                    if (input.move != Vector2.zero)
+                    {
+                        targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
+                        float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
+                        transform.rotation = Quaternion.Euler(0f, rotation, 0f);
+                    }
+                    if (input.move != Vector2.zero && input.attack)
+                    {
+                        transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+                    }
+                    //플레이어 움직이기
+                    Vector3 targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * Vector3.forward;
+                    charController.Move(targetDirection.normalized * (speed * Time.deltaTime) +
+                                         new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+                    break;
+                }
+            case cameraView.FirstPerson: //1인칭
+                {
+                    if (input.move != Vector2.zero)
+                    {
+                        inputDirection = transform.right * input.move.x + transform.forward * input.move.y;
+                    }
+                    //플레이어 움직이기
+                    charController.Move(inputDirection.normalized * (speed * Time.deltaTime) +
+                        new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+                    break;
+                }                
+        }          
         #endregion
-
-        //플레이어 움직이기 
-        Vector3 targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * Vector3.forward;
-        charController.Move(targetDirection.normalized * (speed * Time.deltaTime) +
-                             new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
-
+        
         //움직임 애니메이션
         if (hasAnimator)
         {
