@@ -19,7 +19,7 @@ public class MonsterSpawner : MonoBehaviour
         {
             //MonsterControl spawnMonster = spawnList[i].gameObject.GetComponent<MonsterControl>();
             randomSpawnPosition[i] = transform.position + Random.insideUnitSphere * spawnRange;
-            randomSpawnPosition[i].y = 0f;
+            randomSpawnPosition[i].y = transform.position.y;
             spawnList[i] = Instantiate(spawnMonsterList[i], randomSpawnPosition[i], Quaternion.identity);
             spawnList[i].gameObject.SetActive(false);
         }
@@ -66,7 +66,7 @@ public class MonsterSpawner : MonoBehaviour
                             else
                             {
                                 randomSpawnPosition[i] = transform.position + Random.insideUnitSphere * spawnRange;
-                                randomSpawnPosition[i].y = 0;
+                                randomSpawnPosition[i].y = transform.position.y;
                                 i--;
                                 continue;
                             }
@@ -75,7 +75,7 @@ public class MonsterSpawner : MonoBehaviour
                     else
                     {
                         randomSpawnPosition[i] = transform.position + Random.insideUnitSphere * spawnRange;
-                        randomSpawnPosition[i].y = 0;
+                        randomSpawnPosition[i].y = transform.position.y;
                         i--;
                         continue;
                     }
