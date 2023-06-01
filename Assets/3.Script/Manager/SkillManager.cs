@@ -6,7 +6,7 @@ using System;
 [System.Serializable]
 public class SkillInfo
 {
-    public SkillInfo(int _tag, string _name, int _level, int _levelLimit, string _job, int _damage, int _mp, int _coolTime, string _tooltip, bool _hasSkill, int _skillUpPoint)
+    public SkillInfo(int _tag, string _name, int _level, int _levelLimit, string _job, float _damage, int _mp, int _coolTime, string _tooltip, bool _hasSkill, int _skillUpPoint)
     {
         tag = _tag;
         name = _name;
@@ -26,7 +26,7 @@ public class SkillInfo
     public int level;
     public int levelLimit;
     public string job;
-    public int damage;
+    public float damage;
     public int mp;
     public int coolTime;
     public string tooltip;
@@ -45,7 +45,7 @@ public class SkillManager : MonoBehaviour
         for(int i = 0; i < line.Length; i++)
         {
             string[] row = line[i].Split('\t');
-            list_Skill.Add(new SkillInfo(Int32.Parse(row[0]), row[1], Int32.Parse(row[2]), Int32.Parse(row[3]), row[4], Int32.Parse(row[5]), Int32.Parse(row[6]), Int32.Parse(row[7]), row[8], row[9].Equals("TRUE"), Int32.Parse(row[10])));
+            list_Skill.Add(new SkillInfo(Int32.Parse(row[0]), row[1], Int32.Parse(row[2]), Int32.Parse(row[3]), row[4], float.Parse(row[5]), Int32.Parse(row[6]), Int32.Parse(row[7]), row[8], row[9].Equals("TRUE"), Int32.Parse(row[10])));
         }
     }
 
