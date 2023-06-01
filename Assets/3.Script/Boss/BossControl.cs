@@ -58,7 +58,7 @@ public class BossControl : MonoBehaviour ,IDamage
         currentState.EnterState(this);
     }
 
-    public virtual void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
+    public virtual void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
     {
         hp -= damage-(damage * Mathf.RoundToInt(def/(def+50)*100)*0.01f);
     }
