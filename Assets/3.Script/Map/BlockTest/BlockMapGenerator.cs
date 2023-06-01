@@ -129,7 +129,7 @@ public class BlockMapGenerator : MonoBehaviour
         Instantiate(monsterSpawnerInfo, monsterSpawnerPos, Quaternion.identity);
         Instantiate(portalInfo, portalPos, Quaternion.identity);
         PlayerControl.instance.transform.position = portalPos + Vector3.forward;
-        PlayerControl.instance.whenPlayerDie += ResetPlayerPosition;
+        PlayerControl.instance.whenPlayerDie += ResetPlayer;
         PlayerControl.instance.enabled = true;
 
         // »ý¼º2
@@ -230,9 +230,11 @@ public class BlockMapGenerator : MonoBehaviour
 
         yield return null;
     }
-    private void ResetPlayerPosition()
+    private void ResetPlayer()
     {
         PlayerControl.instance.transform.position = portalPos + Vector3.forward;
+        PlayerControl.instance.playerData.staters.currentHp = PlayerControl.instance.playerData.staters.maxHp;
+        PlayerControl.instance.playerData.staters.currentMp = PlayerControl.instance.playerData.staters.maxMp;
     }
     public void CheckAroundDestroyedBlock(Vector3 blockPos)
     {
