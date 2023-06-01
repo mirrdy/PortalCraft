@@ -85,6 +85,7 @@ public class BlockMapGenerator : MonoBehaviour
     public GameObject monsterSpawnerInfo;
     private Vector3 monsterSpawnerPos;
     private bool isCreatedSpawner;
+    private Vector3 portalPos;
     private bool isCreatedPortal;
 
     [Header("¸ÊÁ¤º¸")]
@@ -126,6 +127,8 @@ public class BlockMapGenerator : MonoBehaviour
         }
 
         Instantiate(monsterSpawnerInfo, monsterSpawnerPos, Quaternion.identity);
+        Instantiate(portalInfo, portalPos, Quaternion.identity);
+        PlayerControl.instance.transform.position = portalPos + Vector3.forward;
         PlayerControl.instance.enabled = true;
 
         // »ý¼º2
@@ -200,7 +203,7 @@ public class BlockMapGenerator : MonoBehaviour
                             if (Random.Range(0, 500) >= 499)
                             {
                                 isCreatedPortal = true;
-                                Instantiate(portalInfo, blockPos, Quaternion.identity);
+                                portalPos = blockPos + Vector3.up;
                             }
                         }
                     }
