@@ -8,6 +8,8 @@ TagManager:
   - Melee
   - CinemachineTarget
   - RayPoint
+  - VirtualCameraThird
+  - VirtualCameraFirst
   layers:
   - Default
   - TransparentFX
