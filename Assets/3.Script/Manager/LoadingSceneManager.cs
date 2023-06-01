@@ -109,7 +109,7 @@ public class LoadingSceneManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        if(arg0.name.Equals("MapTest"))
+        if(arg0.name.Equals("In Game"))
         {
             StartCoroutine(nameof(MapLoading));
         }
