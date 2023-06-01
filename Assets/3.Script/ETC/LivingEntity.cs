@@ -7,6 +7,8 @@ public class LivingEntity : MonoBehaviour, IDamage
 {
     public UnityEvent onDeath;
     public float hp { get; protected set; }
+
+    public float currentHp;
     public float def { get; protected set; }
     public float atk { get; protected set; }
     public float attackTime { get; protected set; }
@@ -18,9 +20,11 @@ public class LivingEntity : MonoBehaviour, IDamage
     public CharacterController entityController;
 
     protected EntityState currentState;
+   
     protected virtual void Start()
     {
         // 초기 상태로 IdleState를 설정
+        currentHp = hp;
         currentState = new MonsterIdleState();
         ChangeState(new MonsterIdleState());
     }
