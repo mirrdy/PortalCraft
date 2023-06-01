@@ -12,7 +12,6 @@ public class MonsterSpawner : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log(spawnMonsterList.Length);
         spawnList = new GameObject[spawnMonsterList.Length];
         randomSpawnPosition = new Vector3[spawnMonsterList.Length];
         for (int i = 0; i < spawnMonsterList.Length; i++)
