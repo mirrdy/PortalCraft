@@ -12,15 +12,12 @@ public class BlockObject : MonoBehaviour, IDestroyable
     {
         currentHp = maxHp;
     }
-    private void Update()
-    {
-        TakeDamage(5);
-    }
     public void TakeDamage(int damage)
     {
         if (currentHp <= 0)
         {
             DropItem();
+            BlockMapGenerator.instance.CheckAroundDestroyedBlock(transform.position);
             Destroy(gameObject);
             return;
         }

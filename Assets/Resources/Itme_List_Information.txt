@@ -8,25 +8,23 @@
 8	Block	검은색 벽돌	검은색 벽돌 블록	1	99	140	TRUE	FALSE	
 9	Block	랜덤 블록	랜덤 블록	1	99	80	TRUE	FALSE	
 10	Block	나무 판자	나무 판자	1	99	50	TRUE	FALSE	
-11	Block	포탈 블록 T1	포탈 블록 T1	1	99	150	TRUE	FALSE	
-12	Block	포탈 블록 T2	포탈 블록 T2	1	99	151	TRUE	FALSE	
-101	Armor	궁수 옷 T1	궁수 옷 T1	1	1	10	10	FALSE	TRUE
-102	Armor	궁수 옷 T2	궁수 옷 T2	1	1	15	15	FALSE	TRUE
-103	Armor	전사 옷 T1	전사 옷 T1	1	1	10	10	FALSE	TRUE
-104	Armor	전사 옷 T2	전사 옷 T2	1	1	15	15	FALSE	TRUE
-105	Helmet	궁수 투구 T1	궁수 투구 T1	1	1	10	FALSE	TRUE	
-106	Helmet	궁수 투구 T2	궁수 투구 T2	1	1	15	FALSE	TRUE	
-107	Helmet	전사 투구 T1	전사 투구 T1	1	1	10	FALSE	TRUE	
-108	Helmet	전사 투구 T2	전사 투구 T2	1	1	15	FALSE	TRUE	
-201	Arms	곡갱이	곡갱이	1	1	10	10	FALSE	FALSE
-202	Arms	도끼	도끼	1	1	10	10	FALSE	FALSE
-203	Arms	기본 검	기본 검	1	1	10	10	FALSE	FALSE
-204	Arms	검 T1	검 T1	1	1	10	10	FALSE	FALSE
-205	Arms	검 T2	검 T2	1	1	10	10	FALSE	FALSE
-206	Arms	기본 활	기본 활	1	1	10	10	FALSE	FALSE
-207	Arms	활 T1	활 T1	1	1	10	10	FALSE	FALSE
-208	Arms	활 T2	활 T2	1	1	10	10	FALSE	FALSE
-209	Arms	횃불	횃불	1	99	10	10	FALSE	FALSE
+101	Armor	궁수 옷 T1	궁수 옷 T1	1	1	10	1	FALSE	TRUE
+102	Armor	궁수 옷 T2	궁수 옷 T2	1	1	15	2	FALSE	TRUE
+103	Armor	전사 옷 T1	전사 옷 T1	1	1	10	1	FALSE	TRUE
+104	Armor	전사 옷 T2	전사 옷 T2	1	1	15	2	FALSE	TRUE
+105	Helmet	궁수 투구 T1	궁수 투구 T1	1	1	50	FALSE	TRUE	
+106	Helmet	궁수 투구 T2	궁수 투구 T2	1	1	100	FALSE	TRUE	
+107	Helmet	전사 투구 T1	전사 투구 T1	1	1	50	FALSE	TRUE	
+108	Helmet	전사 투구 T2	전사 투구 T2	1	1	100	FALSE	TRUE	
+201	Arms	곡갱이	곡갱이	1	1	10	0.3	FALSE	FALSE
+202	Arms	도끼	도끼	1	1	10	0.6	FALSE	FALSE
+203	Arms	기본 검	기본 검	1	1	10	0.4	FALSE	FALSE
+204	Arms	검 T1	검 T1	1	1	15	0.4	FALSE	FALSE
+205	Arms	검 T2	검 T2	1	1	20	0.3	FALSE	FALSE
+206	Arms	기본 활	기본 활	1	1	10	0.4	FALSE	FALSE
+207	Arms	활 T1	활 T1	1	1	15	0.4	FALSE	FALSE
+208	Arms	활 T2	활 T2	1	1	20	0.3	FALSE	FALSE
+209	Arms	횃불	횃불	1	99	5	0.6	FALSE	FALSE
 301	Etc	포탈 조각 T1	포탈 조각 T1	1	99	FALSE	FALSE		
 302	Etc	포탈 조각 T2	포탈 조각 T2	1	99	FALSE	FALSE		
 303	Etc	거미 줄	박쥐 가죽	1	99	FALSE	FALSE		

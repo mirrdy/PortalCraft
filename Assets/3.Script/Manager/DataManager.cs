@@ -122,17 +122,19 @@ public class DataManager : MonoBehaviour
             playerData.body = 0;
 
             playerData.playerName = " ";
-            playerData.playerLevel = 0;
+            playerData.playerLevel = 1;
             playerData.playerExp = 0.0f;
 
             playerData.staters.maxHp = 100;
-            playerData.staters.maxMp = 50;
-            playerData.staters.attackSpeed = 5f;
-            playerData.staters.moveSpeed = 3f;
-            playerData.staters.skillPoint = 10;
-            playerData.staters.statersPoint = 3;
+            playerData.staters.currentHp = playerData.staters.maxHp;
+            playerData.staters.maxMp = 100;
+            playerData.staters.currentMp = playerData.staters.maxMp;
+            playerData.staters.attackSpeed = 1f;
+            playerData.staters.moveSpeed = 5f;
+            playerData.staters.skillPoint = 0;
+            playerData.staters.statersPoint = 5;
             playerData.staters.attack = 10;
-            playerData.staters.defens = 3;
+            playerData.staters.defens = 5;
 
             for (int j = 0; j < playerData.skill.Length; j++)
             {
@@ -146,7 +148,7 @@ public class DataManager : MonoBehaviour
             {
                 playerData.inventory[k] = new Inventory();
 
-                playerData.inventory[k].tag = k;
+                playerData.inventory[k].tag = 0;
                 playerData.inventory[k].quantity = 0;
                 playerData.inventory[k].hasItem = false;
             }

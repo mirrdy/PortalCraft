@@ -45,19 +45,33 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] GameObject[] itemCount;  // 아이템 수량 표시 창
     [SerializeField] Text[] itemQuantity;  // 아이템 수량 표시
     [SerializeField] Sprite[] frameColor;  // 아이템 종류에 따른 프레임 컬러 보관 스프라이트
+    [SerializeField] Sprite[] image_Item;  // 아이템 2D스프라이트
 
     [Header("Player Stateers")]
-    [SerializeField] Text playerStat;
-
-    PlayerController player;
+    [SerializeField] GameObject image_Staters;  // 스테이터스 창
+    [SerializeField] Text playerStat;  // 플레이어 스탯 표시
+    [SerializeField] Text curruntStat;  // 플레이어 스탯 올리고 내리는 텍스트
+    [SerializeField] Button[] statUp;  // 스탯 업 버튼
+    [SerializeField] Button[] statDown;  // 스탯 다운 버튼
+    [SerializeField] Image[] skillImage;  // 직업에 맞는 스킬 표시
+    [SerializeField] Text[] skillLevel;  // 현재 스킬 레벨 표시
+    [SerializeField] Text[] skillTooltip; // 현재 스킬 정보 표시
+    [SerializeField] Button[] skillUp;  // 스킬 레벨 올리는 버튼
+    [SerializeField] Button[] skillDown;  // 스킬 레벨 내리는 버튼
+    [SerializeField] Text skillPoint; // 현재 스킬 포인트 표시
 
     private bool isResolution = false;
+
+    private ItemManager itemInfo;
+    private SkillManager skillInfo;
 
     private void Start()
     {
         slider_Bgm.value = DataManager.instance.LoadSound()[0];
         slider_Sfx.value = DataManager.instance.LoadSound()[1];
         resolution.value = DataManager.instance.LoadResolution();
+        itemInfo = FindObjectOfType<ItemManager>();
+        skillInfo = FindObjectOfType<SkillManager>();
     }
 
     private void OnEnable()
@@ -65,7 +79,15 @@ public class InGameUIManager : MonoBehaviour
         menuImage.SetActive(false);
         settingMenu.SetActive(false);
         resolutionWindow.SetActive(false);
+        image_Staters.SetActive(false);
         inventory.SetActive(false);
+    }
+
+    private void Update()
+    {
+        MenuOnOff();
+        StatersOnOff();
+        InventoryOnOff();
     }
 
     public void BGM_VolumeSetting()  // 배경음 소리 설정
@@ -118,9 +140,21 @@ public class InGameUIManager : MonoBehaviour
         AudioManager.instance.PlaySFX("SoundCheck");
     }
 
-    public void OnMenu()
+    public void MenuOnOff()
     {
-        menuImage.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!menuImage.activeSelf)
+            {
+                menuImage.SetActive(true);
+                image_Staters.SetActive(false);
+                inventory.SetActive(false);
+            }
+            else
+            {
+                menuImage.SetActive(false);
+            }
+        }
     }
 
     public void ContinuGameBtn()
@@ -130,7 +164,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void SaveBtn()
     {
-        DataManager.instance.SaveData(player.playerData, DataManager.instance.saveNumber);
+        DataManager.instance.SaveData(PlayerControl.instance.playerData, DataManager.instance.saveNumber);
     }
 
     public void SettingWindow()  // 옵션 창 호출 버튼 메소드
@@ -206,5 +240,237 @@ public class InGameUIManager : MonoBehaviour
     public void BackTitleSceneBtn()
     {
         LoadingSceneManager.Instance.LoadScene("Title");
+    }
+
+    public void StatersOnOff()
+    {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            if(!image_Staters.activeSelf)
+            {
+                OnSkillStatersCall();
+                image_Staters.SetActive(true);
+                inventory.SetActive(false);
+                menuImage.SetActive(false);
+            }
+            else
+            {
+                image_Staters.SetActive(false);
+            }
+        }
+    }
+
+    public void OnSkillStatersCall()
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+        
+        if(playerData.job.Equals("전사"))
+        {
+            skillImage[0].sprite = sprite_Skill[0];
+            skillImage[1].sprite = sprite_Skill[1];
+            playerData.skill[0].skillNum = 3;
+            playerData.skill[1].skillNum = 4;
+        }
+        else
+        {
+            skillImage[0].sprite = sprite_Skill[2];
+            skillImage[1].sprite = sprite_Skill[3];
+            playerData.skill[0].skillNum = 1;
+            playerData.skill[1].skillNum = 2;
+        }
+
+        SkillCheck();
+
+        StatersCheck();
+    }
+
+    private void SkillCheck()
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        skillPoint.text = "스킬 포인트 : " + playerData.staters.skillPoint;
+
+        int skillNum = 0;
+
+        for (int i = 0; i < skillLevel.Length; i++)
+        {
+            skillLevel[i].text = "레벨 : " + playerData.skill[0].skillLevel;
+
+            if (playerData.skill[i].skillLevel > 0)
+            {
+                for (int k = 0; k < skillInfo.list_Skill.Count; k++)
+                {
+                    if (skillInfo.list_Skill[k].level == playerData.skill[i].skillLevel && skillInfo.list_Skill[i].tag == playerData.skill[i].skillNum)
+                    {
+                        skillNum = k;
+                    }
+                }
+                skillTooltip[i].text = "데미지 : " + skillInfo.list_Skill[skillNum].damage + "\n" +
+                                        "쿨타임 : " + skillInfo.list_Skill[skillNum].coolTime + " (S)\n" +
+                                        "설명 : \n" + skillInfo.list_Skill[skillNum].tooltip;
+                skillDown[i].interactable = true;
+            }
+            else
+            {
+                skillTooltip[i].text = "데미지 : " + " " + "\n" +
+                                        "쿨타임 : " + " " + "\n" +
+                                        "설명 : \n" + " ";
+
+                skillDown[i].interactable = false;
+            }
+
+            if (playerData.staters.skillPoint >= skillInfo.list_Skill[skillNum + 1].skillUpPoint && playerData.playerLevel >= skillInfo.list_Skill[skillNum].levelLimit && playerData.skill[i].skillLevel < 3)
+            {
+                skillUp[i].interactable = true;
+            }
+            else
+            {
+                skillUp[i].interactable = false;
+            }
+        }
+    }
+
+    private void StatersCheck()
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        int count = playerData.playerLevel * 5 - playerData.staters.statersPoint;
+
+        if(count > 0)
+        {
+            for(int i = 0; i < statDown.Length; i++)
+            {
+                statDown[i].interactable = true;
+            }
+
+            if(playerData.staters.maxHp <= 100)
+            {
+                statDown[0].interactable = false;
+            }
+            if (playerData.staters.maxMp <= 100)
+            {
+                statDown[1].interactable = false;
+            }
+            if (playerData.staters.attack <= 10)
+            {
+                statDown[2].interactable = false;
+            }
+            if (playerData.staters.defens <= 5)
+            {
+                statDown[3].interactable = false;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < statDown.Length; i++)
+            {
+                statDown[i].interactable = false;
+            }
+        }
+
+        playerStat.text = "Player Staters\n\n" +
+                            "이름 : " + playerData.playerName + "\n" +
+                            "레벨 : " + playerData.playerLevel + "\n" +
+                            "체력 : " + playerData.playerLevel + "\n" +
+                            "마나 : " + playerData.playerLevel + "\n" +
+                            "공격력 : " + playerData.playerLevel + "\n" +
+                            "방어력 : " + playerData.playerLevel + "\n" +
+                            "공격 속도 : " + playerData.playerLevel + "\n" +
+                            "이동 속도 : " + playerData.playerLevel;
+
+        curruntStat.text = " " + playerData.playerLevel + "\n" +
+                            " " + playerData.playerLevel + "\n" +
+                            " " + playerData.playerLevel + "\n" +
+                            " " + playerData.playerLevel + "\n" +
+                            " " + playerData.staters.statersPoint;
+    }
+
+    public void OneSkillUpDown(int value)
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        playerData.skill[0].skillLevel += value;
+
+        if(playerData.skill[0].skillLevel > 0)
+        {
+            playerData.skill[0].hasSkill = true;
+        }
+        else
+        {
+            playerData.skill[0].hasSkill = false;
+        }
+
+        SkillCheck();
+    }
+
+    public void TwoSkillUpDown(int value)
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        playerData.skill[1].skillLevel += value;
+
+        if (playerData.skill[1].skillLevel > 0)
+        {
+            playerData.skill[1].hasSkill = true;
+        }
+        else
+        {
+            playerData.skill[1].hasSkill = false;
+        }
+
+        SkillCheck();
+    }
+
+    public void HpUpDown(int value)
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        playerData.staters.maxHp += value;
+
+        StatersCheck();
+    }
+
+    public void MpUpDown(int value)
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        playerData.staters.maxMp += value;
+
+        StatersCheck();
+    }
+
+    public void AttackUpDown(int value)
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        playerData.staters.maxMp += value;
+
+        StatersCheck();
+    }
+
+    public void DeffenskUpDown(int value)
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        playerData.staters.maxMp += value;
+
+        StatersCheck();
+    }
+
+    private void InventoryOnOff()
+    {
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            if(!inventory.activeSelf)
+            {
+                inventory.SetActive(true);
+                image_Staters.SetActive(false);
+                menuImage.SetActive(false);
+            }
+            else
+            {
+                inventory.SetActive(false);
+            }
+        }
     }
 }

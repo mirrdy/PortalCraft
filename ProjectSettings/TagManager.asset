@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Portal
   - Melee
+  - CinemachineTarget
+  - RayPoint
   layers:
   - Default
   - TransparentFX
@@ -15,7 +17,7 @@ TagManager:
   - UI
   - UI_Camera
   - Monster
-  - Ground
+  - Block
   - 
   - 
   - 
