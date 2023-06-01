@@ -9,7 +9,7 @@ public class MonsterAttack : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            damage = GetComponent<BossControl>().atk;
+            damage = Mathf.RoundToInt(GetComponent<BossControl>().atk);
             Vector3 hitPoint = other.ClosestPoint(transform.position);
             Vector3 hitNormal = transform.position - other.transform.position;
         }

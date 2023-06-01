@@ -35,7 +35,7 @@ public class MonsterControl : LivingEntity
         }
     }
 
-    public override void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
+    public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
     {
         base.OnDamage(damage, on, hitNomal);
         ChangeState(new MonsterHitState());
