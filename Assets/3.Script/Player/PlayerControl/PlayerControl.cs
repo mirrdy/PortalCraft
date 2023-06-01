@@ -90,6 +90,9 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private Staters staters;
 
+    public delegate void WhenPlayerDie();
+    public event WhenPlayerDie whenPlayerDie;
+
     private void Awake()
     {
         #region ΩÃ±€≈Ê
@@ -114,7 +117,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         staters = new Staters();
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
-        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
+        //playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
 
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
@@ -450,6 +453,10 @@ public class PlayerControl : MonoBehaviour, IDamage
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
     {
         staters.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * staters.defens / (staters.defens + 50)) * 0.01f);
+        if(staters.currentHp <= 0)
+        {
+            whenPlayerDie.Invoke();
+        }
     }
 
 
