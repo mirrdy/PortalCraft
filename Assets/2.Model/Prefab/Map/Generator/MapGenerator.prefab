@@ -93,16 +93,13 @@ MonoBehaviour:
   - region: 2
     mapObject: {fileID: 3801620228127628461, guid: 816e294422ec8264f93385c957f186e0, type: 3}
   prob_NonObject: 99
-  maps:
-  - {fileID: 3310538545261093053, guid: 8a72ad4fb657fe04c9729dacf050a877, type: 3}
-  - {fileID: 7362577846431514578, guid: f4e1e58ff2c69294985787d040385f2f, type: 3}
-  - {fileID: 7928230092247990305, guid: 1bb8e2c6c0fadbe4a8f16312c6624d8d, type: 3}
+  monsterSpawnerInfo: {fileID: 1466419724128333080, guid: 3fc726b3b8ba2a943ae93a1e47d4fbed, type: 3}
   waveLength: 50
   amplitude: 20
   groundHeightOffset: 20
   isFinishGeneration: 0
   progress: 0
-  portal: {fileID: 0}
+  portalInfo: {fileID: 8944633514463417326, guid: 1664a6a08b7d2224d9b9ded75afe6b47, type: 3}
 --- !u!65 &2239545170735302342
 BoxCollider:
   m_ObjectHideFlags: 0

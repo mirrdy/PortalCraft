@@ -82,11 +82,15 @@ public class BlockMapGenerator : MonoBehaviour
     [Header("환경 오브젝트")]
     public MapObjectPrefabInfo[] envirionmentsInfos;
     public int prob_NonObject; // 오브젝트가 생기지 않을 확률 (0~100)
+    public GameObject monsterSpawnerInfo;
+    private Vector3 monsterSpawnerPos;
+    private bool isCreatedSpawner;
+    private bool isCreatedPortal;
 
     [Header("맵정보")]
     public float waveLength = 0;
     public float amplitude = 0;
-    
+
     private int seed;
 
     public BlockInfo[,,] worldBlocks = new BlockInfo[widthX, height, widthZ];
@@ -96,20 +100,13 @@ public class BlockMapGenerator : MonoBehaviour
     public float progress = 0;
 
     [Header("포탈")]
-    public GameObject portal;
-
+    public GameObject portalInfo;
 
 
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(InitGame());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     IEnumerator InitGame()
@@ -121,21 +118,19 @@ public class BlockMapGenerator : MonoBehaviour
         // 포탈 생성
         while (true)
         {
-            if(isFinishGeneration)
+            if (isFinishGeneration)
             {
                 break;
             }
             yield return null;
         }
-        CreatePortal();
+
+        Instantiate(monsterSpawnerInfo, monsterSpawnerPos, Quaternion.identity);
         PlayerControl.instance.enabled = true;
 
         // 생성2
     }
-    private void CreatePortal()
-    {
 
-    }
     IEnumerator MapInit()
     {
         float randomOffsetX = Random.Range(0, 100);
@@ -158,24 +153,24 @@ public class BlockMapGenerator : MonoBehaviour
                 {
                     pos = new Vector3(x, y, z);
                     StartCoroutine(CreateBlock(y, pos, false));
-                }   
+                }
             }
             yield return null;
         }
         Debug.Log("생성끝");
         progress = 100;
         isFinishGeneration = true;
-        
+
     }
 
     IEnumerator CreateBlock(int y, Vector3 blockPos, bool visible)
     {
-        for(int i = 0; i<blockPrefabInfos.Length; i++)
+        for (int i = 0; i < blockPrefabInfos.Length; i++)
         {
             int blockHeight = blockPrefabInfos[i].height;
             //blockPos.y = 0;
-            
-            if(blockHeight < y)
+
+            if (blockHeight < y)
             {
                 if (visible)
                 {
@@ -185,6 +180,30 @@ public class BlockMapGenerator : MonoBehaviour
 
                     // 생성한 블록 위에 오브젝트 설치
                     StartCoroutine(CreateObject(blockPos + new Vector3(0, 0.5f, 0), blockPrefabInfos[i].region));
+
+                    // 몬스터 스포너 생성할 위치 저장 (1개)
+                    if(blockPrefabInfos[i].region == Region.Sand && !isCreatedSpawner)
+                    {
+                        if (blockPos.x > widthX * 0.3 && blockPos.z > widthZ * 0.3)
+                        {
+                            if (Random.Range(0, 1000) >= 999)
+                            {
+                                isCreatedSpawner = true;
+                                monsterSpawnerPos = blockPos + Vector3.up;
+                            }
+                        }
+                    }
+                    if(!isCreatedPortal)
+                    {
+                        if (blockPos.x > widthX * 0.3 && blockPos.z > widthZ * 0.3)
+                        {
+                            if (Random.Range(0, 500) >= 499)
+                            {
+                                isCreatedPortal = true;
+                                Instantiate(portalInfo, blockPos, Quaternion.identity);
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -241,7 +260,7 @@ public class BlockMapGenerator : MonoBehaviour
     {
         BlockInfo worldBlock = worldBlocks[(int)blockPos.x, (int)blockPos.y, (int)blockPos.z];
 
-        if(!worldBlock.isExist)
+        if (!worldBlock.isExist)
         {
             return;
         }
@@ -249,7 +268,7 @@ public class BlockMapGenerator : MonoBehaviour
         if (!worldBlock.isVisible)
         {
             GameObject newBlock = null;
-            
+
             for (int i = 0; i < blockPrefabInfos.Length; i++)
             {
                 int blockHeight = blockPrefabInfos[i].height;
@@ -273,7 +292,7 @@ public class BlockMapGenerator : MonoBehaviour
         if (Random.Range(0, 100) >= prob_NonObject)
         {
             // 맵 영역에 맞는 오브젝트 리스트를 갖고있지 않으면 오브젝트 생성 코루틴 종료
-            if(System.Array.FindIndex(envirionmentsInfos, info => info.region == region) < 0)
+            if (System.Array.FindIndex(envirionmentsInfos, info => info.region == region) < 0)
             {
                 yield break;
             }
@@ -289,9 +308,17 @@ public class BlockMapGenerator : MonoBehaviour
                     break;
                 }
             }
-            
+
             GameObject environment = Instantiate(envirionmentsInfos[objectIndex].mapObject, objectPos, Quaternion.identity);
         }
         yield return null;
     }
+    IEnumerator CreateSpawner(Vector3 objectPos)
+    {
+        Instantiate(monsterSpawnerInfo, objectPos, Quaternion.identity);
+
+        yield break;
+    }
+
 }
+
