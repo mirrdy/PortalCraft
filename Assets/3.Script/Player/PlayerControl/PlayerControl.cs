@@ -7,9 +7,40 @@ using System.Xml.Serialization;
 
 public class PlayerControl : MonoBehaviour, IDamage
 {
+    //카메라 시점 열거형
     public enum cameraView { ThirdPerson = 0, FirstPerson = 1 };
-    public cameraView currentView = cameraView.ThirdPerson;
+    private cameraView currentView = cameraView.ThirdPerson;
 
+    //장착아이템 열거형
+    public enum ItemType { Empty = 0, Sword, Bow, Potion, Block }
+    [SerializeField] private ItemType currentItem = ItemType.Empty;
+
+    // --------------- 컴포넌트들 ----------------
+    private Animator animator;
+    private CharacterController charController;
+    private Input_Info input;
+    // ------------------------------------------
+
+    // ---------------------------- 카메라 ------------------------------- 
+    [SerializeField] private GameObject mainCamera;
+    [SerializeField] private GameObject[] virtualCamera = new GameObject[2];
+
+    public GameObject cinemachineCameraTarget_Third; //3인칭타겟
+    public GameObject cinemachineCameraTarget_First; //1인칭타겟
+
+    private float topClamp_Third = 70.0f;
+    private float bottomClamp_Third = -30.0f;
+    private float topClamp_First = 80.0f;
+    private float bottomClamp_First = -80.0f;
+
+    private float cinemachineTargetYaw_Third;
+    private float cinemachineTargetPitch_Third;
+    private float cinemachineTargetPitch_First;
+
+    public float cameraAngleOverride = 0.0f;
+    // -------------------------------------------------------------------
+
+    // 플레이어
     public float moveSpeed = 4.0f;
     public float sprintSpeed = 7.3f;
     public float jumpHeight = 2.3f;
@@ -25,14 +56,6 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     public LayerMask LayerMask_Ground;
 
-    //카메라 관련 
-    public GameObject cinemachineCameraTarget_Third;
-    public GameObject cinemachineCameraTarget_First;
-    public float topClamp = 70.0f;
-    public float bottomClamp = -30.0f;
-    public float cameraAngleOverride = 0.0f;
-
-    //Player
     private float speed;
     private float blend_MoveSpeed;
     private float targetRotation = 0.0f;
@@ -42,25 +65,16 @@ public class PlayerControl : MonoBehaviour, IDamage
     private float terminalVelocity = 53.0f;
     private float jumpCoolDelta;
     private float fallTimeDelta;
-
-    // cinemachine 
-    private float cinemachineTargetYaw_Third;
-    private float cinemachineTargetPitch_Third;
-    private float cinemachineTargetPitch_First;
-    private float topClamp_First = 80.0f;
-    private float bottomClamp_First = -80.0f;
+   
     private float rotationSpeed = 1.0f;
     private const float threshold = 0.01f;
 
-    private Animator animator;
-    private CharacterController charController;
-    private Input_Info input;
-    [SerializeField] private GameObject mainCamera;
-    public GameObject[] virtualCamera = new GameObject[2];
+    private bool canAttack;
+    private float attackCool = 0;
 
     private bool hasAnimator;
 
-    //애니메이션 파라미터 ID
+    #region 애니메이션 파라미터ID
     private int animID_Speed;
     private int animID_Ground;
     private int animID_Jump;
@@ -68,27 +82,22 @@ public class PlayerControl : MonoBehaviour, IDamage
     private int animID_Attack;
     private int animID_Swing;
     private int animID_Shot;
+    #endregion
 
-    private bool can_NormalAttack;
-    private bool can_WeaponAttack;
-    public float normal_AttackCool;
-    public float weapon_AttackCool;  
-    public Weapon equipWeapon;
+   
 
-    public GameObject[] QuickSlotItem;
+    //public GameObject[] QuickSlotItem;
+    [Header("현재 장착중인 아이템")]
     public GameObject equipItem;
 
     private Transform rayPoint;
     public LayerMask LayerMask_Destroyable;
-    private int normalDamage = 21;
 
     public PlayerData playerData;
     public ItemManager itemInfo;
     public SkillManager skillInfo;
 
     public static PlayerControl instance = null;
-
-    public Staters staters;
 
     public delegate void WhenPlayerDie();
     public event WhenPlayerDie whenPlayerDie;
@@ -113,14 +122,14 @@ public class PlayerControl : MonoBehaviour, IDamage
         virtualCamera[0] = GameObject.FindGameObjectWithTag("ThirdPersonCamera");
         virtualCamera[1] = GameObject.FindGameObjectWithTag("FirstPersonCamera");
         virtualCamera[1].SetActive(false);
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
 
-        staters = new Staters();
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
         playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
 
-        mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
+        
     }
     private void Start()
     {      
@@ -198,7 +207,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     }
 
                     cinemachineTargetYaw_Third = ClampAngle(cinemachineTargetYaw_Third, float.MinValue, float.MaxValue);
-                    cinemachineTargetPitch_Third = ClampAngle(cinemachineTargetPitch_Third, bottomClamp, topClamp);
+                    cinemachineTargetPitch_Third = ClampAngle(cinemachineTargetPitch_Third, bottomClamp_Third, topClamp_Third);
 
                     cinemachineCameraTarget_Third.transform.rotation = Quaternion.Euler(cinemachineTargetPitch_Third, cinemachineTargetYaw_Third, 0.0f);
                     break;
@@ -356,71 +365,79 @@ public class PlayerControl : MonoBehaviour, IDamage
             verticalVelocity += gravity * Time.deltaTime;
         }
     }
-
     private void Attack() //마우스좌클릭 
     {            
-        //무기 O
-        if (equipWeapon != null)
+        switch (currentItem)
         {
-            weapon_AttackCool += Time.deltaTime;
-            can_WeaponAttack = weapon_AttackCool > equipWeapon.rate;
-
-            if (equipWeapon.type == Weapon.Type.Melee && input.attack && can_WeaponAttack) //검
-            {               
-                transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);               
-                animator.SetTrigger(animID_Swing);
-                equipWeapon.Use();
-                weapon_AttackCool = 0;
-            }
-            else if (equipWeapon.type == Weapon.Type.Range && input.attack && can_WeaponAttack) //활
-            {
-                Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-
-                transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);               
-                animator.SetTrigger(animID_Shot);
-                equipWeapon.Use();
-                weapon_AttackCool = 0;
-            }
-        }
-     
-        //무기 X -> 파괴가능한 오브젝트의 HP에 데미지
-        else if (equipWeapon == null)
-        {
-            normal_AttackCool += Time.deltaTime;
-            can_NormalAttack = normal_AttackCool > 0.6f;
-
-            if (equipWeapon == null && input.attack && can_NormalAttack)
-            {
-                Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-                Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-
-                if (Physics.Raycast(ray, out RaycastHit hitInfo, 13f, LayerMask_Destroyable)) //설정한 레이어마스크
+            case ItemType.Empty:
                 {
-                    Debug.Log(hitInfo.transform.name);
+                    attackCool += Time.deltaTime;
+                    canAttack = attackCool > 1f * 0.5f; //->1f를 staters.attackSpeed 로 바꿔야함
 
-                    if (Vector3.Distance(mainCamera.transform.position, rayPoint.position) <
-                        Vector3.Distance(mainCamera.transform.position, hitInfo.transform.position))
+                    if (input.attack && canAttack)
                     {
-                        if(hitInfo.transform.TryGetComponent(out BlockObject block))
+                        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+                        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+                        if (Physics.Raycast(ray, out RaycastHit hitInfo, 13f, LayerMask_Destroyable)) //설정한 레이어마스크
                         {
-                            block.TakeDamage(normalDamage);
-                        }
-                    }
-                    else //플레이어가 오브젝트에 의해 가려져서 안보이는 경우
-                    {
-                        Debug.Log("못캐요");
-                    }
-                }
-                else
-                {
-                    Debug.Log("헛손질");
-                }
+                            Debug.Log(hitInfo.transform.name);
 
-                transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
-                animator.SetTrigger(animID_Attack);
-                normal_AttackCool = 0;
-            }
-        }                      
+                            if (Vector3.Distance(mainCamera.transform.position, rayPoint.position) <
+                                Vector3.Distance(mainCamera.transform.position, hitInfo.transform.position))
+                            {
+                                if (hitInfo.transform.TryGetComponent(out BlockObject block))
+                                {
+                                    block.TakeDamage(30); //30을 staters.attack 으로 바꿔야함
+                                }
+                            }
+                            else //플레이어가 오브젝트에 의해 가려져서 안보이는 경우
+                            {
+                                Debug.Log("못캐요");
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("헛손질");
+                        }
+
+                        transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+                        animator.SetTrigger(animID_Attack);
+                        attackCool = 0;
+                    }
+                    break;
+                }
+            case ItemType.Sword:
+                {
+                    attackCool += Time.deltaTime;
+                    canAttack = attackCool > 1f * equipItem.GetComponent<Sword>().attackRate; //->1f를 staters.attackSpeed 로 바꿔야함
+
+                    if (input.attack && canAttack)
+                    {
+                        transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+                        animator.SetTrigger(animID_Swing);
+                        equipItem.GetComponent<Sword>().Use();
+                        attackCool = 0;
+                    }
+                    break;
+                }
+            case ItemType.Bow:
+                {
+                    break;
+                }
+            case ItemType.Potion:
+                {
+                    break;
+                }
+            case ItemType.Block:
+                {
+                    break;
+                }
+        }
+    }
+    private void ItemSelect()
+    {
+
     }
     private void Skill_1() //Q 
     {
@@ -430,18 +447,12 @@ public class PlayerControl : MonoBehaviour, IDamage
     {
 
     }
+    
 
-
-
-
-    private void ItemSelect()
-    {
-        
-    }
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
     {
-        staters.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * staters.defens / (staters.defens + 50)) * 0.01f);
-        if(staters.currentHp <= 0)
+        playerData.staters.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * playerData.staters.defens / (playerData.staters.defens + 50)) * 0.01f);
+        if(playerData.staters.currentHp <= 0)
         {
             whenPlayerDie.Invoke();
         }
@@ -528,7 +539,7 @@ public class Staters  // 플레이어 스텟 관리 클래스
     [XmlElement]
     public int maxMp;
     [XmlElement]
-    public int currentHp = 100;
+    public int currentHp;
     [XmlElement]
     public int currentMp;
     [XmlElement]
@@ -536,9 +547,9 @@ public class Staters  // 플레이어 스텟 관리 클래스
     [XmlElement]
     public float attackSpeed;
     [XmlElement]
-    public int attack = 10;
+    public int attack;
     [XmlElement]
-    public int defens = 5;
+    public int defens;
     [XmlElement]
     public int statersPoint;
     [XmlElement]
