@@ -43,8 +43,13 @@ public class MonsterControl : LivingEntity
     public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
     {
         base.OnDamage(damage, on, hitNomal);
+        if (currentHp <= 0)
+        {
+            Die();
+        }
         ChangeState(new MonsterHitState());
         target = gameObject.transform;
+
     }
     private void ItemDrop()
     {
@@ -65,5 +70,13 @@ public class MonsterControl : LivingEntity
     public void EndAttack()
     {
         ChangeState(new MonsterChaseState());
+    }
+    private void Die()
+    {
+        if (onDeath != null)
+        {
+            onDeath.Invoke();
+        }
+        animator.SetBool("isDead", true);
     }
 }
