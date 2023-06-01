@@ -10,6 +10,7 @@ TagManager:
   - RayPoint
   - ThirdPersonCamera
   - FirstPersonCamera
+  - Monster
   layers:
   - Default
   - TransparentFX
