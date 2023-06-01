@@ -125,21 +125,16 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     private void Update()
     {
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-
-        //Debug.DrawRay()
-      
         hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
 
         JumpAndGravity();
         GroundCheck();
         Move();
         Attack();
+        VeiwChange();
     }
     private void LateUpdate()
     {
-        //if(virtualCamera_Third.SetActive)
         CameraRotation_ThirdPerson();
     }
 
@@ -147,7 +142,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     {
         if (input.viewChange)
         {
-
+            Debug.Log("뷰 전환");
+            input.viewChange = false;
         }
     }
     private void GroundCheck()
@@ -453,7 +449,7 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
     [XmlElement]
     public Skill[] skill = new Skill[2];
     [XmlElement]
-    public Inventory[] inventory = new Inventory[40];
+    public Inventory[] inventory = new Inventory[41];
 }
 
 [Serializable]
