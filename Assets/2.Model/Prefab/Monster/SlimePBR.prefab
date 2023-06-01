@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 866425983523307998}
   m_Layer: 0
   m_Name: SlimePBR
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -458,6 +458,7 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  currentHp: 0
   animator: {fileID: 0}
   entityController: {fileID: 0}
   target: {fileID: 0}

@@ -9,7 +9,8 @@ public class MonsterControl : LivingEntity
     public float patrolRange;
     [SerializeField] private MonsterData monsterdata;
     public bool canAttack;
-
+    [SerializeField] public float timebetAttack = 0.5f;
+    public float lastAttackTimebet;
 
     private void OnEnable()
     {
@@ -29,6 +30,7 @@ public class MonsterControl : LivingEntity
         entityController = GetComponent<CharacterController>();
         target = null;
         DataSetting(monsterdata);//나중에지워야함 필요없음
+        isDead = false;
 
     }
     protected override void Update()
@@ -43,12 +45,15 @@ public class MonsterControl : LivingEntity
     public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
     {
         base.OnDamage(damage, on, hitNomal);
-        if (currentHp <= 0)
+        if (currentHp <= 0&&!isDead)
         {
-            Die();
+            ChangeState(new MonsterDieState());
         }
-        ChangeState(new MonsterHitState());
-        target = gameObject.transform;
+        else
+        {
+            ChangeState(new MonsterHitState());
+            target = gameObject.transform;
+        }
 
     }
     private void ItemDrop()

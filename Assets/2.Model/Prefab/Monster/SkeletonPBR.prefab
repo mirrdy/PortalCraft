@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 2236265439879134701}
   m_Layer: 0
   m_Name: SkeletonPBR
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
