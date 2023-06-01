@@ -22608,7 +22608,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: 
+    path: Attack
     classID: 136
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -22655,7 +22655,7 @@ AnimationClip:
       customType: 8
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 0
+      path: 1080829965
       attribute: 3305885265
       script: {fileID: 0}
       typeID: 136
@@ -52306,7 +52306,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: 
+    path: Attack
     classID: 136
     script: {fileID: 0}
   m_EulerEditorCurves:
@@ -55729,4 +55729,11 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 2
+    functionName: EndAttack
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

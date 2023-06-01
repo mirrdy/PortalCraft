@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class LivingEntity : MonoBehaviour
+public class LivingEntity : MonoBehaviour, IDamage
 {
     public UnityEvent onDeath;
     public float hp { get; protected set; }
