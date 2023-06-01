@@ -243,6 +243,7 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  currentHp: 0
   animator: {fileID: 0}
   entityController: {fileID: 0}
   target: {fileID: 0}
@@ -2219,6 +2220,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8513102458835197426}
   - component: {fileID: 8513102458835197427}
+  - component: {fileID: 2995177944826263363}
   m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
@@ -2253,3 +2255,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1.5}
   m_Center: {x: 0, y: 1, z: 1.5}
+--- !u!114 &2995177944826263363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8513102458835197425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b703db17af13545990ff1d11789a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
