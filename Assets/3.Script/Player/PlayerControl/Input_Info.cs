@@ -13,6 +13,7 @@ public class Input_Info : MonoBehaviour
     public bool attack;
     public bool skill_1;
     public bool skill_2;
+    public bool viewChange;
 
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
@@ -52,6 +53,11 @@ public class Input_Info : MonoBehaviour
     public void OnSkill_2(InputValue value)
     {
         skill_2 = value.isPressed;
+    }
+
+    public void OnViewChange(InputValue value)
+    {
+        viewChange = value.isPressed;
     }
 
 

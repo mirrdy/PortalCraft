@@ -5,7 +5,7 @@ using System;
 using UnityEngine.InputSystem;
 using System.Xml.Serialization;
 
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : MonoBehaviour, IDamage
 {
     public float moveSpeed = 4.0f;
     public float sprintSpeed = 7.3f;
@@ -48,6 +48,8 @@ public class PlayerControl : MonoBehaviour
     private CharacterController charController;
     private Input_Info input;
     [SerializeField] private GameObject mainCamera;
+    public GameObject virtualCamera_Third;
+    public GameObject virtualCamera_First;
 
     private bool hasAnimator;
 
@@ -79,8 +81,11 @@ public class PlayerControl : MonoBehaviour
 
     public static PlayerControl instance = null;
 
+    private Staters staters;
+
     private void Awake()
     {
+        #region 싱글톤
         if (instance == null) 
         {
             instance = this; 
@@ -88,12 +93,14 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
-            if (instance != this)
             {
+            if (instance != this)
                 Destroy(this.gameObject);
             }             
         }
+        #endregion
 
+        staters = new Staters();
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
         playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
@@ -102,7 +109,7 @@ public class PlayerControl : MonoBehaviour
         rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
     }
     private void Start()
-    {
+    {      
         AssignAnimationID();
 
         cinemachineTargetYaw = cinemachineCameraTarget.transform.rotation.eulerAngles.y;
@@ -118,23 +125,27 @@ public class PlayerControl : MonoBehaviour
     }
     private void Update()
     {
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-
-        //Debug.DrawRay()
-
         hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
 
         JumpAndGravity();
         GroundCheck();
         Move();
         Attack();
+        VeiwChange();
     }
     private void LateUpdate()
     {
-        CameraRotation();
+        CameraRotation_ThirdPerson();
     }
 
+    private void VeiwChange()
+    {
+        if (input.viewChange)
+        {
+            Debug.Log("뷰 전환");
+            input.viewChange = false;
+        }
+    }
     private void GroundCheck()
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
@@ -146,7 +157,7 @@ public class PlayerControl : MonoBehaviour
             animator.SetBool(animID_Ground, grounded);
         }
     }
-    private void CameraRotation()
+    private void CameraRotation_ThirdPerson()
     {
         if (input.look.sqrMagnitude > threshold)
         {
@@ -158,6 +169,10 @@ public class PlayerControl : MonoBehaviour
         cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
 
         cinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch, cinemachineTargetYaw, 0.0f);
+    }
+    private void CameraRotation_FirstPerson()
+    {
+
     }
     private void Move()
     {
@@ -278,9 +293,6 @@ public class PlayerControl : MonoBehaviour
             verticalVelocity += gravity * Time.deltaTime;
         }
     }
-
-    
-
     private void Attack() //마우스좌클릭 
     {            
         //무기 O
@@ -325,8 +337,6 @@ public class PlayerControl : MonoBehaviour
                     if (Vector3.Distance(mainCamera.transform.position, rayPoint.position) <
                         Vector3.Distance(mainCamera.transform.position, hitInfo.transform.position))
                     {
-                        //Debug.DrawRay(rayPoint.position, (hitInfo.transform.position - rayPoint.position), Color.blue);
-                        //Debug.Log("{0} 에게 {1} 의 데미지", hitInfo.transform.name, normalDamage);
                         if(hitInfo.transform.TryGetComponent(out BlockObject block))
                         {
                             block.TakeDamage(normalDamage);
@@ -364,6 +374,11 @@ public class PlayerControl : MonoBehaviour
     {
         
     }
+    public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
+    {
+        staters.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * staters.defens / (staters.defens + 50)) * 0.01f);
+    }
+
 
 
 
@@ -382,7 +397,6 @@ public class PlayerControl : MonoBehaviour
         
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
-
     private void OnDrawGizmosSelected()
     {
         Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
@@ -395,7 +409,6 @@ public class PlayerControl : MonoBehaviour
             new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z),
             groundedRadius);
     }
-
     private void AssignAnimationID()
     {
         animID_Speed = Animator.StringToHash("Speed");
@@ -434,9 +447,9 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
     [XmlElement]
     public Staters staters;
     [XmlElement]
-    public Skill[] skill = new Skill[3];
+    public Skill[] skill = new Skill[2];
     [XmlElement]
-    public Inventory[] inventory = new Inventory[40];
+    public Inventory[] inventory = new Inventory[41];
 }
 
 [Serializable]
@@ -447,13 +460,17 @@ public class Staters  // 플레이어 스텟 관리 클래스
     [XmlElement]
     public int maxMp;
     [XmlElement]
+    public int currentHp = 100;
+    [XmlElement]
+    public int currentMp;
+    [XmlElement]
     public float moveSpeed;
     [XmlElement]
     public float attackSpeed;
     [XmlElement]
     public int attack;
     [XmlElement]
-    public int defens;
+    public int defens = 5;
     [XmlElement]
     public int statersPoint;
     [XmlElement]

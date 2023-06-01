@@ -8,9 +8,19 @@ public class MonsterControl : LivingEntity
     public Vector3 spawnPoint;
     public float patrolRange;
     [SerializeField] private MonsterData monsterdata;
+    public bool canAttack;
+
+
+    private void OnEnable()
+    {
+        currentHp = hp;
+        currentState = new MonsterIdleState();
+        ChangeState(new MonsterIdleState());
+    }
 
     protected override void Start()
     {
+        canAttack = true;
         base.Start();
         Animator monsterAnimator = GetComponent<Animator>();
         animator = monsterAnimator;
@@ -28,9 +38,10 @@ public class MonsterControl : LivingEntity
         {
             ChangeState(new MonsterHitState());
         }
+        Debug.Log(currentState);
     }
 
-    public override void OnDamage(float damage, Vector3 on, Vector3 hitNomal)
+    public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
     {
         base.OnDamage(damage, on, hitNomal);
         ChangeState(new MonsterHitState());
@@ -52,11 +63,8 @@ public class MonsterControl : LivingEntity
         gravity = data.gravity;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void EndAttack()
     {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("ÃÄ¸Â¾Ñ³×");
-        }
+        ChangeState(new MonsterChaseState());
     }
 }

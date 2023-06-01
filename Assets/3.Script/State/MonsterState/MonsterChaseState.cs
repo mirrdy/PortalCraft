@@ -34,7 +34,7 @@ public class MonsterChaseState : EntityState
             playerDirection.y = 0f; // Y 축 방향을 무시하여 평면 상의 방향만 고려합니다.
             Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
             monster.transform.rotation = targetRotation;
-            if(distance <= monster.attackRange)
+            if(distance <= monster.attackRange && monster.canAttack)
             {
                 Debug.Log("이건실행됨");
                 entity.ChangeState(new MonsterAttackState());
