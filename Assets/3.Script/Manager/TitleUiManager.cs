@@ -34,6 +34,8 @@ public class TitleUiManager : MonoBehaviour
     [SerializeField] GameObject image_DataSlot;
     [SerializeField] GameObject image_DeleteData;
     [SerializeField] Text[] playerInpomation;
+    [SerializeField] GameObject DataMissing;
+    [SerializeField] Button[] Slot;
 
     private bool isResolution = false;
     private int saveDataNumber = 0;
@@ -289,6 +291,11 @@ public class TitleUiManager : MonoBehaviour
     public void DeleteClose()
     {
         image_DeleteData.SetActive(false);
+        DataMissing.SetActive(false);
+        for (int i = 0; i < Slot.Length; i++)
+        {
+            Slot[i].interactable = true;
+        }
     }
 
     public void CopntinuSlotClose()
@@ -300,6 +307,19 @@ public class TitleUiManager : MonoBehaviour
     public void SlotClick(int num)
     {
         DataManager.instance.saveNumber = num;
-        LoadingSceneManager.Instance.LoadScene("In Game");
+        string filePath = Application.persistentDataPath + "/PlayerData" + num + ".xml";
+
+        if (File.Exists(filePath))
+        {
+            LoadingSceneManager.Instance.LoadScene("In Game");
+        }
+        else
+        {
+            for(int i = 0; i < Slot.Length; i++)
+            {
+                Slot[i].interactable = false;
+            }
+            DataMissing.SetActive(true);
+        }
     }
 }
