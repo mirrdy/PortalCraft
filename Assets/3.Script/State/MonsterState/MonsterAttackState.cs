@@ -30,6 +30,7 @@ public class MonsterAttackState : EntityState
         if (monster.target == null)
         {
             entity.ChangeState(new MonsterReturnState());
+            return;
         }
        
         Vector3 direction = monster.target.position - monster.transform.position;
