@@ -90,6 +90,9 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private Staters staters;
 
+    public delegate void WhenPlayerDie();
+    public event WhenPlayerDie whenPlayerDie;
+
     private void Awake()
     {
         #region ΩÃ±€≈Ê
@@ -450,6 +453,10 @@ public class PlayerControl : MonoBehaviour, IDamage
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
     {
         staters.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * staters.defens / (staters.defens + 50)) * 0.01f);
+        if(staters.currentHp <= 0)
+        {
+            whenPlayerDie.Invoke();
+        }
     }
 
 
