@@ -50,7 +50,6 @@ public class LoadingSceneManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
-
     }
 
     public void LoadScene(string sceneName)
@@ -103,7 +102,7 @@ public class LoadingSceneManager : MonoBehaviour
 
         if(!isFadeIn)
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 

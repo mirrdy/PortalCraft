@@ -41,7 +41,7 @@ public class InGameUIManager : MonoBehaviour
 
     [Header("Inventory")]
     [SerializeField] GameObject inventory;  // 인벤토리 창
-    [SerializeField] Text invenStaters;  // 장비창 플레이어 스테이터스 표시
+    [SerializeField] Text invenStatus;  // 장비창 플레이어 스테이터스 표시
     [SerializeField] Image[] itemBorder;  // 슬롯 테두리 이미지 
     [SerializeField] Image[] itemFrame;  // 아이템 종류에 따른 프레임
     [SerializeField] Image[] itemSlot;  // 아이템 이미지 들어갈 변수
@@ -53,8 +53,8 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] Text tooltip;  // 아이템 설명 표시
     [SerializeField] Sprite[] border;  // 슬롯에 마우스 올라갈때 테두리 변경용 이미지
 
-    [Header("Player Stateers")]
-    [SerializeField] GameObject image_Staters;  // 스테이터스 창
+    [Header("Player Status")]
+    [SerializeField] GameObject image_Status;  // 스테이터스 창
     [SerializeField] Text playerStat;  // 플레이어 스탯 표시
     [SerializeField] Text curruntStat;  // 플레이어 스탯 올리고 내리는 텍스트
     [SerializeField] Button[] statUp;  // 스탯 업 버튼
@@ -72,6 +72,8 @@ public class InGameUIManager : MonoBehaviour
     private SkillManager skillInfo;
 
     public int PlayerHand = 30;
+
+    private Coroutine fillCoroutine;
 
     private void Start()
     {
@@ -93,7 +95,7 @@ public class InGameUIManager : MonoBehaviour
         menuImage.SetActive(false);
         settingMenu.SetActive(false);
         resolutionWindow.SetActive(false);
-        image_Staters.SetActive(false);
+        image_Status.SetActive(false);
         inventory.SetActive(false);
         playerView.SetActive(false);
         image_Tooltip.SetActive(false);
@@ -102,9 +104,10 @@ public class InGameUIManager : MonoBehaviour
     private void Update()
     {
         MenuOnOff();
-        StatersOnOff();
+        StatusOnOff();
         InventoryOnOff();
         InventoryCheck();
+        SetQuickSlot();
     }
 
     public void BGM_VolumeSetting()  // 배경음 소리 설정
@@ -166,7 +169,7 @@ public class InGameUIManager : MonoBehaviour
                 SetCursorState(false);
                 Time.timeScale = 0;
                 menuImage.SetActive(true);
-                image_Staters.SetActive(false);
+                image_Status.SetActive(false);
                 inventory.SetActive(false); 
                 playerView.SetActive(false);
             }
@@ -265,16 +268,16 @@ public class InGameUIManager : MonoBehaviour
         LoadingSceneManager.Instance.LoadScene("Title");
     }
 
-    public void StatersOnOff()
+    public void StatusOnOff()
     {
         if(Input.GetKeyDown(KeyCode.K))
         {
-            if (!image_Staters.activeSelf)
+            if (!image_Status.activeSelf)
             {
                 SetCursorState(false);
                 Time.timeScale = 0;
-                OnSkillStatersCall();
-                image_Staters.SetActive(true);
+                OnSkillStatusCall();
+                image_Status.SetActive(true);
                 inventory.SetActive(false);
                 menuImage.SetActive(false);
                 playerView.SetActive(true);
@@ -283,14 +286,14 @@ public class InGameUIManager : MonoBehaviour
             {
                 image_Tooltip.SetActive(false);
                 SetCursorState(true);
-                image_Staters.SetActive(false);
+                image_Status.SetActive(false);
                 playerView.SetActive(false);
                 Time.timeScale = 1;
             }
         }
     }
 
-    public void OnSkillStatersCall()
+    public void OnSkillStatusCall()
     {
         PlayerData playerData = PlayerControl.instance.playerData;
         
@@ -311,14 +314,14 @@ public class InGameUIManager : MonoBehaviour
 
         SkillCheck();
 
-        StatersCheck();
+        StatusCheck();
     }
 
     private void SkillCheck()
     {
         PlayerData playerData = PlayerControl.instance.playerData;
 
-        skillPoint.text = "스킬 포인트 : " + playerData.staters.skillPoint;
+        skillPoint.text = "스킬 포인트 : " + playerData.status.skillPoint;
 
         int skillNum = 0;
 
@@ -349,7 +352,7 @@ public class InGameUIManager : MonoBehaviour
                 skillDown[i].interactable = false;
             }
 
-            if (playerData.staters.skillPoint >= skillInfo.list_Skill[skillNum + 1].skillUpPoint && playerData.playerLevel >= skillInfo.list_Skill[skillNum].levelLimit && playerData.skill[i].skillLevel < 3)
+            if (playerData.status.skillPoint >= skillInfo.list_Skill[skillNum + 1].skillUpPoint && playerData.playerLevel >= skillInfo.list_Skill[skillNum].levelLimit && playerData.skill[i].skillLevel < 3)
             {
                 skillUp[i].interactable = true;
             }
@@ -360,11 +363,11 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
-    private void StatersCheck()
+    private void StatusCheck()
     {
         PlayerData playerData = PlayerControl.instance.playerData;
 
-        int count = playerData.playerLevel * 5 - playerData.staters.statersPoint;
+        int count = playerData.playerLevel * 5 - playerData.status.statusPoint;
 
         if(count > 0)
         {
@@ -373,19 +376,19 @@ public class InGameUIManager : MonoBehaviour
                 statDown[i].interactable = true;
             }
 
-            if(playerData.staters.maxHp <= 100)
+            if(playerData.status.maxHp <= 100)
             {
                 statDown[0].interactable = false;
             }
-            if (playerData.staters.maxMp <= 100)
+            if (playerData.status.maxMp <= 100)
             {
                 statDown[1].interactable = false;
             }
-            if (playerData.staters.attack <= 10)
+            if (playerData.status.attack <= 10)
             {
                 statDown[2].interactable = false;
             }
-            if (playerData.staters.defens <= 5)
+            if (playerData.status.defens <= 5)
             {
                 statDown[3].interactable = false;
             }
@@ -398,7 +401,7 @@ public class InGameUIManager : MonoBehaviour
             }
         }
 
-        if(playerData.staters.statersPoint > 0)
+        if(playerData.status.statusPoint > 0)
         {
             for (int i = 0; i < statUp.Length; i++)
             {
@@ -413,7 +416,7 @@ public class InGameUIManager : MonoBehaviour
             }
         }
 
-        playerStat.text = "Player Staters\n\n" +
+        playerStat.text = "Player Status\n\n" +
                             "이름 : " + playerData.playerName + "\n" +
                             "레벨 : " + playerData.playerLevel + "\n" +
                             "체력 : " + playerData.playerLevel + "\n" +
@@ -427,9 +430,9 @@ public class InGameUIManager : MonoBehaviour
                             " " + playerData.playerLevel + "\n" +
                             " " + playerData.playerLevel + "\n" +
                             " " + playerData.playerLevel + "\n" +
-                            " " + playerData.staters.statersPoint;
+                            " " + playerData.status.statusPoint;
 
-        invenStaters.text = "Player Staters\n" +
+        invenStatus.text = "Player Status\n" +
                             "체력 : " + playerData.playerLevel + "\n" +
                             "마나 : " + playerData.playerLevel + "\n" +
                             "이동 속도 : " + playerData.playerLevel + "\n" +
@@ -459,7 +462,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
                 {
-                    playerData.staters.skillPoint -= skillInfo.list_Skill[k + 1].skillUpPoint;
+                    playerData.status.skillPoint -= skillInfo.list_Skill[k + 1].skillUpPoint;
                 }
             }
         }
@@ -469,7 +472,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
                 {
-                    playerData.staters.skillPoint += skillInfo.list_Skill[k].skillUpPoint;
+                    playerData.status.skillPoint += skillInfo.list_Skill[k].skillUpPoint;
                 }
             }
         }
@@ -498,7 +501,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum)
                 {
-                    playerData.staters.skillPoint -= skillInfo.list_Skill[k + 1].skillUpPoint;
+                    playerData.status.skillPoint -= skillInfo.list_Skill[k + 1].skillUpPoint;
                 }
             }
         }
@@ -508,7 +511,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 if (skillInfo.list_Skill[k].level == playerData.skill[1].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum)
                 {
-                    playerData.staters.skillPoint += skillInfo.list_Skill[k].skillUpPoint;
+                    playerData.status.skillPoint += skillInfo.list_Skill[k].skillUpPoint;
                 }
             }
         }
@@ -520,72 +523,72 @@ public class InGameUIManager : MonoBehaviour
     {
         PlayerData playerData = PlayerControl.instance.playerData;
 
-        playerData.staters.maxHp += value;
+        playerData.status.maxHp += value;
 
         if (value > 0)
         {
-            playerData.staters.statersPoint--;
+            playerData.status.statusPoint--;
         }
         else
         {
-            playerData.staters.statersPoint++;
+            playerData.status.statusPoint++;
         }
 
-        StatersCheck();
+        StatusCheck();
     }
 
     public void MpUpDown(int value)
     {
         PlayerData playerData = PlayerControl.instance.playerData;
 
-        playerData.staters.maxMp += value;
+        playerData.status.maxMp += value;
 
         if(value > 0)
         {
-            playerData.staters.statersPoint--;
+            playerData.status.statusPoint--;
         }
         else
         {
-            playerData.staters.statersPoint++;
+            playerData.status.statusPoint++;
         }
 
-        StatersCheck();
+        StatusCheck();
     }
 
     public void AttackUpDown(int value)
     {
         PlayerData playerData = PlayerControl.instance.playerData;
 
-        playerData.staters.attack += value;
+        playerData.status.attack += value;
 
         if (value > 0)
         {
-            playerData.staters.statersPoint--;
+            playerData.status.statusPoint--;
         }
         else
         {
-            playerData.staters.statersPoint++;
+            playerData.status.statusPoint++;
         }
 
-        StatersCheck();
+        StatusCheck();
     }
 
     public void DeffenskUpDown(int value)
     {
         PlayerData playerData = PlayerControl.instance.playerData;
 
-        playerData.staters.defens += value;
+        playerData.status.defens += value;
 
         if (value > 0)
         {
-            playerData.staters.statersPoint--;
+            playerData.status.statusPoint--;
         }
         else
         {
-            playerData.staters.statersPoint++;
+            playerData.status.statusPoint++;
         }
 
-        StatersCheck();
+        StatusCheck();
     }
 
     private void InventoryOnOff()
@@ -597,7 +600,7 @@ public class InGameUIManager : MonoBehaviour
                 SetCursorState(false);
                 Time.timeScale = 0;
                 inventory.SetActive(true);
-                image_Staters.SetActive(false);
+                image_Status.SetActive(false);
                 menuImage.SetActive(false);
                 playerView.SetActive(true);
             }
@@ -611,7 +614,7 @@ public class InGameUIManager : MonoBehaviour
             }
         }
 
-        StatersCheck();
+        StatusCheck();
     }
 
     public void MouseEnter(int value)
@@ -814,9 +817,97 @@ public class InGameUIManager : MonoBehaviour
             }
         }
     }
-
+    
     public void SetQuickSlot()
     {
-        
+        #region 퀵슬롯 슬롯 번호 배정
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            PlayerHand = 30;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            PlayerHand = 31;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            PlayerHand = 32;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            PlayerHand = 33;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            PlayerHand = 34;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            PlayerHand = 35;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            PlayerHand = 36;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            PlayerHand = 37;
+        }
+
+        float wheelInput = Input.GetAxis("Mouse ScrollWheel");
+        if (wheelInput > 0)
+        {
+            PlayerHand--;
+            if(PlayerHand < 30)
+            {
+                PlayerHand = 37;
+            }
+        }
+        else if (wheelInput < 0)
+        {
+            PlayerHand++;
+            if (PlayerHand > 37)
+            {
+                PlayerHand = 30;
+            }
+        }
+
+        for (int i = 0; i < 8; i++)
+        {
+            itemBorder[30 + i].sprite = border[0];
+        }
+        itemBorder[PlayerHand].sprite = border[1];
+        #endregion
+    }
+
+    public void HpCheck(int maxHp, int currentHp)
+    {
+        float goals = currentHp / (float)maxHp;
+
+        if (fillCoroutine != null)
+        {
+            StopCoroutine(fillCoroutine); // 기존 코루틴 종료
+        }
+
+        fillCoroutine = StartCoroutine(HpMpDelay_co(goals));
+        hpCheck.text = currentHp + " / " + maxHp;
+    }
+
+    IEnumerator HpMpDelay_co(float goals)
+    {
+        float timer = 0f;
+        float current = hpBar.fillAmount;
+        float duration = 1f; // 체력 감소 지속 시간
+
+        while (timer <= duration)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            float t = timer / duration;
+            hpBar.fillAmount = Mathf.Lerp(current, goals, t);
+        }
+
+        hpBar.fillAmount = goals;
+        fillCoroutine = null;
     }
 }
