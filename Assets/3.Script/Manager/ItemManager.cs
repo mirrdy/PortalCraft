@@ -97,6 +97,22 @@ public class Arms : Item
 }
 
 [System.Serializable]
+public class Cloak : Item
+{
+    public Cloak(int _tag, string _type, string _name, string _tooltip, int _quantity, int _maxQuantity, bool _canInstallation, bool _canWear)
+    {
+        tag = _tag;
+        type = _type;
+        name = _name;
+        tooltip = _tooltip;
+        quantity = _quantity;
+        maxQuantity = _maxQuantity;
+        canInstallation = _canInstallation;
+        canWear = _canWear;
+    }
+}
+
+[System.Serializable]
 public class Etc : Item
 {
     public Etc(int _tag, string _type, string _name, string _tooltip, int _quantity, int _maxQuantity, bool _canInstallation, bool _canWear)
@@ -115,7 +131,7 @@ public class Etc : Item
 [System.Serializable]
 public class About : Item
 {
-    public About(int _tag, string _type, string _name, string _tooltip, int _quantity, int _maxQuantity, int _hp, int _mp, bool _canInstallation, bool _canWear)
+    public About(int _tag, string _type, string _name, string _tooltip, int _quantity, int _maxQuantity, int _recovery, bool _canInstallation, bool _canWear)
     {
         tag = _tag;
         type = _type;
@@ -123,14 +139,12 @@ public class About : Item
         tooltip = _tooltip;
         quantity = _quantity;
         maxQuantity = _maxQuantity;
-        hp = _hp;
-        mp = _mp;
+        recovery = _recovery;
         canInstallation = _canInstallation;
         canWear = _canWear;
     }
 
-    public int hp;
-    public int mp;
+    public int recovery;
 }
 
 public class ItemManager : MonoBehaviour
@@ -140,6 +154,7 @@ public class ItemManager : MonoBehaviour
     public List<Armor> list_Armor;
     public List<Helmet> list_Helmet;
     public List<Arms> list_Arms;
+    public List<Cloak> list_Cloak;
     public List<Etc> list_Etc;
     public List<About> list_About;
 
@@ -168,13 +183,17 @@ public class ItemManager : MonoBehaviour
             {
                 list_Arms.Add(new Arms(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), Int32.Parse(row[6]), float.Parse(row[7]), row[8].Equals("TRUE"), row[9].Equals("TRUE")));
             }
+            else if (row[1].Equals("Cloak"))
+            {
+                list_Cloak.Add(new Cloak(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), row[6].Equals("TRUE"), row[7].Equals("TRUE")));
+            }
             else if (row[1].Equals("Etc"))
             {
                 list_Etc.Add(new Etc(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), row[6].Equals("TRUE"), row[7].Equals("TRUE")));
             }
             else if (row[1].Equals("About"))
             {
-                list_About.Add(new About(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), Int32.Parse(row[6]), Int32.Parse(row[7]), row[8].Equals("TRUE"), row[9].Equals("TRUE")));
+                list_About.Add(new About(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), Int32.Parse(row[6]), row[7].Equals("TRUE"), row[8].Equals("TRUE")));
             }
         }
 
@@ -198,13 +217,17 @@ public class ItemManager : MonoBehaviour
             {
                 list_AllItem.Add(new Arms(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), Int32.Parse(row[6]), float.Parse(row[7]), row[8].Equals("TRUE"), row[9].Equals("TRUE")));
             }
+            else if (row[1].Equals("Cloak"))
+            {
+                list_AllItem.Add(new Cloak(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), row[6].Equals("TRUE"), row[7].Equals("TRUE")));
+            }
             else if (row[1].Equals("Etc"))
             {
                 list_AllItem.Add(new Etc(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), row[6].Equals("TRUE"), row[7].Equals("TRUE")));
             }
             else if (row[1].Equals("About"))
             {
-                list_AllItem.Add(new About(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), Int32.Parse(row[6]), Int32.Parse(row[7]), row[8].Equals("TRUE"), row[9].Equals("TRUE")));
+                list_AllItem.Add(new About(Int32.Parse(row[0]), row[1], row[2], row[3], Int32.Parse(row[4]), Int32.Parse(row[5]), Int32.Parse(row[6]), row[7].Equals("TRUE"), row[8].Equals("TRUE")));
             }
         }
     }
