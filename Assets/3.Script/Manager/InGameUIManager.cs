@@ -78,6 +78,12 @@ public class InGameUIManager : MonoBehaviour
         resolution.value = DataManager.instance.LoadResolution();
         itemInfo = FindObjectOfType<ItemManager>();
         skillInfo = FindObjectOfType<SkillManager>();
+
+        for (int i = 1; i < 8; i++)
+        {
+            itemBorder[30 + i].sprite = border[0];
+        }
+        itemBorder[30].sprite = border[1];
     }
 
     private void OnEnable()
@@ -164,6 +170,7 @@ public class InGameUIManager : MonoBehaviour
             }
             else
             {
+                image_Tooltip.SetActive(false);
                 SetCursorState(true);
                 Time.timeScale = 1;
                 menuImage.SetActive(false);
@@ -272,6 +279,7 @@ public class InGameUIManager : MonoBehaviour
             }
             else
             {
+                image_Tooltip.SetActive(false);
                 SetCursorState(true);
                 image_Staters.SetActive(false);
                 playerView.SetActive(false);
@@ -593,6 +601,7 @@ public class InGameUIManager : MonoBehaviour
             }
             else
             {
+                image_Tooltip.SetActive(false);
                 SetCursorState(true);
                 Time.timeScale = 1;
                 inventory.SetActive(false);
@@ -735,7 +744,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void BorderChange(int value)
     {
-        for (int i = 0; i < itemBorder.Length; i++)
+        for (int i = 0; i < itemBorder.Length - 8; i++)
         {
             if (value == i)
             {

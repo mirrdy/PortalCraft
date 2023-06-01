@@ -268,7 +268,7 @@ public class CustomizeCharacter : MonoBehaviour
 
         DataManager.instance.SaveData(playerData, DataManager.instance.saveNumber);
 
-        LoadingSceneManager.Instance.LoadScene("In Game");
+        LoadingSceneManager.Instance.LoadScene("MapTest");
     }
 
     public void OnInputValueChanged()
