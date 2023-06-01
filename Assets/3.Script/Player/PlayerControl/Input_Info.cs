@@ -63,7 +63,6 @@ public class Input_Info : MonoBehaviour
 
 
 
-
     private void OnApplicationFocus(bool hasFocus)
     {
         SetCursorState(cursorLocked);
