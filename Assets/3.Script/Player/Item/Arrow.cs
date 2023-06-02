@@ -12,6 +12,7 @@ public class Arrow : MonoBehaviour
     private void Start()
     {
         TryGetComponent(out rigid);
+
         rigid.velocity = transform.forward * arrowSpeed;
     }
 
