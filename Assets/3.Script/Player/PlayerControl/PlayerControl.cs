@@ -496,6 +496,23 @@ public class PlayerControl : MonoBehaviour, IDamage
         }       
     }
 
+    public void GetExp(int exp)
+    {
+        playerData.playerExp += exp;
+
+        int requiredExp = (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
+
+        while(playerData.playerExp >= requiredExp)
+        {
+            LevelUp();
+        }
+    }
+    public void LevelUp()
+    {
+        playerData.playerExp -= (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
+        playerData.playerLevel++;
+    }
+
 
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
