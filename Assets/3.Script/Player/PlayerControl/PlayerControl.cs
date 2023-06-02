@@ -89,11 +89,11 @@ public class PlayerControl : MonoBehaviour, IDamage
     #endregion
 
     #region Àåºñ½ºÅÈº¯¼ö
-    private int equip_HP;
-    private int equip_Defense;
-    private float equip_Speed;
-    private int equip_Attack;
-    private float equip_AttackRate;
+    public  int equip_HP = 0;
+    public int equip_Defense = 0;
+    public float equip_Speed = 0;
+    public int equip_Attack = 0;
+    public float equip_AttackRate = 0;
     #endregion
 
 
@@ -160,6 +160,15 @@ public class PlayerControl : MonoBehaviour, IDamage
         fallTimeDelta = fallTime;
 
         uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
+        uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
+
+        playerData.inventory[38].hasItem = true;
+        playerData.inventory[38].tag = 107;
+        playerData.inventory[38].quantity = 1;
+
+        playerData.inventory[39].hasItem = true;
+        playerData.inventory[39].tag = 103;
+        playerData.inventory[39].quantity = 1;
 
         //QuickSlotItem = new GameObject[8];
     }
@@ -538,6 +547,8 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             LevelUp();
         }
+
+        uiManager.ExpCheck(requiredExp, playerData.playerExp);
     }
     public void LevelUp() //ÈÄ¿¡ ½ºÅÈ»ó½Â Ãß°¡ 
     {

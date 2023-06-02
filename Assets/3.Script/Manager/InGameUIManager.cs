@@ -82,6 +82,7 @@ public class InGameUIManager : MonoBehaviour
 
     // 코루틴 저장할 변수
     private Coroutine hpCoroutine;
+    private Coroutine expCoroutine;
 
     #region 리셋 초안
     /*    private void Reset()
@@ -135,7 +136,7 @@ public class InGameUIManager : MonoBehaviour
 
         player = GameObject.Find("Player").GetComponent<PlayerControl>();
     }
-
+    
     private void OnEnable()
     {
         menuImage.SetActive(false);
@@ -156,6 +157,7 @@ public class InGameUIManager : MonoBehaviour
         SetQuickSlot();
     }
 
+    #region  세팅 ui 설정
     public void BGM_VolumeSetting()  // 배경음 소리 설정
     {
         AudioManager.instance.bgmPlay.volume = slider_Bgm.value;
@@ -238,7 +240,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void SaveBtn()
     {
-        DataManager.instance.SaveData(PlayerControl.instance.playerData, DataManager.instance.saveNumber);
+        DataManager.instance.SaveData(player.playerData, DataManager.instance.saveNumber);
     }
 
     public void SettingWindow()  // 옵션 창 호출 버튼 메소드
@@ -315,7 +317,9 @@ public class InGameUIManager : MonoBehaviour
     {
         LoadingSceneManager.Instance.LoadScene("Title");
     }
+    #endregion
 
+    #region 윈도우 onoff 메소드
     public void StatusOnOff()
     {
         if (Input.GetKeyDown(KeyCode.K))
@@ -343,9 +347,38 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
+    private void InventoryOnOff()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (!inventory.activeSelf)
+            {
+                target.SetActive(false);
+                SetCursorState(false);
+                Time.timeScale = 0;
+                inventory.SetActive(true);
+                image_Status.SetActive(false);
+                menuImage.SetActive(false);
+                playerView.SetActive(true);
+            }
+            else
+            {
+                target.SetActive(true);
+                image_Tooltip.SetActive(false);
+                SetCursorState(true);
+                Time.timeScale = 1;
+                inventory.SetActive(false);
+                playerView.SetActive(false);
+            }
+        }
+
+        StatusCheck();
+    }
+    #endregion
+
     public void OnSkillStatusCall()
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         if (playerData.job.Equals("전사"))
         {
@@ -367,9 +400,135 @@ public class InGameUIManager : MonoBehaviour
         StatusCheck();
     }
 
+    #region 스테이터스 텍스트 
+    public void MouseEnter(int value)
+    {
+        PlayerData playerData = player.playerData;
+
+        if (playerData.inventory[value].hasItem)
+        {
+            int num = 0;
+            int tag = playerData.inventory[value].tag;
+
+            image_Tooltip.SetActive(true);
+            image_Tooltip.transform.position = itemSlot[value].transform.position + (new Vector3(300, -50, 0));
+
+            for (int i = 0; i < itemInfo.list_AllItem.Count; i++)
+            {
+                if (tag == itemInfo.list_AllItem[i].tag)
+                {
+                    num = i;
+                    break;
+                }
+            }
+
+            if (itemInfo.list_AllItem[num].type.Equals("Block"))
+            {
+                for (int i = 0; i < itemInfo.list_Block.Count; i++)
+                {
+                    if (tag == itemInfo.list_Block[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_Block[i].name + "\n" +
+                                        "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                        "-------------\n" +
+                                        "" + itemInfo.list_Block[i].tooltip;
+                        break;
+                    }
+                }
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("Armor"))
+            {
+                for (int i = 0; i < itemInfo.list_Armor.Count; i++)
+                {
+                    if (tag == itemInfo.list_Armor[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_Armor[i].name + "\n" +
+                                "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                "-------------\n" +
+                                "체력 : + " + itemInfo.list_Armor[i].hp + "\n" +
+                                "이동 속도 : + " + itemInfo.list_Armor[i].moveSpeed + "\n" +
+                                "-------------\n" +
+                                "" + itemInfo.list_Armor[i].tooltip;
+                        break;
+                    }
+                }
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("Helmet"))
+            {
+                for (int i = 0; i < itemInfo.list_Helmet.Count; i++)
+                {
+                    if (tag == itemInfo.list_Helmet[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_Helmet[i].name + "\n" +
+                                "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                "-------------\n" +
+                                "체력 : + " + itemInfo.list_Helmet[i].defens + "\n" +
+                                "-------------\n" +
+                                "" + itemInfo.list_Helmet[i].tooltip;
+                        break;
+                    }
+                }
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("Arms"))
+            {
+                for (int i = 0; i < itemInfo.list_Arms.Count; i++)
+                {
+                    if (tag == itemInfo.list_Arms[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_Arms[i].name + "\n" +
+                                "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                "-------------\n" +
+                                "공격력 : + " + itemInfo.list_Arms[i].attack + "\n" +
+                                "공격 속도 : + " + itemInfo.list_Arms[i].attackSpeed + "\n" +
+                                "-------------\n" +
+                                "" + itemInfo.list_Arms[i].tooltip;
+                        break;
+                    }
+                }
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("Cloak"))
+            {
+                tooltip.text = "이름 : " + itemInfo.list_Cloak[0].name + "\n" +
+                        "수량 : " + playerData.inventory[value].quantity + "\n" +
+                        "-------------\n" +
+                        "" + itemInfo.list_Cloak[0].tooltip;
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("Etc"))
+            {
+                for (int i = 0; i < itemInfo.list_Etc.Count; i++)
+                {
+                    if (tag == itemInfo.list_Etc[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_Etc[i].name + "\n" +
+                                "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                "-------------\n" +
+                                "" + itemInfo.list_Etc[i].tooltip;
+                        break;
+                    }
+                }
+            }
+            else if (itemInfo.list_AllItem[num].type.Equals("About"))
+            {
+                for (int i = 0; i < itemInfo.list_About.Count; i++)
+                {
+                    if (tag == itemInfo.list_About[i].tag)
+                    {
+                        tooltip.text = "이름 : " + itemInfo.list_About[i].name + "\n" +
+                                "수량 : " + playerData.inventory[value].quantity + "\n" +
+                                "-------------\n" +
+                                "회복량 : + " + itemInfo.list_About[i].recovery + "\n" +
+                                "-------------\n" +
+                                "" + itemInfo.list_About[i].tooltip;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     private void SkillCheck()
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         skillPoint.text = "스킬 포인트 : " + playerData.status.skillPoint;
 
@@ -415,7 +574,7 @@ public class InGameUIManager : MonoBehaviour
 
     private void StatusCheck()
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         int count = playerData.playerLevel * 5 - playerData.status.statusPoint;
 
@@ -467,35 +626,38 @@ public class InGameUIManager : MonoBehaviour
         }
 
         playerStat.text = "Player Status\n\n" +
+                            "직업 : " + playerData.job + "\n" +
                             "이름 : " + playerData.playerName + "\n" +
                             "레벨 : " + playerData.playerLevel + "\n" +
-                            "체력 : " + playerData.playerLevel + "\n" +
-                            "마나 : " + playerData.playerLevel + "\n" +
-                            "공격력 : " + playerData.playerLevel + "\n" +
-                            "방어력 : " + playerData.playerLevel + "\n" +
-                            "공격 속도 : " + playerData.playerLevel + "\n" +
-                            "이동 속도 : " + playerData.playerLevel;
+                            "체력 : " + (playerData.status.maxHp + player.equip_HP) + " (" + playerData.status.maxHp + " + " + player.equip_HP + ")\n" +
+                            "마나 : " + playerData.status.maxMp + "\n" +
+                            "공격력 : " + (playerData.status.attack + player.equip_Attack) + " (" + playerData.status.attack + " + " + player.equip_Attack + ")\n" +
+                            "방어력 : " + (playerData.status.defens + player.equip_Defense) + " (" + playerData.status.defens + " + " + player.equip_Defense + ")\n" +
+                            "이동 속도 : " + (playerData.status.moveSpeed + player.equip_Speed) + " (" + playerData.status.moveSpeed + " + " + player.equip_Speed + ")\n" +
+                            "공격 속도 : " + (playerData.status.attackSpeed + player.equip_AttackRate) + " (" + playerData.status.attackSpeed + " + " + player.equip_AttackRate + ")";
 
-        curruntStat.text = " " + playerData.playerLevel + "\n" +
-                            " " + playerData.playerLevel + "\n" +
-                            " " + playerData.playerLevel + "\n" +
-                            " " + playerData.playerLevel + "\n" +
+        curruntStat.text = " " + playerData.status.maxHp + "\n" +
+                            " " + playerData.status.maxMp + "\n" +
+                            " " + playerData.status.attack + "\n" +
+                            " " + playerData.status.defens + "\n" +
                             " " + playerData.status.statusPoint;
 
-        invenStatus.text = "Player Status\n" +
-                            "체력 : " + playerData.playerLevel + "\n" +
-                            "마나 : " + playerData.playerLevel + "\n" +
-                            "이동 속도 : " + playerData.playerLevel + "\n" +
-                            "공격 속도 : " + playerData.playerLevel + "\n" +
-                            "공격력 : " + playerData.playerLevel + "\n" +
-                            "방어력 : " + playerData.playerLevel;
+        invenStatus.text =  "직업 : " + playerData.job + "\n" +
+                            "체력 : " + (playerData.status.maxHp + player.equip_HP) + " (" + playerData.status.maxHp + " + " + player.equip_HP + ")\n" +
+                            "마나 : " + playerData.status.maxMp + "\n" +
+                            "공격력 : " + (playerData.status.attack + player.equip_Attack) + " (" + playerData.status.attack + " + " + player.equip_Attack + ")\n" +
+                            "방어력 : " + (playerData.status.defens + player.equip_Defense) + " (" + playerData.status.defens + " + " + player.equip_Defense + ")\n" +
+                            "이동 속도 : " + (playerData.status.moveSpeed + player.equip_Speed) + " (" + playerData.status.moveSpeed + " + " + player.equip_Speed + ")\n" +
+                            "공격 속도 : " + (playerData.status.attackSpeed + player.equip_AttackRate) + " (" + playerData.status.attackSpeed + " + " + player.equip_AttackRate + ")";
 
         CurrentStatus();
     }
+    #endregion
 
+    #region  버튼 클릭 메소드
     public void OneSkillUpDown(int value)
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         playerData.skill[0].skillLevel += value;
 
@@ -534,7 +696,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void TwoSkillUpDown(int value)
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         playerData.skill[1].skillLevel += value;
 
@@ -573,7 +735,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void HpUpDown(int value)
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         playerData.status.maxHp += value;
 
@@ -587,11 +749,12 @@ public class InGameUIManager : MonoBehaviour
         }
 
         StatusCheck();
+        HpCheck(playerData.status.maxHp, playerData.status.currentHp);
     }
 
     public void MpUpDown(int value)
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         playerData.status.maxMp += value;
 
@@ -609,7 +772,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void AttackUpDown(int value)
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         playerData.status.attack += value;
 
@@ -627,7 +790,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void DeffenskUpDown(int value)
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         playerData.status.defens += value;
 
@@ -642,159 +805,7 @@ public class InGameUIManager : MonoBehaviour
 
         StatusCheck();
     }
-
-    private void InventoryOnOff()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            if (!inventory.activeSelf)
-            {
-                target.SetActive(false);
-                SetCursorState(false);
-                Time.timeScale = 0;
-                inventory.SetActive(true);
-                image_Status.SetActive(false);
-                menuImage.SetActive(false);
-                playerView.SetActive(true);
-            }
-            else
-            {
-                target.SetActive(true);
-                image_Tooltip.SetActive(false);
-                SetCursorState(true);
-                Time.timeScale = 1;
-                inventory.SetActive(false);
-                playerView.SetActive(false);
-            }
-        }
-
-        StatusCheck();
-    }
-
-    public void MouseEnter(int value)
-    {
-        PlayerData playerData = PlayerControl.instance.playerData;
-
-        if (playerData.inventory[value].hasItem)
-        {
-            int num = 0;
-            int tag = playerData.inventory[value].tag;
-
-            image_Tooltip.SetActive(true);
-            image_Tooltip.transform.position = itemSlot[value].transform.position + (Vector3.right * 5);
-
-            for (int i = 0; i < itemInfo.list_AllItem.Count; i++)
-            {
-                if (tag == itemInfo.list_AllItem[i].tag)
-                {
-                    num = i;
-                    break;
-                }
-            }
-
-            if (itemInfo.list_AllItem[num].type.Equals("Block"))
-            {
-                for (int i = 0; i < itemInfo.list_Block.Count; i++)
-                {
-                    if (tag == itemInfo.list_Block[i].tag)
-                    {
-                        tooltip.text = "이름 : " + itemInfo.list_Block[i].name + "\n" +
-                                        "수량 : " + playerData.inventory[value].quantity + "\n" +
-                                        "-------------\n" +
-                                        "" + itemInfo.list_Block[i].tooltip;
-                        break;
-                    }
-                }
-            }
-            else if (itemInfo.list_AllItem[num].type.Equals("Armor"))
-            {
-                for (int i = 0; i < itemInfo.list_Armor.Count; i++)
-                {
-                    if (tag == itemInfo.list_Armor[i].tag)
-                    {
-                        tooltip.text = "이름 : " + itemInfo.list_Armor[i].name + "\n" +
-                                "수량 : " + playerData.inventory[value].quantity + "\n" +
-                                "-------------\n" +
-                                "체력 : " + itemInfo.list_Armor[i].hp + "\n" +
-                                "이동 속도 : " + itemInfo.list_Armor[i].moveSpeed + "\n" +
-                                "-------------\n" +
-                                "" + itemInfo.list_Armor[i].tooltip;
-                        break;
-                    }
-                }
-            }
-            else if (itemInfo.list_AllItem[num].type.Equals("Helmet"))
-            {
-                for (int i = 0; i < itemInfo.list_Helmet.Count; i++)
-                {
-                    if (tag == itemInfo.list_Helmet[i].tag)
-                    {
-                        tooltip.text = "이름 : " + itemInfo.list_Helmet[i].name + "\n" +
-                                "수량 : " + playerData.inventory[value].quantity + "\n" +
-                                "-------------\n" +
-                                "체력 : " + itemInfo.list_Helmet[i].defens + "\n" +
-                                "-------------\n" +
-                                "" + itemInfo.list_Helmet[i].tooltip;
-                        break;
-                    }
-                }
-            }
-            else if (itemInfo.list_AllItem[num].type.Equals("Arms"))
-            {
-                for (int i = 0; i < itemInfo.list_Arms.Count; i++)
-                {
-                    if (tag == itemInfo.list_Arms[i].tag)
-                    {
-                        tooltip.text = "이름 : " + itemInfo.list_Arms[i].name + "\n" +
-                                "수량 : " + playerData.inventory[value].quantity + "\n" +
-                                "-------------\n" +
-                                "공격력 : " + itemInfo.list_Arms[i].attack + "\n" +
-                                "공격 속도 : " + itemInfo.list_Arms[i].attackSpeed + "\n" +
-                                "-------------\n" +
-                                "" + itemInfo.list_Arms[i].tooltip;
-                        break;
-                    }
-                }
-            }
-            else if (itemInfo.list_AllItem[num].type.Equals("Cloak"))
-            {
-                tooltip.text = "이름 : " + itemInfo.list_Cloak[0].name + "\n" +
-                        "수량 : " + playerData.inventory[value].quantity + "\n" +
-                        "-------------\n" +
-                        "" + itemInfo.list_Cloak[0].tooltip;
-            }
-            else if (itemInfo.list_AllItem[num].type.Equals("Etc"))
-            {
-                for (int i = 0; i < itemInfo.list_Etc.Count; i++)
-                {
-                    if (tag == itemInfo.list_Etc[i].tag)
-                    {
-                        tooltip.text = "이름 : " + itemInfo.list_Etc[i].name + "\n" +
-                                "수량 : " + playerData.inventory[value].quantity + "\n" +
-                                "-------------\n" +
-                                "" + itemInfo.list_Etc[i].tooltip;
-                        break;
-                    }
-                }
-            }
-            else if (itemInfo.list_AllItem[num].type.Equals("About"))
-            {
-                for (int i = 0; i < itemInfo.list_About.Count; i++)
-                {
-                    if (tag == itemInfo.list_About[i].tag)
-                    {
-                        tooltip.text = "이름 : " + itemInfo.list_About[i].name + "\n" +
-                                "수량 : " + playerData.inventory[value].quantity + "\n" +
-                                "-------------\n" +
-                                "회복량 : " + itemInfo.list_About[i].recovery + "\n" +
-                                "-------------\n" +
-                                "" + itemInfo.list_About[i].tooltip;
-                        break;
-                    }
-                }
-            }
-        }
-    }
+    #endregion
 
     public void MouseExit()
     {
@@ -821,7 +832,7 @@ public class InGameUIManager : MonoBehaviour
 
     private void InventoryCheck()
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         for (int i = 0; i < playerData.inventory.Length; i++)
         {
@@ -839,7 +850,7 @@ public class InGameUIManager : MonoBehaviour
                             itemCount[i].SetActive(true);
                             itemQuantity[i].text = "" + playerData.inventory[i].quantity;
                         }
-                        else
+                        else if (i < 38)
                         {
                             itemCount[i].SetActive(false);
                         }
@@ -936,6 +947,7 @@ public class InGameUIManager : MonoBehaviour
         SetArms();
     }
 
+    #region 플레이어 UI 최신화
     public void HpCheck(int maxHp, int currentHp)
     {
         float goals = currentHp / (float)maxHp;
@@ -967,9 +979,44 @@ public class InGameUIManager : MonoBehaviour
         hpCoroutine = null;
     }
 
+    public void ExpCheck(float maxExp, float currentExp)
+    {
+        float goals = currentExp / maxExp;
+
+        if (expCoroutine != null)
+        {
+            StopCoroutine(expCoroutine); // 기존 코루틴 종료
+        }
+
+        expCoroutine = StartCoroutine(ExpMpDelay_co(goals));
+        expCheck.text = currentExp.ToString("N2") + " / " + maxExp.ToString("N2") + "( " + (goals * 100) + "% )";
+        string level = string.Format("{0:D2}", player.playerData.playerLevel);
+        player_Level.text = level;
+    }
+
+    IEnumerator ExpMpDelay_co(float goals)
+    {
+        float timer = 0f;
+        float current = expBar.value;
+        float duration = 1f;
+
+        while (timer <= duration)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            float t = timer / duration;
+            expBar.value = Mathf.Lerp(current, goals, t);
+        }
+
+        expBar.value = goals;
+        hpCoroutine = null;
+    }
+    #endregion
+
+    #region 장비 착용에 따른 스테이터스 변경 메소드
     private int GetHelmetType()
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         if (playerData.inventory[38].hasItem)
         {
@@ -987,7 +1034,7 @@ public class InGameUIManager : MonoBehaviour
 
     private int GetArmorType()
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         if (playerData.inventory[39].hasItem)
         {
@@ -1005,7 +1052,7 @@ public class InGameUIManager : MonoBehaviour
 
     private int GetQuickItemType()
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         if (playerData.inventory[playerHand].hasItem)
         {
@@ -1028,8 +1075,8 @@ public class InGameUIManager : MonoBehaviour
 
         if (armorNumber >= 0)
         {
-            int hp = itemInfo.list_Armor[armorNumber].hp;
-            float moveSpeed = itemInfo.list_Armor[armorNumber].moveSpeed;
+            player.equip_HP = itemInfo.list_Armor[armorNumber].hp;
+            player.equip_Speed = itemInfo.list_Armor[armorNumber].moveSpeed;
         }
     }
 
@@ -1039,24 +1086,29 @@ public class InGameUIManager : MonoBehaviour
 
         if (helmetNumber >= 0)
         {
-            int defens = itemInfo.list_Helmet[helmetNumber].defens;
+            player.equip_Defense = itemInfo.list_Helmet[helmetNumber].defens;
         }
     }
 
     public void SetArms()
     {
-        int armsNumber = GetHelmetType();
+        int armsNumber = GetQuickItemType();
 
         if (armsNumber >= 0)
         {
-            int attack = itemInfo.list_Arms[armsNumber].attack;
-            float attackSpeed = itemInfo.list_Arms[armsNumber].attackSpeed;
+            player.equip_Attack = itemInfo.list_Arms[armsNumber].attack;
+            player.equip_AttackRate = itemInfo.list_Arms[armsNumber].attackSpeed;
+        }
+        else
+        {
+            player.equip_Attack = 0;
+            player.equip_AttackRate = 0;
         }
     }
 
     public void CurrentStatus()
     {
-        PlayerData playerData = PlayerControl.instance.playerData;
+        PlayerData playerData = player.playerData;
 
         if (armorTag != playerData.inventory[38].tag)
         {
@@ -1068,4 +1120,7 @@ public class InGameUIManager : MonoBehaviour
             SetHelmet();
         }
     }
+    #endregion
+
+
 }
