@@ -8,28 +8,32 @@ public class MonsterControl : LivingEntity
     public Vector3 spawnPoint;
     public float patrolRange;
     [SerializeField] private MonsterData monsterdata;
-    public bool canAttack;
     [SerializeField] public float timebetAttack = 0.5f;
     public float lastAttackTimebet;
 
     private void OnEnable()
     {
         currentHp = hp;
+        isDead = false;
+
+        entityController.enabled = true;
         currentState = new MonsterIdleState();
         ChangeState(new MonsterIdleState());
     }
+    private void Awake()
+    {
+        entityController = GetComponent<CharacterController>();
 
+    } 
     protected override void Start()
     {
-        canAttack = true;
+        DataSetting(monsterdata);//나중에지워야함 필요없음
         base.Start();
         Animator monsterAnimator = GetComponent<Animator>();
         animator = monsterAnimator;
         onDeath.AddListener(ItemDrop);
         spawnPoint = transform.position;
-        entityController = GetComponent<CharacterController>();
         target = null;
-        DataSetting(monsterdata);//나중에지워야함 필요없음
         isDead = false;
 
     }
@@ -40,14 +44,18 @@ public class MonsterControl : LivingEntity
         //{
         //    ChangeState(new MonsterHitState());
         //}
+        Debug.Log(currentState);
     }
 
     public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
     {
         base.OnDamage(damage, on, hitNomal);
+        Debug.Log(currentHp);
         if (currentHp <= 0&&!isDead)
         {
+            isDead = true;
             ChangeState(new MonsterDieState());
+            entityController.enabled = false;
         }
         else
         {
@@ -58,7 +66,7 @@ public class MonsterControl : LivingEntity
     }
     private void ItemDrop()
     {
-       
+        Debug.Log("아이템떨굼 나는 두ㅢ짐");
     }   
     public void DataSetting(MonsterData data)
     {
@@ -74,7 +82,14 @@ public class MonsterControl : LivingEntity
 
     public void EndAttack()
     {
-        ChangeState(new MonsterChaseState());
+        Vector3 direction = target.position - transform.position;
+        direction.Normalize();
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        if (distance > attackRange && !(currentState is MonsterDieState))
+        {
+            ChangeState(new MonsterChaseState());
+        }
     }
     private void Die()
     {

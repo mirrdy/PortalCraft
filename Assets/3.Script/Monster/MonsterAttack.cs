@@ -13,7 +13,6 @@ public class MonsterAttack : MonoBehaviour
             MonsterControl monster = GetComponentInParent<MonsterControl>();
             if (!monster.isDead&& Time.time >= monster.lastAttackTimebet + monster.timebetAttack)
             {
-                Debug.Log("¶§¸²");
                 monster.lastAttackTimebet = Time.time;
                 //gameObject.SetActive(false);
                 other.TryGetComponent(out PlayerControl player);

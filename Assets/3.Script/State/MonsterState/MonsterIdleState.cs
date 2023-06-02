@@ -17,7 +17,7 @@ public class MonsterIdleState : EntityState
         {   
             entity.ChangeState(new MonsterPatrolState());
         }
-        if(monster.target!=null)
+        if(monster.target!=null&&!monster.isDead)
         {
             entity.ChangeState(new MonsterChaseState());
         }

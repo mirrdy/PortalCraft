@@ -6,7 +6,7 @@ public class MonsterAttackState : EntityState
 {
     //private bool canAttack = true;
     //private WaitForSeconds waitForSeconds;
-    //private IEnumerator attack_co;
+    private IEnumerator attack_co;
     private MonsterControl monster;
     public override void EnterState(LivingEntity entity)
     {
@@ -21,8 +21,7 @@ public class MonsterAttackState : EntityState
     public override void ExitState(LivingEntity entity)
     {
         entity.animator.SetBool("isAttack", false);
-        entity.StartCoroutine(AttackCool_co(monster));
-        //entity.StopCoroutine(attack_co);
+        //entity.entityController.stepOffset = 1f;
     }
 
     public override void UpdateState(LivingEntity entity)
@@ -32,7 +31,12 @@ public class MonsterAttackState : EntityState
             entity.ChangeState(new MonsterReturnState());
             return;
         }
-       
+        // 몬스터가 플레이어 쪽을 바라보도록 회전 설정
+        Vector3 playerDirection = monster.target.position - entity.transform.position;
+        playerDirection.y = 0; // Y 축 방향을 무시하여 평면 상의 방향만 고려합니다.
+        Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
+        monster.transform.rotation = targetRotation;
+
         Vector3 direction = monster.target.position - monster.transform.position;
         direction.Normalize();
         float distance = Vector3.Distance(monster.transform.position, monster.target.position);
@@ -59,10 +63,5 @@ public class MonsterAttackState : EntityState
     //    yield return waitForSeconds;
     //    canAttack = true;
     //}
-    private IEnumerator AttackCool_co(MonsterControl monster)
-    {
-        monster.canAttack = false;
-        yield return new WaitForSeconds(monster.attackTime);
-        monster.canAttack = true;
-    }
+  
 }

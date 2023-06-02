@@ -10,13 +10,13 @@ public class MonsterDieState : EntityState
         {
             entity.onDeath.Invoke();
             entity.StartCoroutine(Die_co(entity));
+
         }
     }
 
     public override void ExitState(LivingEntity entity)
     {
-        entity.animator.SetBool("isDead", false);
-        entity.gameObject.SetActive(false);
+        
     }
 
     public override void UpdateState(LivingEntity entity)
@@ -25,8 +25,12 @@ public class MonsterDieState : EntityState
     }
     private IEnumerator Die_co(LivingEntity entity)
     {
-        entity.animator.SetBool("isDead", true);
+        Debug.Log("이 코루틴 계속 시작됨");
+        entity.animator.SetTrigger("isDie");
         yield return new WaitForSeconds(5f);
+        entity.animator.ResetTrigger("isDie");
+        Debug.Log("여기실행됨");
+        entity.gameObject.SetActive(false);
         entity.ChangeState(new MonsterIdleState());
     }
 }
