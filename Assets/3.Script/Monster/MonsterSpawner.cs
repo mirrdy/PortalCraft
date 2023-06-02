@@ -43,10 +43,15 @@ public class MonsterSpawner : MonoBehaviour
             {
                 if (!spawnList[i].activeSelf)
                 {
-                    RaycastHit hit;
-                    if (Physics.Raycast(randomSpawnPosition[i] + Vector3.up * 1f, Vector3.down, out hit, 3f)) 
+                    if (Physics.Raycast(randomSpawnPosition[i] + Vector3.up * 1f, Vector3.down, out RaycastHit hit, 3f))
                     {
-                        if (hit.collider.gameObject.layer == 8 && hit.distance >= 0.5f && hit.distance <= 1.5f)
+                        if (hit.collider.gameObject.layer == 8)
+                        {
+                            randomSpawnPosition[i].y += 1f;
+                            spawnList[i].transform.position = randomSpawnPosition[i];
+                        }
+                        #region 예전 코드(무한루프 발생)
+                        /*if (hit.collider.gameObject.layer == 8 && hit.distance >= 0.5f && hit.distance <= 1.5f)
                         {
                             if (hit.distance > 0.5 && hit.distance<1.5)
                             {
@@ -69,7 +74,8 @@ public class MonsterSpawner : MonoBehaviour
                                 i--;
                                 continue;
                             }
-                        }
+                        }*/
+                        #endregion
                     }
                     else
                     {
