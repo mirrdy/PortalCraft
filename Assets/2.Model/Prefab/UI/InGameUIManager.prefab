@@ -1,0 +1,362 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6262283254628790841
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6262283254628790843}
+  - component: {fileID: 6262283254628790840}
+  m_Layer: 0
+  m_Name: InGameUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6262283254628790843
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262283254628790841}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 722.19135, y: 487.0838, z: -283.3742}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6262283254628790840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262283254628790841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0565171fd86a3154d9e8f805aa950b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: {fileID: 0}
+  hpBar: {fileID: 0}
+  hpCheck: {fileID: 0}
+  mpBar: {fileID: 0}
+  mpCheck: {fileID: 0}
+  player_Level: {fileID: 0}
+  expBar: {fileID: 0}
+  expCheck: {fileID: 0}
+  playerView: {fileID: 0}
+  menuImage: {fileID: 0}
+  settingMenu: {fileID: 0}
+  slider_Bgm: {fileID: 0}
+  slider_Sfx: {fileID: 0}
+  resolutionWindow: {fileID: 0}
+  resolutionCount: {fileID: 0}
+  resolution: {fileID: 0}
+  image_Bgm: {fileID: 0}
+  image_Sfx: {fileID: 0}
+  sprite_Bgm:
+  - {fileID: 21300000, guid: 901d64fc6ad9d44799c2ad0fd4f182d2, type: 3}
+  - {fileID: 21300000, guid: 78757b0623f3b4309b7cc69c4769ae37, type: 3}
+  sprite_Sfx:
+  - {fileID: 21300000, guid: eb165af05aa2e4ab2bcad217611774b8, type: 3}
+  - {fileID: 21300000, guid: b1f42bbbfffc44202b66381ab8b622ee, type: 3}
+  image_Skill:
+  - {fileID: 0}
+  - {fileID: 0}
+  slider_Skill:
+  - {fileID: 0}
+  - {fileID: 0}
+  skillTimer:
+  - {fileID: 0}
+  - {fileID: 0}
+  sprite_Skill:
+  - {fileID: 21300000, guid: 08c71e4e0565fe4469d1e0a593047156, type: 3}
+  - {fileID: 21300000, guid: 2a5c892bdd014164da633b8c6fd0f246, type: 3}
+  - {fileID: 21300000, guid: 125bb49b217257347be09ede099b888d, type: 3}
+  - {fileID: 21300000, guid: b450d0b398880cb458f83d1a01b399ca, type: 3}
+  inventory: {fileID: 0}
+  invenStatus: {fileID: 0}
+  itemBorder:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemFrame:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemSlot:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemCount:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  itemQuantity:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  frameColor:
+  - {fileID: 21300000, guid: dd77367546bf4433dbbb2317a935df54, type: 3}
+  - {fileID: 21300000, guid: e6eea4f7cbb9f46f79c0fe06180fa5b3, type: 3}
+  - {fileID: 21300000, guid: c7ade68a31f1d4e12a57617409b6ee8a, type: 3}
+  - {fileID: 21300000, guid: 84063999b9e1741d099c1d8f7bbc0f7a, type: 3}
+  image_Item:
+  - {fileID: 1858718477311795816, guid: 47377657a75cb2b4791e92b7a7c151dd, type: 3}
+  - {fileID: -7959136965675241204, guid: 47377657a75cb2b4791e92b7a7c151dd, type: 3}
+  - {fileID: -330491561446018049, guid: 117f45d36f193b74e89843d1b2d5438d, type: 3}
+  - {fileID: -6802198193789874668, guid: 47377657a75cb2b4791e92b7a7c151dd, type: 3}
+  - {fileID: 8152910419120679750, guid: 47377657a75cb2b4791e92b7a7c151dd, type: 3}
+  - {fileID: -4966992281954946882, guid: 47377657a75cb2b4791e92b7a7c151dd, type: 3}
+  - {fileID: 5780770534196861083, guid: 47377657a75cb2b4791e92b7a7c151dd, type: 3}
+  - {fileID: 9070770581064328096, guid: 47377657a75cb2b4791e92b7a7c151dd, type: 3}
+  - {fileID: 5865670524570963042, guid: 47377657a75cb2b4791e92b7a7c151dd, type: 3}
+  - {fileID: 5626820737652618857, guid: 47377657a75cb2b4791e92b7a7c151dd, type: 3}
+  - {fileID: -3094830206190298059, guid: 5d6fbd1b925ce35438d91230783a1022, type: 3}
+  - {fileID: -5746919891621163955, guid: 5d6fbd1b925ce35438d91230783a1022, type: 3}
+  - {fileID: -7263059778039417604, guid: 5d6fbd1b925ce35438d91230783a1022, type: 3}
+  - {fileID: 3703022982538818924, guid: 5d6fbd1b925ce35438d91230783a1022, type: 3}
+  - {fileID: 2391506984704590391, guid: 5d6fbd1b925ce35438d91230783a1022, type: 3}
+  - {fileID: 318789243661179199, guid: 5d6fbd1b925ce35438d91230783a1022, type: 3}
+  - {fileID: -8616358705866283146, guid: 5d6fbd1b925ce35438d91230783a1022, type: 3}
+  - {fileID: 6596046510371859503, guid: 5d6fbd1b925ce35438d91230783a1022, type: 3}
+  - {fileID: 1679284420546461144, guid: 89a53e2b90d85e54e9d84100cd46485f, type: 3}
+  - {fileID: 4898045992281948738, guid: 89a53e2b90d85e54e9d84100cd46485f, type: 3}
+  - {fileID: -3034379994974696131, guid: 117f45d36f193b74e89843d1b2d5438d, type: 3}
+  - {fileID: 4232469017300700104, guid: 117f45d36f193b74e89843d1b2d5438d, type: 3}
+  - {fileID: 4215333019863480415, guid: 117f45d36f193b74e89843d1b2d5438d, type: 3}
+  - {fileID: 2944281119663103821, guid: 117f45d36f193b74e89843d1b2d5438d, type: 3}
+  - {fileID: 7381014327797596403, guid: 117f45d36f193b74e89843d1b2d5438d, type: 3}
+  - {fileID: -3548819911650479169, guid: 117f45d36f193b74e89843d1b2d5438d, type: 3}
+  - {fileID: 3202866767410423347, guid: 3d3c1df259c51fe4d8d4fe910d5a159c, type: 3}
+  - {fileID: -56352792576338850, guid: 49e66ef14a355d040b7c045114673f31, type: 3}
+  - {fileID: -6687243199115631265, guid: 3d3c1df259c51fe4d8d4fe910d5a159c, type: 3}
+  - {fileID: -6722400938540003197, guid: 3d3c1df259c51fe4d8d4fe910d5a159c, type: 3}
+  - {fileID: 7460661480099671148, guid: c08ea0cc06941f94c9e19be07d0aba1b, type: 3}
+  - {fileID: -1463922387993793746, guid: 3d3c1df259c51fe4d8d4fe910d5a159c, type: 3}
+  - {fileID: 5725823211702991844, guid: 3d3c1df259c51fe4d8d4fe910d5a159c, type: 3}
+  - {fileID: 7322885499304307244, guid: 3d3c1df259c51fe4d8d4fe910d5a159c, type: 3}
+  - {fileID: -4294247133449364167, guid: 117f45d36f193b74e89843d1b2d5438d, type: 3}
+  - {fileID: -3153135495700986575, guid: 117f45d36f193b74e89843d1b2d5438d, type: 3}
+  - {fileID: 7809708021368000707, guid: 89a53e2b90d85e54e9d84100cd46485f, type: 3}
+  - {fileID: 2575765807199959766, guid: 89a53e2b90d85e54e9d84100cd46485f, type: 3}
+  image_Tooltip: {fileID: 0}
+  tooltip: {fileID: 0}
+  border:
+  - {fileID: 21300000, guid: 11682c1eab384411d9d22f54d5e646a7, type: 3}
+  - {fileID: 21300000, guid: c0947046604294781a54818d5efaa1ea, type: 3}
+  image_Status: {fileID: 0}
+  playerStat: {fileID: 0}
+  curruntStat: {fileID: 0}
+  statUp:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  statDown:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  skillImage:
+  - {fileID: 0}
+  - {fileID: 0}
+  skillLevel:
+  - {fileID: 0}
+  - {fileID: 0}
+  skillTooltip:
+  - {fileID: 0}
+  - {fileID: 0}
+  skillUp:
+  - {fileID: 0}
+  - {fileID: 0}
+  skillDown:
+  - {fileID: 0}
+  - {fileID: 0}
+  skillPoint: {fileID: 0}
+  PlayerHand: 30

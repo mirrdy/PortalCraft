@@ -123,7 +123,7 @@ public class LoadingSceneManager : MonoBehaviour
     {
         blockMap = FindObjectOfType<BlockMapGenerator>();
         slider_Loding.value = 0f;
-        while (blockMap.progress < 99f)
+        while (blockMap.progress < 100f)
         {
             yield return null;
             text_Loding.text = "Loading... " + (int)blockMap.progress + "%";
