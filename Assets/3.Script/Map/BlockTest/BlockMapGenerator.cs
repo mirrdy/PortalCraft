@@ -80,7 +80,7 @@ public class BlockMapGenerator : MonoBehaviour
 
 
     [Header("환경 오브젝트")]
-    public MapObjectPrefabInfo[] envirionmentsInfos;
+    public MapObjectPrefabInfo[] envirionmentInfos;
     public int prob_NonObject; // 오브젝트가 생기지 않을 확률 (0~100)
     public GameObject monsterSpawnerInfo;
     private Vector3 monsterSpawnerPos;
@@ -103,12 +103,25 @@ public class BlockMapGenerator : MonoBehaviour
     [Header("포탈")]
     public GameObject portalInfo;
 
-
+    
     // Start is called before the first frame update
     void Start()
     {
+        SetCollisionLayer();
         StartCoroutine(InitGame());
     }
+
+    private void SetCollisionLayer()
+    {
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int fieldItemLayer = LayerMask.NameToLayer("FieldItem");
+        int monsterLayer = LayerMask.NameToLayer("Monster");
+
+        Physics.IgnoreLayerCollision(fieldItemLayer, playerLayer, false);
+        Physics.IgnoreLayerCollision(fieldItemLayer, fieldItemLayer);
+        Physics.IgnoreLayerCollision(fieldItemLayer, monsterLayer);
+    }
+    
 
     IEnumerator InitGame()
     {
@@ -164,7 +177,6 @@ public class BlockMapGenerator : MonoBehaviour
         Debug.Log("생성끝");
         progress = 100;
         isFinishGeneration = true;
-
     }
 
     IEnumerator CreateBlock(int y, Vector3 blockPos, bool visible)
@@ -186,26 +198,22 @@ public class BlockMapGenerator : MonoBehaviour
                     StartCoroutine(CreateObject(blockPos + new Vector3(0, 0.5f, 0), blockPrefabInfos[i].region));
 
                     // 몬스터 스포너 생성할 위치 저장 (1개)
-                    if(blockPrefabInfos[i].region == Region.Sand && !isCreatedSpawner)
+                    if (blockPrefabInfos[i].region == Region.Sand && !isCreatedSpawner)
                     {
-                        if (blockPos.x > widthX * 0.3 && blockPos.z > widthZ * 0.3)
+                        int spawnProb = (int)(widthX * widthZ * 0.3f);
+                        if (Random.Range(0, spawnProb) >= spawnProb - 1)
                         {
-                            if (Random.Range(0, 1000) >= 999)
-                            {
-                                isCreatedSpawner = true;
-                                monsterSpawnerPos = blockPos + Vector3.up;
-                            }
+                            isCreatedSpawner = true;
+                            monsterSpawnerPos = blockPos + Vector3.up;
                         }
                     }
-                    if(!isCreatedPortal)
+                    if (!isCreatedPortal)
                     {
-                        if (blockPos.x > widthX * 0.3 && blockPos.z > widthZ * 0.3)
+                        int spawnProb = (int)(widthX * widthZ * 0.5f);
+                        if (Random.Range(0, spawnProb) >= spawnProb - 1)
                         {
-                            if (Random.Range(0, 500) >= 499)
-                            {
-                                isCreatedPortal = true;
-                                portalPos = blockPos + Vector3.up;
-                            }
+                            isCreatedPortal = true;
+                            portalPos = blockPos + Vector3.up;
                         }
                     }
                 }
@@ -308,7 +316,7 @@ public class BlockMapGenerator : MonoBehaviour
         if (Random.Range(0, 100) >= prob_NonObject)
         {
             // 맵 영역에 맞는 오브젝트 리스트를 갖고있지 않으면 오브젝트 생성 코루틴 종료
-            if (System.Array.FindIndex(envirionmentsInfos, info => info.region == region) < 0)
+            if (System.Array.FindIndex(envirionmentInfos, info => info.region == region) < 0)
             {
                 yield break;
             }
@@ -318,14 +326,14 @@ public class BlockMapGenerator : MonoBehaviour
             int objectIndex = 0;
             while (true)
             {
-                objectIndex = Random.Range(0, envirionmentsInfos.Length);
-                if (envirionmentsInfos[objectIndex].region == region)
+                objectIndex = Random.Range(0, envirionmentInfos.Length);
+                if (envirionmentInfos[objectIndex].region == region)
                 {
                     break;
                 }
             }
 
-            GameObject environment = Instantiate(envirionmentsInfos[objectIndex].mapObject, objectPos, Quaternion.identity);
+            GameObject environment = Instantiate(envirionmentInfos[objectIndex].mapObject, objectPos, Quaternion.identity);
         }
         yield return null;
     }
