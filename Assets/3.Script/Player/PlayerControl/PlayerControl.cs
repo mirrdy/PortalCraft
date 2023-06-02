@@ -142,7 +142,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
 
-        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
+        //playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
 
         
     }
@@ -159,7 +159,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
 
-        uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
+        //uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
 
         //QuickSlotItem = new GameObject[8];
     }

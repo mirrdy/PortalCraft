@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7097793712425678299}
   - component: {fileID: 1364879872217041700}
   - component: {fileID: -2258756790923756056}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OrcString
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2327b5da59275df48b9662c544a0feb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: 0
+  tagNum: 0
 --- !u!54 &-2258756790923756056
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 5621867060691812255}
   - component: {fileID: 6782959542307814655}
   - component: {fileID: 4770991624029006663}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: vine_vertical_curled_brown_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 1824734842271816309}
   - component: {fileID: 8170336450111946958}
   - component: {fileID: 4450190851238435136}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: vine_vertical_curled_brown_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 5762601449663557435}
   - component: {fileID: 6265413754068900446}
   - component: {fileID: 5293073202209679566}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: vine_vertical_curled_brown_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

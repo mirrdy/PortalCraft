@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1329595553121965508}
   - component: {fileID: -2196711858128088193}
   - component: {fileID: -5489896609815417304}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PortalPice2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2327b5da59275df48b9662c544a0feb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: 402
+  tagNum: 0
 --- !u!54 &-5489896609815417304
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 1205157959750470796}
   - component: {fileID: 1215431965675942258}
   - component: {fileID: 1224344131201878588}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ruby_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 1205202723136941322}
   - component: {fileID: 1215679676249196118}
   - component: {fileID: 1224166875453725688}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ruby_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 1204846006613166788}
   - component: {fileID: 1215844514897113758}
   - component: {fileID: 1223325289916104328}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ruby_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
