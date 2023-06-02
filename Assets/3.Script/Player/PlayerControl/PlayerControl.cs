@@ -69,8 +69,9 @@ public class PlayerControl : MonoBehaviour, IDamage
     private float rotationSpeed = 1.0f;
     private const float threshold = 0.01f;
 
-    private bool canAttack;
-    private float attackCool = 0;
+    private bool CanAction;
+    private float ActionCool = 0;
+    private bool isDead = false;
 
     private bool hasAnimator;
 
@@ -82,6 +83,9 @@ public class PlayerControl : MonoBehaviour, IDamage
     private int animID_Attack;
     private int animID_Swing;
     private int animID_Shot;
+    private int animID_Die;
+    private int animID_Potion;
+    private int animID_AttackSpeed;
     #endregion
 
    
@@ -103,6 +107,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     public event WhenPlayerDie whenPlayerDie;
 
     private InGameUIManager uiManager;
+
+
 
     private void Awake()
     {
@@ -133,7 +139,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         
     }
     private void Start()
-    {      
+    {
         AssignAnimationID();
 
         cinemachineTargetYaw_Third = cinemachineCameraTarget_Third.transform.rotation.eulerAngles.y;
@@ -151,18 +157,6 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     private void Update()
     {
-        //switch(currentView)
-        //{
-        //    case cameraView.ThirdPerson:
-        //        {
-        //            break;
-        //        }
-        //    case cameraView.FirstPerson:
-        //        {
-        //            break;
-        //        }
-        //}
-
         hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
 
         JumpAndGravity();
@@ -244,7 +238,6 @@ public class PlayerControl : MonoBehaviour, IDamage
                 }
         }       
     }
-
     private void Move()
     {
         #region 플레이어 스피드 설정
@@ -283,15 +276,25 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             case cameraView.ThirdPerson: //3인칭
                 {               
-                    if (input.move != Vector2.zero)
+                    if (input.move != Vector2.zero) //움직임O && 공격X
                     {
                         targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
                         float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, rotationSmoothTime);
                         transform.rotation = Quaternion.Euler(0f, rotation, 0f);
                     }
-                    if (input.move != Vector2.zero && input.attack)
+                    if (input.move != Vector2.zero && input.attack) //움직임O && 공격O
                     {
-                        transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+                        if (currentItem != ItemType.Potion)
+                        {
+                            transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+                        }
+                    }
+                    if (input.move == Vector2.zero && input.attack) //움직임X && 공격O
+                    {
+                        if(currentItem != ItemType.Potion)
+                        {
+                            transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+                        }                       
                     }
                     //플레이어 움직이기
                     Vector3 targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * Vector3.forward;
@@ -382,15 +385,16 @@ public class PlayerControl : MonoBehaviour, IDamage
         }
     }
     private void Attack() //마우스좌클릭 
-    {            
-        switch (currentItem)
+    {
+        ActionCool += Time.deltaTime;
+
+        switch (currentItem) //장착중인 현재아이템
         {
             case ItemType.Empty:
                 {
-                    attackCool += Time.deltaTime;
-                    canAttack = attackCool > 1f * 0.5f; //->1f를 staters.attackSpeed 로 바꿔야함
+                    CanAction = ActionCool > 1f * 0.5f; //->1f를 staters.attackSpeed 로 바꿔야함
 
-                    if (input.attack && canAttack)
+                    if (input.attack && CanAction)
                     {
                         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
                         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
@@ -402,9 +406,9 @@ public class PlayerControl : MonoBehaviour, IDamage
                             if (Vector3.Distance(mainCamera.transform.position, rayPoint.position) <
                                 Vector3.Distance(mainCamera.transform.position, hitInfo.transform.position))
                             {
-                                if (hitInfo.transform.TryGetComponent(out BlockObject block))
+                                if (hitInfo.transform.TryGetComponent(out IDestroyable obj))
                                 {
-                                    block.TakeDamage(30); //30을 staters.attack 으로 바꿔야함
+                                    obj.TakeDamage(30); // 30 -> playerData.status.attack 후에 변경 
                                 }
                             }
                             else //플레이어가 오브젝트에 의해 가려져서 안보이는 경우
@@ -417,23 +421,21 @@ public class PlayerControl : MonoBehaviour, IDamage
                             Debug.Log("헛손질");
                         }
 
-                        transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
                         animator.SetTrigger(animID_Attack);
-                        attackCool = 0;
+                        ActionCool = 0;
                     }
                     break;
                 }
             case ItemType.Sword:
                 {
-                    attackCool += Time.deltaTime;
-                    canAttack = attackCool > 1f * equipItem.GetComponent<Sword>().attackRate; //->1f를 staters.attackSpeed 로 바꿔야함
-
-                    if (input.attack && canAttack)
+                    float equipItem_attackRate = equipItem.GetComponent<Sword>().attackRate;
+                    CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
+                    if (input.attack && CanAction)
                     {
-                        transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+                        //animator.SetFloat(animID_AttackSpeed, equipItem_attackRate);
                         animator.SetTrigger(animID_Swing);
                         equipItem.GetComponent<Sword>().Use();
-                        attackCool = 0;
+                        ActionCool = 0;
                     }
                     break;
                 }
@@ -443,6 +445,13 @@ public class PlayerControl : MonoBehaviour, IDamage
                 }
             case ItemType.Potion:
                 {
+                    CanAction = ActionCool > 1f * 2.33f; //1f를 playerData.status.attackSpeed 로 넣어야함
+                    if (input.attack && CanAction)
+                    {
+                        animator.SetTrigger(animID_Potion);
+                        equipItem.GetComponent<Potion>().Use();
+                        ActionCool = 0;
+                    }
                     break;
                 }
             case ItemType.Block:
@@ -468,19 +477,24 @@ public class PlayerControl : MonoBehaviour, IDamage
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
     {
         Status status = playerData.status;
+
         status.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * status.defens / (status.defens + 50)) * 0.01f);
         if(status.currentHp <= 0)
-
-        playerData.status.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * playerData.status.defens / (playerData.status.defens + 50)) * 0.01f);
-        if(playerData.status.currentHp <= 0)
-
         {
+            isDead = true;
             whenPlayerDie.Invoke();
         }
         //uiManager.HpCheck(status.maxHp, status.currentHp);
     }
 
-
+    public void Die()
+    {
+        if (isDead)
+        {
+            charController.enabled = false;
+            animator.SetTrigger(animID_Die);
+        }       
+    }
 
 
 
@@ -519,9 +533,10 @@ public class PlayerControl : MonoBehaviour, IDamage
         animID_Attack = Animator.StringToHash("Attack");
         animID_Swing = Animator.StringToHash("Swing");
         animID_Shot = Animator.StringToHash("Shot");
+        animID_Die = Animator.StringToHash("Die");
+        animID_Potion = Animator.StringToHash("Potion");
+        animID_AttackSpeed = Animator.StringToHash("AttackSpeed");
     }
-
-
 }
 
 [Serializable]
