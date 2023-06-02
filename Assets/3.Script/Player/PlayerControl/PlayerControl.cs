@@ -134,10 +134,9 @@ public class PlayerControl : MonoBehaviour, IDamage
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
 
-        //playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
-
-        
+        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
     }
+
     private void Start()
     {
         AssignAnimationID();

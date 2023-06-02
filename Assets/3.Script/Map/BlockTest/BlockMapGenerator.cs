@@ -232,9 +232,15 @@ public class BlockMapGenerator : MonoBehaviour
     }
     private void ResetPlayer()
     {
+        PlayerControl.instance.TryGetComponent(out CharacterController control);
+
+        control.enabled = false;
+        
         PlayerControl.instance.transform.position = portalPos + Vector3.forward;
         PlayerControl.instance.playerData.status.currentHp = PlayerControl.instance.playerData.status.maxHp;
         PlayerControl.instance.playerData.status.currentMp = PlayerControl.instance.playerData.status.maxMp;
+
+        control.enabled = true;
     }
     public void CheckAroundDestroyedBlock(Vector3 blockPos)
     {
