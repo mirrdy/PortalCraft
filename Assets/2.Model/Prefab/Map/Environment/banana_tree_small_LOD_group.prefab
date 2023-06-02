@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 903612364426140718}
   - component: {fileID: 2365636976911442718}
   - component: {fileID: 5594244515618174353}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: banana_tree_small_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 8186851451873675208}
   - component: {fileID: 6780941508195954398}
   - component: {fileID: 4049193285697817438}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: banana_tree_small_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4783449861137370188}
   - component: {fileID: 304034650361346877}
-  m_Layer: 0
+  - component: {fileID: 8787305976862870890}
+  - component: {fileID: 4698620599160549673}
+  m_Layer: 11
   m_Name: banana_tree_small_LOD_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,6 +227,34 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5594244515618174353}
   m_Enabled: 1
+--- !u!65 &8787305976862870890
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272003097735747318}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &4698620599160549673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5272003097735747318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714f2b1a96e05aa4c8205a5cbb6fe1b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 10
+  currentHp: 0
+  dropTables: []
 --- !u!1 &8787246119072227870
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +266,7 @@ GameObject:
   - component: {fileID: 8733227712877956773}
   - component: {fileID: 12927839997325250}
   - component: {fileID: 2612789382413033519}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: banana_tree_small_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

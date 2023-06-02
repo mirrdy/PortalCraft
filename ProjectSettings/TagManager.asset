@@ -21,9 +21,9 @@ TagManager:
   - UI_Camera
   - Monster
   - Block
-  - 
-  - 
-  - 
+  - Player
+  - FieldItem
+  - Environment
   - 
   - 
   - 

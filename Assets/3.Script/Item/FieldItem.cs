@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class FieldItem : MonoBehaviour
 {
-    public int tag;
+    public int tagNum;
+
 }
