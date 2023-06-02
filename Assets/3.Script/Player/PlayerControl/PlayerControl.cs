@@ -171,6 +171,15 @@ public class PlayerControl : MonoBehaviour, IDamage
         GroundCheck();
         Move();
         Attack();
+
+        // 설치 관련 로직 (ex: 횃불)
+        /*
+            1. 현재 들고있는 장비 정보 받아오기
+            2. 현재 장비가 Torch면 (Torch 스크립트 만들 예정)
+            3. 조준점 기준 설치 가능한지 판별
+            4. 우클릭하면 플레이어 장비에서 토치 해제하고
+            5. 설치 가능한 해당 조준점에 필드 토치 오브젝트 생성
+         */
         VeiwChange();
     }
     private void LateUpdate()

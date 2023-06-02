@@ -14,6 +14,7 @@ public class BlockObject : MonoBehaviour, IDestroyable
     }
     public void TakeDamage(int damage)
     {
+        currentHp -= damage;
         if (currentHp <= 0)
         {
             DropItem();
@@ -21,7 +22,6 @@ public class BlockObject : MonoBehaviour, IDestroyable
             Destroy(gameObject);
             return;
         }
-        currentHp -= damage;
     }
 
     public void DropItem()
