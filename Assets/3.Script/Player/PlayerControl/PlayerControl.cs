@@ -120,7 +120,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
 
 
-        //uiManager = FindObjectOfType<InGameUIManager>();
+        uiManager = FindObjectOfType<InGameUIManager>();
         itemInfo = FindObjectOfType<ItemManager>();
         skillInfo = FindObjectOfType<SkillManager>();
 
@@ -145,7 +145,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
 
-        //uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
+        uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
 
         //QuickSlotItem = new GameObject[8];
     }
@@ -477,7 +477,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             whenPlayerDie.Invoke();
         }
-        //uiManager.HpCheck(status.maxHp, status.currentHp);
+        uiManager.HpCheck(status.maxHp, status.currentHp);
     }
 
 
