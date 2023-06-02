@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IDestroyable
 {
     public void DropItem();
+    public void TakeDamage(int damage);
 }
