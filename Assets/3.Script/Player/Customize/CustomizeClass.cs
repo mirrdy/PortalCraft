@@ -13,6 +13,11 @@ public class CustomizeClass : MonoBehaviour
 
     public string job = null;
 
+    private void Awake()
+    {
+        job = "전사";
+    }
+
     public void Warrior_Button()
     {
         character_Warrior.SetActive(true);

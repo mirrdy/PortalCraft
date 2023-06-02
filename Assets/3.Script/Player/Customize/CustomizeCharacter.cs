@@ -266,6 +266,19 @@ public class CustomizeCharacter : MonoBehaviour
         playerData.mustache = indexMustache;
         playerData.body = indexBody;
 
+        if (playerData.job.Equals("ภüป็"))
+        {
+            playerData.inventory[30].hasItem = true;
+            playerData.inventory[30].tag = 203;
+            playerData.inventory[30].quantity = 1;
+        }
+        else
+        {
+            playerData.inventory[30].hasItem = true;
+            playerData.inventory[30].tag = 206;
+            playerData.inventory[30].quantity = 1;
+        }
+
         DataManager.instance.SaveData(playerData, DataManager.instance.saveNumber);
 
         LoadingSceneManager.Instance.LoadScene("MapTest");
