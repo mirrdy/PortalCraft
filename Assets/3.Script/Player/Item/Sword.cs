@@ -36,7 +36,7 @@ public class Sword : MonoBehaviour
             int damage = PlayerControl.instance.playerData.status.attack + attackDamage;
             Vector3 hitPoint = coll.ClosestPoint(transform.position);
             Vector3 hitNormal = transform.position - coll.transform.position;
-            monsterControl.OnDamage(damage, hitPoint, hitNormal);
+            monsterControl.TakeDamage(damage);
         }
     }
 }
