@@ -44,13 +44,11 @@ public class MonsterControl : LivingEntity
         //{
         //    ChangeState(new MonsterHitState());
         //}
-        Debug.Log(currentState);
     }
 
     public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
     {
         base.OnDamage(damage, on, hitNomal);
-        Debug.Log(currentHp);
         if (currentHp <= 0&&!isDead)
         {
             isDead = true;
@@ -66,7 +64,6 @@ public class MonsterControl : LivingEntity
     }
     private void ItemDrop()
     {
-        Debug.Log("¾ÆÀÌÅÛ¶³±À ³ª´Â µÎ¤ÒÁü");
     }   
     public void DataSetting(MonsterData data)
     {
@@ -82,13 +79,16 @@ public class MonsterControl : LivingEntity
 
     public void EndAttack()
     {
-        Vector3 direction = target.position - transform.position;
-        direction.Normalize();
-        float distance = Vector3.Distance(transform.position, target.position);
-
-        if (distance > attackRange && !(currentState is MonsterDieState))
+        if (target != null)
         {
-            ChangeState(new MonsterChaseState());
+            Vector3 direction = target.position - transform.position;
+            direction.Normalize();
+            float distance = Vector3.Distance(transform.position, target.position);
+
+            if (distance > attackRange && !(currentState is MonsterDieState))
+            {
+                ChangeState(new MonsterChaseState());
+            }
         }
     }
     private void Die()

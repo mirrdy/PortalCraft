@@ -38,7 +38,6 @@ public class LivingEntity : MonoBehaviour, IDamage
     }
     public void ChangeState(EntityState newState)
     {
-        Debug.Log("╩Себ╧ы╡Я");
         currentState.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);

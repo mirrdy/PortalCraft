@@ -20,4 +20,4 @@ MonoBehaviour:
   attackRange: 3
   patrolRange: 5
   gravity: -6
-  dropExpNum: 2
+  dropExpNum: 15
