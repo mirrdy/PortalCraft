@@ -88,7 +88,15 @@ public class PlayerControl : MonoBehaviour, IDamage
     private int animID_AttackSpeed;
     #endregion
 
-   
+    #region 장비스탯변수
+    private int equip_HP;
+    private int equip_Defense;
+    private float equip_Speed;
+    private int equip_Attack;
+    private float equip_AttackRate;
+    #endregion
+
+
 
     //public GameObject[] QuickSlotItem;
     [Header("현재 장착중인 아이템")]
@@ -126,7 +134,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
 
 
-        //uiManager = FindObjectOfType<InGameUIManager>();
+        uiManager = FindObjectOfType<InGameUIManager>();
         itemInfo = FindObjectOfType<ItemManager>();
         skillInfo = FindObjectOfType<SkillManager>();
 
@@ -135,6 +143,8 @@ public class PlayerControl : MonoBehaviour, IDamage
         TryGetComponent(out skillInfo);
 
         playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
+
+        
     }
     private void Start()
     {
@@ -149,7 +159,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
 
-        //uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
+        uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
 
         //QuickSlotItem = new GameObject[8];
     }
@@ -408,6 +418,12 @@ public class PlayerControl : MonoBehaviour, IDamage
                                 {
                                     obj.TakeDamage(30); // 30 -> playerData.status.attack 후에 변경 
                                 }
+                                //if (hitInfo.transform.TryGetComponent(out MonsterControl monsterControl))
+                                //{
+                                //    Vector3 hitPoint = hitInfo.collider.ClosestPoint(transform.position);
+                                //    Vector3 hitNormal = transform.position - hitInfo.collider.transform.position;
+                                //    monsterControl.OnDamage(20, hitPoint, hitNormal); //20 -> playerData.status.attack 변경필요
+                                //}
                             }
                             else //플레이어가 오브젝트에 의해 가려져서 안보이는 경우
                             {
@@ -430,7 +446,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
                     if (input.attack && CanAction)
                     {
-                        //animator.SetFloat(animID_AttackSpeed, equipItem_attackRate);
+                        animator.SetFloat(animID_AttackSpeed, 0.533f / equipItem_attackRate);
                         animator.SetTrigger(animID_Swing);
                         equipItem.GetComponent<Sword>().Use();
                         ActionCool = 0;
@@ -439,6 +455,15 @@ public class PlayerControl : MonoBehaviour, IDamage
                 }
             case ItemType.Bow:
                 {
+                    float equipItem_attackRate = equipItem.GetComponent<Bow>().attackRate;
+                    CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
+                    if (input.attack && CanAction)
+                    {
+                        animator.SetFloat(animID_AttackSpeed, 0.667f / equipItem_attackRate);
+                        animator.SetTrigger(animID_Shot);
+                        equipItem.GetComponent<Bow>().Use();
+                        ActionCool = 0;
+                    }
                     break;
                 }
             case ItemType.Potion:
@@ -480,9 +505,9 @@ public class PlayerControl : MonoBehaviour, IDamage
         if(status.currentHp <= 0)
         {
             isDead = true;
-            whenPlayerDie.Invoke();
+            whenPlayerDie?.Invoke();
         }
-        //uiManager.HpCheck(status.maxHp, status.currentHp);
+        uiManager.HpCheck(status.maxHp, status.currentHp);
     }
 
     public void Die()
@@ -505,7 +530,7 @@ public class PlayerControl : MonoBehaviour, IDamage
             LevelUp();
         }
     }
-    public void LevelUp()
+    public void LevelUp() //후에 스탯상승 추가 
     {
         playerData.playerExp -= (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
         playerData.playerLevel++;
