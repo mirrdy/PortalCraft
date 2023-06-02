@@ -1942,6 +1942,8 @@ MonoBehaviour:
   patrolRange: 0
   monsterdata: {fileID: 11400000, guid: 8e049a0a82924244ba4851d16466855f, type: 2}
   canAttack: 1
+  timebetAttack: 0.5
+  lastAttackTimebet: 0
 --- !u!143 &8504587492760480445
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1956,7 +1958,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 1
+  m_StepOffset: 0.7
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}

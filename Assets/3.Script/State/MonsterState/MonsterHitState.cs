@@ -20,6 +20,7 @@ public class MonsterHitState : EntityState
     public override void ExitState(LivingEntity entity)
     {
         entity.animator.SetBool("isHit", false);
+        monoBehaviour.StopCoroutine(Hit_co(entity));
     }
 
     public override void UpdateState(LivingEntity entity)

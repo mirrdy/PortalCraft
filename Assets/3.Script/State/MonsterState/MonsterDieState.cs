@@ -26,9 +26,9 @@ public class MonsterDieState : EntityState
     private IEnumerator Die_co(LivingEntity entity)
     {
         Debug.Log("이 코루틴 계속 시작됨");
-        entity.animator.SetBool("isDead", true);
+        entity.animator.SetTrigger("isDie");
         yield return new WaitForSeconds(5f);
-        entity.animator.SetBool("isDead", false);
+        entity.animator.ResetTrigger("isDie");
         Debug.Log("여기실행됨");
         entity.gameObject.SetActive(false);
         entity.ChangeState(new MonsterIdleState());

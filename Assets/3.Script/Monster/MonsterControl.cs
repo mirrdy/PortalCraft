@@ -8,7 +8,6 @@ public class MonsterControl : LivingEntity
     public Vector3 spawnPoint;
     public float patrolRange;
     [SerializeField] private MonsterData monsterdata;
-    public bool canAttack;
     [SerializeField] public float timebetAttack = 0.5f;
     public float lastAttackTimebet;
 
@@ -16,22 +15,24 @@ public class MonsterControl : LivingEntity
     {
         currentHp = hp;
         isDead = false;
-        entityController.gameObject.SetActive(true);
 
+        entityController.enabled = true;
         currentState = new MonsterIdleState();
         ChangeState(new MonsterIdleState());
     }
+    private void Awake()
+    {
+        entityController = GetComponent<CharacterController>();
 
+    } 
     protected override void Start()
     {
         DataSetting(monsterdata);//나중에지워야함 필요없음
-        canAttack = true;
         base.Start();
         Animator monsterAnimator = GetComponent<Animator>();
         animator = monsterAnimator;
         onDeath.AddListener(ItemDrop);
         spawnPoint = transform.position;
-        entityController = GetComponent<CharacterController>();
         target = null;
         isDead = false;
 
@@ -43,6 +44,7 @@ public class MonsterControl : LivingEntity
         //{
         //    ChangeState(new MonsterHitState());
         //}
+        Debug.Log(currentState);
     }
 
     public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
@@ -53,7 +55,7 @@ public class MonsterControl : LivingEntity
         {
             isDead = true;
             ChangeState(new MonsterDieState());
-            //entityController.gameObject.SetActive(false);
+            entityController.enabled = false;
         }
         else
         {
@@ -80,7 +82,11 @@ public class MonsterControl : LivingEntity
 
     public void EndAttack()
     {
-        if (!(currentState is MonsterDieState))
+        Vector3 direction = target.position - transform.position;
+        direction.Normalize();
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        if (distance > attackRange && !(currentState is MonsterDieState))
         {
             ChangeState(new MonsterChaseState());
         }

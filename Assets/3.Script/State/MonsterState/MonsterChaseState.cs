@@ -18,7 +18,6 @@ public class MonsterChaseState : EntityState
 
     public override void UpdateState(LivingEntity entity)   
     {
-        
         if (monster.target != null)
         {   
 
@@ -34,9 +33,10 @@ public class MonsterChaseState : EntityState
             playerDirection.y = 0; // Y 축 방향을 무시하여 평면 상의 방향만 고려합니다.
             Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
             monster.transform.rotation = targetRotation;
-            if(distance <= monster.attackRange && monster.canAttack)
+            if(distance <= monster.attackRange)
             {
                 entity.ChangeState(new MonsterAttackState());
+                return;
             }
 
         }

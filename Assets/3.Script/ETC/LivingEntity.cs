@@ -38,6 +38,7 @@ public class LivingEntity : MonoBehaviour, IDamage
     }
     public void ChangeState(EntityState newState)
     {
+        Debug.Log("»óÅÂ¹Ù²ñ");
         currentState.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
@@ -46,7 +47,6 @@ public class LivingEntity : MonoBehaviour, IDamage
     public virtual void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
     {
        damage = damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(def / (def + 50) * 100) * 0.01f);
-        Debug.Log(damage);
         currentHp -= damage;
     }
 

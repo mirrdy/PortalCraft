@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnMonsterList:
-  - {fileID: 8504587492760480446, guid: 9d9471a5c43b82645a6d052eaa1936dd, type: 3}
+  - {fileID: 866425983523307995, guid: 405e454aec3fbfd4083c869c34bc676e, type: 3}
