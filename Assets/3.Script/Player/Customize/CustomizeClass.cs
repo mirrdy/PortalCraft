@@ -39,6 +39,10 @@ public class CustomizeClass : MonoBehaviour
 
     public void Confirm_Button()
     {
+        PlayerData playerData = DataManager.instance.playerData;
+
+        playerData.job = job;
+
         player.SetActive(true);
         character_Warrior.SetActive(false);
         character_Archer.SetActive(false);

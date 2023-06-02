@@ -66,51 +66,59 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] Button[] skillDown;  // 스킬 레벨 내리는 버튼
     [SerializeField] Text skillPoint; // 현재 스킬 포인트 표시
 
+    [Header("Player Target Image")]
+    [SerializeField] GameObject target;
+
     private bool isResolution = false;
 
     private ItemManager itemInfo;
     private SkillManager skillInfo;
 
-    public int PlayerHand = 30;
+    private PlayerControl player;
 
-    private Coroutine fillCoroutine;
+    public int playerHand = 30;
+    public int armorTag = 0;
+    public int helmetTag = 0;
 
-/*    private void Reset()
-    {
-        // PlayerUI
-        //TMP_Text timer;  // 게임 타이머
-        //Image hpBar;  // hp바
-        //Text hpCheck;  // hp 표시
-        //Image mpBar;  // mp바
-        //Text mpCheck;  // mp 표시
-        //Text player_Level;  // Player 레벨
-        //Slider expBar;  // 경험치 바
-        //Text expCheck;  // 경험치 양 표시
-        //GameObject playerView;  // 캐릭터 비추는 카메라
+    // 코루틴 저장할 변수
+    private Coroutine hpCoroutine;
 
-        GameObject.Find("Player").GetComponentsInChildren<GameObject>()[7].TryGetComponent(out playerView);
+    #region 리셋 초안
+    /*    private void Reset()
+        {
+            // PlayerUI
+            //TMP_Text timer;  // 게임 타이머
+            //Image hpBar;  // hp바
+            //Text hpCheck;  // hp 표시
+            //Image mpBar;  // mp바
+            //Text mpCheck;  // mp 표시
+            //Text player_Level;  // Player 레벨
+            //Slider expBar;  // 경험치 바
+            //Text expCheck;  // 경험치 양 표시
+            //GameObject playerView;  // 캐릭터 비추는 카메라
 
-        GameObject canvas = GameObject.Find("InGame Canvas");
-        RectTransform[] objects_UI = canvas.GetComponentsInChildren<RectTransform>(true);
+            GameObject.Find("Player").GetComponentsInChildren<GameObject>()[7].TryGetComponent(out playerView);
 
-        RectTransform playerUI = objects_UI[1];
-        RectTransform inventoryUI = objects_UI[2];
-        RectTransform statusUI = objects_UI[3];
-        RectTransform menuUI = objects_UI[4];
-        RectTransform tooltipUI = objects_UI[5];
+            GameObject canvas = GameObject.Find("InGame Canvas");
+            RectTransform[] objects_UI = canvas.GetComponentsInChildren<RectTransform>(true);
 
-        playerUI.GetChild(0).GetChild(0).TryGetComponent(out timer);
-        playerUI.GetChild(2).GetChild(0).TryGetComponent(out hpBar);
-        playerUI.GetChild(2).GetChild(1).TryGetComponent(out hpCheck);
-        playerUI.GetChild(3).TryGetComponent(out mpBar);
-        playerUI.GetChild(3).GetChild(1).TryGetComponent(out mpCheck);
-        playerUI.GetChild(4).GetChild(0).TryGetComponent(out player_Level);
-        playerUI.GetChild(4).GetChild(1).TryGetComponent(out expBar);
-        playerUI.GetChild(4).GetChild(1).GetChild(2).TryGetComponent(out expCheck);
+            RectTransform playerUI = objects_UI[1];
+            RectTransform inventoryUI = objects_UI[2];
+            RectTransform statusUI = objects_UI[3];
+            RectTransform menuUI = objects_UI[4];
+            RectTransform tooltipUI = objects_UI[5];
 
-        
-    }*/
-    
+            playerUI.GetChild(0).GetChild(0).TryGetComponent(out timer);
+            playerUI.GetChild(2).GetChild(0).TryGetComponent(out hpBar);
+            playerUI.GetChild(2).GetChild(1).TryGetComponent(out hpCheck);
+            playerUI.GetChild(3).TryGetComponent(out mpBar);
+            playerUI.GetChild(3).GetChild(1).TryGetComponent(out mpCheck);
+            playerUI.GetChild(4).GetChild(0).TryGetComponent(out player_Level);
+            playerUI.GetChild(4).GetChild(1).TryGetComponent(out expBar);
+            playerUI.GetChild(4).GetChild(1).GetChild(2).TryGetComponent(out expCheck);
+        }*/
+    #endregion
+
     private void Start()
     {
         slider_Bgm.value = DataManager.instance.LoadSound()[0];
@@ -124,6 +132,8 @@ public class InGameUIManager : MonoBehaviour
             itemBorder[30 + i].sprite = border[0];
         }
         itemBorder[30].sprite = border[1];
+
+        player = GameObject.Find("Player").GetComponent<PlayerControl>();
     }
 
     private void OnEnable()
@@ -202,15 +212,17 @@ public class InGameUIManager : MonoBehaviour
         {
             if (!menuImage.activeSelf)
             {
+                target.SetActive(false);
                 SetCursorState(false);
                 Time.timeScale = 0;
                 menuImage.SetActive(true);
                 image_Status.SetActive(false);
-                inventory.SetActive(false); 
+                inventory.SetActive(false);
                 playerView.SetActive(false);
             }
             else
             {
+                target.SetActive(true);
                 image_Tooltip.SetActive(false);
                 SetCursorState(true);
                 Time.timeScale = 1;
@@ -306,10 +318,11 @@ public class InGameUIManager : MonoBehaviour
 
     public void StatusOnOff()
     {
-        if(Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             if (!image_Status.activeSelf)
             {
+                target.SetActive(false);
                 SetCursorState(false);
                 Time.timeScale = 0;
                 OnSkillStatusCall();
@@ -320,6 +333,7 @@ public class InGameUIManager : MonoBehaviour
             }
             else
             {
+                target.SetActive(true);
                 image_Tooltip.SetActive(false);
                 SetCursorState(true);
                 image_Status.SetActive(false);
@@ -332,8 +346,8 @@ public class InGameUIManager : MonoBehaviour
     public void OnSkillStatusCall()
     {
         PlayerData playerData = PlayerControl.instance.playerData;
-        
-        if(playerData.job.Equals("전사"))
+
+        if (playerData.job.Equals("전사"))
         {
             skillImage[0].sprite = sprite_Skill[0];
             skillImage[1].sprite = sprite_Skill[1];
@@ -405,14 +419,14 @@ public class InGameUIManager : MonoBehaviour
 
         int count = playerData.playerLevel * 5 - playerData.status.statusPoint;
 
-        if(count > 0)
+        if (count > 0)
         {
-            for(int i = 0; i < statDown.Length; i++)
+            for (int i = 0; i < statDown.Length; i++)
             {
                 statDown[i].interactable = true;
             }
 
-            if(playerData.status.maxHp <= 100)
+            if (playerData.status.maxHp <= 100)
             {
                 statDown[0].interactable = false;
             }
@@ -437,7 +451,7 @@ public class InGameUIManager : MonoBehaviour
             }
         }
 
-        if(playerData.status.statusPoint > 0)
+        if (playerData.status.statusPoint > 0)
         {
             for (int i = 0; i < statUp.Length; i++)
             {
@@ -475,6 +489,8 @@ public class InGameUIManager : MonoBehaviour
                             "공격 속도 : " + playerData.playerLevel + "\n" +
                             "공격력 : " + playerData.playerLevel + "\n" +
                             "방어력 : " + playerData.playerLevel;
+
+        CurrentStatus();
     }
 
     public void OneSkillUpDown(int value)
@@ -483,7 +499,7 @@ public class InGameUIManager : MonoBehaviour
 
         playerData.skill[0].skillLevel += value;
 
-        if(playerData.skill[0].skillLevel > 0)
+        if (playerData.skill[0].skillLevel > 0)
         {
             playerData.skill[0].hasSkill = true;
         }
@@ -579,7 +595,7 @@ public class InGameUIManager : MonoBehaviour
 
         playerData.status.maxMp += value;
 
-        if(value > 0)
+        if (value > 0)
         {
             playerData.status.statusPoint--;
         }
@@ -629,10 +645,11 @@ public class InGameUIManager : MonoBehaviour
 
     private void InventoryOnOff()
     {
-        if(Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            if(!inventory.activeSelf)
+            if (!inventory.activeSelf)
             {
+                target.SetActive(false);
                 SetCursorState(false);
                 Time.timeScale = 0;
                 inventory.SetActive(true);
@@ -642,6 +659,7 @@ public class InGameUIManager : MonoBehaviour
             }
             else
             {
+                target.SetActive(true);
                 image_Tooltip.SetActive(false);
                 SetCursorState(true);
                 Time.timeScale = 1;
@@ -657,7 +675,7 @@ public class InGameUIManager : MonoBehaviour
     {
         PlayerData playerData = PlayerControl.instance.playerData;
 
-        if(playerData.inventory[value].hasItem)
+        if (playerData.inventory[value].hasItem)
         {
             int num = 0;
             int tag = playerData.inventory[value].tag;
@@ -674,7 +692,7 @@ public class InGameUIManager : MonoBehaviour
                 }
             }
 
-            if(itemInfo.list_AllItem[num].type.Equals("Block"))
+            if (itemInfo.list_AllItem[num].type.Equals("Block"))
             {
                 for (int i = 0; i < itemInfo.list_Block.Count; i++)
                 {
@@ -816,7 +834,7 @@ public class InGameUIManager : MonoBehaviour
                         itemSlot[i].gameObject.SetActive(true);
                         itemSlot[i].sprite = image_Item[k];
 
-                        if(itemInfo.list_AllItem[k].maxQuantity > 2)
+                        if (itemInfo.list_AllItem[k].maxQuantity > 2)
                         {
                             itemCount[i].SetActive(true);
                             itemQuantity[i].text = "" + playerData.inventory[i].quantity;
@@ -826,11 +844,11 @@ public class InGameUIManager : MonoBehaviour
                             itemCount[i].SetActive(false);
                         }
 
-                        if(itemInfo.list_AllItem[k].Equals("Helmet") || itemInfo.list_AllItem[k].Equals("Armor") || itemInfo.list_AllItem[k].Equals("Arms"))
+                        if (itemInfo.list_AllItem[k].Equals("Helmet") || itemInfo.list_AllItem[k].Equals("Armor") || itemInfo.list_AllItem[k].Equals("Arms"))
                         {
                             itemFrame[i].sprite = frameColor[2];
                         }
-                        else if(itemInfo.list_AllItem[k].Equals("About"))
+                        else if (itemInfo.list_AllItem[k].Equals("About"))
                         {
                             itemFrame[i].sprite = frameColor[1];
                         }
@@ -853,58 +871,58 @@ public class InGameUIManager : MonoBehaviour
             }
         }
     }
-    
+
     public void SetQuickSlot()
     {
         #region 퀵슬롯 슬롯 번호 배정
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            PlayerHand = 30;
+            playerHand = 30;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            PlayerHand = 31;
+            playerHand = 31;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            PlayerHand = 32;
+            playerHand = 32;
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            PlayerHand = 33;
+            playerHand = 33;
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            PlayerHand = 34;
+            playerHand = 34;
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            PlayerHand = 35;
+            playerHand = 35;
         }
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            PlayerHand = 36;
+            playerHand = 36;
         }
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            PlayerHand = 37;
+            playerHand = 37;
         }
 
         float wheelInput = Input.GetAxis("Mouse ScrollWheel");
         if (wheelInput > 0)
         {
-            PlayerHand--;
-            if(PlayerHand < 30)
+            playerHand--;
+            if (playerHand < 30)
             {
-                PlayerHand = 37;
+                playerHand = 37;
             }
         }
         else if (wheelInput < 0)
         {
-            PlayerHand++;
-            if (PlayerHand > 37)
+            playerHand++;
+            if (playerHand > 37)
             {
-                PlayerHand = 30;
+                playerHand = 30;
             }
         }
 
@@ -912,20 +930,22 @@ public class InGameUIManager : MonoBehaviour
         {
             itemBorder[30 + i].sprite = border[0];
         }
-        itemBorder[PlayerHand].sprite = border[1];
+        itemBorder[playerHand].sprite = border[1];
         #endregion
+
+        SetArms();
     }
 
     public void HpCheck(int maxHp, int currentHp)
     {
         float goals = currentHp / (float)maxHp;
 
-        if (fillCoroutine != null)
+        if (hpCoroutine != null)
         {
-            StopCoroutine(fillCoroutine); // 기존 코루틴 종료
+            StopCoroutine(hpCoroutine); // 기존 코루틴 종료
         }
 
-        fillCoroutine = StartCoroutine(HpMpDelay_co(goals));
+        hpCoroutine = StartCoroutine(HpMpDelay_co(goals));
         hpCheck.text = currentHp + " / " + maxHp;
     }
 
@@ -944,6 +964,108 @@ public class InGameUIManager : MonoBehaviour
         }
 
         hpBar.fillAmount = goals;
-        fillCoroutine = null;
+        hpCoroutine = null;
+    }
+
+    private int GetHelmetType()
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        if (playerData.inventory[38].hasItem)
+        {
+            int tag = playerData.inventory[38].tag;
+            for (int i = 0; i < itemInfo.list_Helmet.Count; i++)
+            {
+                if (tag == itemInfo.list_Helmet[i].tag)
+                {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private int GetArmorType()
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        if (playerData.inventory[39].hasItem)
+        {
+            int tag = playerData.inventory[39].tag;
+            for (int i = 0; i < itemInfo.list_Helmet.Count; i++)
+            {
+                if (tag == itemInfo.list_Helmet[i].tag)
+                {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private int GetQuickItemType()
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        if (playerData.inventory[playerHand].hasItem)
+        {
+            int tag = playerData.inventory[playerHand].tag;
+            for (int i = 0; i < itemInfo.list_Arms.Count; i++)
+            {
+                if (tag == itemInfo.list_Arms[i].tag)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        return -1;
+    }
+
+    public void SetArmor()
+    {
+        int armorNumber = GetArmorType();
+
+        if (armorNumber >= 0)
+        {
+            int hp = itemInfo.list_Armor[armorNumber].hp;
+            float moveSpeed = itemInfo.list_Armor[armorNumber].moveSpeed;
+        }
+    }
+
+    public void SetHelmet()
+    {
+        int helmetNumber = GetHelmetType();
+
+        if (helmetNumber >= 0)
+        {
+            int defens = itemInfo.list_Helmet[helmetNumber].defens;
+        }
+    }
+
+    public void SetArms()
+    {
+        int armsNumber = GetHelmetType();
+
+        if (armsNumber >= 0)
+        {
+            int attack = itemInfo.list_Arms[armsNumber].attack;
+            float attackSpeed = itemInfo.list_Arms[armsNumber].attackSpeed;
+        }
+    }
+
+    public void CurrentStatus()
+    {
+        PlayerData playerData = PlayerControl.instance.playerData;
+
+        if (armorTag != playerData.inventory[38].tag)
+        {
+            SetArmor();
+        }
+
+        if (helmetTag != playerData.inventory[39].tag)
+        {
+            SetHelmet();
+        }
     }
 }
