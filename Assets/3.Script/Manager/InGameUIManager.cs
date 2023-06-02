@@ -75,6 +75,42 @@ public class InGameUIManager : MonoBehaviour
 
     private Coroutine fillCoroutine;
 
+/*    private void Reset()
+    {
+        // PlayerUI
+        //TMP_Text timer;  // 게임 타이머
+        //Image hpBar;  // hp바
+        //Text hpCheck;  // hp 표시
+        //Image mpBar;  // mp바
+        //Text mpCheck;  // mp 표시
+        //Text player_Level;  // Player 레벨
+        //Slider expBar;  // 경험치 바
+        //Text expCheck;  // 경험치 양 표시
+        //GameObject playerView;  // 캐릭터 비추는 카메라
+
+        GameObject.Find("Player").GetComponentsInChildren<GameObject>()[7].TryGetComponent(out playerView);
+
+        GameObject canvas = GameObject.Find("InGame Canvas");
+        RectTransform[] objects_UI = canvas.GetComponentsInChildren<RectTransform>(true);
+
+        RectTransform playerUI = objects_UI[1];
+        RectTransform inventoryUI = objects_UI[2];
+        RectTransform statusUI = objects_UI[3];
+        RectTransform menuUI = objects_UI[4];
+        RectTransform tooltipUI = objects_UI[5];
+
+        playerUI.GetChild(0).GetChild(0).TryGetComponent(out timer);
+        playerUI.GetChild(2).GetChild(0).TryGetComponent(out hpBar);
+        playerUI.GetChild(2).GetChild(1).TryGetComponent(out hpCheck);
+        playerUI.GetChild(3).TryGetComponent(out mpBar);
+        playerUI.GetChild(3).GetChild(1).TryGetComponent(out mpCheck);
+        playerUI.GetChild(4).GetChild(0).TryGetComponent(out player_Level);
+        playerUI.GetChild(4).GetChild(1).TryGetComponent(out expBar);
+        playerUI.GetChild(4).GetChild(1).GetChild(2).TryGetComponent(out expCheck);
+
+        
+    }*/
+    
     private void Start()
     {
         slider_Bgm.value = DataManager.instance.LoadSound()[0];
