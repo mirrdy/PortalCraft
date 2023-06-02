@@ -432,7 +432,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
                     if (input.attack && CanAction)
                     {
-                        animator.SetFloat(animID_AttackSpeed, equipItem_attackRate);
+                        //animator.SetFloat(animID_AttackSpeed, equipItem_attackRate);
                         animator.SetTrigger(animID_Swing);
                         equipItem.GetComponent<Sword>().Use();
                         ActionCool = 0;
