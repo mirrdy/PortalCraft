@@ -92,6 +92,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1908893183750488788}
   - component: {fileID: 6640522010790360485}
+  - component: {fileID: -8169711341754337103}
+  - component: {fileID: -2528055270108189879}
   m_Layer: 0
   m_Name: Bone
   m_TagString: Untagged
@@ -148,6 +150,35 @@ LODGroup:
     renderers:
     - renderer: {fileID: 7177516145226939287}
   m_Enabled: 1
+--- !u!114 &-8169711341754337103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240196959007709294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2327b5da59275df48b9662c544a0feb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tag: 406
+--- !u!54 &-2528055270108189879
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240196959007709294}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4901136350126448100
 GameObject:
   m_ObjectHideFlags: 0

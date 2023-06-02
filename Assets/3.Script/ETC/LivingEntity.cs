@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class LivingEntity : MonoBehaviour, IDamage
+public class LivingEntity : MonoBehaviour, IDestroyable
 {
     public UnityEvent onDeath;
     public float hp { get; protected set; }
@@ -16,8 +16,14 @@ public class LivingEntity : MonoBehaviour, IDamage
     public float attackRange { get; protected set; }
     public bool isDead { get; protected set; }
     public float gravity { get; protected set; }     // 중력 계수
+
+    public int dropExpNum;
     public Animator animator;
     public CharacterController entityController;
+
+    [SerializeField] Exp exp;
+
+    public List<FieldItem> dropTables;
 
     protected EntityState currentState;
    
@@ -43,12 +49,46 @@ public class LivingEntity : MonoBehaviour, IDamage
         currentState.EnterState(this);
     }
 
-    public virtual void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
+    //public virtual void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
+    //{
+    //   damage = damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(def / (def + 50) * 100) * 0.01f);
+    //    currentHp -= damage;
+    //}
+
+    public virtual void DropItem()
     {
-       damage = damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(def / (def + 50) * 100) * 0.01f);
-        currentHp -= damage;
+        for (int i = 0; i < dropExpNum; i++)
+        {
+            Vector3 dropPoint = transform.position+ Random.insideUnitSphere;
+            dropPoint.y = transform.position.y;
+            Instantiate(exp, dropPoint, Quaternion.identity);
+        }
+        if (dropTables.Count > 0)
+        {
+            int rand = Random.Range(1, 4);
+            Vector3 dropPoint = transform.position + Random.insideUnitSphere;
+            Vector3 dropPointSecond = transform.position + Random.insideUnitSphere;
+            switch (rand)
+            {
+                case 1:
+                    Instantiate(dropTables[0], dropPoint, Quaternion.identity);
+                    break;
+
+                case 2:
+                    Instantiate(dropTables[0], dropPoint, Quaternion.identity);
+                    Instantiate(dropTables[1], dropPointSecond, Quaternion.identity);
+                    break;
+                case 3:
+                    Instantiate(dropTables[1], dropPointSecond, Quaternion.identity);
+                    break;
+            }
+        }
+
     }
 
-
-
+    public virtual void TakeDamage(int damage)
+    {
+        damage = damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(def / (def + 50) * 100) * 0.01f);
+        currentHp -= damage;
+    }
 }

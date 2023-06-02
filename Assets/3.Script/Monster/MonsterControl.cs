@@ -10,10 +10,10 @@ public class MonsterControl : LivingEntity
     [SerializeField] private MonsterData monsterdata;
     [SerializeField] public float timebetAttack = 0.5f;
     public float lastAttackTimebet;
-
+    
     private void OnEnable()
     {
-        currentHp = hp;
+        currentHp = hp; 
         isDead = false;
 
         entityController.enabled = true;
@@ -23,7 +23,7 @@ public class MonsterControl : LivingEntity
     private void Awake()
     {
         entityController = GetComponent<CharacterController>();
-
+        
     } 
     protected override void Start()
     {
@@ -31,7 +31,7 @@ public class MonsterControl : LivingEntity
         base.Start();
         Animator monsterAnimator = GetComponent<Animator>();
         animator = monsterAnimator;
-        onDeath.AddListener(ItemDrop);
+        onDeath.AddListener(DropItem);
         spawnPoint = transform.position;
         target = null;
         isDead = false;
@@ -46,10 +46,26 @@ public class MonsterControl : LivingEntity
         //}
     }
 
-    public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
+    //public override void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
+    //{
+    //    base.OnDamage(damage, on, hitNomal);
+    //    if (currentHp <= 0&&!isDead)
+    //    {
+    //        isDead = true;
+    //        ChangeState(new MonsterDieState());
+    //        entityController.enabled = false;
+    //    }
+    //    else
+    //    {
+    //        ChangeState(new MonsterHitState());
+    //        target = gameObject.transform;
+    //    }
+
+    //}
+    public override void TakeDamage(int damage)
     {
-        base.OnDamage(damage, on, hitNomal);
-        if (currentHp <= 0&&!isDead)
+        base.TakeDamage(damage);
+        if (currentHp <= 0 && !isDead)
         {
             isDead = true;
             ChangeState(new MonsterDieState());
@@ -60,11 +76,19 @@ public class MonsterControl : LivingEntity
             ChangeState(new MonsterHitState());
             target = gameObject.transform;
         }
-
     }
-    private void ItemDrop()
+    //private void ItemDrop()
+    //{
+    //    Debug.Log("ÀÌ°Ç»ìÇàµÊ");
+    //    for(int i = 0; i < monsterdata.dropExpNum; i++)
+    //    {
+    //        Instantiate(exp,transform.position, Quaternion.identity);
+    //    }
+    //}   
+    public override void DropItem()
     {
-    }   
+        base.DropItem();
+    }
     public void DataSetting(MonsterData data)
     {
         hp = data.hp;
@@ -75,6 +99,7 @@ public class MonsterControl : LivingEntity
         attackRange = data.attackRange;
         patrolRange = data.patrolRange;
         gravity = data.gravity;
+        dropExpNum = data.dropExpNum;
     }
 
     public void EndAttack()
