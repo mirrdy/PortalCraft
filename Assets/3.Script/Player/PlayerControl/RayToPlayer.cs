@@ -13,13 +13,13 @@ public class RayToPlayer : MonoBehaviour
     private float bottomClamp_Third = -30.0f;
     private void Start()
     {
-        TryGetComponent(out input);
+        input = GetComponent<Input_Info>();
         cinemachineTargetYaw_Third = cinemachineCameraTarget_Third.transform.rotation.eulerAngles.y;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if (input.look.sqrMagnitude > threshold)
+        if (input.cameraLook.sqrMagnitude > threshold)
         {
             cinemachineTargetYaw_Third += input.look.x;
             cinemachineTargetPitch_Third += input.look.y;

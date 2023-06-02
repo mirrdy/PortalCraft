@@ -89,11 +89,11 @@ public class PlayerControl : MonoBehaviour, IDamage
     #endregion
 
     #region 장비스탯변수
-    private int equip_HP;
-    private int equip_Defense;
-    private float equip_Speed;
-    private int equip_Attack;
-    private float equip_AttackRate;
+    public int equip_HP;
+    public int equip_Defense;
+    public float equip_Speed;
+    public int equip_Attack;
+    public float equip_AttackRate;
     #endregion
 
 

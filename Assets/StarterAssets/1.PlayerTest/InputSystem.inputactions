@@ -204,6 +204,33 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "MouseLook",
+            "id": "a03dee04-f704-4430-9e70-f17a6b3c24e5",
+            "actions": [
+                {
+                    "name": "CameraLook",
+                    "type": "Value",
+                    "id": "5d039953-f989-41c1-bf99-9a665570cf18",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "dcd0a57a-944d-4ce2-8a6c-73ba60193b91",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "ScaleVector2(x=0.05,y=0.05),InvertVector2(invertX=false)",
+                    "groups": "",
+                    "action": "CameraLook",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
