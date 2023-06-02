@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockObject : MonoBehaviour, IDestroyable
+public class EnvironmentObject : MonoBehaviour, IDestroyable
 {
     public int maxHp;
     public int currentHp;
@@ -14,14 +14,13 @@ public class BlockObject : MonoBehaviour, IDestroyable
     }
     public void TakeDamage(int damage)
     {
+        currentHp -= damage;
         if (currentHp <= 0)
         {
             DropItem();
-            BlockMapGenerator.instance.CheckAroundDestroyedBlock(transform.position);
             Destroy(gameObject);
             return;
         }
-        currentHp -= damage;
     }
 
     public void DropItem()
@@ -31,5 +30,4 @@ public class BlockObject : MonoBehaviour, IDestroyable
             Instantiate(dropTables[0], transform.position, Quaternion.identity);
         }
     }
-    
 }

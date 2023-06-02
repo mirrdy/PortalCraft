@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4114148428516799791}
   - component: {fileID: 3968787927915317879}
   - component: {fileID: 3949527020477828369}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: big_tree_foliage_group_LOD3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3257653390344409517}
   - component: {fileID: 7741579831067666140}
-  m_Layer: 0
+  - component: {fileID: 7554473615534491647}
+  - component: {fileID: -7473585096170027972}
+  m_Layer: 11
   m_Name: big_tree_foliage_group_LOD_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,6 +150,34 @@ LODGroup:
     renderers:
     - renderer: {fileID: 3949527020477828369}
   m_Enabled: 1
+--- !u!65 &7554473615534491647
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773745487610841879}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.25, z: 0}
+--- !u!114 &-7473585096170027972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773745487610841879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714f2b1a96e05aa4c8205a5cbb6fe1b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 10
+  currentHp: 0
+  dropTables: []
 --- !u!1 &6020823939015408547
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +189,7 @@ GameObject:
   - component: {fileID: 4516767936891523850}
   - component: {fileID: 2333694593908741130}
   - component: {fileID: 5905510285140908624}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: big_tree_foliage_group_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +271,7 @@ GameObject:
   - component: {fileID: 2002969328912138946}
   - component: {fileID: 5021180380211478782}
   - component: {fileID: 8656667415410775327}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: big_tree_foliage_group_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +353,7 @@ GameObject:
   - component: {fileID: 743095197909343475}
   - component: {fileID: 6004197194315923806}
   - component: {fileID: 2325972633470410630}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: big_tree_foliage_group_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

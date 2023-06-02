@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3449265863645824767}
   - component: {fileID: 5746227962247928986}
   - component: {fileID: 6511467504096297467}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: fern_tree_small_LOD3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 4045680181740595647}
   - component: {fileID: 4338720361928601302}
   - component: {fileID: 7912588880507314377}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: fern_tree_small_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 5504283987609902503}
   - component: {fileID: 7944991892390331560}
   - component: {fileID: 2413231465863790744}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: fern_tree_small_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 7952273689512204432}
   - component: {fileID: 2025859225624253252}
   - component: {fileID: 3844130286373735620}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: fern_tree_small_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8816958585552883491}
   - component: {fileID: 4325213451342018642}
-  m_Layer: 0
+  - component: {fileID: 1777694288123441639}
+  - component: {fileID: -5925282291198077237}
+  m_Layer: 11
   m_Name: fern_tree_small_LOD_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,3 +396,31 @@ LODGroup:
     renderers:
     - renderer: {fileID: 6511467504096297467}
   m_Enabled: 1
+--- !u!65 &1777694288123441639
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8149247797850641817}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-5925282291198077237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8149247797850641817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714f2b1a96e05aa4c8205a5cbb6fe1b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 10
+  currentHp: 0
+  dropTables: []
