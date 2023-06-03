@@ -1,1 +1,52 @@
-{}
+{
+    "name": "OnlyMouseLook",
+    "maps": [
+        {
+            "name": "Camera",
+            "id": "8439db7f-c8e7-45af-913c-a8cadc6616fc",
+            "actions": [
+                {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "107debc4-0c37-4b64-8c1f-16f867bc0bf2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ViewChange",
+                    "type": "Button",
+                    "id": "5bc33b68-a099-4a52-b48c-80760d50d7e9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e8ef0a00-dd2a-4f54-9225-a8da35fa1af1",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68d958f2-e9a1-4eb6-8d56-bddd0464535a",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ViewChange",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

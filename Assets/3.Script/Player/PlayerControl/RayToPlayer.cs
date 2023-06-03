@@ -33,22 +33,22 @@ public class RayToPlayer : MonoBehaviour
             _3rdPersonFollow.CameraDistance = -0.52f;
         }
 
-        //Vector3 rayDir_Third = rayPoint.position - transform.position;
-        //Debug.DrawRay(transform.position, rayDir_Third * 20f, Color.red);
+        Vector3 rayDir_Third = rayPoint.position - transform.position;
+        Debug.DrawRay(transform.position, rayDir_Third * 20f, Color.red);
 
-        //if (Physics.Raycast(transform.position, rayDir_Third, out RaycastHit hitInfo, 20f, layerMask_Ray)) 
-        //{
-        //    if (hitInfo.transform.CompareTag("Player"))
-        //    {
-        //        Debug.Log("플레이어 감지");
-        //    }
-        //    else
-        //    {
-        //        gameObject.SetActive(false);
-        //        First_Cam.SetActive(true);
-        //        PlayerControl.instance.currentView = PlayerControl.CameraView.FirstPerson;
-        //    }
-        //}
+        if (Physics.Raycast(transform.position, rayDir_Third, out RaycastHit hitInfo, 20f, layerMask_Ray))
+        {
+            if (hitInfo.transform.CompareTag("Player"))
+            {
+                Debug.Log("플레이어 감지");
+            }
+            else
+            {
+                gameObject.SetActive(false);
+                First_Cam.SetActive(true);
+                PlayerControl.instance.currentView = PlayerControl.CameraView.FirstPerson;
+            }
+        }
     }
 
     private void ChangeCameraState()

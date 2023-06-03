@@ -128,9 +128,9 @@ public class PlayerControl : MonoBehaviour, IDamage
         }
         #endregion
 
-        virtualCamera[0] = GameObject.FindGameObjectWithTag("ThirdPersonCamera");
-        virtualCamera[1] = GameObject.FindGameObjectWithTag("FirstPersonCamera");
-        virtualCamera[1].SetActive(false);
+        //virtualCamera[0] = GameObject.FindGameObjectWithTag("ThirdPersonCamera");
+        //virtualCamera[1] = GameObject.FindGameObjectWithTag("FirstPersonCamera");
+        //virtualCamera[1].SetActive(false);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
 
@@ -172,35 +172,36 @@ public class PlayerControl : MonoBehaviour, IDamage
         GroundCheck();
         Move();
         Attack();
-        VeiwChange();
+        //VeiwChange();
     }
-    private void LateUpdate()
-    {
-        CameraRotation();
-    }
+    //private void LateUpdate()
+    //{
+    //    CameraRotation();
+    //}
 
 
-    public void VeiwChange()
-    {
-        if (input.viewChange)
-        {
-            //[0]:3인칭, [1]:1인칭
-            Debug.Log("뷰 전환");
-            if (virtualCamera[0].activeSelf == true) //1인칭으로 전환
-            {
-                currentView = CameraView.FirstPerson;
-                virtualCamera[0].SetActive(false);
-                virtualCamera[1].SetActive(true);
-            }
-            else if (virtualCamera[1].activeSelf == true) //3인칭으로 전환
-            {
-                currentView = CameraView.ThirdPerson;
-                virtualCamera[1].SetActive(false);
-                virtualCamera[0].SetActive(true);
-            }
-            input.viewChange = false;
-        }
-    }
+    //public void VeiwChange()
+    //{
+    //    if (input.viewChange)
+    //    {
+    //        //[0]:3인칭, [1]:1인칭
+    //        Debug.Log("뷰 전환");
+    //        if (virtualCamera[0].activeSelf == true) //1인칭으로 전환
+    //        {
+    //            currentView = CameraView.FirstPerson;
+    //            virtualCamera[0].SetActive(false);
+    //            virtualCamera[1].SetActive(true);
+    //        }
+    //        else if (virtualCamera[1].activeSelf == true) //3인칭으로 전환
+    //        {
+    //            currentView = CameraView.ThirdPerson;
+    //            virtualCamera[1].SetActive(false);
+    //            virtualCamera[0].SetActive(true);
+    //        }
+    //        input.viewChange = false;
+    //    }
+    //}
+
     private void GroundCheck()
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
@@ -212,41 +213,41 @@ public class PlayerControl : MonoBehaviour, IDamage
             animator.SetBool(animID_Ground, grounded);
         }
     }
-    private void CameraRotation()
-    {
-        switch(currentView)
-        {
-            case CameraView.ThirdPerson: //3인칭 카메라 조작
-                {
-                    if (input.look.sqrMagnitude > threshold)
-                    {
-                        cinemachineTargetYaw_Third += input.look.x;
-                        cinemachineTargetPitch_Third += input.look.y;
-                    }
+    //private void CameraRotation()
+    //{
+    //    switch(currentView)
+    //    {
+    //        case CameraView.ThirdPerson: //3인칭 카메라 조작
+    //            {
+    //                if (input.look.sqrMagnitude > threshold)
+    //                {
+    //                    cinemachineTargetYaw_Third += input.look.x;
+    //                    cinemachineTargetPitch_Third += input.look.y;
+    //                }
 
-                    cinemachineTargetYaw_Third = ClampAngle(cinemachineTargetYaw_Third, float.MinValue, float.MaxValue);
-                    cinemachineTargetPitch_Third = ClampAngle(cinemachineTargetPitch_Third, bottomClamp_Third, topClamp_Third);
+    //                cinemachineTargetYaw_Third = ClampAngle(cinemachineTargetYaw_Third, float.MinValue, float.MaxValue);
+    //                cinemachineTargetPitch_Third = ClampAngle(cinemachineTargetPitch_Third, bottomClamp_Third, topClamp_Third);
 
-                    cinemachineCameraTarget_Third.transform.rotation = Quaternion.Euler(cinemachineTargetPitch_Third, cinemachineTargetYaw_Third, 0.0f);
-                    break;
-                }
-            case CameraView.FirstPerson: //1인칭 카메라 조작
-                {
-                    if (input.look.sqrMagnitude >= threshold)
-                    {
-                        cinemachineTargetPitch_First += input.look.y * rotationSpeed;
-                        rotationVelocity = input.look.x * rotationSpeed;
+    //                cinemachineCameraTarget_Third.transform.rotation = Quaternion.Euler(cinemachineTargetPitch_Third, cinemachineTargetYaw_Third, 0.0f);
+    //                break;
+    //            }
+    //        case CameraView.FirstPerson: //1인칭 카메라 조작
+    //            {
+    //                if (input.look.sqrMagnitude >= threshold)
+    //                {
+    //                    cinemachineTargetPitch_First += input.look.y * rotationSpeed;
+    //                    rotationVelocity = input.look.x * rotationSpeed;
 
-                        cinemachineTargetPitch_First = ClampAngle(cinemachineTargetPitch_First, bottomClamp_First, topClamp_First);
+    //                    cinemachineTargetPitch_First = ClampAngle(cinemachineTargetPitch_First, bottomClamp_First, topClamp_First);
 
-                        cinemachineCameraTarget_First.transform.localRotation = Quaternion.Euler(cinemachineTargetPitch_First, 0.0f, 0.0f);
+    //                    cinemachineCameraTarget_First.transform.localRotation = Quaternion.Euler(cinemachineTargetPitch_First, 0.0f, 0.0f);
 
-                        transform.Rotate(Vector3.up * rotationVelocity);
-                    }
-                    break;
-                }
-        }       
-    }
+    //                    transform.Rotate(Vector3.up * rotationVelocity);
+    //                }
+    //                break;
+    //            }
+    //    }       
+    //}
     private void Move()
     {
         #region 플레이어 스피드 설정

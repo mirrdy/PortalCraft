@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: -640765278690227547}
   m_Layer: 8
   m_Name: brick_black_1
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -255,7 +255,6 @@ MonoBehaviour:
   maxHp: 100
   currentHp: 0
   dropTables: []
-  blockMapGenerator: {fileID: 2239545170735302340, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}
 --- !u!1 &2625381551577494413
 GameObject:
   m_ObjectHideFlags: 0
