@@ -532,6 +532,8 @@ public class Inventory  // 인벤토리 정보 관리 클레스
     [XmlElement]
     public int tag;
     [XmlElement]
+    public string type;
+    [XmlElement]
     public int quantity;
     [XmlElement]
     public bool hasItem;
