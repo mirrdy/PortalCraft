@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 2890702919390781853}
   m_Layer: 0
   m_Name: ThirdPersonCamera_Ray
-  m_TagString: ThirdPersonCamera
+  m_TagString: ThirdCam_Ray
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -220,7 +220,7 @@ MonoBehaviour:
   layerMask_Ray:
     serializedVersion: 2
     m_Bits: 2816
-  cinemachineCamera: {fileID: 5796865242289025577, guid: 173e65ff2223ed34e8804b7b80c7f426, type: 3}
+  cinemachineCamera: {fileID: 0}
   _3rdPersonFollow: {fileID: 0}
   followTarget: {fileID: 0}
   cinemachineCameraTarget_Third: {fileID: 0}

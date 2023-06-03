@@ -29,6 +29,8 @@ public class CameraControl_Ray : MonoBehaviour
 
     private void Start()
     {
+        cinemachineCamera = GameObject.FindGameObjectWithTag("ThirdPersonCamera").GetComponent<CinemachineVirtualCamera>();
+
         followTarget = GameObject.FindGameObjectWithTag("Player").transform.GetChild(1);
         GetComponent<CinemachineVirtualCamera>().Follow = followTarget;
 
@@ -55,13 +57,11 @@ public class CameraControl_Ray : MonoBehaviour
                     {
                         if (hitInfo.transform.CompareTag("Block")) //3ÀÎÄª¿¡¼­ -> 1ÀÎÄª
                         {
-                            Debug.Log("123");
                             _3rdPersonFollow.ShoulderOffset = new Vector3(-0.1f, 0.8f, 0);
                             _3rdPersonFollow.CameraDistance = -0.94f;
                         }
                         if (hitInfo.transform.CompareTag("Player")) //1ÀÎÄª¿¡¼­ -> 3ÀÎÄª
                         {
-                            Debug.Log("ÇÃ·¹ÀÌ¾î°¨Áö");
                             _3rdPersonFollow.ShoulderOffset = new Vector3(1, 1.6f, 0);
                             _3rdPersonFollow.CameraDistance = 8f;
                         }
