@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: -7825918632646250489}
   m_Layer: 8
   m_Name: ground_cube_grass
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

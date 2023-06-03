@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: -7473585096170027972}
   m_Layer: 11
   m_Name: big_tree_foliage_group_LOD_group
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

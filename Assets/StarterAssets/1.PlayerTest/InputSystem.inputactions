@@ -6,14 +6,6 @@
             "id": "4f4f8843-50a2-4b2b-8dd0-c5baf83dbb3c",
             "actions": [
                 {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "e8409138-facc-4c6e-8a7b-6de1767312be",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Move",
                     "type": "Value",
                     "id": "322a54af-4141-49a6-ba6e-d5753ee94ef5",
@@ -57,14 +49,6 @@
                     "name": "Skill_2",
                     "type": "Button",
                     "id": "5707446b-0ddc-44d8-bd8f-3c6aabe13dee",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "ViewChange",
-                    "type": "Button",
-                    "id": "70cc328c-6711-4ff3-87cb-d0eba825b118",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -128,17 +112,6 @@
                 },
                 {
                     "name": "",
-                    "id": "2fcc8048-643c-4795-8e53-3b51b0ea7a44",
-                    "path": "<Pointer>/delta",
-                    "interactions": "",
-                    "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "e0553a54-b392-4480-965a-76297477fcbf",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -189,17 +162,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Skill_2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a47dbfd2-da40-40b4-b39d-da544b175aaa",
-                    "path": "<Keyboard>/v",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ViewChange",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
