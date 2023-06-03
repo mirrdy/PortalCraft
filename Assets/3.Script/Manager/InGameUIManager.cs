@@ -79,8 +79,6 @@ public class InGameUIManager : MonoBehaviour
     private PlayerControl player;
 
     public int playerHand = 30;
-    public int helmetTag = 0;
-    public int armorTag = 0;
 
     // 코루틴 저장할 변수
     private Coroutine hpCoroutine;
@@ -320,7 +318,6 @@ public class InGameUIManager : MonoBehaviour
         playerView.SetActive(false);
         image_Tooltip.SetActive(false);
         SetCursorState(true);
-
     }
 
     private void LateUpdate()
@@ -330,6 +327,7 @@ public class InGameUIManager : MonoBehaviour
         InventoryOnOff();
         InventoryCheck();
         SetQuickSlot();
+        Test();
     }
 
     #region  세팅 ui 설정
@@ -643,7 +641,7 @@ public class InGameUIManager : MonoBehaviour
                         tooltip.text = "이름 : " + itemInfo.list_Helmet[i].name + "\n" +
                                 "수량 : " + playerData.inventory[value].quantity + "\n" +
                                 "-------------\n" +
-                                "체력 : + " + itemInfo.list_Helmet[i].defens + "\n" +
+                                "방어력 : + " + itemInfo.list_Helmet[i].defens + "\n" +
                                 "-------------\n" +
                                 "" + itemInfo.list_Helmet[i].tooltip;
                         break;
@@ -832,6 +830,7 @@ public class InGameUIManager : MonoBehaviour
                             "공격 속도 : " + (playerData.status.attackSpeed + player.equip_AttackRate) + " (" + playerData.status.attackSpeed + " + " + player.equip_AttackRate + ")";
 
         CurrentStatus();
+        HpCheck(playerData.status.maxHp + player.equip_HP, playerData.status.currentHp);
     }
     #endregion
 
@@ -1244,9 +1243,9 @@ public class InGameUIManager : MonoBehaviour
         if (playerData.inventory[39].hasItem)
         {
             int tag = playerData.inventory[39].tag;
-            for (int i = 0; i < itemInfo.list_Helmet.Count; i++)
+            for (int i = 0; i < itemInfo.list_Armor.Count; i++)
             {
-                if (tag == itemInfo.list_Helmet[i].tag)
+                if (tag == itemInfo.list_Armor[i].tag)
                 {
                     return i;
                 }
@@ -1269,7 +1268,6 @@ public class InGameUIManager : MonoBehaviour
                     return i;
                 }
             }
-            return -1;
         }
         return -1;
     }
@@ -1283,6 +1281,11 @@ public class InGameUIManager : MonoBehaviour
             player.equip_HP = itemInfo.list_Armor[armorNumber].hp;
             player.equip_Speed = itemInfo.list_Armor[armorNumber].moveSpeed;
         }
+        else
+        {
+            player.equip_HP = 0;
+            player.equip_Speed = 0;
+        }
     }
 
     public void SetHelmet()
@@ -1292,6 +1295,10 @@ public class InGameUIManager : MonoBehaviour
         if (helmetNumber >= 0)
         {
             player.equip_Defense = itemInfo.list_Helmet[helmetNumber].defens;
+        }
+        else
+        {
+            player.equip_Defense = 0;
         }
     }
 
@@ -1313,17 +1320,8 @@ public class InGameUIManager : MonoBehaviour
 
     public void CurrentStatus()
     {
-        PlayerData playerData = player.playerData;
-
-        if (armorTag != playerData.inventory[38].tag)
-        {
-            SetArmor();
-        }
-
-        if (helmetTag != playerData.inventory[39].tag)
-        {
-            SetHelmet();
-        }
+        SetArmor();
+        SetHelmet();
     }
 
     public void ChangedItme(int currentSlot, int newSlot)
@@ -1357,14 +1355,15 @@ public class InGameUIManager : MonoBehaviour
         }
 
         InventoryCheck();
+        StatusCheck();
     }
 
     public void AddItem(int tag, string type, int quantity, int currentSlot)
     {
         PlayerData playerData = player.playerData;
-        if (type.Equals("Armor") || type.Equals("Cloak") || type.Equals("Helmet"))
+        if (type.Equals("Armor") || type.Equals("Cloak") || type.Equals("Helmet") && currentSlot >= 0)
         {
-            NewItemSlot(tag, type, quantity, currentSlot);
+            NewItemSlot(tag, currentSlot);
         }
         else
         {
@@ -1374,15 +1373,16 @@ public class InGameUIManager : MonoBehaviour
                 {
                     if (itemInfo.list_AllItem[i].maxQuantity >= 5)
                     {
-                        CheckInven(tag, type, quantity, currentSlot);
+                        CheckInven(tag, quantity, currentSlot);
+                        return;
                     }
                 }
             }
-            NewItemSlot(tag, type, quantity, currentSlot);
+            NewItemSlot(tag, currentSlot);
         }
     }
 
-    private void CheckInven(int tag, string type, int quantity, int currentSlot)
+    private void CheckInven(int tag, int quantity, int currentSlot)
     {
         PlayerData playerData = player.playerData;
 
@@ -1392,27 +1392,49 @@ public class InGameUIManager : MonoBehaviour
             {
                 if (tag == playerData.inventory[i].tag)
                 {
-                    playerData.inventory[i].quantity += quantity;
-                    if(playerData.inventory[i].quantity > 99)
+                    if (playerData.inventory[i].quantity >= 99)
                     {
-                        NewItemSlot(tag, type, quantity, currentSlot);
+                        continue;
                     }
+                    playerData.inventory[i].quantity += quantity;
+                    return;
+
+                }
+            }
+        }
+        NewItemSlot(tag, currentSlot);
+    }
+
+    private void NewItemSlot(int tag, int currentSlot)
+    {
+        PlayerData playerData = player.playerData;
+
+        if(currentSlot < 0)
+        {
+            for (int i = 30; i < 38; i++)
+            {
+                if (!playerData.inventory[i].hasItem)
+                {
+                    NewChangedItme(tag, i);
+                    return;
+                }
+            }
+            for (int i = 0; i < 30; i++)
+            {
+                if (!playerData.inventory[i].hasItem)
+                {
+                    NewChangedItme(tag, i);
                     return;
                 }
             }
         }
-        NewItemSlot(tag, type, quantity, currentSlot);
-    }
-
-    private void NewItemSlot(int tag, string type, int quantity, int currentSlot)
-    {
-        PlayerData playerData = player.playerData;
 
         for (int i = 30; i < 38; i++)
         {
             if (!playerData.inventory[i].hasItem)
             {
                 ChangedItme(currentSlot, i);
+                return;
             }
         }
         for (int i = 0; i < 30; i++)
@@ -1420,8 +1442,41 @@ public class InGameUIManager : MonoBehaviour
             if (!playerData.inventory[i].hasItem)
             {
                 ChangedItme(currentSlot, i);
+                return;
             }
         }
     }
+
+    public void NewChangedItme(int tag, int newSlot)
+    {
+        PlayerData playerData = player.playerData;
+        int currentSlot = 0;
+        
+        for(int i = 0; i < itemInfo.list_AllItem.Count; i++)
+        {
+            if(tag == itemInfo.list_AllItem[i].tag)
+            {
+                currentSlot = i;
+                break;
+            }
+        }
+
+        playerData.inventory[newSlot].hasItem = true;
+        playerData.inventory[newSlot].tag = itemInfo.list_AllItem[currentSlot].tag;
+        playerData.inventory[newSlot].quantity = itemInfo.list_AllItem[currentSlot].quantity;
+        playerData.inventory[newSlot].type = itemInfo.list_AllItem[currentSlot].type;
+
+        InventoryCheck();
+        StatusCheck();
+    }
     #endregion
+
+    void Test()
+    {
+        float x = Input.GetAxisRaw("Mouse ScrollWheel");
+        if (x != 0f)
+        {
+            AddItem(10, "Block", 1, -1);
+        }
+    }
 }
