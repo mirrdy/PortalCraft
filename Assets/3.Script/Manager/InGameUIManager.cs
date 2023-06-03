@@ -77,47 +77,207 @@ public class InGameUIManager : MonoBehaviour
     private PlayerControl player;
 
     public int playerHand = 30;
-    public int armorTag = 0;
     public int helmetTag = 0;
+    public int armorTag = 0;
 
     // 코루틴 저장할 변수
     private Coroutine hpCoroutine;
     private Coroutine expCoroutine;
 
-    #region 리셋 초안
-    /*    private void Reset()
+    #region 리셋
+    private void Reset()
+    {
+        if (GameObject.Find("Player") != null && GameObject.Find("Player").transform.childCount > 6)
         {
-            // PlayerUI
-            //TMP_Text timer;  // 게임 타이머
-            //Image hpBar;  // hp바
-            //Text hpCheck;  // hp 표시
-            //Image mpBar;  // mp바
-            //Text mpCheck;  // mp 표시
-            //Text player_Level;  // Player 레벨
-            //Slider expBar;  // 경험치 바
-            //Text expCheck;  // 경험치 양 표시
-            //GameObject playerView;  // 캐릭터 비추는 카메라
+            playerView = GameObject.Find("Player").transform.GetChild(6).gameObject;
+        }
 
-            GameObject.Find("Player").GetComponentsInChildren<GameObject>()[7].TryGetComponent(out playerView);
+        if (GameObject.Find("Player") != null && GameObject.Find("Player").transform.childCount > 5)
+        {
+            target = GameObject.Find("Player").transform.GetChild(5).gameObject;
+        }
 
-            GameObject canvas = GameObject.Find("InGame Canvas");
-            RectTransform[] objects_UI = canvas.GetComponentsInChildren<RectTransform>(true);
+        Canvas objects_UI = GameObject.Find("InGame Canvas").GetComponent<Canvas>();
 
-            RectTransform playerUI = objects_UI[1];
-            RectTransform inventoryUI = objects_UI[2];
-            RectTransform statusUI = objects_UI[3];
-            RectTransform menuUI = objects_UI[4];
-            RectTransform tooltipUI = objects_UI[5];
+        Transform playerUI = objects_UI.transform.GetChild(0);
+        Transform inventoryUI = objects_UI.transform.GetChild(1);
+        Transform statusUI = objects_UI.transform.GetChild(2);
+        Transform menuUI = objects_UI.transform.GetChild(3);
+        Transform tooltipUI = objects_UI.transform.GetChild(4);
 
-            playerUI.GetChild(0).GetChild(0).TryGetComponent(out timer);
-            playerUI.GetChild(2).GetChild(0).TryGetComponent(out hpBar);
-            playerUI.GetChild(2).GetChild(1).TryGetComponent(out hpCheck);
-            playerUI.GetChild(3).TryGetComponent(out mpBar);
-            playerUI.GetChild(3).GetChild(1).TryGetComponent(out mpCheck);
-            playerUI.GetChild(4).GetChild(0).TryGetComponent(out player_Level);
-            playerUI.GetChild(4).GetChild(1).TryGetComponent(out expBar);
-            playerUI.GetChild(4).GetChild(1).GetChild(2).TryGetComponent(out expCheck);
-        }*/
+        playerUI.GetChild(0).GetChild(0).TryGetComponent(out timer);
+        playerUI.GetChild(2).GetChild(0).TryGetComponent(out hpBar);
+        playerUI.GetChild(2).GetChild(1).TryGetComponent(out hpCheck);
+        playerUI.GetChild(3).GetChild(0).TryGetComponent(out mpBar);
+        playerUI.GetChild(3).GetChild(1).TryGetComponent(out mpCheck);
+        playerUI.GetChild(4).GetChild(0).TryGetComponent(out player_Level);
+        playerUI.GetChild(4).GetChild(1).TryGetComponent(out expBar);
+        playerUI.GetChild(4).GetChild(1).GetChild(2).TryGetComponent(out expCheck);
+
+        menuImage = menuUI.GetComponentInChildren<Transform>(true).gameObject;
+        settingMenu = menuUI.GetChild(0).GetChild(5).GetComponentInChildren<Transform>(true).gameObject;
+        slider_Bgm = menuUI.GetChild(0).GetChild(5).GetChild(1).GetComponentInChildren<Slider>(true);
+        slider_Sfx = menuUI.GetChild(0).GetChild(5).GetChild(2).GetComponentInChildren<Slider>(true);
+        resolutionWindow = menuUI.GetChild(0).GetChild(6).GetComponentInChildren<Transform>(true).gameObject;
+        resolutionCount = menuUI.GetChild(0).GetChild(6).GetChild(2).GetComponentInChildren<TMP_Text>(true);
+        resolution = menuUI.GetChild(0).GetChild(5).GetChild(5).GetComponentInChildren<TMP_Dropdown>(true);
+        image_Bgm = menuUI.GetChild(0).GetChild(5).GetChild(1).GetChild(3).GetComponentInChildren<Image>(true);
+        image_Sfx = menuUI.GetChild(0).GetChild(5).GetChild(2).GetChild(3).GetComponentInChildren<Image>(true);
+        sprite_Bgm = new Sprite[2];
+        sprite_Bgm[0] = Resources.Load<Sprite>("Sprites/Icon_PictoIcon_Sound_on");
+        sprite_Bgm[1] = Resources.Load<Sprite>("Sprites/Icon_PictoIcon_Sound_off");
+        sprite_Sfx = new Sprite[2];
+        sprite_Sfx[0] = Resources.Load<Sprite>("Sprites/Icon_PictoIcon_Music_on");
+        sprite_Sfx[1] = Resources.Load<Sprite>("Sprites/Icon_PictoIcon_Music_off");
+
+        image_Skill = new GameObject[2];
+        image_Skill[0] = playerUI.GetChild(5).GetChild(0).GetComponentInChildren<Transform>(true).gameObject;
+        image_Skill[1] = playerUI.GetChild(5).GetChild(1).GetComponentInChildren<Transform>(true).gameObject;
+        slider_Skill = new Image[2];
+        slider_Skill[0] = playerUI.GetChild(5).GetChild(0).GetChild(0).GetComponentInChildren<Image>(true);
+        slider_Skill[1] = playerUI.GetChild(5).GetChild(1).GetChild(0).GetComponentInChildren<Image>(true);
+        skillTimer = new Text[2];
+        skillTimer[0] = playerUI.GetChild(5).GetChild(0).GetChild(1).GetComponentInChildren<Text>(true);
+        skillTimer[1] = playerUI.GetChild(5).GetChild(1).GetChild(1).GetComponentInChildren<Text>(true);
+        sprite_Skill = new Sprite[4];
+        sprite_Skill[0] = Resources.Load<Sprite>("Sprites/UI_Skill_Icon_Chop");
+        sprite_Skill[1] = Resources.Load<Sprite>("Sprites/UI_Skill_Icon_Slash");
+        sprite_Skill[2] = Resources.Load<Sprite>("Sprites/UI_Skill_Icon_Arrow_Barrage");
+        sprite_Skill[3] = Resources.Load<Sprite>("Sprites/UI_Skill_Icon_Beam");
+
+        inventory = inventoryUI.GetComponentInChildren<Transform>(true).gameObject;
+        invenStatus = inventoryUI.GetChild(0).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
+        itemBorder = new Image[38];
+        for(int i = 0; i < 30; i++)
+        {
+            itemBorder[i] = inventoryUI.GetChild(0).GetChild(0).GetChild(i).GetComponentInChildren<Image>(true);
+        }
+        for(int i = 30; i < 38; i++)
+        {
+            itemBorder[i] = playerUI.GetChild(1).GetChild(i - 30).GetComponentInChildren<Image>(true);
+        }
+        itemFrame = new Image[38];
+        for (int i = 0; i < 30; i++)
+        {
+            itemFrame[i] = inventoryUI.GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetComponentInChildren<Image>(true);
+        }
+        for (int i = 30; i < 38; i++)
+        {
+            itemFrame[i] = playerUI.GetChild(1).GetChild(i - 30).GetChild(0).GetComponentInChildren<Image>(true);
+        }
+        itemSlot = new Image[41];
+        for (int i = 0; i < 30; i++)
+        {
+            itemSlot[i] = inventoryUI.GetChild(0).GetChild(0).GetChild(i).GetChild(1).GetComponentInChildren<Image>(true);
+        }
+        for (int i = 30; i < 38; i++)
+        {
+            itemSlot[i] = playerUI.GetChild(1).GetChild(i - 30).GetChild(1).GetComponentInChildren<Image>(true);
+        }
+        for (int i = 38; i < 41; i++)
+        {
+            itemSlot[i] = inventoryUI.GetChild(0).GetChild(2).GetChild(i - 37).GetChild(1).GetComponentInChildren<Image>(true);
+        }
+        itemCount = new GameObject[38];
+        for (int i = 0; i < 30; i++)
+        {
+            itemCount[i] = inventoryUI.GetChild(0).GetChild(0).GetChild(i).GetChild(2).GetComponentInChildren<Transform>(true).gameObject;
+        }
+        for (int i = 30; i < 38; i++)
+        {
+            itemCount[i] = playerUI.GetChild(1).GetChild(i - 30).GetChild(2).GetComponentInChildren<Transform>(true).gameObject;
+        }
+        itemQuantity = new Text[38];
+        for (int i = 0; i < 30; i++)
+        {
+            itemQuantity[i] = inventoryUI.GetChild(0).GetChild(0).GetChild(i).GetChild(2).GetChild(0).GetComponentInChildren<Text>(true);
+        }
+        for (int i = 30; i < 38; i++)
+        {
+            itemQuantity[i] = playerUI.GetChild(1).GetChild(i - 30).GetChild(2).GetChild(0).GetComponentInChildren<Text>(true);
+        }
+        frameColor = new Sprite[4];
+        frameColor[0] = Resources.Load<Sprite>("Sprites/Frame_ItemFrame01_Color_Brown");
+        frameColor[1] = Resources.Load<Sprite>("Sprites/Frame_ItemFrame01_Color_Green");
+        frameColor[2] = Resources.Load<Sprite>("Sprites/Frame_ItemFrame01_Color_Red");
+        frameColor[3] = Resources.Load<Sprite>("Sprites/Frame_ItemFrame01_Color_Yellow");
+        #region 아이템 배열
+        image_Item = new Sprite[38];
+        image_Item[0] = Resources.Load<Sprite>("Sprites/Sand");
+        image_Item[1] = Resources.Load<Sprite>("Sprites/Grass");
+        image_Item[2] = Resources.Load<Sprite>("Sprites/Snow");
+        image_Item[3] = Resources.Load<Sprite>("Sprites/Metal");
+        image_Item[4] = Resources.Load<Sprite>("Sprites/Gold");
+        image_Item[5] = Resources.Load<Sprite>("Sprites/Clal");
+        image_Item[6] = Resources.Load<Sprite>("Sprites/Brown_Brick");
+        image_Item[7] = Resources.Load<Sprite>("Sprites/Black_Brick");
+        image_Item[8] = Resources.Load<Sprite>("Sprites/Random");
+        image_Item[9] = Resources.Load<Sprite>("Sprites/Wood");
+        image_Item[10] = Resources.Load<Sprite>("Sprites/Archer T1");
+        image_Item[11] = Resources.Load<Sprite>("Sprites/Archer T2");
+        image_Item[12] = Resources.Load<Sprite>("Sprites/Warrior T1");
+        image_Item[13] = Resources.Load<Sprite>("Sprites/Warrior T2");
+        image_Item[14] = Resources.Load<Sprite>("Sprites/Archer Helmet T1");
+        image_Item[15] = Resources.Load<Sprite>("Sprites/Archer Helmet T2");
+        image_Item[16] = Resources.Load<Sprite>("Sprites/Warrior Helmet T1");
+        image_Item[17] = Resources.Load<Sprite>("Sprites/Warrior Helmet T2");
+        image_Item[18] = Resources.Load<Sprite>("Sprites/Pickaxe");
+        image_Item[19] = Resources.Load<Sprite>("Sprites/Axe");
+        image_Item[20] = Resources.Load<Sprite>("Sprites/Sword");
+        image_Item[21] = Resources.Load<Sprite>("Sprites/Sword T1");
+        image_Item[22] = Resources.Load<Sprite>("Sprites/Sword T2");
+        image_Item[23] = Resources.Load<Sprite>("Sprites/Bow");
+        image_Item[24] = Resources.Load<Sprite>("Sprites/Bow T1");
+        image_Item[26] = Resources.Load<Sprite>("Sprites/Bow T2");
+        image_Item[27] = Resources.Load<Sprite>("Sprites/Torch Light");
+        image_Item[28] = Resources.Load<Sprite>("Sprites/Cloak");
+        image_Item[29] = Resources.Load<Sprite>("Sprites/Potal T1");
+        image_Item[30] = Resources.Load<Sprite>("Sprites/Potal T2");
+        image_Item[31] = Resources.Load<Sprite>("Sprites/Spider Wap");
+        image_Item[32] = Resources.Load<Sprite>("Sprites/Slime Drop");
+        image_Item[33] = Resources.Load<Sprite>("Sprites/String");
+        image_Item[34] = Resources.Load<Sprite>("Sprites/Bon");
+        image_Item[35] = Resources.Load<Sprite>("Sprites/Wood Group");
+        image_Item[36] = Resources.Load<Sprite>("Sprites/Hp Potion");
+        image_Item[37] = Resources.Load<Sprite>("Sprites/Mp Potion");
+        #endregion
+        border = new Sprite[2];
+        border[0] = Resources.Load<Sprite>("Sprites/Frame_ListFrame02_s");
+        border[1] = Resources.Load<Sprite>("Sprites/Frame_ItemFrame03_f");
+        
+        image_Status = statusUI.GetComponentInChildren<Transform>(true).gameObject;
+        playerStat = statusUI.GetChild(0).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
+        curruntStat = statusUI.GetChild(0).GetChild(2).GetChild(1).GetComponentInChildren<Text>(true);
+        statUp = new Button[4];
+        statUp[0] = statusUI.GetChild(0).GetChild(2).GetChild(2).GetComponentInChildren<Button>(true);
+        statUp[1] = statusUI.GetChild(0).GetChild(2).GetChild(3).GetComponentInChildren<Button>(true);
+        statUp[2] = statusUI.GetChild(0).GetChild(2).GetChild(4).GetComponentInChildren<Button>(true);
+        statUp[3] = statusUI.GetChild(0).GetChild(2).GetChild(5).GetComponentInChildren<Button>(true);
+        statDown = new Button[4];
+        statDown[0] = statusUI.GetChild(0).GetChild(2).GetChild(6).GetComponentInChildren<Button>(true);
+        statDown[1] = statusUI.GetChild(0).GetChild(2).GetChild(7).GetComponentInChildren<Button>(true);
+        statDown[2] = statusUI.GetChild(0).GetChild(2).GetChild(8).GetComponentInChildren<Button>(true);
+        statDown[3] = statusUI.GetChild(0).GetChild(2).GetChild(9).GetComponentInChildren<Button>(true);
+        skillImage = new Image[2];
+        skillImage[0] = statusUI.GetChild(0).GetChild(3).GetChild(0).GetComponentInChildren<Image>(true);
+        skillImage[1] = statusUI.GetChild(0).GetChild(4).GetChild(0).GetComponentInChildren<Image>(true);
+        skillLevel = new Text[2];
+        skillLevel[0] = statusUI.GetChild(0).GetChild(3).GetChild(0).GetChild(2).GetComponentInChildren<Text>(true);
+        skillLevel[1] = statusUI.GetChild(0).GetChild(4).GetChild(0).GetChild(2).GetComponentInChildren<Text>(true);
+        skillTooltip = new Text[2];
+        skillTooltip[0] = statusUI.GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
+        skillTooltip[1] = statusUI.GetChild(0).GetChild(4).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
+        skillUp = new Button[2];
+        skillUp[0] = statusUI.GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetComponentInChildren<Button>(true);
+        skillUp[1] = statusUI.GetChild(0).GetChild(4).GetChild(0).GetChild(0).GetComponentInChildren<Button>(true);
+        skillDown = new Button[2];
+        skillDown[0] = statusUI.GetChild(0).GetChild(3).GetChild(0).GetChild(1).GetComponentInChildren<Button>(true);
+        skillDown[1] = statusUI.GetChild(0).GetChild(4).GetChild(0).GetChild(1).GetComponentInChildren<Button>(true);
+        skillPoint = statusUI.GetChild(0).GetChild(5).GetChild(0).GetComponentInChildren<Text>(true);
+
+        image_Tooltip = tooltipUI.GetComponentInChildren<Transform>(true).gameObject;
+        tooltip = tooltipUI.GetChild(0).GetComponentInChildren<Text>(true);
+    }
     #endregion
 
     private void Start()
@@ -148,7 +308,7 @@ public class InGameUIManager : MonoBehaviour
         image_Tooltip.SetActive(false);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         MenuOnOff();
         StatusOnOff();
@@ -854,16 +1014,20 @@ public class InGameUIManager : MonoBehaviour
                         {
                             itemCount[i].SetActive(false);
                         }
+                        else
+                        {
+                            break;
+                        }
 
-                        if (itemInfo.list_AllItem[k].Equals("Helmet") || itemInfo.list_AllItem[k].Equals("Armor") || itemInfo.list_AllItem[k].Equals("Arms"))
+                        if (itemInfo.list_AllItem[k].type.Equals("Helmet") || itemInfo.list_AllItem[k].type.Equals("Armor") || itemInfo.list_AllItem[k].type.Equals("Arms"))
                         {
                             itemFrame[i].sprite = frameColor[2];
                         }
-                        else if (itemInfo.list_AllItem[k].Equals("About"))
+                        else if (itemInfo.list_AllItem[k].type.Equals("About"))
                         {
                             itemFrame[i].sprite = frameColor[1];
                         }
-                        else if (itemInfo.list_AllItem[k].Equals("Block"))
+                        else if (itemInfo.list_AllItem[k].type.Equals("Block"))
                         {
                             itemFrame[i].sprite = frameColor[3];
                         }
