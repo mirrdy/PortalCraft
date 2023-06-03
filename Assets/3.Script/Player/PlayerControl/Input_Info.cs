@@ -15,6 +15,8 @@ public class Input_Info : MonoBehaviour
     public bool skill_2;
     public bool viewChange;
 
+    public Vector2 cameraLook;
+
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
 
@@ -59,6 +61,14 @@ public class Input_Info : MonoBehaviour
     {
         viewChange = value.isPressed;
     }
+
+    //public void OnCameraLook(InputValue value)
+    //{
+    //    if (cursorInputForLook)
+    //    {
+    //        cameraLook = value.Get<Vector2>();
+    //    }
+    //}
 
 
 

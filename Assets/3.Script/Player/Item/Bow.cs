@@ -6,6 +6,7 @@ public class Bow : MonoBehaviour
 {
     public int attackDamage;
     public float attackRate;
+    public float attackRange = 1000f;
 
     public GameObject arrowPrefab;
     public Transform arrowPoint;
@@ -18,12 +19,15 @@ public class Bow : MonoBehaviour
 
     public void Use()
     {
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Vector3 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-
-        //ray.GetPoint
-
-
-        Instantiate(arrowPrefab, arrowPoint.position, mainCamera.transform.rotation);
+        
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, attackRange))
+        {
+            Vector3 aimDir = hitInfo.point - arrowPoint.position;
+            Instantiate(arrowPrefab, arrowPoint.position, Quaternion.LookRotation(aimDir));
+        }
+        //Quaternion.Euler
+        //Physics.Raycast()
     }
 }

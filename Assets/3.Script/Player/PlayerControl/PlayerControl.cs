@@ -8,8 +8,8 @@ using System.Xml.Serialization;
 public class PlayerControl : MonoBehaviour, IDamage
 {
     //카메라 시점 열거형
-    public enum cameraView { ThirdPerson = 0, FirstPerson = 1 };
-    private cameraView currentView = cameraView.ThirdPerson;
+    public enum CameraView { ThirdPerson = 0, FirstPerson = 1 };
+    public CameraView currentView = CameraView.ThirdPerson;
 
     //장착아이템 열거형
     public enum ItemType { Empty = 0, Sword, Bow, Potion, Block }
@@ -18,7 +18,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     // --------------- 컴포넌트들 ----------------
     private Animator animator;
     private CharacterController charController;
-    private Input_Info input;
+    [HideInInspector]
+    public Input_Info input;
     // ------------------------------------------
 
     // ---------------------------- 카메라 ------------------------------- 
@@ -89,11 +90,11 @@ public class PlayerControl : MonoBehaviour, IDamage
     #endregion
 
     #region 장비스탯변수
-    public  int equip_HP = 0;
-    public int equip_Defense = 0;
-    public float equip_Speed = 0;
-    public int equip_Attack = 0;
-    public float equip_AttackRate = 0;
+    public int equip_HP;
+    public int equip_Defense;
+    public float equip_Speed;
+    public int equip_Attack;
+    public float equip_AttackRate;
     #endregion
 
 
@@ -142,7 +143,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
 
-        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
+        //playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
 
         
     }
@@ -159,16 +160,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
 
-        uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
-        uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
-
-        playerData.inventory[38].hasItem = true;
-        playerData.inventory[38].tag = 107;
-        playerData.inventory[38].quantity = 1;
-
-        playerData.inventory[39].hasItem = true;
-        playerData.inventory[39].tag = 103;
-        playerData.inventory[39].quantity = 1;
+        //uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
 
         //QuickSlotItem = new GameObject[8];
     }
@@ -180,15 +172,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         GroundCheck();
         Move();
         Attack();
-
-        // 설치 관련 로직 (ex: 횃불)
-        /*
-            1. 현재 들고있는 장비 정보 받아오기
-            2. 현재 장비가 Torch면 (Torch 스크립트 만들 예정)
-            3. 조준점 기준 설치 가능한지 판별
-            4. 우클릭하면 플레이어 장비에서 토치 해제하고
-            5. 설치 가능한 해당 조준점에 필드 토치 오브젝트 생성
-         */
         VeiwChange();
     }
     private void LateUpdate()
@@ -197,7 +180,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
 
 
-    private void VeiwChange()
+    public void VeiwChange()
     {
         if (input.viewChange)
         {
@@ -205,13 +188,13 @@ public class PlayerControl : MonoBehaviour, IDamage
             Debug.Log("뷰 전환");
             if (virtualCamera[0].activeSelf == true) //1인칭으로 전환
             {
-                currentView = cameraView.FirstPerson;
+                currentView = CameraView.FirstPerson;
                 virtualCamera[0].SetActive(false);
                 virtualCamera[1].SetActive(true);
             }
             else if (virtualCamera[1].activeSelf == true) //3인칭으로 전환
             {
-                currentView = cameraView.ThirdPerson;
+                currentView = CameraView.ThirdPerson;
                 virtualCamera[1].SetActive(false);
                 virtualCamera[0].SetActive(true);
             }
@@ -233,7 +216,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     {
         switch(currentView)
         {
-            case cameraView.ThirdPerson: //3인칭 카메라 조작
+            case CameraView.ThirdPerson: //3인칭 카메라 조작
                 {
                     if (input.look.sqrMagnitude > threshold)
                     {
@@ -247,7 +230,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     cinemachineCameraTarget_Third.transform.rotation = Quaternion.Euler(cinemachineTargetPitch_Third, cinemachineTargetYaw_Third, 0.0f);
                     break;
                 }
-            case cameraView.FirstPerson: //1인칭 카메라 조작
+            case CameraView.FirstPerson: //1인칭 카메라 조작
                 {
                     if (input.look.sqrMagnitude >= threshold)
                     {
@@ -300,7 +283,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         #region 3인칭 && 1인칭 플레이어 방향 설정 및 움직이기
         switch (currentView)
         {
-            case cameraView.ThirdPerson: //3인칭
+            case CameraView.ThirdPerson: //3인칭
                 {               
                     if (input.move != Vector2.zero) //움직임O && 공격X
                     {
@@ -328,7 +311,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                                          new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
                     break;
                 }
-            case cameraView.FirstPerson: //1인칭
+            case CameraView.FirstPerson: //1인칭
                 {
                     if (input.move != Vector2.zero)
                     {
@@ -547,8 +530,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             LevelUp();
         }
-
-        uiManager.ExpCheck(requiredExp, playerData.playerExp);
     }
     public void LevelUp() //후에 스탯상승 추가 
     {
