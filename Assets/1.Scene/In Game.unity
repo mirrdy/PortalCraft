@@ -600,7 +600,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5450319016765938341, guid: 6645ee55ec9469b4684d285748f38172, type: 3}
   m_PrefabInstance: {fileID: 5450319017096225240}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5450319017096225242}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 967c4ec08ad757f4ca47f061bedcec2a, type: 3}
@@ -1589,7 +1589,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5450319015949783129, guid: 6645ee55ec9469b4684d285748f38172, type: 3}
   m_PrefabInstance: {fileID: 5450319017096225240}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5450319017096225241}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 967c4ec08ad757f4ca47f061bedcec2a, type: 3}
@@ -1660,7 +1660,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5450319015903145619, guid: 6645ee55ec9469b4684d285748f38172, type: 3}
   m_PrefabInstance: {fileID: 5450319017096225240}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5450319017096225243}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 967c4ec08ad757f4ca47f061bedcec2a, type: 3}
@@ -9528,14 +9528,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   move: {x: 0, y: 0}
-  look: {x: 0, y: 0}
   sprint: 0
   jump: 0
   attack: 0
   skill_1: 0
   skill_2: 0
-  viewChange: 0
-  cameraLook: {x: 0, y: 0}
   cursorLocked: 1
   cursorInputForLook: 1
 --- !u!143 &2343751734778209447
@@ -9572,11 +9569,6 @@ MonoBehaviour:
   currentItem: 0
   input: {fileID: 0}
   mainCamera: {fileID: 0}
-  virtualCamera:
-  - {fileID: 0}
-  - {fileID: 0}
-  cinemachineCameraTarget_Third: {fileID: 2343751733424587564}
-  cinemachineCameraTarget_First: {fileID: 4460667756709719520}
   cameraAngleOverride: 0
   moveSpeed: 4
   sprintSpeed: 7.3
@@ -17873,6 +17865,108 @@ PrefabInstance:
       objectReference: {fileID: 1908376997}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6645ee55ec9469b4684d285748f38172, type: 3}
+--- !u!1 &5450319017096225241 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5450319015949783205, guid: 6645ee55ec9469b4684d285748f38172, type: 3}
+  m_PrefabInstance: {fileID: 5450319017096225240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5450319017096225242 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5450319016765938337, guid: 6645ee55ec9469b4684d285748f38172, type: 3}
+  m_PrefabInstance: {fileID: 5450319017096225240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5450319017096225243 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5450319015903145631, guid: 6645ee55ec9469b4684d285748f38172, type: 3}
+  m_PrefabInstance: {fileID: 5450319017096225240}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5450319017096225244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5450319017096225241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1908376997}
+          m_TargetAssemblyTypeName: InGameUIManager, Assembly-CSharp
+          m_MethodName: MouseEnter
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 40
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &5450319017096225245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5450319017096225242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1908376997}
+          m_TargetAssemblyTypeName: InGameUIManager, Assembly-CSharp
+          m_MethodName: MouseEnter
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 39
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &5450319017096225246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5450319017096225243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1908376997}
+          m_TargetAssemblyTypeName: InGameUIManager, Assembly-CSharp
+          m_MethodName: MouseEnter
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 38
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &5487144565965291263
 GameObject:
   m_ObjectHideFlags: 0
