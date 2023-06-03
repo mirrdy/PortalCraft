@@ -1326,72 +1326,102 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
-    public void ChangedHelmet(int slotNumber)
+    public void ChangedItme(int currentSlot, int newSlot)
     {
         PlayerData playerData = player.playerData;
-        if (playerData.inventory[38].hasItem)
+        if (playerData.inventory[newSlot].hasItem)
         {
-            int tag = playerData.inventory[38].tag;
-            int quantity = playerData.inventory[38].quantity;
-            string type = playerData.inventory[38].type;
+            int tag = playerData.inventory[newSlot].tag;
+            int quantity = playerData.inventory[newSlot].quantity;
+            string type = playerData.inventory[newSlot].type;
 
-            playerData.inventory[38].tag = slotUi[slotNumber].tag;
-            playerData.inventory[38].quantity = slotUi[slotNumber].quantity;
-            playerData.inventory[38].type = slotUi[slotNumber].type;
+            playerData.inventory[newSlot].tag = slotUi[currentSlot].tag;
+            playerData.inventory[newSlot].quantity = slotUi[currentSlot].quantity;
+            playerData.inventory[newSlot].type = slotUi[currentSlot].type;
 
-            slotUi[slotNumber].tag = tag;
-            slotUi[slotNumber].quantity = quantity;
-            slotUi[slotNumber].type = type;
+            slotUi[currentSlot].tag = tag;
+            slotUi[currentSlot].quantity = quantity;
+            slotUi[currentSlot].type = type;
         }
         else
         {
-            playerData.inventory[38].hasItem = true;
-            playerData.inventory[38].tag = slotUi[slotNumber].tag;
-            playerData.inventory[38].quantity = slotUi[slotNumber].quantity;
-            playerData.inventory[38].type = slotUi[slotNumber].type;
+            playerData.inventory[newSlot].hasItem = true;
+            playerData.inventory[newSlot].tag = slotUi[currentSlot].tag;
+            playerData.inventory[newSlot].quantity = slotUi[currentSlot].quantity;
+            playerData.inventory[newSlot].type = slotUi[currentSlot].type;
 
-            playerData.inventory[slotNumber].hasItem = false;
-            playerData.inventory[slotNumber].tag = 0;
-            playerData.inventory[slotNumber].quantity = 0;
-            playerData.inventory[slotNumber].type = null;
+            playerData.inventory[currentSlot].hasItem = false;
+            playerData.inventory[currentSlot].tag = 0;
+            playerData.inventory[currentSlot].quantity = 0;
+            playerData.inventory[currentSlot].type = null;
         }
 
         InventoryCheck();
     }
 
-    public void ChangedAramor(int slotNumber)
+    public void AddItem(int tag, string type, int quantity, int currentSlot)
     {
         PlayerData playerData = player.playerData;
-        if (playerData.inventory[39].hasItem)
+        if (type.Equals("Armor") || type.Equals("Cloak") || type.Equals("Helmet"))
         {
-            int tag = playerData.inventory[39].tag;
-            int quantity = playerData.inventory[39].quantity;
-            string type = playerData.inventory[39].type;
-
-            playerData.inventory[39].tag = slotUi[slotNumber].tag;
-            playerData.inventory[39].quantity = slotUi[slotNumber].quantity;
-            playerData.inventory[39].type = slotUi[slotNumber].type;
-
-            playerData.inventory[slotNumber].tag = tag;
-            playerData.inventory[slotNumber].quantity = quantity;
-            playerData.inventory[slotNumber].type = type;
+            NewItemSlot(tag, type, quantity, currentSlot);
         }
         else
         {
-            playerData.inventory[39].hasItem = true;
-            playerData.inventory[39].tag = slotUi[slotNumber].tag;
-            playerData.inventory[39].quantity = slotUi[slotNumber].quantity;
-            playerData.inventory[39].type = slotUi[slotNumber].type;
-
-            playerData.inventory[slotNumber].hasItem = false;
-            playerData.inventory[slotNumber].tag = 0;
-            playerData.inventory[slotNumber].quantity = 0;
-            playerData.inventory[slotNumber].type = null;
+            for (int i = 0; i < playerData.inventory.Length - 3; i++)
+            {
+                if (tag == itemInfo.list_AllItem[i].tag)
+                {
+                    if (itemInfo.list_AllItem[i].maxQuantity >= 5)
+                    {
+                        CheckInven(tag, type, quantity, currentSlot);
+                    }
+                }
+            }
+            NewItemSlot(tag, type, quantity, currentSlot);
         }
+    }
 
-        InventoryCheck();
+    private void CheckInven(int tag, string type, int quantity, int currentSlot)
+    {
+        PlayerData playerData = player.playerData;
+
+        for (int i = 0; i < playerData.inventory.Length - 3; i++)
+        {
+            if (playerData.inventory[i].hasItem)
+            {
+                if (tag == playerData.inventory[i].tag)
+                {
+                    playerData.inventory[i].quantity += quantity;
+                    if(playerData.inventory[i].quantity > 99)
+                    {
+                        NewItemSlot(tag, type, quantity, currentSlot);
+                    }
+                    return;
+                }
+            }
+        }
+        NewItemSlot(tag, type, quantity, currentSlot);
+    }
+
+    private void NewItemSlot(int tag, string type, int quantity, int currentSlot)
+    {
+        PlayerData playerData = player.playerData;
+
+        for (int i = 30; i < 38; i++)
+        {
+            if (!playerData.inventory[i].hasItem)
+            {
+                ChangedItme(currentSlot, i);
+            }
+        }
+        for (int i = 0; i < 30; i++)
+        {
+            if (!playerData.inventory[i].hasItem)
+            {
+                ChangedItme(currentSlot, i);
+            }
+        }
     }
     #endregion
-
-
 }

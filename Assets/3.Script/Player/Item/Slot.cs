@@ -24,13 +24,33 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         {
             if (hasItem)
             {
+                if(slotNumber == 38)
+                {
+                    uiManager.AddItem(tag, type, quantity, slotNumber);
+                    return;
+                }
+                else if (slotNumber == 39)
+                {
+                    uiManager.AddItem(tag, type, quantity, slotNumber);
+                    return;
+                }
+                else if (slotNumber == 40)
+                {
+                    uiManager.AddItem(tag, type, quantity, slotNumber);
+                    return;
+                }
+
                 if (type.Equals("Helmet"))
                 {
-                    uiManager.ChangedHelmet(slotNumber);
+                    uiManager.ChangedItme(slotNumber, 38);
                 }
                 else if (type.Equals("Armor"))
                 {
-                    uiManager.ChangedAramor(slotNumber);
+                    uiManager.ChangedItme(slotNumber, 39);
+                }
+                else if (type.Equals("Cloak"))
+                {
+                    uiManager.ChangedItme(slotNumber, 40);
                 }
                 else if (type.Equals("About"))
                 {
