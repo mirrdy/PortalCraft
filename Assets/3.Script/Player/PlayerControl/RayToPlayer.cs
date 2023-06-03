@@ -1,48 +1,73 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class RayToPlayer : MonoBehaviour
 {
-    private Input_Info input;
-    public GameObject cinemachineCameraTarget_Third; //3ÀÎÄªÅ¸°Ù
-    private const float threshold = 0.01f;
-    private float cinemachineTargetYaw_Third;
-    private float cinemachineTargetPitch_Third;
-    private float topClamp_Third = 70.0f;
-    private float bottomClamp_Third = -30.0f;
+    [SerializeField] private Transform rayPoint;
+    [SerializeField] private LayerMask layerMask_Ray;
+    [SerializeField] private GameObject Third_Cam;
+    [SerializeField] private GameObject First_Cam;
+    [SerializeField] private CinemachineVirtualCamera cinemachineCamera;
+    [SerializeField] private Cinemachine3rdPersonFollow _3rdPersonFollow;
+
+    public enum CameraState { Third = 0, First };
+    public CameraState cameraState;
+    
+
     private void Start()
     {
-        input = GetComponent<Input_Info>();
-        cinemachineTargetYaw_Third = cinemachineCameraTarget_Third.transform.rotation.eulerAngles.y;
+        _3rdPersonFollow = cinemachineCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        cameraState = CameraState.Third;
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        if (input.cameraLook.sqrMagnitude > threshold)
+        ChangeCameraState();
+        Debug.Log(cameraState);
+
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            cinemachineTargetYaw_Third += input.look.x;
-            cinemachineTargetPitch_Third += input.look.y;
+            _3rdPersonFollow.ShoulderOffset = new Vector3(1, 0.46f, 0);
+            _3rdPersonFollow.CameraDistance = -0.52f;
         }
 
-        cinemachineTargetYaw_Third = ClampAngle(cinemachineTargetYaw_Third, float.MinValue, float.MaxValue);
-        cinemachineTargetPitch_Third = ClampAngle(cinemachineTargetPitch_Third, bottomClamp_Third, topClamp_Third);
+        //Vector3 rayDir_Third = rayPoint.position - transform.position;
+        //Debug.DrawRay(transform.position, rayDir_Third * 20f, Color.red);
 
-        cinemachineCameraTarget_Third.transform.rotation = Quaternion.Euler(cinemachineTargetPitch_Third, cinemachineTargetYaw_Third, 0.0f);
+        //if (Physics.Raycast(transform.position, rayDir_Third, out RaycastHit hitInfo, 20f, layerMask_Ray)) 
+        //{
+        //    if (hitInfo.transform.CompareTag("Player"))
+        //    {
+        //        Debug.Log("ÇÃ·¹ÀÌ¾î °¨Áö");
+        //    }
+        //    else
+        //    {
+        //        gameObject.SetActive(false);
+        //        First_Cam.SetActive(true);
+        //        PlayerControl.instance.currentView = PlayerControl.CameraView.FirstPerson;
+        //    }
+        //}
     }
 
-    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+    private void ChangeCameraState()
     {
-        if (lfAngle < -360f)
+        if (Input.GetButtonDown("ViewChange"))
         {
-            lfAngle += 360f;
+            if (cameraState == CameraState.Third)
+            {
+                cameraState = CameraState.First;
+            }
+            else 
+            {
+                cameraState = CameraState.Third;
+            }
         }
-
-        if (lfAngle > 360f)
-        {
-            lfAngle -= 360f;
-        }
-
-        return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
+
+
 }
+
+
+

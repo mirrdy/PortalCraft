@@ -8,8 +8,8 @@ using System.Xml.Serialization;
 public class PlayerControl : MonoBehaviour, IDamage
 {
     //카메라 시점 열거형
-    public enum cameraView { ThirdPerson = 0, FirstPerson = 1 };
-    private cameraView currentView = cameraView.ThirdPerson;
+    public enum CameraView { ThirdPerson = 0, FirstPerson = 1 };
+    public CameraView currentView = CameraView.ThirdPerson;
 
     //장착아이템 열거형
     public enum ItemType { Empty = 0, Sword, Bow, Potion, Block }
@@ -18,7 +18,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     // --------------- 컴포넌트들 ----------------
     private Animator animator;
     private CharacterController charController;
-    private Input_Info input;
+    [HideInInspector]
+    public Input_Info input;
     // ------------------------------------------
 
     // ---------------------------- 카메라 ------------------------------- 
@@ -179,7 +180,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
 
 
-    private void VeiwChange()
+    public void VeiwChange()
     {
         if (input.viewChange)
         {
@@ -187,13 +188,13 @@ public class PlayerControl : MonoBehaviour, IDamage
             Debug.Log("뷰 전환");
             if (virtualCamera[0].activeSelf == true) //1인칭으로 전환
             {
-                currentView = cameraView.FirstPerson;
+                currentView = CameraView.FirstPerson;
                 virtualCamera[0].SetActive(false);
                 virtualCamera[1].SetActive(true);
             }
             else if (virtualCamera[1].activeSelf == true) //3인칭으로 전환
             {
-                currentView = cameraView.ThirdPerson;
+                currentView = CameraView.ThirdPerson;
                 virtualCamera[1].SetActive(false);
                 virtualCamera[0].SetActive(true);
             }
@@ -215,7 +216,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     {
         switch(currentView)
         {
-            case cameraView.ThirdPerson: //3인칭 카메라 조작
+            case CameraView.ThirdPerson: //3인칭 카메라 조작
                 {
                     if (input.look.sqrMagnitude > threshold)
                     {
@@ -229,7 +230,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     cinemachineCameraTarget_Third.transform.rotation = Quaternion.Euler(cinemachineTargetPitch_Third, cinemachineTargetYaw_Third, 0.0f);
                     break;
                 }
-            case cameraView.FirstPerson: //1인칭 카메라 조작
+            case CameraView.FirstPerson: //1인칭 카메라 조작
                 {
                     if (input.look.sqrMagnitude >= threshold)
                     {
@@ -282,7 +283,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         #region 3인칭 && 1인칭 플레이어 방향 설정 및 움직이기
         switch (currentView)
         {
-            case cameraView.ThirdPerson: //3인칭
+            case CameraView.ThirdPerson: //3인칭
                 {               
                     if (input.move != Vector2.zero) //움직임O && 공격X
                     {
@@ -310,7 +311,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                                          new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
                     break;
                 }
-            case cameraView.FirstPerson: //1인칭
+            case CameraView.FirstPerson: //1인칭
                 {
                     if (input.move != Vector2.zero)
                     {

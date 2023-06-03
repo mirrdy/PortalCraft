@@ -62,13 +62,13 @@ public class Input_Info : MonoBehaviour
         viewChange = value.isPressed;
     }
 
-    public void OnCameraLook(InputValue value)
-    {
-        if (cursorInputForLook)
-        {
-            cameraLook = value.Get<Vector2>();
-        }
-    }
+    //public void OnCameraLook(InputValue value)
+    //{
+    //    if (cursorInputForLook)
+    //    {
+    //        cameraLook = value.Get<Vector2>();
+    //    }
+    //}
 
 
 
