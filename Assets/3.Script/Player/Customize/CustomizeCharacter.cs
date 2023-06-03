@@ -270,12 +270,14 @@ public class CustomizeCharacter : MonoBehaviour
         {
             playerData.inventory[30].hasItem = true;
             playerData.inventory[30].tag = 203;
+            playerData.inventory[30].type = "Arms";
             playerData.inventory[30].quantity = 1;
         }
         else
         {
             playerData.inventory[30].hasItem = true;
             playerData.inventory[30].tag = 206;
+            playerData.inventory[30].type = "Arms";
             playerData.inventory[30].quantity = 1;
         }
 

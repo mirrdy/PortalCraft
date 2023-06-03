@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using System;
 
 public class InGameUIManager : MonoBehaviour
 {
@@ -52,6 +53,7 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] GameObject image_Tooltip;  // 아이템 툴팁;
     [SerializeField] Text tooltip;  // 아이템 설명 표시
     [SerializeField] Sprite[] border;  // 슬롯에 마우스 올라갈때 테두리 변경용 이미지
+    [SerializeField] Slot[] slotUi;
 
     [Header("Player Status")]
     [SerializeField] GameObject image_Status;  // 스테이터스 창
@@ -82,11 +84,15 @@ public class InGameUIManager : MonoBehaviour
 
     // 코루틴 저장할 변수
     private Coroutine hpCoroutine;
+    private Coroutine mpCoroutine;
     private Coroutine expCoroutine;
 
-    #region 리셋
+    // 플레이어가 현재 퀵슬롯을 사용할지 인벤토리 상호 작용 인지 알수 있는 bool 값 변수
+    public bool isQuickSlot = true;
+    
     private void Reset()
     {
+        #region 리셋
         if (GameObject.Find("Player") != null && GameObject.Find("Player").transform.childCount > 6)
         {
             playerView = GameObject.Find("Player").transform.GetChild(6).gameObject;
@@ -177,6 +183,13 @@ public class InGameUIManager : MonoBehaviour
         for (int i = 38; i < 41; i++)
         {
             itemSlot[i] = inventoryUI.GetChild(0).GetChild(2).GetChild(i - 37).GetChild(1).GetComponentInChildren<Image>(true);
+        }
+        slotUi = new Slot[41];
+        Slot[] slots = FindObjectsOfType<Slot>(true);
+        Array.Sort(slots, (a, b) => string.Compare(a.gameObject.name, b.gameObject.name));
+        for (int i = 0; i < 41; i++)
+        {
+            slotUi[i] = slots[i];
         }
         itemCount = new GameObject[38];
         for (int i = 0; i < 30; i++)
@@ -277,8 +290,8 @@ public class InGameUIManager : MonoBehaviour
 
         image_Tooltip = tooltipUI.GetComponentInChildren<Transform>(true).gameObject;
         tooltip = tooltipUI.GetChild(0).GetComponentInChildren<Text>(true);
+        #endregion
     }
-    #endregion
 
     private void Start()
     {
@@ -306,6 +319,8 @@ public class InGameUIManager : MonoBehaviour
         inventory.SetActive(false);
         playerView.SetActive(false);
         image_Tooltip.SetActive(false);
+        SetCursorState(true);
+
     }
 
     private void LateUpdate()
@@ -366,31 +381,6 @@ public class InGameUIManager : MonoBehaviour
     public void CheckSound(BaseEventData eventdata)  // 슬라이더 소리 변경시 사운드 체크 메소드
     {
         AudioManager.instance.PlaySFX("SoundCheck");
-    }
-
-    public void MenuOnOff()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (!menuImage.activeSelf)
-            {
-                target.SetActive(false);
-                SetCursorState(false);
-                Time.timeScale = 0;
-                menuImage.SetActive(true);
-                image_Status.SetActive(false);
-                inventory.SetActive(false);
-                playerView.SetActive(false);
-            }
-            else
-            {
-                target.SetActive(true);
-                image_Tooltip.SetActive(false);
-                SetCursorState(true);
-                Time.timeScale = 1;
-                menuImage.SetActive(false);
-            }
-        }
     }
 
     public void ContinuGameBtn()
@@ -480,12 +470,40 @@ public class InGameUIManager : MonoBehaviour
     #endregion
 
     #region 윈도우 onoff 메소드
+    public void MenuOnOff()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!menuImage.activeSelf)
+            {
+                isQuickSlot = false;
+                target.SetActive(false);
+                SetCursorState(false);
+                Time.timeScale = 0;
+                menuImage.SetActive(true);
+                image_Status.SetActive(false);
+                inventory.SetActive(false);
+                playerView.SetActive(false);
+            }
+            else
+            {
+                isQuickSlot = true;
+                target.SetActive(true);
+                image_Tooltip.SetActive(false);
+                SetCursorState(true);
+                Time.timeScale = 1;
+                menuImage.SetActive(false);
+            }
+        }
+    }
+
     public void StatusOnOff()
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
             if (!image_Status.activeSelf)
             {
+                isQuickSlot = false;
                 target.SetActive(false);
                 SetCursorState(false);
                 Time.timeScale = 0;
@@ -497,6 +515,7 @@ public class InGameUIManager : MonoBehaviour
             }
             else
             {
+                isQuickSlot = true;
                 target.SetActive(true);
                 image_Tooltip.SetActive(false);
                 SetCursorState(true);
@@ -513,6 +532,7 @@ public class InGameUIManager : MonoBehaviour
         {
             if (!inventory.activeSelf)
             {
+                isQuickSlot = false;
                 target.SetActive(false);
                 SetCursorState(false);
                 Time.timeScale = 0;
@@ -523,6 +543,7 @@ public class InGameUIManager : MonoBehaviour
             }
             else
             {
+                isQuickSlot = true;
                 target.SetActive(true);
                 image_Tooltip.SetActive(false);
                 SetCursorState(true);
@@ -998,6 +1019,17 @@ public class InGameUIManager : MonoBehaviour
         {
             if (playerData.inventory[i].hasItem)
             {
+                if(playerData.inventory[i].quantity <= 0)
+                {
+                    playerData.inventory[i].hasItem = false;
+                    playerData.inventory[i].tag = 0;
+                    playerData.inventory[i].quantity = 0;
+                    playerData.inventory[i].type = null;
+                    itemSlot[i].sprite = null;
+                    itemFrame[i].sprite = frameColor[0];
+                    continue;
+                }
+
                 for (int k = 0; k < itemInfo.list_AllItem.Count; k++)
                 {
                     if (playerData.inventory[i].tag == itemInfo.list_AllItem[k].tag)
@@ -1041,9 +1073,18 @@ public class InGameUIManager : MonoBehaviour
                 itemSlot[i].gameObject.SetActive(false);
                 if (i < 38)
                 {
+                    itemSlot[i].sprite = null;
                     itemFrame[i].sprite = frameColor[0];
                 }
             }
+        }
+        for (int i = 0; i < slotUi.Length; i++)
+        {
+            slotUi[i].quantity = playerData.inventory[i].quantity;
+            slotUi[i].tag = playerData.inventory[i].tag;
+            slotUi[i].type = playerData.inventory[i].type;
+            slotUi[i].hasItem = playerData.inventory[i].hasItem;
+            slotUi[i].slotNumber = i;
         }
     }
 
@@ -1283,6 +1324,72 @@ public class InGameUIManager : MonoBehaviour
         {
             SetHelmet();
         }
+    }
+
+    public void ChangedHelmet(int slotNumber)
+    {
+        PlayerData playerData = player.playerData;
+        if (playerData.inventory[38].hasItem)
+        {
+            int tag = playerData.inventory[38].tag;
+            int quantity = playerData.inventory[38].quantity;
+            string type = playerData.inventory[38].type;
+
+            playerData.inventory[38].tag = slotUi[slotNumber].tag;
+            playerData.inventory[38].quantity = slotUi[slotNumber].quantity;
+            playerData.inventory[38].type = slotUi[slotNumber].type;
+
+            slotUi[slotNumber].tag = tag;
+            slotUi[slotNumber].quantity = quantity;
+            slotUi[slotNumber].type = type;
+        }
+        else
+        {
+            playerData.inventory[38].hasItem = true;
+            playerData.inventory[38].tag = slotUi[slotNumber].tag;
+            playerData.inventory[38].quantity = slotUi[slotNumber].quantity;
+            playerData.inventory[38].type = slotUi[slotNumber].type;
+
+            playerData.inventory[slotNumber].hasItem = false;
+            playerData.inventory[slotNumber].tag = 0;
+            playerData.inventory[slotNumber].quantity = 0;
+            playerData.inventory[slotNumber].type = null;
+        }
+
+        InventoryCheck();
+    }
+
+    public void ChangedAramor(int slotNumber)
+    {
+        PlayerData playerData = player.playerData;
+        if (playerData.inventory[39].hasItem)
+        {
+            int tag = playerData.inventory[39].tag;
+            int quantity = playerData.inventory[39].quantity;
+            string type = playerData.inventory[39].type;
+
+            playerData.inventory[39].tag = slotUi[slotNumber].tag;
+            playerData.inventory[39].quantity = slotUi[slotNumber].quantity;
+            playerData.inventory[39].type = slotUi[slotNumber].type;
+
+            playerData.inventory[slotNumber].tag = tag;
+            playerData.inventory[slotNumber].quantity = quantity;
+            playerData.inventory[slotNumber].type = type;
+        }
+        else
+        {
+            playerData.inventory[39].hasItem = true;
+            playerData.inventory[39].tag = slotUi[slotNumber].tag;
+            playerData.inventory[39].quantity = slotUi[slotNumber].quantity;
+            playerData.inventory[39].type = slotUi[slotNumber].type;
+
+            playerData.inventory[slotNumber].hasItem = false;
+            playerData.inventory[slotNumber].tag = 0;
+            playerData.inventory[slotNumber].quantity = 0;
+            playerData.inventory[slotNumber].type = null;
+        }
+
+        InventoryCheck();
     }
     #endregion
 

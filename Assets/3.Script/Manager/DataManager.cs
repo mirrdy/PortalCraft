@@ -149,6 +149,7 @@ public class DataManager : MonoBehaviour
                 playerData.inventory[k] = new Inventory();
 
                 playerData.inventory[k].tag = 0;
+                playerData.inventory[k].type = null;
                 playerData.inventory[k].quantity = 0;
                 playerData.inventory[k].hasItem = false;
             }
