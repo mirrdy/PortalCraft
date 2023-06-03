@@ -29,7 +29,7 @@ public class Arrow : MonoBehaviour
             int damage = PlayerControl.instance.equipItem.TryGetComponent(out Bow bow) ? bow.attackDamage : 0;
             Vector3 hitPoint = coll.ClosestPoint(transform.position);
             Vector3 hitNormal = transform.position - coll.transform.position;
-            monsterControl.OnDamage(damage, hitPoint, hitNormal);
+            monsterControl.TakeDamage(damage);
         }
     }
 }
