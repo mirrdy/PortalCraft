@@ -137,7 +137,19 @@ public class PlayerControl : MonoBehaviour, IDamage
         fallTimeDelta = fallTime;
 
         uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
+        uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
 
+        #region 플레이어 장비 테스트
+        playerData.inventory[23].hasItem = true;
+        playerData.inventory[23].tag = 101;
+        playerData.inventory[23].quantity = 1;
+        playerData.inventory[23].type = "Armor";
+
+        playerData.inventory[24].hasItem = true;
+        playerData.inventory[24].tag = 105;
+        playerData.inventory[24].quantity = 1;
+        playerData.inventory[24].type = "Helmet";
+        #endregion
         //QuickSlotItem = new GameObject[8];
     }
     private void Update()
@@ -438,11 +450,13 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             LevelUp();
         }
+        uiManager.ExpCheck(requiredExp, playerData.playerExp);
     }
     public void LevelUp() //후에 스탯상승 추가 
     {
         playerData.playerExp -= (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
         playerData.playerLevel++;
+        uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
     }
 
     private void OnDrawGizmosSelected()
