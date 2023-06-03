@@ -11,6 +11,9 @@ TagManager:
   - ThirdPersonCamera
   - FirstPersonCamera
   - Monster
+  - Block
+  - Environment
+  - ThirdCam_Ray
   layers:
   - Default
   - TransparentFX

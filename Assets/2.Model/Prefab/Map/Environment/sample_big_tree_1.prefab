@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7948371445346665057}
   m_Layer: 11
   m_Name: sample_big_tree_1
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

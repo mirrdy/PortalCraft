@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: -5925282291198077237}
   m_Layer: 11
   m_Name: fern_tree_small_LOD_group
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

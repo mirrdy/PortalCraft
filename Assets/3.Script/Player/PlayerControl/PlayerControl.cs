@@ -24,20 +24,6 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     // ---------------------------- 카메라 ------------------------------- 
     [SerializeField] private GameObject mainCamera;
-    [SerializeField] private GameObject[] virtualCamera = new GameObject[2];
-
-    public GameObject cinemachineCameraTarget_Third; //3인칭타겟
-    public GameObject cinemachineCameraTarget_First; //1인칭타겟
-
-    private float topClamp_Third = 70.0f;
-    private float bottomClamp_Third = -30.0f;
-    private float topClamp_First = 80.0f;
-    private float bottomClamp_First = -80.0f;
-
-    private float cinemachineTargetYaw_Third;
-    private float cinemachineTargetPitch_Third;
-    private float cinemachineTargetPitch_First;
-
     public float cameraAngleOverride = 0.0f;
     // -------------------------------------------------------------------
 
@@ -66,9 +52,6 @@ public class PlayerControl : MonoBehaviour, IDamage
     private float terminalVelocity = 53.0f;
     private float jumpCoolDelta;
     private float fallTimeDelta;
-   
-    private float rotationSpeed = 1.0f;
-    private const float threshold = 0.01f;
 
     private bool CanAction;
     private float ActionCool = 0;
@@ -128,12 +111,8 @@ public class PlayerControl : MonoBehaviour, IDamage
         }
         #endregion
 
-        virtualCamera[0] = GameObject.FindGameObjectWithTag("ThirdPersonCamera");
-        virtualCamera[1] = GameObject.FindGameObjectWithTag("FirstPersonCamera");
-        virtualCamera[1].SetActive(false);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         rayPoint = GameObject.FindGameObjectWithTag("RayPoint").transform;
-
 
         uiManager = FindObjectOfType<InGameUIManager>();
         itemInfo = FindObjectOfType<ItemManager>();
@@ -143,15 +122,12 @@ public class PlayerControl : MonoBehaviour, IDamage
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
 
-        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);
+        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);      
 
-        
     }
     private void Start()
     {
         AssignAnimationID();
-
-        cinemachineTargetYaw_Third = cinemachineCameraTarget_Third.transform.rotation.eulerAngles.y;
 
         animator = transform.GetChild(0).GetComponent<Animator>();
         charController = GetComponent<CharacterController>();
@@ -161,19 +137,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         fallTimeDelta = fallTime;
 
         uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
-        uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
-
-        #region 장비 교체 확인 용
-        playerData.inventory[23].hasItem = true;
-        playerData.inventory[23].tag = 101;
-        playerData.inventory[23].quantity = 1;
-        playerData.inventory[23].type = "Armor";
-
-        playerData.inventory[24].hasItem = true;
-        playerData.inventory[24].tag = 105;
-        playerData.inventory[24].quantity = 1;
-        playerData.inventory[24].type = "Helmet";
-        #endregion
 
         //QuickSlotItem = new GameObject[8];
     }
@@ -185,35 +148,8 @@ public class PlayerControl : MonoBehaviour, IDamage
         GroundCheck();
         Move();
         Attack();
-        VeiwChange();
-    }
-    private void LateUpdate()
-    {
-        CameraRotation();
     }
 
-
-    public void VeiwChange()
-    {
-        if (input.viewChange)
-        {
-            //[0]:3인칭, [1]:1인칭
-            Debug.Log("뷰 전환");
-            if (virtualCamera[0].activeSelf == true) //1인칭으로 전환
-            {
-                currentView = CameraView.FirstPerson;
-                virtualCamera[0].SetActive(false);
-                virtualCamera[1].SetActive(true);
-            }
-            else if (virtualCamera[1].activeSelf == true) //3인칭으로 전환
-            {
-                currentView = CameraView.ThirdPerson;
-                virtualCamera[1].SetActive(false);
-                virtualCamera[0].SetActive(true);
-            }
-            input.viewChange = false;
-        }
-    }
     private void GroundCheck()
     {
         Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z);
@@ -224,41 +160,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             animator.SetBool(animID_Ground, grounded);
         }
-    }
-    private void CameraRotation()
-    {
-        switch(currentView)
-        {
-            case CameraView.ThirdPerson: //3인칭 카메라 조작
-                {
-                    if (input.look.sqrMagnitude > threshold)
-                    {
-                        cinemachineTargetYaw_Third += input.look.x;
-                        cinemachineTargetPitch_Third += input.look.y;
-                    }
-
-                    cinemachineTargetYaw_Third = ClampAngle(cinemachineTargetYaw_Third, float.MinValue, float.MaxValue);
-                    cinemachineTargetPitch_Third = ClampAngle(cinemachineTargetPitch_Third, bottomClamp_Third, topClamp_Third);
-
-                    cinemachineCameraTarget_Third.transform.rotation = Quaternion.Euler(cinemachineTargetPitch_Third, cinemachineTargetYaw_Third, 0.0f);
-                    break;
-                }
-            case CameraView.FirstPerson: //1인칭 카메라 조작
-                {
-                    if (input.look.sqrMagnitude >= threshold)
-                    {
-                        cinemachineTargetPitch_First += input.look.y * rotationSpeed;
-                        rotationVelocity = input.look.x * rotationSpeed;
-
-                        cinemachineTargetPitch_First = ClampAngle(cinemachineTargetPitch_First, bottomClamp_First, topClamp_First);
-
-                        cinemachineCameraTarget_First.transform.localRotation = Quaternion.Euler(cinemachineTargetPitch_First, 0.0f, 0.0f);
-
-                        transform.Rotate(Vector3.up * rotationVelocity);
-                    }
-                    break;
-                }
-        }       
     }
     private void Move()
     {
@@ -432,12 +333,6 @@ public class PlayerControl : MonoBehaviour, IDamage
                                 {
                                     obj.TakeDamage(30); // 30 -> playerData.status.attack 후에 변경 
                                 }
-                                //if (hitInfo.transform.TryGetComponent(out MonsterControl monsterControl))
-                                //{
-                                //    Vector3 hitPoint = hitInfo.collider.ClosestPoint(transform.position);
-                                //    Vector3 hitNormal = transform.position - hitInfo.collider.transform.position;
-                                //    monsterControl.OnDamage(20, hitPoint, hitNormal); //20 -> playerData.status.attack 변경필요
-                                //}
                             }
                             else //플레이어가 오브젝트에 의해 가려져서 안보이는 경우
                             {
@@ -543,31 +438,13 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             LevelUp();
         }
-        uiManager.ExpCheck(requiredExp, playerData.playerExp);
     }
     public void LevelUp() //후에 스탯상승 추가 
     {
         playerData.playerExp -= (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
         playerData.playerLevel++;
-        uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
     }
 
-
-
-    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
-    {
-        if (lfAngle < -360f)
-        {
-            lfAngle += 360f;
-        }
-            
-        if (lfAngle > 360f)
-        {
-            lfAngle -= 360f;
-        }
-        
-        return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
     private void OnDrawGizmosSelected()
     {
         Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
@@ -654,8 +531,6 @@ public class Inventory  // 인벤토리 정보 관리 클레스
 {
     [XmlElement]
     public int tag;
-    [XmlElement]
-    public string type;
     [XmlElement]
     public int quantity;
     [XmlElement]

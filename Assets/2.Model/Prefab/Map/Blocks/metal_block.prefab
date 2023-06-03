@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: -3136067081395927483}
   m_Layer: 8
   m_Name: metal_block
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,7 +173,6 @@ MonoBehaviour:
   maxHp: 100
   currentHp: 0
   dropTables: []
-  blockMapGenerator: {fileID: 2239545170735302340, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}
 --- !u!1 &4103646012745934965
 GameObject:
   m_ObjectHideFlags: 0

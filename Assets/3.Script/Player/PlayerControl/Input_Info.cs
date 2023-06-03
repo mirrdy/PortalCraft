@@ -7,15 +7,13 @@ public class Input_Info : MonoBehaviour
 {
     [Header("캐릭터 Input 값")]
     public Vector2 move;
-    public Vector2 look;
+    //public Vector2 look;
     public bool sprint;
     public bool jump;
     public bool attack;
     public bool skill_1;
     public bool skill_2;
-    public bool viewChange;
-
-    public Vector2 cameraLook;
+    //public bool viewChange;
 
     public bool cursorLocked = true;
     public bool cursorInputForLook = true;
@@ -25,13 +23,13 @@ public class Input_Info : MonoBehaviour
         move = value.Get<Vector2>();
     }
 
-    public void OnLook(InputValue value)
-    {
-        if (cursorInputForLook)
-        {
-            look = value.Get<Vector2>();
-        }            
-    }
+    //public void OnLook(InputValue value)
+    //{
+    //    if (cursorInputForLook)
+    //    {
+    //        look = value.Get<Vector2>();
+    //    }            
+    //}
 
     public void OnSprint(InputValue value)
     {
@@ -57,17 +55,9 @@ public class Input_Info : MonoBehaviour
         skill_2 = value.isPressed;
     }
 
-    public void OnViewChange(InputValue value)
-    {
-        viewChange = value.isPressed;
-    }
-
-    //public void OnCameraLook(InputValue value)
+    //public void OnViewChange(InputValue value)
     //{
-    //    if (cursorInputForLook)
-    //    {
-    //        cameraLook = value.Get<Vector2>();
-    //    }
+    //    viewChange = value.isPressed;
     //}
 
 
