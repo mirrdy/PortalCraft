@@ -3124,8 +3124,8 @@ MonoBehaviour:
   cameraAngleOverride: 0
   moveSpeed: 4
   sprintSpeed: 7.3
-  jumpHeight: 2.3
-  gravity: -15
+  jumpHeight: 2.5
+  gravity: -30
   speedChangeRate: 10
   rotationSmoothTime: 0.12
   grounded: 0
@@ -3136,15 +3136,18 @@ MonoBehaviour:
   LayerMask_Ground:
     serializedVersion: 2
     m_Bits: 2432
+  LayerMask_Destroyable:
+    serializedVersion: 2
+    m_Bits: 384
+  layerMask_Block:
+    serializedVersion: 2
+    m_Bits: 256
   equip_HP: 0
   equip_Defense: 0
   equip_Speed: 0
   equip_Attack: 0
   equip_AttackRate: 0
   equipItem: {fileID: 0}
-  LayerMask_Destroyable:
-    serializedVersion: 2
-    m_Bits: 384
   playerData:
     job: 
     hair: 0
@@ -3178,123 +3181,163 @@ MonoBehaviour:
       hasSkill: 0
     inventory:
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
   itemInfo: {fileID: 0}

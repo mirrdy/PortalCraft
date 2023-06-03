@@ -30,8 +30,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     // 플레이어
     public float moveSpeed = 4.0f;
     public float sprintSpeed = 7.3f;
-    public float jumpHeight = 2.3f;
-    public float gravity = -15.0f;
+    public float jumpHeight = 2.5f;
+    public float gravity = -30.0f;
     public float speedChangeRate = 10.0f; //가속,감속
     public float rotationSmoothTime = 0.12f;
 
@@ -42,6 +42,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     public float fallTime = 0.15f; //떨어지는 상태로 가기까지의 시간 
 
     public LayerMask LayerMask_Ground;
+    public LayerMask LayerMask_Destroyable;
+    public LayerMask layerMask_Block;
 
     private float speed;
     private float blend_MoveSpeed;
@@ -81,13 +83,11 @@ public class PlayerControl : MonoBehaviour, IDamage
     #endregion
 
 
-
     //public GameObject[] QuickSlotItem;
     [Header("현재 장착중인 아이템")]
     public GameObject equipItem;
-
     private Transform rayPoint;
-    public LayerMask LayerMask_Destroyable;
+    
 
     public PlayerData playerData;
     public ItemManager itemInfo;
@@ -123,7 +123,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         TryGetComponent(out skillInfo);
 
         playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);      
-
     }
     private void Start()
     {
@@ -303,7 +302,6 @@ public class PlayerControl : MonoBehaviour, IDamage
             }
             else
             {
-
                 if (hasAnimator)
                 {
                     animator.SetBool(animID_Falling, true);
@@ -400,6 +398,12 @@ public class PlayerControl : MonoBehaviour, IDamage
                 }
             case ItemType.Block:
                 {
+                    CanAction = ActionCool > 1f * 0.5f;
+                    if (input.attack && CanAction)
+                    {
+                        CreateBlock();
+                        ActionCool = 0;
+                    }
                     break;
                 }
         }
@@ -483,6 +487,62 @@ public class PlayerControl : MonoBehaviour, IDamage
         animID_Die = Animator.StringToHash("Die");
         animID_Potion = Animator.StringToHash("Potion");
         animID_AttackSpeed = Animator.StringToHash("AttackSpeed");
+    }
+
+    
+    public void CreateBlock()
+    {
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 20f, layerMask_Block))
+        {
+            //Debug.Log("해당오브젝트의 좌표는" + hitInfo.transform.position);
+            //Debug.Log("레이좌표는" + hitInfo.point);
+            Vector3 vecDir = hitInfo.point - hitInfo.transform.position;
+            //Debug.Log("두 벡터간의 차이는" + vecDir);
+            float xValue = vecDir.x; 
+            float yValue = vecDir.y; 
+            float zValue = vecDir.z; 
+
+            float maxValue = Mathf.Max(Mathf.Abs(xValue), Mathf.Abs(yValue), Mathf.Abs(zValue));
+            if (Mathf.Abs(xValue) == maxValue)
+            {
+                //Debug.Log("vecDir.x가 가장 큰값");
+                if (xValue > 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
+                }
+                else if(xValue < 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.left, Quaternion.identity);
+                }
+            }
+            else if (Mathf.Abs(yValue) == maxValue)
+            {
+                //Debug.Log("vecDir.y가 가장 큰값");
+                if (yValue > 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.up, Quaternion.identity);
+                }
+                else if (yValue < 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.down, Quaternion.identity);
+                }
+            }
+            else if (Mathf.Abs(zValue) == maxValue)
+            {
+                //Debug.Log("vecDir.z가 가장 큰값");
+                if (zValue > 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.forward, Quaternion.identity);
+                }
+                else if (zValue < 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.back, Quaternion.identity);
+                }
+            }
+        }        
     }
 }
 
