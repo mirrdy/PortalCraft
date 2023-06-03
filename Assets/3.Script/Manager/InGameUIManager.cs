@@ -84,7 +84,7 @@ public class InGameUIManager : MonoBehaviour
     private Coroutine hpCoroutine;
     private Coroutine expCoroutine;
 
-    #region 리셋 (아이템 이미지 제외)
+    #region 리셋
     private void Reset()
     {
         if (GameObject.Find("Player") != null && GameObject.Find("Player").transform.childCount > 6)
@@ -124,11 +124,11 @@ public class InGameUIManager : MonoBehaviour
         image_Bgm = menuUI.GetChild(0).GetChild(5).GetChild(1).GetChild(3).GetComponentInChildren<Image>(true);
         image_Sfx = menuUI.GetChild(0).GetChild(5).GetChild(2).GetChild(3).GetComponentInChildren<Image>(true);
         sprite_Bgm = new Sprite[2];
-        sprite_Bgm[0] = Resources.Load<Sprite>("Icon_PictoIcon_Sound_on");
-        sprite_Bgm[1] = Resources.Load<Sprite>("Icon_PictoIcon_Sound_off");
+        sprite_Bgm[0] = Resources.Load<Sprite>("Sprites/Icon_PictoIcon_Sound_on");
+        sprite_Bgm[1] = Resources.Load<Sprite>("Sprites/Icon_PictoIcon_Sound_off");
         sprite_Sfx = new Sprite[2];
-        sprite_Sfx[0] = Resources.Load<Sprite>("Icon_PictoIcon_Music_on");
-        sprite_Sfx[1] = Resources.Load<Sprite>("Icon_PictoIcon_Music_off");
+        sprite_Sfx[0] = Resources.Load<Sprite>("Sprites/Icon_PictoIcon_Music_on");
+        sprite_Sfx[1] = Resources.Load<Sprite>("Sprites/Icon_PictoIcon_Music_off");
 
         image_Skill = new GameObject[2];
         image_Skill[0] = playerUI.GetChild(5).GetChild(0).GetComponentInChildren<Transform>(true).gameObject;
@@ -140,10 +140,10 @@ public class InGameUIManager : MonoBehaviour
         skillTimer[0] = playerUI.GetChild(5).GetChild(0).GetChild(1).GetComponentInChildren<Text>(true);
         skillTimer[1] = playerUI.GetChild(5).GetChild(1).GetChild(1).GetComponentInChildren<Text>(true);
         sprite_Skill = new Sprite[4];
-        sprite_Skill[0] = Resources.Load<Sprite>("UI_Skill_Icon_Chop");
-        sprite_Skill[1] = Resources.Load<Sprite>("UI_Skill_Icon_Slash");
-        sprite_Skill[2] = Resources.Load<Sprite>("UI_Skill_Icon_Arrow_Barrage");
-        sprite_Skill[3] = Resources.Load<Sprite>("UI_Skill_Icon_Beam");
+        sprite_Skill[0] = Resources.Load<Sprite>("Sprites/UI_Skill_Icon_Chop");
+        sprite_Skill[1] = Resources.Load<Sprite>("Sprites/UI_Skill_Icon_Slash");
+        sprite_Skill[2] = Resources.Load<Sprite>("Sprites/UI_Skill_Icon_Arrow_Barrage");
+        sprite_Skill[3] = Resources.Load<Sprite>("Sprites/UI_Skill_Icon_Beam");
 
         inventory = inventoryUI.GetComponentInChildren<Transform>(true).gameObject;
         invenStatus = inventoryUI.GetChild(0).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
@@ -197,54 +197,53 @@ public class InGameUIManager : MonoBehaviour
             itemQuantity[i] = playerUI.GetChild(1).GetChild(i - 30).GetChild(2).GetChild(0).GetComponentInChildren<Text>(true);
         }
         frameColor = new Sprite[4];
-        frameColor[0] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Brown");
-        frameColor[1] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Green");
-        frameColor[2] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Red");
-        frameColor[3] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Yellow");
+        frameColor[0] = Resources.Load<Sprite>("Sprites/Frame_ItemFrame01_Color_Brown");
+        frameColor[1] = Resources.Load<Sprite>("Sprites/Frame_ItemFrame01_Color_Green");
+        frameColor[2] = Resources.Load<Sprite>("Sprites/Frame_ItemFrame01_Color_Red");
+        frameColor[3] = Resources.Load<Sprite>("Sprites/Frame_ItemFrame01_Color_Yellow");
         #region 아이템 배열
         image_Item = new Sprite[38];
-        image_Item[0] = Resources.Load<Sprite>("Bon");
-        image_Item[1] = Resources.Load<Sprite>("Grass");
-        image_Item[2] = Resources.Load<Sprite>("last_4");
-        image_Item[3] = Resources.Load<Sprite>("block_5");
-        image_Item[4] = Resources.Load<Sprite>("block_3");
-        image_Item[5] = Resources.Load<Sprite>("block_2");
-        image_Item[6] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Red");
-        image_Item[7] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Yellow");
-        image_Item[8] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Brown");
-        image_Item[9] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Green");
-        image_Item[10] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Red");
-        image_Item[11] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Yellow");
-        image_Item[12] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Brown");
-        image_Item[13] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Green");
-        image_Item[14] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Red");
-        image_Item[15] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Yellow");
-        image_Item[16] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Brown");
-        image_Item[17] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Green");
-        image_Item[18] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Red");
-        image_Item[19] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Yellow");
-        image_Item[20] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Brown");
-        image_Item[21] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Green");
-        image_Item[22] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Red");
-        image_Item[23] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Yellow");
-        image_Item[24] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Brown");
-        image_Item[25] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Green");
-        image_Item[26] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Red");
-        image_Item[27] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Yellow");
-        image_Item[28] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Brown");
-        image_Item[29] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Green");
-        image_Item[30] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Red");
-        image_Item[31] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Yellow");
-        image_Item[32] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Brown");
-        image_Item[33] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Green");
-        image_Item[34] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Red");
-        image_Item[35] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Yellow");
-        image_Item[36] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Brown");
-        image_Item[37] = Resources.Load<Sprite>("Frame_ItemFrame01_Color_Green");
+        image_Item[0] = Resources.Load<Sprite>("Sprites/Sand");
+        image_Item[1] = Resources.Load<Sprite>("Sprites/Grass");
+        image_Item[2] = Resources.Load<Sprite>("Sprites/Snow");
+        image_Item[3] = Resources.Load<Sprite>("Sprites/Metal");
+        image_Item[4] = Resources.Load<Sprite>("Sprites/Gold");
+        image_Item[5] = Resources.Load<Sprite>("Sprites/Clal");
+        image_Item[6] = Resources.Load<Sprite>("Sprites/Brown_Brick");
+        image_Item[7] = Resources.Load<Sprite>("Sprites/Black_Brick");
+        image_Item[8] = Resources.Load<Sprite>("Sprites/Random");
+        image_Item[9] = Resources.Load<Sprite>("Sprites/Wood");
+        image_Item[10] = Resources.Load<Sprite>("Sprites/Archer T1");
+        image_Item[11] = Resources.Load<Sprite>("Sprites/Archer T2");
+        image_Item[12] = Resources.Load<Sprite>("Sprites/Warrior T1");
+        image_Item[13] = Resources.Load<Sprite>("Sprites/Warrior T2");
+        image_Item[14] = Resources.Load<Sprite>("Sprites/Archer Helmet T1");
+        image_Item[15] = Resources.Load<Sprite>("Sprites/Archer Helmet T2");
+        image_Item[16] = Resources.Load<Sprite>("Sprites/Warrior Helmet T1");
+        image_Item[17] = Resources.Load<Sprite>("Sprites/Warrior Helmet T2");
+        image_Item[18] = Resources.Load<Sprite>("Sprites/Pickaxe");
+        image_Item[19] = Resources.Load<Sprite>("Sprites/Axe");
+        image_Item[20] = Resources.Load<Sprite>("Sprites/Sword");
+        image_Item[21] = Resources.Load<Sprite>("Sprites/Sword T1");
+        image_Item[22] = Resources.Load<Sprite>("Sprites/Sword T2");
+        image_Item[23] = Resources.Load<Sprite>("Sprites/Bow");
+        image_Item[24] = Resources.Load<Sprite>("Sprites/Bow T1");
+        image_Item[26] = Resources.Load<Sprite>("Sprites/Bow T2");
+        image_Item[27] = Resources.Load<Sprite>("Sprites/Torch Light");
+        image_Item[28] = Resources.Load<Sprite>("Sprites/Cloak");
+        image_Item[29] = Resources.Load<Sprite>("Sprites/Potal T1");
+        image_Item[30] = Resources.Load<Sprite>("Sprites/Potal T2");
+        image_Item[31] = Resources.Load<Sprite>("Sprites/Spider Wap");
+        image_Item[32] = Resources.Load<Sprite>("Sprites/Slime Drop");
+        image_Item[33] = Resources.Load<Sprite>("Sprites/String");
+        image_Item[34] = Resources.Load<Sprite>("Sprites/Bon");
+        image_Item[35] = Resources.Load<Sprite>("Sprites/Wood Group");
+        image_Item[36] = Resources.Load<Sprite>("Sprites/Hp Potion");
+        image_Item[37] = Resources.Load<Sprite>("Sprites/Mp Potion");
         #endregion
         border = new Sprite[2];
-        border[0] = Resources.Load<Sprite>("Frame_ListFrame02_s");
-        border[1] = Resources.Load<Sprite>("Frame_ItemFrame03_f");
+        border[0] = Resources.Load<Sprite>("Sprites/Frame_ListFrame02_s");
+        border[1] = Resources.Load<Sprite>("Sprites/Frame_ItemFrame03_f");
         
         image_Status = statusUI.GetComponentInChildren<Transform>(true).gameObject;
         playerStat = statusUI.GetChild(0).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);

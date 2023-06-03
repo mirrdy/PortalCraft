@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-guid: 49e66ef14a355d040b7c045114673f31
+guid: e161974d5e760ed49aecdc54715d2829
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -56352792576338850
-    second: Cloak
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -44,7 +41,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -128,32 +125,11 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Cloak
-      rect:
-        serializedVersion: 2
-        x: 17
-        y: 7
-        width: 114
-        height: 114
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e54d2680f6bc73ff0800000000000000
-      internalID: -56352792576338850
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 0d8827964e76ee74aa7ddda7c27b7ac8
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 

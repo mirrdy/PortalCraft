@@ -1,19 +1,7 @@
 fileFormatVersion: 2
-guid: 89a53e2b90d85e54e9d84100cd46485f
+guid: ec9a5fe5c12887e4d9559bc4f27cf188
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 4898045992281948738
-    second: Axe
-  - first:
-      213: 1679284420546461144
-    second: Pickaxe
-  - first:
-      213: 7809708021368000707
-    second: Hp_Potion
-  - first:
-      213: 2575765807199959766
-    second: Mp_Potion
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -53,7 +41,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -137,95 +125,11 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Axe
-      rect:
-        serializedVersion: 2
-        x: 47
-        y: 100
-        width: 242
-        height: 179
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 242cd7701ea59f340800000000000000
-      internalID: 4898045992281948738
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Pickaxe
-      rect:
-        serializedVersion: 2
-        x: 401
-        y: 74
-        width: 232
-        height: 231
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8ddf48388440e4710800000000000000
-      internalID: 1679284420546461144
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Hp_Potion
-      rect:
-        serializedVersion: 2
-        x: 790
-        y: 85
-        width: 116
-        height: 152
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3c0982d5118a16c60800000000000000
-      internalID: 7809708021368000707
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Mp_Potion
-      rect:
-        serializedVersion: 2
-        x: 1129
-        y: 77
-        width: 115
-        height: 149
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6da30caca55feb320800000000000000
-      internalID: 2575765807199959766
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 0358a92521665614d94d3bfb342e9fa7
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
