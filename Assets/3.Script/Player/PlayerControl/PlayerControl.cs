@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     public CameraView currentView = CameraView.ThirdPerson;
 
     //장착아이템 열거형
-    public enum ItemType { Empty = 0, Sword, Bow, Potion, Block }
+    public enum ItemType { Empty = 0, Sword, Bow, Potion, Block, Torch }
     [SerializeField] private ItemType currentItem = ItemType.Empty;
 
     // --------------- 컴포넌트들 ----------------
@@ -114,6 +114,10 @@ public class PlayerControl : MonoBehaviour, IDamage
 
 
 
+
+
+
+
     private void Awake()
     {
         #region 싱글톤
@@ -134,7 +138,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
 
-        //playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);      
+        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);      
     }
     private void Start()
     {
@@ -147,8 +151,8 @@ public class PlayerControl : MonoBehaviour, IDamage
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
 
-        //uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
-        //uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
+        uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
+        uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
 
         #region 플레이어 장비 테스트
         playerData.inventory[23].hasItem = true;
@@ -171,6 +175,12 @@ public class PlayerControl : MonoBehaviour, IDamage
         DodgeRoll();
         Attack();
     }
+
+
+
+
+
+
 
     private void GroundCheck()
     {
@@ -444,6 +454,15 @@ public class PlayerControl : MonoBehaviour, IDamage
                     }
                     break;
                 }
+            case ItemType.Torch:
+                {
+                    CanAction = ActionCool > 1f * 0.5f;
+                    if (input.attack && CanAction)
+                    {
+                        ActionCool = 0;
+                    }
+                    break;
+                }
         }
     }
     private void ItemSelect()
@@ -458,6 +477,12 @@ public class PlayerControl : MonoBehaviour, IDamage
     {
 
     }
+
+
+
+
+
+
     public void CreateBlock()
     {
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -512,21 +537,23 @@ public class PlayerControl : MonoBehaviour, IDamage
             }
         }
     }
-
-
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
     {
         Status status = playerData.status;
 
-        status.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * status.defens / (status.defens + 50)) * 0.01f);
-        if(status.currentHp <= 0)
+        if (!isDodging) //테스트해봐야함
+        {
+            status.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * status.defens / (status.defens + 50)) * 0.01f);
+        }       
+
+        if(status.currentHp <= 0) //죽었을때
         {
             isDead = true;
             whenPlayerDie?.Invoke();
         }
+
         uiManager.HpCheck(status.maxHp, status.currentHp);
     }
-
     public void Die()
     {
         if (isDead)
@@ -535,7 +562,6 @@ public class PlayerControl : MonoBehaviour, IDamage
             animator.SetTrigger(animID_Die);
         }       
     }
-
     public void GetExp(int exp)
     {
         playerData.playerExp += exp;
@@ -554,6 +580,12 @@ public class PlayerControl : MonoBehaviour, IDamage
         playerData.playerLevel++;
         uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
     }
+
+
+
+
+
+
 
     private void OnDrawGizmosSelected()
     {
@@ -581,9 +613,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         animID_AttackSpeed = Animator.StringToHash("AttackSpeed");
         animID_Roll = Animator.StringToHash("Roll");
     }
-
-    
-    
 }
 
 [Serializable]

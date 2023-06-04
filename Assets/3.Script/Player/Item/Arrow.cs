@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    private float arrowSpeed = 20f;
-
     private Rigidbody rigid;
     public TrailRenderer trailEffect;
 
