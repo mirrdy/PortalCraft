@@ -1370,9 +1370,9 @@ public class InGameUIManager : MonoBehaviour
         else
         {
             playerData.inventory[newSlot].hasItem = true;
-            playerData.inventory[newSlot].tag = slotUi[currentSlot].tag;
-            playerData.inventory[newSlot].quantity = slotUi[currentSlot].quantity;
-            playerData.inventory[newSlot].type = slotUi[currentSlot].type;
+            playerData.inventory[newSlot].tag = playerData.inventory[currentSlot].tag;
+            playerData.inventory[newSlot].quantity = playerData.inventory[currentSlot].quantity;
+            playerData.inventory[newSlot].type = playerData.inventory[currentSlot].type;
 
             playerData.inventory[currentSlot].hasItem = false;
             playerData.inventory[currentSlot].tag = 0;
