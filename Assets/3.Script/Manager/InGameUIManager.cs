@@ -1359,13 +1359,13 @@ public class InGameUIManager : MonoBehaviour
             int quantity = playerData.inventory[newSlot].quantity;
             string type = playerData.inventory[newSlot].type;
 
-            playerData.inventory[newSlot].tag = slotUi[currentSlot].tag;
-            playerData.inventory[newSlot].quantity = slotUi[currentSlot].quantity;
-            playerData.inventory[newSlot].type = slotUi[currentSlot].type;
+            playerData.inventory[newSlot].tag = playerData.inventory[currentSlot].tag;
+            playerData.inventory[newSlot].quantity = playerData.inventory[currentSlot].quantity;
+            playerData.inventory[newSlot].type = playerData.inventory[currentSlot].type;
 
-            slotUi[currentSlot].tag = tag;
-            slotUi[currentSlot].quantity = quantity;
-            slotUi[currentSlot].type = type;
+            playerData.inventory[currentSlot].tag = tag;
+            playerData.inventory[currentSlot].quantity = quantity;
+            playerData.inventory[currentSlot].type = type;
         }
         else
         {
@@ -1418,7 +1418,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 if (tag == playerData.inventory[i].tag)
                 {
-                    if (playerData.inventory[i].quantity >= 99)
+                    if (playerData.inventory[i].quantity > 99 - quantity)
                     {
                         continue;
                     }
@@ -1521,7 +1521,7 @@ public class InGameUIManager : MonoBehaviour
         currentSlot.transform.position = pos;
     }
 
-    public void DragDropItem(int slotNumber, GameObject newObject, string type)
+    public void DragDropItem(int slotNumber, GameObject newObject, string type, int tag, int quantity)
     {
         currentSlot.SetActive(false);
         text_currentSlot.SetActive(false);
@@ -1542,6 +1542,11 @@ public class InGameUIManager : MonoBehaviour
 
         if (slot.slotNumber <= 37)
         {
+            if (tag == slot.tag)
+            {
+                SumItem(slot, slotNumber);
+                    return;
+            }
             ChangedItme(slotNumber, slot.slotNumber);
         }
         else if (slot.slotNumber == 38)
@@ -1564,6 +1569,82 @@ public class InGameUIManager : MonoBehaviour
 
             {
                 ChangedItme(slotNumber, slot.slotNumber);
+            }
+        }
+    }
+
+    private void SumItem(Slot slot, int currentSlot)
+    {
+        PlayerData playerData = player.playerData;
+
+        playerData.inventory[slot.slotNumber].hasItem = true;
+        playerData.inventory[slot.slotNumber].tag = playerData.inventory[currentSlot].tag;
+        playerData.inventory[slot.slotNumber].quantity += playerData.inventory[currentSlot].quantity;
+        playerData.inventory[slot.slotNumber].type = slotUi[currentSlot].type;
+
+        if (playerData.inventory[slot.slotNumber].quantity > 99)
+        {
+            playerData.inventory[currentSlot].quantity = playerData.inventory[slot.slotNumber].quantity - 99;
+            playerData.inventory[slot.slotNumber].quantity = 99;
+        }
+        else
+        {
+            playerData.inventory[currentSlot].hasItem = false;
+            playerData.inventory[currentSlot].tag = 0;
+            playerData.inventory[currentSlot].quantity = 0;
+            playerData.inventory[currentSlot].type = null;
+            itemSlot[currentSlot].sprite = null;
+            itemFrame[currentSlot].sprite = frameColor[0];
+            itemCount[currentSlot].SetActive(false);
+        }
+    }
+
+    public void dragAllocation(GameObject newObject, int tag, int quantity, int slotNumber)
+    {
+        if (newObject == null)
+        {
+            return;
+        }
+
+        Slot slot = newObject.GetComponent<Slot>();
+
+        if (slot == null)
+        {
+            return;
+        }
+        Inventory inven = player.playerData.inventory[slot.slotNumber];
+
+        if (!slot.hasItem)
+        {
+            for(int i = 0; i < itemInfo.list_AllItem.Count; i++)
+            {
+                if (tag == itemInfo.list_AllItem[i].tag)
+                {
+                    if(itemInfo.list_AllItem[i].maxQuantity > 2 && quantity >= 2)
+                    {
+                        inven.tag = itemInfo.list_AllItem[i].tag;
+                        inven.hasItem = true;
+                        inven.type = itemInfo.list_AllItem[i].type;
+                        inven.quantity = 1;
+                        player.playerData.inventory[slotNumber].quantity--;
+                        SlotItemCount.text = "" + player.playerData.inventory[slotNumber].quantity;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (slot.tag == tag)
+            {
+                if(slot.quantity < 99)
+                {
+                    if (quantity >= 2)
+                    {
+                        inven.quantity++;
+                        player.playerData.inventory[slotNumber].quantity--;
+                        SlotItemCount.text = "" + player.playerData.inventory[slotNumber].quantity;
+                    }
+                }
             }
         }
     }

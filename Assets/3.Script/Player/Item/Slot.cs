@@ -4,15 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     public bool hasItem = false;
-    public int tag = 0;
+    public new int tag = 0;
     public int quantity = 0;
     public string type = null;
     public int slotNumber;
 
     GameObject drag;
+    bool isRightMouseDown = false;
+    public bool isDragged = false;
 
     private InGameUIManager uiManager;
 
@@ -108,8 +110,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(hasItem)
+        if (isDragged)
         {
+            return;
+        }
+
+        if (hasItem)
+        {
+            isDragged = true;
             uiManager.SlotNumberReset(tag, quantity, eventData.position);
         }
     }
@@ -119,6 +127,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
         if (hasItem)
         {
             uiManager.DragInItem(eventData.position);
+            if (isRightMouseDown)
+            {
+                drag = eventData.pointerCurrentRaycast.gameObject;
+                uiManager.dragAllocation(drag, tag, quantity, slotNumber);
+            }
         }
     }
 
@@ -127,7 +140,25 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
         if (hasItem)
         {
             drag = eventData.pointerCurrentRaycast.gameObject;
-            uiManager.DragDropItem(slotNumber, drag, type);
+            uiManager.DragDropItem(slotNumber, drag, type, tag, quantity);
+        }
+
+        isDragged = false;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            isRightMouseDown = true;
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            isRightMouseDown = false;
         }
     }
 }
