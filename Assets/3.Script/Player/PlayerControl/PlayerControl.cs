@@ -45,6 +45,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     public LayerMask LayerMask_Destroyable;
     public LayerMask layerMask_Block;
 
+    private Vector3 targetDirection;
     private float speed;
     private float blend_MoveSpeed;
     private float targetRotation = 0.0f;
@@ -54,6 +55,9 @@ public class PlayerControl : MonoBehaviour, IDamage
     private float terminalVelocity = 53.0f;
     private float jumpCoolDelta;
     private float fallTimeDelta;
+
+    public float DodgePower;
+    public float DodgeTime;
 
     private bool CanAction;
     private float ActionCool = 0;
@@ -122,7 +126,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
 
-        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);      
+        //playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);      
     }
     private void Start()
     {
@@ -135,8 +139,8 @@ public class PlayerControl : MonoBehaviour, IDamage
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
 
-        uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
-        uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
+        //uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
+        //uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
 
         #region 플레이어 장비 테스트
         playerData.inventory[23].hasItem = true;
@@ -155,6 +159,10 @@ public class PlayerControl : MonoBehaviour, IDamage
     {
         hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            StartCoroutine(Dodge());
+        }
         JumpAndGravity();
         GroundCheck();
         Move();
@@ -231,7 +239,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                         }                       
                     }
                     //플레이어 움직이기
-                    Vector3 targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * Vector3.forward;
+                    targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * Vector3.forward;
                     charController.Move(targetDirection.normalized * (speed * Time.deltaTime) +
                                          new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
                     break;
@@ -255,6 +263,17 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             animator.SetFloat(animID_Speed, blend_MoveSpeed);
         }
+    }
+    IEnumerator Dodge()
+    {
+        float startTime = Time.time;
+
+        while (Time.time < startTime + DodgeTime)
+        {
+            charController.Move(targetDirection * DodgePower * Time.deltaTime);
+            
+        }
+        yield return new WaitForSeconds(3f);
     }
     private void JumpAndGravity()
     {
