@@ -81,25 +81,29 @@ MonoBehaviour:
     height: -100
     isFlat: 0
     block: {fileID: 3656896222450881595, guid: 5e564769bd463104193cb6f04e938903, type: 3}
-  envirionmentsInfos:
+  envirionmentInfos:
+  - region: 2
+    mapObject: {fileID: 9012823426734340033, guid: 2983ef0cfd14fcd4bb5e64392d18cd3d, type: 3}
+  - region: 2
+    mapObject: {fileID: 3801620228127628461, guid: 816e294422ec8264f93385c957f186e0, type: 3}
   - region: 2
     mapObject: {fileID: 5272003097735747318, guid: 8c98a89c0bd8b854c936fd073d229c88, type: 3}
   - region: 2
     mapObject: {fileID: 2773745487610841879, guid: f7df992a8878b8847be52b684dcddd0a, type: 3}
   - region: 2
     mapObject: {fileID: 8149247797850641817, guid: ab546f17a7c93874582f4e6dd546326d, type: 3}
-  - region: 2
-    mapObject: {fileID: 9012823426734340033, guid: 2983ef0cfd14fcd4bb5e64392d18cd3d, type: 3}
-  - region: 2
-    mapObject: {fileID: 3801620228127628461, guid: 816e294422ec8264f93385c957f186e0, type: 3}
   prob_NonObject: 99
   monsterSpawnerInfo: {fileID: 1466419724128333080, guid: 3fc726b3b8ba2a943ae93a1e47d4fbed, type: 3}
+  portalInfo: {fileID: 8944633514463417326, guid: 1664a6a08b7d2224d9b9ded75afe6b47, type: 3}
+  prefab_playerSpawner: {fileID: 1520078118186438496, guid: 7d99bf3659f1d5d459297b8a03b1371f, type: 3}
   waveLength: 50
   amplitude: 20
-  groundHeightOffset: 20
-  isFinishGeneration: 0
+  groundHeightOffset: 25
+  isFinishBlockGeneration: 0
   progress: 0
-  portalInfo: {fileID: 8944633514463417326, guid: 1664a6a08b7d2224d9b9ded75afe6b47, type: 3}
+  islandPos:
+  - {x: 0, y: 0, z: 0}
+  - {x: 250, y: 0, z: 250}
 --- !u!65 &2239545170735302342
 BoxCollider:
   m_ObjectHideFlags: 0
