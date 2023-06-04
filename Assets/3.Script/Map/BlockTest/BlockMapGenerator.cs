@@ -148,7 +148,7 @@ public class BlockMapGenerator : MonoBehaviour
 
     IEnumerator InitGame()
     {
-        PlayerControl.instance.enabled = false;
+        //PlayerControl.instance.enabled = false;
         // 己 持失
         yield return StartCoroutine(MapInit());
 
@@ -167,7 +167,7 @@ public class BlockMapGenerator : MonoBehaviour
         CreateMonsterSpawner();
         ResetPlayer();
         PlayerControl.instance.whenPlayerDie += ResetPlayer;
-        PlayerControl.instance.enabled = true;
+        //PlayerControl.instance.enabled = true;
 
         // 持失2
     }

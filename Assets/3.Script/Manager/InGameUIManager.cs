@@ -91,14 +91,14 @@ public class InGameUIManager : MonoBehaviour
     private void Reset()
     {
         #region ¸®¼Â
-        if (GameObject.Find("Player") != null && GameObject.Find("Player").transform.childCount > 6)
-        {
-            playerView = GameObject.Find("Player").transform.GetChild(6).gameObject;
-        }
-
         if (GameObject.Find("Player") != null && GameObject.Find("Player").transform.childCount > 5)
         {
-            target = GameObject.Find("Player").transform.GetChild(5).gameObject;
+            playerView = GameObject.Find("Player").transform.GetChild(5).gameObject;
+        }
+
+        if (GameObject.Find("Player") != null && GameObject.Find("Player").transform.childCount > 4)
+        {
+            target = GameObject.Find("Player").transform.GetChild(4).gameObject;
         }
 
         Canvas objects_UI = GameObject.Find("InGame Canvas").GetComponent<Canvas>();
@@ -304,12 +304,11 @@ public class InGameUIManager : MonoBehaviour
             itemBorder[30 + i].sprite = border[0];
         }
         itemBorder[30].sprite = border[1];
-
-        player = GameObject.Find("Player").GetComponent<PlayerControl>();
     }
     
     private void OnEnable()
     {
+        player = GameObject.Find("Player").GetComponent<PlayerControl>();
         menuImage.SetActive(false);
         settingMenu.SetActive(false);
         resolutionWindow.SetActive(false);
