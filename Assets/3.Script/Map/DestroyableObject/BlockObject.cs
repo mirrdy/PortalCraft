@@ -18,7 +18,8 @@ public class BlockObject : MonoBehaviour, IDestroyable
         if (currentHp <= 0)
         {
             DropItem();
-            BlockMapGenerator.instance.CheckAroundDestroyedBlock(transform.position);
+            int.TryParse(transform.parent.name.Substring(6), out int islandIndex);
+            BlockMapGenerator.instance.CheckAroundDestroyedBlock(islandIndex-1, transform.position);
             Destroy(gameObject);
             return;
         }

@@ -16,8 +16,10 @@ public class PortalController : MonoBehaviour
                 {
                     StartCoroutine(SetEnablePortalCollider(coll));
                 }
-                player.transform.position = destPortal.transform.position + Vector3.forward;
 
+                destPortal.transform.parent.gameObject.SetActive(true);
+                player.transform.position = destPortal.transform.position + Vector3.forward;
+                transform.parent.gameObject.SetActive(false);
             }
         }
     }
