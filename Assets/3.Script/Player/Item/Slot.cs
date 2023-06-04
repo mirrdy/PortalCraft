@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
@@ -11,8 +12,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
     public string type = null;
     public int slotNumber;
 
-    float currentTimeClick;
-    float lastTimeClick;
+    GameObject drag;
 
     private InGameUIManager uiManager;
 
@@ -64,12 +64,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            currentTimeClick = Time.time;
-            if (currentTimeClick - lastTimeClick >= 0.8f)
-            {
-                lastTimeClick = Time.time;
-            }
-            if (Mathf.Abs(currentTimeClick - lastTimeClick) < 0.75f)
+
+            if (eventData.clickCount == 2)
             {
                 if (hasItem)
                 {
@@ -112,16 +108,26 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        throw new System.NotImplementedException();
+        if(hasItem)
+        {
+            uiManager.SlotNumberReset(tag, quantity, eventData.position);
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        if (hasItem)
+        {
+            uiManager.DragInItem(eventData.position);
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (hasItem)
+        {
+            drag = eventData.pointerCurrentRaycast.gameObject;
+            uiManager.DragDropItem(slotNumber, drag, type);
+        }
     }
 }

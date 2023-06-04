@@ -71,6 +71,12 @@ public class InGameUIManager : MonoBehaviour
     [Header("Player Target Image")]
     [SerializeField] GameObject target;
 
+    [Header("Current Slot")]
+    [SerializeField] GameObject currentSlot;
+    [SerializeField] Image currentImage;
+    [SerializeField] GameObject text_currentSlot;
+    [SerializeField] Text SlotItemCount;
+
     private bool isResolution = false;
 
     private ItemManager itemInfo;
@@ -79,6 +85,8 @@ public class InGameUIManager : MonoBehaviour
     private PlayerControl player;
 
     public int playerHand = 30;
+    public int currentTag = 0;
+    public int currentSlotNumber = 0;
 
     // 코루틴 저장할 변수
     private Coroutine hpCoroutine;
@@ -108,6 +116,7 @@ public class InGameUIManager : MonoBehaviour
         Transform statusUI = objects_UI.transform.GetChild(2);
         Transform menuUI = objects_UI.transform.GetChild(3);
         Transform tooltipUI = objects_UI.transform.GetChild(4);
+        Transform DragSlotUI = objects_UI.transform.GetChild(5);
 
         playerUI.GetChild(0).GetChild(0).TryGetComponent(out timer);
         playerUI.GetChild(2).GetChild(0).TryGetComponent(out hpBar);
@@ -288,6 +297,11 @@ public class InGameUIManager : MonoBehaviour
 
         image_Tooltip = tooltipUI.GetComponentInChildren<Transform>(true).gameObject;
         tooltip = tooltipUI.GetChild(0).GetComponentInChildren<Text>(true);
+
+        currentSlot = DragSlotUI.GetComponentInChildren<Transform>(true).gameObject;
+        currentImage = DragSlotUI.GetChild(0).GetComponentInChildren<Image>(true);
+        text_currentSlot = DragSlotUI.GetChild(1).GetComponentInChildren<Transform>(true).gameObject;
+        SlotItemCount = DragSlotUI.GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
         #endregion
     }
 
@@ -309,6 +323,7 @@ public class InGameUIManager : MonoBehaviour
     private void OnEnable()
     {
         player = GameObject.Find("Player").GetComponent<PlayerControl>();
+
         menuImage.SetActive(false);
         settingMenu.SetActive(false);
         resolutionWindow.SetActive(false);
@@ -326,7 +341,7 @@ public class InGameUIManager : MonoBehaviour
         InventoryOnOff();
         InventoryCheck();
         SetQuickSlot();
-        //Test();
+        Test();
     }
 
     #region  세팅 ui 설정
@@ -1025,6 +1040,7 @@ public class InGameUIManager : MonoBehaviour
                     playerData.inventory[i].type = null;
                     itemSlot[i].sprite = null;
                     itemFrame[i].sprite = frameColor[0];
+                    itemCount[i].SetActive(false);
                     continue;
                 }
 
@@ -1327,6 +1343,15 @@ public class InGameUIManager : MonoBehaviour
     #region 인벤토리 아이템 최신화
     public void ChangedItme(int currentSlot, int newSlot)
     {
+        if(currentSlot < 38)
+        {
+            itemCount[currentSlot].SetActive(false);
+        }
+        if(newSlot < 38)
+        {
+            itemCount[newSlot].SetActive(false);
+        }
+
         PlayerData playerData = player.playerData;
         if (playerData.inventory[newSlot].hasItem)
         {
@@ -1468,6 +1493,79 @@ public class InGameUIManager : MonoBehaviour
 
         InventoryCheck();
         StatusCheck();
+    }
+    #endregion
+
+    #region 아이템 드래그 앤 드롭 메소드
+    public void SlotNumberReset(int tag, int quantity, Vector2 pos)
+    {
+        for(int i = 0; i < itemInfo.list_AllItem.Count; i++)
+        {
+            if(tag == itemInfo.list_AllItem[i].tag)
+            {
+                currentSlot.SetActive(true);
+                currentImage.sprite = image_Item[i];
+                if(itemInfo.list_AllItem[i].maxQuantity > 5)
+                {
+                    text_currentSlot.SetActive(true);
+                    SlotItemCount.text = "" + quantity;
+                }
+                currentSlot.transform.position = pos;
+                break;
+            }
+        }
+    }
+
+    public void DragInItem(Vector2 pos)
+    {
+        currentSlot.transform.position = pos;
+    }
+
+    public void DragDropItem(int slotNumber, GameObject newObject, string type)
+    {
+        currentSlot.SetActive(false);
+        text_currentSlot.SetActive(false);
+        SlotItemCount.text = "";
+
+        if(newObject == null)
+        {
+            print("버리기");
+            return;
+        }
+
+        Slot slot = newObject.GetComponent<Slot>();
+
+        if(slot == null)
+        {
+            return;
+        }
+
+        if (slot.slotNumber <= 37)
+        {
+            ChangedItme(slotNumber, slot.slotNumber);
+        }
+        else if (slot.slotNumber == 38)
+        {
+            if(type.Equals("Helmet"))
+            {
+                ChangedItme(slotNumber, slot.slotNumber);
+            }
+        }
+        else if (slot.slotNumber == 39)
+        {
+            if (type.Equals("Armor"))
+            {
+                ChangedItme(slotNumber, slot.slotNumber);
+            }
+        }
+        else if (slot.slotNumber == 40)
+        {
+            if (type.Equals("Cloak"))
+
+            {
+                ChangedItme(slotNumber, slot.slotNumber);
+            }
+        }
     }
     #endregion
 
