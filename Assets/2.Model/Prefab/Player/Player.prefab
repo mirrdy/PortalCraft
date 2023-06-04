@@ -1192,7 +1192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 667417357504409426}
   m_Layer: 9
-  m_Name: ArrowPoint
+  m_Name: ArrowSpawn_1
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -3142,6 +3142,11 @@ MonoBehaviour:
   layerMask_Block:
     serializedVersion: 2
     m_Bits: 256
+  isDodging: 0
+  canDodge: 0
+  DodgePower: 8
+  DodgeCool: 2
+  DodgeDuration: 0.18
   equip_HP: 0
   equip_Defense: 0
   equip_Speed: 0
@@ -21651,8 +21656,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8963828503252733509}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.0091, y: 0, z: -0.0054}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4570792641392585504}
@@ -21663,7 +21668,7 @@ Transform:
   - {fileID: 1651170287798383629}
   m_Father: {fileID: 2590639528440158915}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2435909668974562949
 Animator:
   serializedVersion: 3
@@ -21697,9 +21702,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 10
   attackRate: 0.5
-  attackRange: 100
-  arrowPrefab: {fileID: 0}
-  arrowPoint: {fileID: 667417357504409426}
+  arrowForce: 250
+  throwUpwardForce: 60
+  player: {fileID: 0}
+  arrowPrefab: {fileID: 540982521389504186, guid: 1e4b8455ebcbda74b8076d8d2615d994, type: 3}
+  arrowSpawn: {fileID: 667417357504409426}
 --- !u!1 &8975931396387284832
 GameObject:
   m_ObjectHideFlags: 0

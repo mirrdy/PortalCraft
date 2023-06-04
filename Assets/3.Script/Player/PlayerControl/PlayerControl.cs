@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     public CameraView currentView = CameraView.ThirdPerson;
 
     //장착아이템 열거형
-    public enum ItemType { Empty = 0, Sword, Bow, Potion, Block }
+    public enum ItemType { Empty = 0, Sword, Bow, Potion, Block, Torch }
     [SerializeField] private ItemType currentItem = ItemType.Empty;
 
     // --------------- 컴포넌트들 ----------------
@@ -45,6 +45,9 @@ public class PlayerControl : MonoBehaviour, IDamage
     public LayerMask LayerMask_Destroyable;
     public LayerMask layerMask_Block;
 
+    private Vector3 targetDirection;
+    private Vector3 inputDirection;
+
     private float speed;
     private float blend_MoveSpeed;
     private float targetRotation = 0.0f;
@@ -54,6 +57,14 @@ public class PlayerControl : MonoBehaviour, IDamage
     private float terminalVelocity = 53.0f;
     private float jumpCoolDelta;
     private float fallTimeDelta;
+
+    private float DodgeCoolDelta;
+    private float DodgeTimeDelta;
+    public bool isDodging;
+    public bool canDodge;
+    public float DodgePower;
+    public float DodgeCool;
+    public float DodgeDuration;
 
     private bool CanAction;
     private float ActionCool = 0;
@@ -71,7 +82,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     private int animID_Shot;
     private int animID_Die;
     private int animID_Potion;
-    private int animID_AttackSpeed;
+    private int animID_Roll;
+    private int animID_AttackSpeed;  
     #endregion
 
     #region 장비스탯변수
@@ -102,6 +114,10 @@ public class PlayerControl : MonoBehaviour, IDamage
 
 
 
+
+
+
+
     private void Awake()
     {
         #region 싱글톤
@@ -127,7 +143,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void Start()
     {
         AssignAnimationID();
-
+        hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
         animator = transform.GetChild(0).GetComponent<Animator>();
         charController = GetComponent<CharacterController>();
         input = GetComponent<Input_Info>();
@@ -153,13 +169,18 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     private void Update()
     {
-        hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
-
-        JumpAndGravity();
         GroundCheck();
         Move();
+        JumpAndGravity();
+        DodgeRoll();
         Attack();
     }
+
+
+
+
+
+
 
     private void GroundCheck()
     {
@@ -203,7 +224,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         }
         #endregion
 
-        Vector3 inputDirection = new Vector3(input.move.x, 0f, input.move.y).normalized;
+        inputDirection = new Vector3(input.move.x, 0f, input.move.y).normalized;
 
         #region 3인칭 && 1인칭 플레이어 방향 설정 및 움직이기
         switch (currentView)
@@ -231,7 +252,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                         }                       
                     }
                     //플레이어 움직이기
-                    Vector3 targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * Vector3.forward;
+                    targetDirection = Quaternion.Euler(0f, targetRotation, 0f) * Vector3.forward;
                     charController.Move(targetDirection.normalized * (speed * Time.deltaTime) +
                                          new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
                     break;
@@ -255,6 +276,33 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             animator.SetFloat(animID_Speed, blend_MoveSpeed);
         }
+    }
+    private void DodgeRoll()
+    {
+        DodgeCoolDelta -= Time.deltaTime;
+        canDodge = (DodgeCoolDelta <= 0);
+
+        if (canDodge) // 구르기 가능 상태
+        {
+            if (Input.GetMouseButtonDown(1) && inputDirection.magnitude != 0 && grounded)
+            {
+                animator.SetTrigger(animID_Roll);
+                DodgeCoolDelta = DodgeCool;
+                DodgeTimeDelta = DodgeDuration; 
+                StartCoroutine(PerformDodge()); 
+            }
+        }
+    }
+    private IEnumerator PerformDodge()
+    {
+        while (DodgeTimeDelta > 0)
+        {
+            isDodging = true;
+            charController.Move(targetDirection * DodgePower * Time.deltaTime);
+            DodgeTimeDelta -= Time.deltaTime;
+            yield return null;
+        }
+        isDodging = false;
     }
     private void JumpAndGravity()
     {
@@ -406,6 +454,15 @@ public class PlayerControl : MonoBehaviour, IDamage
                     }
                     break;
                 }
+            case ItemType.Torch:
+                {
+                    CanAction = ActionCool > 1f * 0.5f;
+                    if (input.attack && CanAction)
+                    {
+                        ActionCool = 0;
+                    }
+                    break;
+                }
         }
     }
     private void ItemSelect()
@@ -420,76 +477,12 @@ public class PlayerControl : MonoBehaviour, IDamage
     {
 
     }
-    
 
-    public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
-    {
-        Status status = playerData.status;
 
-        status.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * status.defens / (status.defens + 50)) * 0.01f);
-        if(status.currentHp <= 0)
-        {
-            isDead = true;
-            whenPlayerDie?.Invoke();
-        }
-        uiManager.HpCheck(status.maxHp, status.currentHp);
-    }
 
-    public void Die()
-    {
-        if (isDead)
-        {
-            charController.enabled = false;
-            animator.SetTrigger(animID_Die);
-        }       
-    }
 
-    public void GetExp(int exp)
-    {
-        playerData.playerExp += exp;
 
-        int requiredExp = (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
 
-        while(playerData.playerExp >= requiredExp)
-        {
-            LevelUp();
-        }
-        uiManager.ExpCheck(requiredExp, playerData.playerExp);
-    }
-    public void LevelUp() //후에 스탯상승 추가 
-    {
-        playerData.playerExp -= (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
-        playerData.playerLevel++;
-        uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
-        Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
-
-        if (grounded) Gizmos.color = transparentGreen;
-        else Gizmos.color = transparentRed;
-
-        Gizmos.DrawSphere(
-            new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z),
-            groundedRadius);
-    }
-    private void AssignAnimationID()
-    {
-        animID_Speed = Animator.StringToHash("Speed");
-        animID_Ground = Animator.StringToHash("Ground");
-        animID_Jump = Animator.StringToHash("Jump");
-        animID_Falling = Animator.StringToHash("Falling");
-        animID_Attack = Animator.StringToHash("Attack");
-        animID_Swing = Animator.StringToHash("Swing");
-        animID_Shot = Animator.StringToHash("Shot");
-        animID_Die = Animator.StringToHash("Die");
-        animID_Potion = Animator.StringToHash("Potion");
-        animID_AttackSpeed = Animator.StringToHash("AttackSpeed");
-    }
-
-    
     public void CreateBlock()
     {
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
@@ -501,9 +494,9 @@ public class PlayerControl : MonoBehaviour, IDamage
             //Debug.Log("레이좌표는" + hitInfo.point);
             Vector3 vecDir = hitInfo.point - hitInfo.transform.position;
             //Debug.Log("두 벡터간의 차이는" + vecDir);
-            float xValue = vecDir.x; 
-            float yValue = vecDir.y; 
-            float zValue = vecDir.z; 
+            float xValue = vecDir.x;
+            float yValue = vecDir.y;
+            float zValue = vecDir.z;
 
             float maxValue = Mathf.Max(Mathf.Abs(xValue), Mathf.Abs(yValue), Mathf.Abs(zValue));
             if (Mathf.Abs(xValue) == maxValue)
@@ -513,7 +506,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                 {
                     Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
                 }
-                else if(xValue < 0)
+                else if (xValue < 0)
                 {
                     Instantiate(equipItem, hitInfo.transform.position + Vector3.left, Quaternion.identity);
                 }
@@ -542,7 +535,83 @@ public class PlayerControl : MonoBehaviour, IDamage
                     Instantiate(equipItem, hitInfo.transform.position + Vector3.back, Quaternion.identity);
                 }
             }
-        }        
+        }
+    }
+    public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
+    {
+        Status status = playerData.status;
+
+        if (!isDodging) //테스트해봐야함
+        {
+            status.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * status.defens / (status.defens + 50)) * 0.01f);
+        }       
+
+        if(status.currentHp <= 0) //죽었을때
+        {
+            isDead = true;
+            whenPlayerDie?.Invoke();
+        }
+
+        uiManager.HpCheck(status.maxHp, status.currentHp);
+    }
+    public void Die()
+    {
+        if (isDead)
+        {
+            charController.enabled = false;
+            animator.SetTrigger(animID_Die);
+        }       
+    }
+    public void GetExp(int exp)
+    {
+        playerData.playerExp += exp;
+
+        int requiredExp = (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
+
+        while(playerData.playerExp >= requiredExp)
+        {
+            LevelUp();
+        }
+        uiManager.ExpCheck(requiredExp, playerData.playerExp);
+    }
+    public void LevelUp() //후에 스탯상승 추가 
+    {
+        playerData.playerExp -= (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
+        playerData.playerLevel++;
+        uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
+    }
+
+
+
+
+
+
+
+    private void OnDrawGizmosSelected()
+    {
+        Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
+        Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
+
+        if (grounded) Gizmos.color = transparentGreen;
+        else Gizmos.color = transparentRed;
+
+        Gizmos.DrawSphere(
+            new Vector3(transform.position.x, transform.position.y - groundedOffset, transform.position.z),
+            groundedRadius);
+    }
+    private void AssignAnimationID()
+    {
+        animID_Speed = Animator.StringToHash("Speed");
+        animID_Ground = Animator.StringToHash("Ground");
+        animID_Jump = Animator.StringToHash("Jump");
+        animID_Falling = Animator.StringToHash("Falling");
+        animID_Attack = Animator.StringToHash("Attack");
+        animID_Swing = Animator.StringToHash("Swing");
+        animID_Shot = Animator.StringToHash("Shot");
+        animID_Die = Animator.StringToHash("Die");
+        animID_Potion = Animator.StringToHash("Potion");
+        animID_AttackSpeed = Animator.StringToHash("AttackSpeed");
+        animID_Roll = Animator.StringToHash("Roll");
     }
 }
 

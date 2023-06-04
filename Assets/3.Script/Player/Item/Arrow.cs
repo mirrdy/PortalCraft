@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    private float arrowSpeed = 20f;
-
     private Rigidbody rigid;
     public TrailRenderer trailEffect;
 
     private void Start()
     {
         TryGetComponent(out rigid);
-
-        rigid.velocity = transform.forward * arrowSpeed;
     }
 
     private void Update()
@@ -30,7 +26,8 @@ public class Arrow : MonoBehaviour
             int damage = PlayerControl.instance.equipItem.TryGetComponent(out Bow bow) ? bow.attackDamage : 0;
             //Vector3 hitPoint = coll.ClosestPoint(transform.position);
             //Vector3 hitNormal = transform.position - coll.transform.position;
-            monsterControl.TakeDamage(damage);
+            monsterControl.TakeDamage(damage);      
         }
+        Destroy(gameObject);
     }
 }
