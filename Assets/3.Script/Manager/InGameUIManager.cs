@@ -327,7 +327,7 @@ public class InGameUIManager : MonoBehaviour
         InventoryOnOff();
         InventoryCheck();
         SetQuickSlot();
-        Test();
+        //Test();
     }
 
     #region  세팅 ui 설정
@@ -1323,7 +1323,9 @@ public class InGameUIManager : MonoBehaviour
         SetArmor();
         SetHelmet();
     }
+    #endregion
 
+    #region 인벤토리 아이템 최신화
     public void ChangedItme(int currentSlot, int newSlot)
     {
         PlayerData playerData = player.playerData;
@@ -1398,7 +1400,6 @@ public class InGameUIManager : MonoBehaviour
                     }
                     playerData.inventory[i].quantity += quantity;
                     return;
-
                 }
             }
         }
@@ -1471,6 +1472,7 @@ public class InGameUIManager : MonoBehaviour
     }
     #endregion
 
+    #region 블록 생성 메소드 테스트 용
     void Test()
     {
         float x = Input.GetAxisRaw("Mouse ScrollWheel");
@@ -1479,4 +1481,5 @@ public class InGameUIManager : MonoBehaviour
             AddItem(10, "Block", 1, -1);
         }
     }
+    #endregion
 }

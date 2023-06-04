@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &145589615869062232
+--- !u!1 &4129455142039880701
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 145589615869062234}
-  - component: {fileID: 145589615869062233}
+  - component: {fileID: 2909016739796275436}
+  - component: {fileID: 4035550699426884180}
   m_Layer: 0
   m_Name: InGameUIManager
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &145589615869062234
+--- !u!4 &2909016739796275436
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 145589615869062232}
+  m_GameObject: {fileID: 4129455142039880701}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,13 +31,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &145589615869062233
+--- !u!114 &4035550699426884180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 145589615869062232}
+  m_GameObject: {fileID: 4129455142039880701}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0565171fd86a3154d9e8f805aa950b4e, type: 3}
@@ -403,6 +403,4 @@ MonoBehaviour:
   skillPoint: {fileID: 0}
   target: {fileID: 0}
   playerHand: 30
-  helmetTag: 0
-  armorTag: 0
   isQuickSlot: 1
