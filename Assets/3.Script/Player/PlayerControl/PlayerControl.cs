@@ -46,6 +46,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     public LayerMask layerMask_Block;
 
     private Vector3 targetDirection;
+    private Vector3 inputDirection;
+
     private float speed;
     private float blend_MoveSpeed;
     private float targetRotation = 0.0f;
@@ -56,8 +58,13 @@ public class PlayerControl : MonoBehaviour, IDamage
     private float jumpCoolDelta;
     private float fallTimeDelta;
 
+    private float DodgeCoolDelta;
+    private float DodgeTimeDelta;
+    public bool isDodging;
+    public bool canDodge;
     public float DodgePower;
-    public float DodgeTime;
+    public float DodgeCool;
+    public float DodgeDuration;
 
     private bool CanAction;
     private float ActionCool = 0;
@@ -75,7 +82,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     private int animID_Shot;
     private int animID_Die;
     private int animID_Potion;
-    private int animID_AttackSpeed;
+    private int animID_Roll;
+    private int animID_AttackSpeed;  
     #endregion
 
     #region 장비스탯변수
@@ -131,7 +139,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void Start()
     {
         AssignAnimationID();
-
+        hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
         animator = transform.GetChild(0).GetComponent<Animator>();
         charController = GetComponent<CharacterController>();
         input = GetComponent<Input_Info>();
@@ -157,15 +165,10 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     private void Update()
     {
-        hasAnimator = transform.GetChild(0).TryGetComponent(out animator);
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            StartCoroutine(Dodge());
-        }
-        JumpAndGravity();
         GroundCheck();
         Move();
+        JumpAndGravity();
+        DodgeRoll();
         Attack();
     }
 
@@ -211,7 +214,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         }
         #endregion
 
-        Vector3 inputDirection = new Vector3(input.move.x, 0f, input.move.y).normalized;
+        inputDirection = new Vector3(input.move.x, 0f, input.move.y).normalized;
 
         #region 3인칭 && 1인칭 플레이어 방향 설정 및 움직이기
         switch (currentView)
@@ -264,16 +267,32 @@ public class PlayerControl : MonoBehaviour, IDamage
             animator.SetFloat(animID_Speed, blend_MoveSpeed);
         }
     }
-    IEnumerator Dodge()
+    private void DodgeRoll()
     {
-        float startTime = Time.time;
+        DodgeCoolDelta -= Time.deltaTime;
+        canDodge = (DodgeCoolDelta <= 0);
 
-        while (Time.time < startTime + DodgeTime)
+        if (canDodge) // 구르기 가능 상태
         {
-            charController.Move(targetDirection * DodgePower * Time.deltaTime);
-            
+            if (Input.GetMouseButtonDown(1) && inputDirection.magnitude != 0 && grounded)
+            {
+                animator.SetTrigger(animID_Roll);
+                DodgeCoolDelta = DodgeCool;
+                DodgeTimeDelta = DodgeDuration; 
+                StartCoroutine(PerformDodge()); 
+            }
         }
-        yield return new WaitForSeconds(3f);
+    }
+    private IEnumerator PerformDodge()
+    {
+        while (DodgeTimeDelta > 0)
+        {
+            isDodging = true;
+            charController.Move(targetDirection * DodgePower * Time.deltaTime);
+            DodgeTimeDelta -= Time.deltaTime;
+            yield return null;
+        }
+        isDodging = false;
     }
     private void JumpAndGravity()
     {
@@ -439,7 +458,61 @@ public class PlayerControl : MonoBehaviour, IDamage
     {
 
     }
-    
+    public void CreateBlock()
+    {
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 20f, layerMask_Block))
+        {
+            //Debug.Log("해당오브젝트의 좌표는" + hitInfo.transform.position);
+            //Debug.Log("레이좌표는" + hitInfo.point);
+            Vector3 vecDir = hitInfo.point - hitInfo.transform.position;
+            //Debug.Log("두 벡터간의 차이는" + vecDir);
+            float xValue = vecDir.x;
+            float yValue = vecDir.y;
+            float zValue = vecDir.z;
+
+            float maxValue = Mathf.Max(Mathf.Abs(xValue), Mathf.Abs(yValue), Mathf.Abs(zValue));
+            if (Mathf.Abs(xValue) == maxValue)
+            {
+                //Debug.Log("vecDir.x가 가장 큰값");
+                if (xValue > 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
+                }
+                else if (xValue < 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.left, Quaternion.identity);
+                }
+            }
+            else if (Mathf.Abs(yValue) == maxValue)
+            {
+                //Debug.Log("vecDir.y가 가장 큰값");
+                if (yValue > 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.up, Quaternion.identity);
+                }
+                else if (yValue < 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.down, Quaternion.identity);
+                }
+            }
+            else if (Mathf.Abs(zValue) == maxValue)
+            {
+                //Debug.Log("vecDir.z가 가장 큰값");
+                if (zValue > 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.forward, Quaternion.identity);
+                }
+                else if (zValue < 0)
+                {
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.back, Quaternion.identity);
+                }
+            }
+        }
+    }
+
 
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
     {
@@ -506,63 +579,11 @@ public class PlayerControl : MonoBehaviour, IDamage
         animID_Die = Animator.StringToHash("Die");
         animID_Potion = Animator.StringToHash("Potion");
         animID_AttackSpeed = Animator.StringToHash("AttackSpeed");
+        animID_Roll = Animator.StringToHash("Roll");
     }
 
     
-    public void CreateBlock()
-    {
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, 20f, layerMask_Block))
-        {
-            //Debug.Log("해당오브젝트의 좌표는" + hitInfo.transform.position);
-            //Debug.Log("레이좌표는" + hitInfo.point);
-            Vector3 vecDir = hitInfo.point - hitInfo.transform.position;
-            //Debug.Log("두 벡터간의 차이는" + vecDir);
-            float xValue = vecDir.x; 
-            float yValue = vecDir.y; 
-            float zValue = vecDir.z; 
-
-            float maxValue = Mathf.Max(Mathf.Abs(xValue), Mathf.Abs(yValue), Mathf.Abs(zValue));
-            if (Mathf.Abs(xValue) == maxValue)
-            {
-                //Debug.Log("vecDir.x가 가장 큰값");
-                if (xValue > 0)
-                {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
-                }
-                else if(xValue < 0)
-                {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.left, Quaternion.identity);
-                }
-            }
-            else if (Mathf.Abs(yValue) == maxValue)
-            {
-                //Debug.Log("vecDir.y가 가장 큰값");
-                if (yValue > 0)
-                {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.up, Quaternion.identity);
-                }
-                else if (yValue < 0)
-                {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.down, Quaternion.identity);
-                }
-            }
-            else if (Mathf.Abs(zValue) == maxValue)
-            {
-                //Debug.Log("vecDir.z가 가장 큰값");
-                if (zValue > 0)
-                {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.forward, Quaternion.identity);
-                }
-                else if (zValue < 0)
-                {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.back, Quaternion.identity);
-                }
-            }
-        }        
-    }
+    
 }
 
 [Serializable]

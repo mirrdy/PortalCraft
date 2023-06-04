@@ -53,7 +53,7 @@ public class CameraControl_Ray : MonoBehaviour
         {
             case CameraView.ThirdPerson:
                 {
-                    if (Physics.Raycast(transform.position, rayDir, out RaycastHit hitInfo, layerMask_Ray))
+                    if (Physics.Raycast(transform.position, rayDir, out RaycastHit hitInfo, layerMask_Ray) && !PlayerControl.instance.isDodging)
                     {
                         if (hitInfo.transform.CompareTag("Block")) //3юнд╙©║╪╜ -> 1юнд╙
                         {

@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class Bow : MonoBehaviour
 {
-    public int attackDamage;
-    public float attackRate;
-    public float attackRange = 1000f;
+    public int attackDamage; //데미지
+    public float attackRate; //공속
 
+    public float arrowForce; //화살이 날아가는 힘
+    public float throwUpwardForce; //화살이 위로발사되는 힘
+
+    public GameObject player; 
     public GameObject arrowPrefab;
-    public Transform arrowPoint;
-    private Camera mainCamera;
+    public Transform arrowSpawn; 
+    private GameObject mainCam; 
 
     private void Start()
     {
-        mainCamera = Camera.main;
+        mainCam = GameObject.FindGameObjectWithTag("MainCamera");
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     public void Use()
     {
-        Vector3 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, attackRange))
-        {
-            Vector3 aimDir = hitInfo.point - arrowPoint.position;
-            Instantiate(arrowPrefab, arrowPoint.position, Quaternion.LookRotation(aimDir));
-        }
-        //Quaternion.Euler
-        //Physics.Raycast()
+        GameObject Arrow = Instantiate(arrowPrefab, arrowSpawn.position, mainCam.transform.rotation);
+        Rigidbody Arrow_Rb = Arrow.GetComponent<Rigidbody>();
+
+        Vector3 forceDirection = mainCam.transform.forward;
+
+        Vector3 forceToAdd = forceDirection * arrowForce + player.transform.up * throwUpwardForce;
+
+        Arrow_Rb.AddForce(forceToAdd, ForceMode.Impulse);
     }
 }
