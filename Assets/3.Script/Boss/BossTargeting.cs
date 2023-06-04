@@ -5,6 +5,7 @@ using UnityEngine;
 public class BossTargeting : MonoBehaviour
 {
     [SerializeField]BossControl boss;
+    [SerializeField]
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,7 +16,10 @@ public class BossTargeting : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        boss.target = other.transform;
+        if (other.CompareTag("Player"))
+        {
+            boss.target = other.transform;
+        }
     }
     private void OnTriggerExit(Collider other)
     {

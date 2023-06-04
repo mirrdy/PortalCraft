@@ -11,6 +11,8 @@ TagManager:
   - ThirdPersonCamera
   - FirstPersonCamera
   - Monster
+  - Enemy
+  - Boss
   layers:
   - Default
   - TransparentFX

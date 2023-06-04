@@ -10,6 +10,7 @@ public class MonsterControl : LivingEntity
     [SerializeField] private MonsterData monsterdata;
     [SerializeField] public float timebetAttack = 0.5f;
     public float lastAttackTimebet;
+    [SerializeField]private ParticleSystem hitParticle;
     
     private void OnEnable()
     {
@@ -64,6 +65,7 @@ public class MonsterControl : LivingEntity
     //}
     public override void TakeDamage(int damage)
     {
+        hitParticle.Play();
         base.TakeDamage(damage);
         if (currentHp <= 0 && !isDead)
         {
