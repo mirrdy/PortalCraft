@@ -223,6 +223,7 @@ public class BlockMapGenerator : MonoBehaviour
             GameObject spawner = Instantiate(monsterSpawnerInfo);
             spawner.transform.SetParent(islands[i].transform);
             spawner.transform.localPosition = monsterSpawnerPos[i];
+            spawner.gameObject.SetActive(true);
         }
     }
     private void SetDefaultMonsterSpawnerPos(int islandIndex)
