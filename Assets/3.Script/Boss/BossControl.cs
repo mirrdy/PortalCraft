@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BossControl : MonoBehaviour ,IDestroyable
 {
+    public UnityEvent onDeath;
+
     public float hp;
     public float currentHp;
     public float def;
@@ -15,6 +18,9 @@ public class BossControl : MonoBehaviour ,IDestroyable
     public bool canAttack;
     public int phase = 1;
     public int attackDelay = 5;
+
+    [SerializeField] public float timebetAttack = 0.5f;
+    public float lastAttackTimebet;
     //데미지계수
     public float rushCoefficient = 0.7f;
     public float slashCoefficient = 1f;
@@ -22,6 +28,8 @@ public class BossControl : MonoBehaviour ,IDestroyable
     public float spinCoefficient = 1.4f;
     public float pullCoefficient = 1.5f;
     public float magicCoefficient = 0.7f;
+
+
 
     public BossState currentState;
 
@@ -73,10 +81,10 @@ public class BossControl : MonoBehaviour ,IDestroyable
         currentState.EnterState(this);
     }
 
-    public virtual void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
-    {
-        hp -= damage-(damage * Mathf.RoundToInt(def/(def+50)*100)*0.01f);
-    }
+    //public virtual void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
+    //{
+    //    hp -= damage-(damage * Mathf.RoundToInt(def/(def+50)*100)*0.01f);
+    //}
     public void EndAttack()
     {
         StartCoroutine(AttackTime_co());

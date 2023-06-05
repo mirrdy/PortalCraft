@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/2.Model/Prefab/FieldItems/ItemTrigger/FieldItemTrigger.prefab.meta
 guid: 8930dd17f0c03044e9444e3f2951d010
 PrefabImporter:
+========
+guid: 71b262fdd5c40774eae69d5206d90b44
+DefaultImporter:
+>>>>>>>> main:Assets/FantasySpellsEffectsPack/Patch/DistortPatchForHDRP&URP.unitypackage.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
