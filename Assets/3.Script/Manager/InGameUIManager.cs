@@ -71,6 +71,12 @@ public class InGameUIManager : MonoBehaviour
     [Header("Player Target Image")]
     [SerializeField] GameObject target;
 
+    [Header("Current Slot")]
+    [SerializeField] GameObject currentSlot;
+    [SerializeField] Image currentImage;
+    [SerializeField] GameObject text_currentSlot;
+    [SerializeField] Text SlotItemCount;
+
     private bool isResolution = false;
 
     private ItemManager itemInfo;
@@ -79,6 +85,8 @@ public class InGameUIManager : MonoBehaviour
     private PlayerControl player;
 
     public int playerHand = 30;
+    public int currentTag = 0;
+    public int currentSlotNumber = 0;
 
     // 코루틴 저장할 변수
     private Coroutine hpCoroutine;
@@ -91,14 +99,14 @@ public class InGameUIManager : MonoBehaviour
     private void Reset()
     {
         #region 리셋
-        if (GameObject.Find("Player") != null && GameObject.Find("Player").transform.childCount > 6)
-        {
-            playerView = GameObject.Find("Player").transform.GetChild(6).gameObject;
-        }
-
         if (GameObject.Find("Player") != null && GameObject.Find("Player").transform.childCount > 5)
         {
-            target = GameObject.Find("Player").transform.GetChild(5).gameObject;
+            playerView = GameObject.Find("Player").transform.GetChild(5).gameObject;
+        }
+
+        if (GameObject.Find("Player") != null && GameObject.Find("Player").transform.childCount > 4)
+        {
+            target = GameObject.Find("Player").transform.GetChild(4).gameObject;
         }
 
         Canvas objects_UI = GameObject.Find("InGame Canvas").GetComponent<Canvas>();
@@ -108,6 +116,7 @@ public class InGameUIManager : MonoBehaviour
         Transform statusUI = objects_UI.transform.GetChild(2);
         Transform menuUI = objects_UI.transform.GetChild(3);
         Transform tooltipUI = objects_UI.transform.GetChild(4);
+        Transform DragSlotUI = objects_UI.transform.GetChild(5);
 
         playerUI.GetChild(0).GetChild(0).TryGetComponent(out timer);
         playerUI.GetChild(2).GetChild(0).TryGetComponent(out hpBar);
@@ -288,6 +297,11 @@ public class InGameUIManager : MonoBehaviour
 
         image_Tooltip = tooltipUI.GetComponentInChildren<Transform>(true).gameObject;
         tooltip = tooltipUI.GetChild(0).GetComponentInChildren<Text>(true);
+
+        currentSlot = DragSlotUI.GetComponentInChildren<Transform>(true).gameObject;
+        currentImage = DragSlotUI.GetChild(0).GetComponentInChildren<Image>(true);
+        text_currentSlot = DragSlotUI.GetChild(1).GetComponentInChildren<Transform>(true).gameObject;
+        SlotItemCount = DragSlotUI.GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
         #endregion
     }
 
@@ -304,12 +318,12 @@ public class InGameUIManager : MonoBehaviour
             itemBorder[30 + i].sprite = border[0];
         }
         itemBorder[30].sprite = border[1];
-
-        player = GameObject.Find("Player").GetComponent<PlayerControl>();
     }
     
     private void OnEnable()
     {
+        player = GameObject.Find("Player").GetComponent<PlayerControl>();
+
         menuImage.SetActive(false);
         settingMenu.SetActive(false);
         resolutionWindow.SetActive(false);
@@ -1018,17 +1032,6 @@ public class InGameUIManager : MonoBehaviour
         {
             if (playerData.inventory[i].hasItem)
             {
-                if(playerData.inventory[i].quantity <= 0)
-                {
-                    playerData.inventory[i].hasItem = false;
-                    playerData.inventory[i].tag = 0;
-                    playerData.inventory[i].quantity = 0;
-                    playerData.inventory[i].type = null;
-                    itemSlot[i].sprite = null;
-                    itemFrame[i].sprite = frameColor[0];
-                    continue;
-                }
-
                 for (int k = 0; k < itemInfo.list_AllItem.Count; k++)
                 {
                     if (playerData.inventory[i].tag == itemInfo.list_AllItem[k].tag)
@@ -1077,6 +1080,7 @@ public class InGameUIManager : MonoBehaviour
                 }
             }
         }
+
         for (int i = 0; i < slotUi.Length; i++)
         {
             slotUi[i].quantity = playerData.inventory[i].quantity;
@@ -1323,9 +1327,20 @@ public class InGameUIManager : MonoBehaviour
         SetArmor();
         SetHelmet();
     }
+    #endregion
 
+    #region 인벤토리 아이템 최신화
     public void ChangedItme(int currentSlot, int newSlot)
     {
+        if(currentSlot < 38)
+        {
+            itemCount[currentSlot].SetActive(false);
+        }
+        if(newSlot < 38)
+        {
+            itemCount[newSlot].SetActive(false);
+        }
+
         PlayerData playerData = player.playerData;
         if (playerData.inventory[newSlot].hasItem)
         {
@@ -1333,20 +1348,20 @@ public class InGameUIManager : MonoBehaviour
             int quantity = playerData.inventory[newSlot].quantity;
             string type = playerData.inventory[newSlot].type;
 
-            playerData.inventory[newSlot].tag = slotUi[currentSlot].tag;
-            playerData.inventory[newSlot].quantity = slotUi[currentSlot].quantity;
-            playerData.inventory[newSlot].type = slotUi[currentSlot].type;
+            playerData.inventory[newSlot].tag = playerData.inventory[currentSlot].tag;
+            playerData.inventory[newSlot].quantity = playerData.inventory[currentSlot].quantity;
+            playerData.inventory[newSlot].type = playerData.inventory[currentSlot].type;
 
-            slotUi[currentSlot].tag = tag;
-            slotUi[currentSlot].quantity = quantity;
-            slotUi[currentSlot].type = type;
+            playerData.inventory[currentSlot].tag = tag;
+            playerData.inventory[currentSlot].quantity = quantity;
+            playerData.inventory[currentSlot].type = type;
         }
         else
         {
             playerData.inventory[newSlot].hasItem = true;
-            playerData.inventory[newSlot].tag = slotUi[currentSlot].tag;
-            playerData.inventory[newSlot].quantity = slotUi[currentSlot].quantity;
-            playerData.inventory[newSlot].type = slotUi[currentSlot].type;
+            playerData.inventory[newSlot].tag = playerData.inventory[currentSlot].tag;
+            playerData.inventory[newSlot].quantity = playerData.inventory[currentSlot].quantity;
+            playerData.inventory[newSlot].type = playerData.inventory[currentSlot].type;
 
             playerData.inventory[currentSlot].hasItem = false;
             playerData.inventory[currentSlot].tag = 0;
@@ -1392,13 +1407,12 @@ public class InGameUIManager : MonoBehaviour
             {
                 if (tag == playerData.inventory[i].tag)
                 {
-                    if (playerData.inventory[i].quantity >= 99)
+                    if (playerData.inventory[i].quantity > 99 - quantity)
                     {
                         continue;
                     }
                     playerData.inventory[i].quantity += quantity;
                     return;
-
                 }
             }
         }
@@ -1471,6 +1485,167 @@ public class InGameUIManager : MonoBehaviour
     }
     #endregion
 
+    #region 아이템 드래그 앤 드롭 메소드
+    public void SlotNumberReset(int tag, int quantity, Vector2 pos)
+    {
+        for(int i = 0; i < itemInfo.list_AllItem.Count; i++)
+        {
+            if(tag == itemInfo.list_AllItem[i].tag)
+            {
+                currentSlot.SetActive(true);
+                currentImage.sprite = image_Item[i];
+                if(itemInfo.list_AllItem[i].maxQuantity > 5)
+                {
+                    text_currentSlot.SetActive(true);
+                    SlotItemCount.text = "" + quantity;
+                }
+                currentSlot.transform.position = pos;
+                break;
+            }
+        }
+    }
+
+    public void DragInItem(Vector2 pos)
+    {
+        currentSlot.transform.position = pos;
+    }
+
+    public void DragDropItem(int slotNumber, GameObject newObject, string type, int tag, int quantity)
+    {
+        currentSlot.SetActive(false);
+        text_currentSlot.SetActive(false);
+        SlotItemCount.text = "";
+
+        if (newObject == null)
+        {
+            print("버리기");
+            return;
+        }
+
+        Slot slot = newObject.GetComponent<Slot>();
+
+        if (slot == null)
+        {
+            return;
+        }
+
+        if(slotNumber == slot.slotNumber)
+        {
+            return;
+        }
+
+        if (slot.slotNumber <= 37)
+        {
+            if (tag == slot.tag)
+            {
+                SumItem(slot, slotNumber);
+                return;
+            }
+            ChangedItme(slotNumber, slot.slotNumber);
+        }
+        else if (slot.slotNumber == 38)
+        {
+            if (type.Equals("Helmet"))
+            {
+                ChangedItme(slotNumber, slot.slotNumber);
+            }
+        }
+        else if (slot.slotNumber == 39)
+        {
+            if (type.Equals("Armor"))
+            {
+                ChangedItme(slotNumber, slot.slotNumber);
+            }
+        }
+        else if (slot.slotNumber == 40)
+        {
+            if (type.Equals("Cloak"))
+
+            {
+                ChangedItme(slotNumber, slot.slotNumber);
+            }
+        }
+    }
+
+    private void SumItem(Slot slot, int currentSlot)
+    {
+        PlayerData playerData = player.playerData;
+
+        playerData.inventory[slot.slotNumber].hasItem = true;
+        playerData.inventory[slot.slotNumber].tag = playerData.inventory[currentSlot].tag;
+        playerData.inventory[slot.slotNumber].quantity += playerData.inventory[currentSlot].quantity;
+        playerData.inventory[slot.slotNumber].type = slotUi[currentSlot].type;
+
+        if (playerData.inventory[slot.slotNumber].quantity > 99)
+        {
+            playerData.inventory[currentSlot].quantity = playerData.inventory[slot.slotNumber].quantity - 99;
+            playerData.inventory[slot.slotNumber].quantity = 99;
+        }
+        else
+        {
+            playerData.inventory[currentSlot].hasItem = false;
+            playerData.inventory[currentSlot].tag = 0;
+            playerData.inventory[currentSlot].quantity = 0;
+            playerData.inventory[currentSlot].type = null;
+            itemSlot[currentSlot].sprite = null;
+            itemFrame[currentSlot].sprite = frameColor[0];
+            itemCount[currentSlot].SetActive(false);
+        }
+    }
+
+    public void dragAllocation(GameObject newObject, int tag, int quantity, int slotNumber)
+    {
+        if (newObject == null)
+        {
+            return;
+        }
+
+        Slot slot = newObject.GetComponent<Slot>();
+
+        if (slot == null)
+        {
+            return;
+        }
+
+        Inventory inven = player.playerData.inventory[slot.slotNumber];
+
+        if (!slot.hasItem)
+        {
+            for(int i = 0; i < itemInfo.list_AllItem.Count; i++)
+            {
+                if (tag == itemInfo.list_AllItem[i].tag)
+                {
+                    if(itemInfo.list_AllItem[i].maxQuantity > 2 && quantity >= 2)
+                    {
+                        inven.tag = itemInfo.list_AllItem[i].tag;
+                        inven.hasItem = true;
+                        inven.type = itemInfo.list_AllItem[i].type;
+                        inven.quantity = 1;
+                        player.playerData.inventory[slotNumber].quantity--;
+                        SlotItemCount.text = "" + player.playerData.inventory[slotNumber].quantity;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (slot.tag == tag)
+            {
+                if(slot.quantity < 99)
+                {
+                    if (quantity >= 2)
+                    {
+                        inven.quantity++;
+                        player.playerData.inventory[slotNumber].quantity--;
+                        SlotItemCount.text = "" + player.playerData.inventory[slotNumber].quantity;
+                    }
+                }
+            }
+        }
+    }
+    #endregion
+
+    #region 블록 생성 메소드 테스트 용
     void Test()
     {
         float x = Input.GetAxisRaw("Mouse ScrollWheel");
@@ -1478,5 +1653,13 @@ public class InGameUIManager : MonoBehaviour
         {
             AddItem(10, "Block", 1, -1);
         }
+    }
+    #endregion
+
+    public string GetPlayerHand()
+    {
+        Inventory playerData = player.playerData.inventory[playerHand];
+
+        return playerData.type;
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject[] spawnMonsterList;
-    private GameObject[] spawnList;
+    [SerializeField] public GameObject[] spawnMonsterList;
+    public GameObject[] spawnList;
     private Vector3[] randomSpawnPosition;
     private float spawnTime = 60f;
     private int spawnRange = 10;
@@ -20,6 +20,7 @@ public class MonsterSpawner : MonoBehaviour
             randomSpawnPosition[i] = transform.position + Random.insideUnitSphere * spawnRange;
             randomSpawnPosition[i].y = transform.position.y;
             spawnList[i] = Instantiate(spawnMonsterList[i], randomSpawnPosition[i], Quaternion.identity);
+            spawnList[i].transform.SetParent(gameObject.transform);
             spawnList[i].gameObject.SetActive(false);
         }
     }

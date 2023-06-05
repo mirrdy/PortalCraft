@@ -117,10 +117,6 @@ public class PlayerControl : MonoBehaviour, IDamage
 
 
 
-
-
-
-
     private void Awake()
     {
         #region ΩÃ±€≈Ê
@@ -178,12 +174,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         DodgeRoll();
         Attack();
     }
-
-
-
-
-
-
 
     private void GroundCheck()
     {
@@ -638,11 +628,6 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     }
 
-
-
-
-
-
     
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
     {
@@ -687,11 +672,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         playerData.playerLevel++;
         uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
     }
-
-
-
-
-
 
 
     private void OnDrawGizmosSelected()

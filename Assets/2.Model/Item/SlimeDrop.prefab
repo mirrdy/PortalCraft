@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9182533884716619896}
   - component: {fileID: -4878781950993904498}
   - component: {fileID: -3128198653430537687}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SlimeDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2327b5da59275df48b9662c544a0feb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: 0
+  tagNum: 0
 --- !u!54 &-3128198653430537687
 Rigidbody:
   m_ObjectHideFlags: 0

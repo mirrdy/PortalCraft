@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6438091246818024665}
   - component: {fileID: -186770239186836948}
   - component: {fileID: -6387053417044595557}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spiderweb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2327b5da59275df48b9662c544a0feb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: 0
+  tagNum: 0
 --- !u!54 &-6387053417044595557
 Rigidbody:
   m_ObjectHideFlags: 0
