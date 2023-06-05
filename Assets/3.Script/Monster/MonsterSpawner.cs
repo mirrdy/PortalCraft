@@ -48,7 +48,7 @@ public class MonsterSpawner : MonoBehaviour
                     {
                         if (hit.collider.gameObject.layer == 8)
                         {
-                            randomSpawnPosition[i].y += 1f;
+                            randomSpawnPosition[i].y += 2f;
                             spawnList[i].transform.position = randomSpawnPosition[i];
                         }
                         #region 예전 코드(무한루프 발생)
