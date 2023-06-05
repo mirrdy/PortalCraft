@@ -3138,7 +3138,7 @@ MonoBehaviour:
     m_Bits: 2432
   LayerMask_Destroyable:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 2432
   layerMask_Block:
     serializedVersion: 2
     m_Bits: 256
