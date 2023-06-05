@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject[] spawnMonsterList;
-    private GameObject[] spawnList;
+    [SerializeField] public GameObject[] spawnMonsterList;
+    public GameObject[] spawnList;
     private Vector3[] randomSpawnPosition;
     private float spawnTime = 60f;
     private int spawnRange = 10;

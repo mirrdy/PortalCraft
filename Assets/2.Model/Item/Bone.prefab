@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8937453456516068784}
   - component: {fileID: 1620256937236994133}
   - component: {fileID: 7177516145226939287}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_LOD3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6640522010790360485}
   - component: {fileID: -8169711341754337103}
   - component: {fileID: -2528055270108189879}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2327b5da59275df48b9662c544a0feb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: 406
+  tagNum: 0
 --- !u!54 &-2528055270108189879
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 7275741162863947876}
   - component: {fileID: 2751996497051873676}
   - component: {fileID: 1295935955090418969}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 47824867388217266}
   - component: {fileID: 4743453111323693662}
   - component: {fileID: 2866860788033752769}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 2089344911748537352}
   - component: {fileID: 3812294317190867186}
   - component: {fileID: 8523109914934870216}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bone_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 812810769009531890}
   - component: {fileID: 7435161486207894376}
   - component: {fileID: -3365101441000493332}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PortalPice1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2327b5da59275df48b9662c544a0feb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: 401
+  tagNum: 0
 --- !u!54 &-3365101441000493332
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 688426829377844222}
   - component: {fileID: 714283574528911534}
   - component: {fileID: 705229950979521820}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: diamond_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 688481334984924448}
   - component: {fileID: 714908074032303218}
   - component: {fileID: 706751869711973938}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: diamond_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 688037470305520002}
   - component: {fileID: 714320770270695028}
   - component: {fileID: 705029950461999632}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: diamond_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
