@@ -177,7 +177,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         JumpAndGravity();
         DodgeRoll();
         Attack();
-        ItemSelect();
+        //ItemSelect();
     }
 
     private void GroundCheck()
