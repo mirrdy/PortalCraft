@@ -135,7 +135,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         TryGetComponent(out itemInfo);
         TryGetComponent(out skillInfo);
 
-        playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);      
+        //playerData = DataManager.instance.PlayerDataGet(DataManager.instance.saveNumber);      
     }
     private void Start()
     {
@@ -148,7 +148,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
 
-        uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
+        //uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
         uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
 
         #region 플레이어 장비 테스트
