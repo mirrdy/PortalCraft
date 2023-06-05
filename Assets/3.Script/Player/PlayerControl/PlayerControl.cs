@@ -118,7 +118,11 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private InGameUIManager uiManager;
 
-    public List<GameObject> ItemList = new List<GameObject>();
+    public List<GameObject> ItemList_Equip = new List<GameObject>();
+    public List<GameObject> ItemList_Wear = new List<GameObject>();
+    public List<GameObject> ItemList_Build = new List<GameObject>();
+
+    private Transform BuiltCube_List; 
 
 
 
@@ -154,6 +158,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
+        BuiltCube_List = GameObject.FindGameObjectWithTag("BuiltCube_List").transform;
 
         uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
         uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
@@ -177,7 +182,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         JumpAndGravity();
         DodgeRoll();
         Attack();
-        //ItemSelect();
+        ItemSelect();
     }
 
     private void GroundCheck()
@@ -435,7 +440,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     else if (equipItem.TryGetComponent(out Torch torch))
                     {
                         equipItem_attackRate = 0.5f; //0.5f를 torch.attackRate 로 변경 
-                        CanAction = ActionCool > 1f * 0.5f; //0.5f 를 equipItem 으로 변경
+                        CanAction = ActionCool > 1f * equipItem_attackRate; //0.5f 를 equipItem 으로 변경
                         if (input.attack && CanAction)
                         {
                             CreateTorch();
@@ -545,6 +550,8 @@ public class PlayerControl : MonoBehaviour, IDamage
             bool isTorch; //해당 지점에 토치가 설치되어있는지
             Vector3 spherePosition; //토치를 감지할 구
 
+            GameObject builtCube;
+
             if (Mathf.Abs(xValue) == maxValue)
             {
                 //Debug.Log("vecDir.x가 가장 큰값");
@@ -554,7 +561,8 @@ public class PlayerControl : MonoBehaviour, IDamage
                     isTorch = Physics.CheckSphere(spherePosition, groundedRadius, layerMask_Torch, QueryTriggerInteraction.Ignore);
                     if (!isTorch)
                     {
-                        Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
+                        builtCube = Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
+                        builtCube.transform.SetParent(builtCube.transform);
                     }
                 }
                 else if (xValue < 0)
@@ -615,11 +623,11 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
 
 
-    private void ItemListInActive()
+    private void ItemList_Equip_InActive()
     {
-        for (int i = 0; i < ItemList.Count; i++)
+        for (int i = 0; i < ItemList_Equip.Count; i++)
         {
-            ItemList[i].SetActive(false);
+            ItemList_Equip[i].SetActive(false);
         }
     }
 
@@ -646,33 +654,70 @@ public class PlayerControl : MonoBehaviour, IDamage
             currentItem = ItemType.Block;
         }
         #endregion
+
         #region 아이템태그
         if (quickSlotItem_Tag == 203)
         {
-            ItemListInActive();
-            ItemList[3].SetActive(true);
-            equipItem = ItemList[3];
+            ItemList_Equip_InActive();
+            ItemList_Equip[0].SetActive(true);
+            equipItem = ItemList_Equip[0];
         }
         else if (quickSlotItem_Tag == 204)
         {
-            equipItem = ItemList[4];
+            ItemList_Equip_InActive();
+            ItemList_Equip[1].SetActive(true);
+            equipItem = ItemList_Equip[1];
         }
         else if (quickSlotItem_Tag == 205)
         {
-            equipItem = ItemList[5];
+            ItemList_Equip_InActive();
+            ItemList_Equip[2].SetActive(true);
+            equipItem = ItemList_Equip[2];
         }
         else if (quickSlotItem_Tag == 206)
         {
-            equipItem = ItemList[6];
+            ItemList_Equip_InActive();
+            ItemList_Equip[3].SetActive(true);
+            equipItem = ItemList_Equip[3];
         }
         else if (quickSlotItem_Tag == 207)
         {
-            equipItem = ItemList[7];
+            ItemList_Equip_InActive();
+            ItemList_Equip[4].SetActive(true);
+            equipItem = ItemList_Equip[4];
         }
         else if (quickSlotItem_Tag == 208)
         {
-            equipItem = ItemList[8];
+            ItemList_Equip_InActive();
+            ItemList_Equip[5].SetActive(true);
+            equipItem = ItemList_Equip[5];
         }
+        else if (quickSlotItem_Tag == 1)
+        {
+            ItemList_Equip_InActive();
+            equipItem = ItemList_Build[0];
+        }
+        else if (quickSlotItem_Tag == 2)
+        {
+            ItemList_Equip_InActive();
+            equipItem = ItemList_Build[1];
+        }
+        else if (quickSlotItem_Tag == 3)
+        {
+            ItemList_Equip_InActive();
+            equipItem = ItemList_Build[2];
+        }
+        else if (quickSlotItem_Tag == 10)
+        {
+            ItemList_Equip_InActive();
+            equipItem = ItemList_Build[9];
+        }
+        else
+        {
+            ItemList_Equip_InActive();
+            currentItem = ItemType.Empty;
+            equipItem = null;
+        }       
         #endregion
     }
 
