@@ -49,7 +49,7 @@ public class BossChaseState : BossState
                 switch (randNum)
                 {
                     case 0: boss.ChangeState(new BossCastState()); break;
-                    case 1: boss.ChangeState(new BossWingSlashState()); break;
+                    case 1: boss.ChangeState(new BossWingSlashState()); break;  
                 }
             }
         }
