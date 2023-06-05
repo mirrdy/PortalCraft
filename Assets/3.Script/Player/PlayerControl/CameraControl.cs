@@ -16,7 +16,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private Transform followTarget;
 
     private float topClamp_Third = 80.0f;
-    private float bottomClamp_Third = -40.0f;
+    private float bottomClamp_Third = -60.0f;
     private const float threshold = 0.01f;
 
     private float cinemachineTargetYaw_Third;

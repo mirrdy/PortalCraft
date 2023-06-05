@@ -44,6 +44,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     public LayerMask LayerMask_Ground;
     public LayerMask LayerMask_Destroyable;
     public LayerMask layerMask_Block;
+    public LayerMask layerMask_Torch;
 
     private Vector3 targetDirection;
     private Vector3 inputDirection;
@@ -459,31 +460,18 @@ public class PlayerControl : MonoBehaviour, IDamage
                     CanAction = ActionCool > 1f * 0.5f;
                     if (input.attack && CanAction)
                     {
+                        CreateTorch();
                         ActionCool = 0;
                     }
                     break;
                 }
         }
     }
-    private void ItemSelect()
-    {
-
-    }
-    private void Skill_1() //Q 
-    {
-        
-    }
-    private void Skill_2() //E
-    {
-
-    }
 
 
 
 
-
-
-    public void CreateBlock()
+    public void CreateTorch()
     {
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
@@ -504,11 +492,11 @@ public class PlayerControl : MonoBehaviour, IDamage
                 //Debug.Log("vecDir.x가 가장 큰값");
                 if (xValue > 0)
                 {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.right * 0.7f, Quaternion.Euler(10f,0,-10f));
                 }
                 else if (xValue < 0)
                 {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.left, Quaternion.identity);
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.left * 0.7f, Quaternion.Euler(-10f, 0, 10f));
                 }
             }
             else if (Mathf.Abs(yValue) == maxValue)
@@ -516,11 +504,11 @@ public class PlayerControl : MonoBehaviour, IDamage
                 //Debug.Log("vecDir.y가 가장 큰값");
                 if (yValue > 0)
                 {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.up, Quaternion.identity);
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.up * 0.8f, Quaternion.identity);
                 }
                 else if (yValue < 0)
                 {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.down, Quaternion.identity);
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.down * 0.8f, Quaternion.Euler(0, 0, 180f));
                 }
             }
             else if (Mathf.Abs(zValue) == maxValue)
@@ -528,15 +516,122 @@ public class PlayerControl : MonoBehaviour, IDamage
                 //Debug.Log("vecDir.z가 가장 큰값");
                 if (zValue > 0)
                 {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.forward, Quaternion.identity);
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.forward * 0.7f, Quaternion.Euler(10f, 0, 10f));
                 }
                 else if (zValue < 0)
                 {
-                    Instantiate(equipItem, hitInfo.transform.position + Vector3.back, Quaternion.identity);
+                    Instantiate(equipItem, hitInfo.transform.position + Vector3.back * 0.7f, Quaternion.Euler(-10f, 0, -10f));
                 }
             }
         }
     }
+    public void CreateBlock()
+    {
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 20f, layerMask_Block))
+        {
+            //Debug.Log("해당오브젝트의 좌표는" + hitInfo.transform.position);
+            //Debug.Log("레이좌표는" + hitInfo.point);
+            Vector3 vecDir = hitInfo.point - hitInfo.transform.position;
+            //Debug.Log("두 벡터간의 차이는" + vecDir);
+            float xValue = vecDir.x;
+            float yValue = vecDir.y;
+            float zValue = vecDir.z;
+
+            float maxValue = Mathf.Max(Mathf.Abs(xValue), Mathf.Abs(yValue), Mathf.Abs(zValue));
+
+            bool isTorch; //해당 지점에 토치가 설치되어있는지
+            Vector3 spherePosition; //토치를 감지할 구
+
+            if (Mathf.Abs(xValue) == maxValue)
+            {
+                //Debug.Log("vecDir.x가 가장 큰값");
+                if (xValue > 0)
+                {
+                    spherePosition = hitInfo.transform.position + Vector3.right;
+                    isTorch = Physics.CheckSphere(spherePosition, groundedRadius, layerMask_Torch, QueryTriggerInteraction.Ignore);
+                    if (!isTorch)
+                    {
+                        Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
+                    }
+                }
+                else if (xValue < 0)
+                {
+                    spherePosition = hitInfo.transform.position + Vector3.left;
+                    isTorch = Physics.CheckSphere(spherePosition, groundedRadius, layerMask_Torch, QueryTriggerInteraction.Ignore);
+                    if (!isTorch)
+                    {
+                        Instantiate(equipItem, hitInfo.transform.position + Vector3.left, Quaternion.identity);
+                    }                   
+                }
+            }
+            else if (Mathf.Abs(yValue) == maxValue)
+            {
+                //Debug.Log("vecDir.y가 가장 큰값");
+                if (yValue > 0)
+                {
+                    spherePosition = hitInfo.transform.position + Vector3.up;
+                    isTorch = Physics.CheckSphere(spherePosition, groundedRadius, layerMask_Torch, QueryTriggerInteraction.Ignore);
+                    if (!isTorch)
+                    {
+                        Instantiate(equipItem, hitInfo.transform.position + Vector3.up, Quaternion.identity);
+                    }
+                }
+                else if (yValue < 0)
+                {
+                    spherePosition = hitInfo.transform.position + Vector3.down;
+                    isTorch = Physics.CheckSphere(spherePosition, groundedRadius, layerMask_Torch, QueryTriggerInteraction.Ignore);
+                    if (!isTorch)
+                    {
+                        Instantiate(equipItem, hitInfo.transform.position + Vector3.down, Quaternion.identity);
+                    }
+                }
+            }
+            else if (Mathf.Abs(zValue) == maxValue)
+            {
+                //Debug.Log("vecDir.z가 가장 큰값");
+                if (zValue > 0)
+                {
+                    spherePosition = hitInfo.transform.position + Vector3.forward;
+                    isTorch = Physics.CheckSphere(spherePosition, groundedRadius, layerMask_Torch, QueryTriggerInteraction.Ignore);
+                    if (!isTorch)
+                    {
+                        Instantiate(equipItem, hitInfo.transform.position + Vector3.forward, Quaternion.identity);
+                    }
+                }
+                else if (zValue < 0)
+                {
+                    spherePosition = hitInfo.transform.position + Vector3.back;
+                    isTorch = Physics.CheckSphere(spherePosition, groundedRadius, layerMask_Torch, QueryTriggerInteraction.Ignore);
+                    if (!isTorch)
+                    {
+                        Instantiate(equipItem, hitInfo.transform.position + Vector3.back, Quaternion.identity);
+                    }
+                }
+            }
+        }
+    }
+    private void ItemSelect()
+    {
+
+    }
+    private void Skill_1() //Q 
+    {
+        
+    }
+    private void Skill_2() //E
+    {
+
+    }
+
+
+
+
+
+
+    
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
     {
         Status status = playerData.status;
