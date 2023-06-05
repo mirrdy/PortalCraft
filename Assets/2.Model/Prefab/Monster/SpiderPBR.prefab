@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7360781433612506284}
   - component: {fileID: 127712060804335146}
   - component: {fileID: 8048657718676393515}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Chase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 7158306250764380718}
   - component: {fileID: 7158306250764380719}
   - component: {fileID: 7889417798011821681}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629537252521253528}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegL01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629933207750813142}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Eye06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8636847716386320874}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: JawR02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629985819690484648}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8636874106336460546}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegR03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637075576335262806}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegL07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629514760436564292}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: JawR01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +339,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629950110199212444}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Eye02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,7 +369,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637217901483469548}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegL05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,7 +400,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629961315750348594}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: JawL01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -534,7 +534,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629991917513237594}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegR05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -566,7 +566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8629472003992470134}
   - component: {fileID: 8514632170516368242}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Spider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +686,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8636795411198672494}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegL02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,7 +717,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629795188635184196}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Eye04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -747,7 +747,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629957465463779174}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: JawR03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -777,7 +777,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629495199370368116}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegR06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -807,7 +807,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637180815457592586}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: JawL02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -838,7 +838,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629576376506331078}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: JawL03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -868,7 +868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637188716648390116}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Spine02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -901,7 +901,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8636997205471668206}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Belly01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -931,7 +931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629482700825816458}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegR09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -961,7 +961,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637124690617754378}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegL03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -991,7 +991,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629610448428035828}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegR08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1022,7 +1022,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637203352271538180}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Belly02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1052,7 +1052,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637191126554373172}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Eye03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1082,7 +1082,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629945042453701294}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegL09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1112,7 +1112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637102235132861278}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegL04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1143,7 +1143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637006640177327634}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegR01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1174,7 +1174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637102641661806796}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegL08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1205,7 +1205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637176693355766338}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegR07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1236,7 +1236,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629518253346007038}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegR04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1267,7 +1267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629707878566512338}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegL06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1297,7 +1297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637284300928032684}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: EyeJaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1335,7 +1335,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8636882864601437756}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Eye05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1365,7 +1365,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637225505041393672}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Spine01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1402,7 +1402,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637097117109322968}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LegR02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1433,7 +1433,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8629622069360260440}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1464,7 +1464,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8637285959915043684}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Eye01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
