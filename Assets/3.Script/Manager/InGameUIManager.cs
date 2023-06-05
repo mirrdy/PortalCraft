@@ -1665,4 +1665,9 @@ public class InGameUIManager : MonoBehaviour
 
         return playerData.tag;
     }
+
+    private void TimerCheck()
+    {
+        
+    }
 }
