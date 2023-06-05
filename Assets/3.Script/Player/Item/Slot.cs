@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.UIElements;
 
 public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
@@ -14,6 +16,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
 
     GameObject drag;
     bool isRightMouseDown = false;
+    public int count = 1;
 
     private InGameUIManager uiManager;
 
@@ -21,7 +24,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
     {
         uiManager = FindObjectOfType<InGameUIManager>();
     }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Right)
@@ -119,7 +121,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
     {
         if (hasItem)
         {
-            if (isRightMouseDown && eventData.pointerEnter)
+            if (isRightMouseDown)
             {
                 drag = eventData.pointerCurrentRaycast.gameObject;
                 uiManager.dragAllocation(drag, tag, quantity, slotNumber);
@@ -151,5 +153,10 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
         {
             isRightMouseDown = false;
         }
+    }
+
+    public void DragExit()
+    {
+        count = 1;
     }
 }

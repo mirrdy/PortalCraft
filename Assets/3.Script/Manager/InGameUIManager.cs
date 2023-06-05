@@ -1599,12 +1599,14 @@ public class InGameUIManager : MonoBehaviour
 
         Slot slot = newObject.GetComponent<Slot>();
 
-        if (slot == null)
+        if (slot == null || slot.count < 1 || slot.slotNumber >= 38)
         {
             return;
         }
 
         Inventory inven = player.playerData.inventory[slot.slotNumber];
+
+        slot.count--;
 
         if (!slot.hasItem)
         {
