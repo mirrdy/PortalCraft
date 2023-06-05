@@ -1990,7 +1990,7 @@ MonoBehaviour:
   dropExpNum: 0
   animator: {fileID: 0}
   entityController: {fileID: 0}
-  exp: {fileID: 1311826795877879922, guid: 549f1432cd6b25c4ebe0e161b61dca98, type: 3}
+  exp: {fileID: 5924249166686555895, guid: 549f1432cd6b25c4ebe0e161b61dca98, type: 3}
   dropTables:
   - {fileID: -2196711858128088193, guid: 69277e3ff76cc6b439ef8174ec80828d, type: 3}
   - {fileID: -8169711341754337103, guid: 2c54eceb80b61a64d893cbb5b8a5fac0, type: 3}
