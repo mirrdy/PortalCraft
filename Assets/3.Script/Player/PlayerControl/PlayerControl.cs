@@ -18,7 +18,9 @@ public class PlayerControl : MonoBehaviour, IDamage
     [Header("현재 장착중인 아이템")]
     public GameObject equipItem;
 
-    public string quickSlotItem;
+    public string quickSlotItem_Type;
+
+    public int quickSlotItem_Tag;
 
     // --------------- 컴포넌트들 ----------------
     private Animator animator;
@@ -78,7 +80,6 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private bool hasAnimator;
 
-    //private int 
 
     #region 애니메이션 파라미터ID
     private int animID_Speed;
@@ -116,6 +117,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     public event WhenPlayerDie whenPlayerDie;
 
     private InGameUIManager uiManager;
+
+    public List<GameObject> ItemList = new List<GameObject>();
 
 
 
@@ -166,7 +169,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         playerData.inventory[24].quantity = 1;
         playerData.inventory[24].type = "Helmet";
         #endregion
-        //QuickSlotItem = new GameObject[8];
     }
     private void Update()
     {
@@ -175,7 +177,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         JumpAndGravity();
         DodgeRoll();
         Attack();
-        //ItemSelect();
+        ItemSelect();
     }
 
     private void GroundCheck()
@@ -324,7 +326,6 @@ public class PlayerControl : MonoBehaviour, IDamage
 
                 verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
-                // update animator if using character
                 if (hasAnimator)
                 {
                     animator.SetBool(animID_Jump, true);
@@ -614,28 +615,65 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
 
 
-
+    private void ItemListInActive()
+    {
+        for (int i = 0; i < ItemList.Count; i++)
+        {
+            ItemList[i].SetActive(false);
+        }
+    }
 
     private void ItemSelect()
     {
-        quickSlotItem = uiManager.GetPlayerHand();
+        quickSlotItem_Type = uiManager.GetPlayerHandType();
+        quickSlotItem_Tag = uiManager.GetPlayerHandTag();
 
-        if (quickSlotItem == null)
+        #region 아이템타입
+        if (quickSlotItem_Type == null)
         {
             currentItem = ItemType.Empty;
         }
-        else if (quickSlotItem == "Arms")
+        else if (quickSlotItem_Type == "Arms")
         {
             currentItem = ItemType.Arms;
         }
-        else if (quickSlotItem == "About")
+        else if (quickSlotItem_Type == "About")
         {
             currentItem = ItemType.Arms;
         }
-        else if (quickSlotItem == "Block")
+        else if (quickSlotItem_Type == "Block")
         {
             currentItem = ItemType.Block;
         }
+        #endregion
+        #region 아이템태그
+        if (quickSlotItem_Tag == 203)
+        {
+            ItemListInActive();
+            ItemList[3].SetActive(true);
+            equipItem = ItemList[3];
+        }
+        else if (quickSlotItem_Tag == 204)
+        {
+            equipItem = ItemList[4];
+        }
+        else if (quickSlotItem_Tag == 205)
+        {
+            equipItem = ItemList[5];
+        }
+        else if (quickSlotItem_Tag == 206)
+        {
+            equipItem = ItemList[6];
+        }
+        else if (quickSlotItem_Tag == 207)
+        {
+            equipItem = ItemList[7];
+        }
+        else if (quickSlotItem_Tag == 208)
+        {
+            equipItem = ItemList[8];
+        }
+        #endregion
     }
 
 
@@ -747,6 +785,8 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
     public int playerLevel;
     [XmlElement]
     public float playerExp;
+    [XmlElement]
+    public float GameTime;
     [XmlElement]
     public Status status;
     [XmlElement]
