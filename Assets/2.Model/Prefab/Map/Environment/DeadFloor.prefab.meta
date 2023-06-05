@@ -1,6 +1,11 @@
 fileFormatVersion: 2
-guid: 22ec6d1ca274ed84190f8dd3c252f24a
+<<<<<<<< Updated upstream:Assets/2.Model/Prefab/Map/Environment/DeadFloor.prefab.meta
+guid: 0160b6716a445cf4aa0726da45a60c9b
 PrefabImporter:
+========
+guid: 59d340d3fa2e34d91b4e537dd5bb9941
+DefaultImporter:
+>>>>>>>> Stashed changes:Assets/GUI PRO Kit - Casual Game/PSD/PSD.unitypackage.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

@@ -132,4 +132,29 @@ public class LoadingSceneManager : MonoBehaviour
         StartCoroutine(Fade_co(false));
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
+    public void LoadPotal()
+    {
+        gameObject.SetActive(true);
+
+        StartCoroutine(nameof(LoadPotal_co));
+    }
+
+    private IEnumerator LoadPotal_co()
+    {
+        blockMap = FindObjectOfType<BlockMapGenerator>();
+
+        slider_Loding.value = 0f;
+        yield return StartCoroutine(Fade_co(true));
+
+        while (blockMap.progress < 100f)
+        {
+            yield return null;
+            text_Loding.text = "Loading... " + (int)blockMap.progress + "%";
+            slider_Loding.value = blockMap.progress * 0.01f;
+        }
+
+        StartCoroutine(Fade_co(false));
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 }
