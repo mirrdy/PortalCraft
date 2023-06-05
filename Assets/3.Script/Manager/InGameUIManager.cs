@@ -1655,4 +1655,11 @@ public class InGameUIManager : MonoBehaviour
         }
     }
     #endregion
+
+    public string GetPlayerHand()
+    {
+        Inventory playerData = player.playerData.inventory[playerHand];
+
+        return playerData.type;
+    }
 }

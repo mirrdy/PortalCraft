@@ -59,8 +59,8 @@ public class BlockMapGenerator : MonoBehaviour
         instance = this;
     }
 
-    static public int widthX = 225;
-    static public int widthZ = 225;
+    static public int widthX = 100;
+    static public int widthZ = 100;
     static public int height = 225;
 
     [Header("ºí·Ï")]
