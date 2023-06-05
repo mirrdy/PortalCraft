@@ -10,7 +10,7 @@ public class BossChangePhase : BossState
         boss.attackDelay = 3;
         boss.bossControl.enabled = false;
         boss.StartCoroutine(ChangePhase_co(boss));
-        boss.bossMonsterSpawner.enabled = true;
+        boss.bossMonsterSpawner.gameObject.SetActive(true);
     }
 
     public override void ExitState(BossControl boss)
@@ -18,7 +18,8 @@ public class BossChangePhase : BossState
         boss.bossUseEffect[0].Stop();
         boss.bossUseEffect[1].Play();
         boss.bossControl.enabled = true;
-        boss.bossMonsterSpawner.enabled = false;
+        boss.bossMonsterSpawner.gameObject.SetActive(false);
+
     }
 
     public override void UpdateState(BossControl boss)

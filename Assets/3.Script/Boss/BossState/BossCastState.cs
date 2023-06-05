@@ -25,6 +25,8 @@ public class BossCastState : BossState
 
     public override void UpdateState(BossControl boss)
     {
-        boss.bossUseEffect[3].transform.position = boss.target.transform.position;
+        Vector3 magicPosition = boss.target.transform.position;
+        magicPosition.y = 0.1f;
+        boss.bossUseEffect[3].transform.position = magicPosition;
     }
 }
