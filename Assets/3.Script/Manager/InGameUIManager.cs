@@ -251,16 +251,17 @@ public class InGameUIManager : MonoBehaviour
         image_Item[22] = Resources.Load<Sprite>("Sprites/Sword T2");
         image_Item[23] = Resources.Load<Sprite>("Sprites/Bow");
         image_Item[24] = Resources.Load<Sprite>("Sprites/Bow T1");
-        image_Item[26] = Resources.Load<Sprite>("Sprites/Bow T2");
-        image_Item[27] = Resources.Load<Sprite>("Sprites/Torch Light");
-        image_Item[28] = Resources.Load<Sprite>("Sprites/Cloak");
-        image_Item[29] = Resources.Load<Sprite>("Sprites/Potal T1");
-        image_Item[30] = Resources.Load<Sprite>("Sprites/Potal T2");
-        image_Item[31] = Resources.Load<Sprite>("Sprites/Spider Wap");
-        image_Item[32] = Resources.Load<Sprite>("Sprites/Slime Drop");
-        image_Item[33] = Resources.Load<Sprite>("Sprites/String");
-        image_Item[34] = Resources.Load<Sprite>("Sprites/Bon");
-        image_Item[35] = Resources.Load<Sprite>("Sprites/Wood Group");
+        image_Item[25] = Resources.Load<Sprite>("Sprites/Bow T2");
+        image_Item[26] = Resources.Load<Sprite>("Sprites/Torch Light");
+        image_Item[27] = Resources.Load<Sprite>("Sprites/Cloak");
+        image_Item[28] = Resources.Load<Sprite>("Sprites/Potal T1");
+        image_Item[29] = Resources.Load<Sprite>("Sprites/Potal T2");
+        image_Item[30] = Resources.Load<Sprite>("Sprites/Spider Wap");
+        image_Item[31] = Resources.Load<Sprite>("Sprites/Slime Drop");
+        image_Item[32] = Resources.Load<Sprite>("Sprites/String");
+        image_Item[33] = Resources.Load<Sprite>("Sprites/Bon");
+        image_Item[34] = Resources.Load<Sprite>("Sprites/Wood Group");
+        image_Item[35] = Resources.Load<Sprite>("Sprites/Crafting Table");
         image_Item[36] = Resources.Load<Sprite>("Sprites/Hp Potion");
         image_Item[37] = Resources.Load<Sprite>("Sprites/Mp Potion");
         #endregion
@@ -305,6 +306,47 @@ public class InGameUIManager : MonoBehaviour
         currentImage = DragSlotUI.GetChild(0).GetComponentInChildren<Image>(true);
         text_currentSlot = DragSlotUI.GetChild(1).GetComponentInChildren<Transform>(true).gameObject;
         SlotItemCount = DragSlotUI.GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
+        #region 아이템 프리펩
+        prepab = new GameObject[38];
+        prepab[0] = Resources.Load<GameObject>("Item/Sand").gameObject;
+        prepab[1] = Resources.Load<GameObject>("Item/Grass").gameObject;
+        prepab[2] = Resources.Load<GameObject>("Item/Snow").gameObject;
+        prepab[3] = Resources.Load<GameObject>("Item/Metal").gameObject;
+        prepab[4] = Resources.Load<GameObject>("Item/Gold").gameObject;
+        prepab[5] = Resources.Load<GameObject>("Item/Coal").gameObject;
+        prepab[6] = Resources.Load<GameObject>("Item/Brown_Brick").gameObject;
+        prepab[7] = Resources.Load<GameObject>("Item/Black_Brick").gameObject;
+        prepab[8] = Resources.Load<GameObject>("Item/Random").gameObject;
+        prepab[9] = Resources.Load<GameObject>("Item/Wood").gameObject;
+        prepab[10] = Resources.Load<GameObject>("Item/Archer T1").gameObject;
+        prepab[11] = Resources.Load<GameObject>("Item/Archer T2").gameObject;
+        prepab[12] = Resources.Load<GameObject>("Item/Warrior T1").gameObject;
+        prepab[13] = Resources.Load<GameObject>("Item/Warrior T2").gameObject;
+        prepab[14] = Resources.Load<GameObject>("Item/Archer Helmet T1").gameObject;
+        prepab[15] = Resources.Load<GameObject>("Item/Archer Helmet T2").gameObject;
+        prepab[16] = Resources.Load<GameObject>("Item/Warrior Helmet T1").gameObject;
+        prepab[17] = Resources.Load<GameObject>("Item/Warrior Helmet T2").gameObject;
+        prepab[18] = Resources.Load<GameObject>("Item/Pickaxe").gameObject;
+        prepab[19] = Resources.Load<GameObject>("Item/Axe").gameObject;
+        prepab[20] = Resources.Load<GameObject>("Item/Sword").gameObject;
+        prepab[21] = Resources.Load<GameObject>("Item/Sword T1").gameObject;
+        prepab[22] = Resources.Load<GameObject>("Item/Sword T2").gameObject;
+        prepab[23] = Resources.Load<GameObject>("Item/Bow").gameObject;
+        prepab[24] = Resources.Load<GameObject>("Item/Bow T1").gameObject;
+        prepab[25] = Resources.Load<GameObject>("Item/Bow T2").gameObject;
+        prepab[26] = Resources.Load<GameObject>("Item/Torch Light").gameObject;
+        prepab[27] = Resources.Load<GameObject>("Item/Cloak").gameObject;
+        prepab[28] = Resources.Load<GameObject>("Item/Potal T1").gameObject;
+        prepab[29] = Resources.Load<GameObject>("Item/Potal T2").gameObject;
+        prepab[30] = Resources.Load<GameObject>("Item/Spider Wap").gameObject;
+        prepab[31] = Resources.Load<GameObject>("Item/Slime Drop").gameObject;
+        prepab[32] = Resources.Load<GameObject>("Item/String").gameObject;
+        prepab[33] = Resources.Load<GameObject>("Item/Bon").gameObject;
+        prepab[34] = Resources.Load<GameObject>("Item/Wood Group").gameObject;
+        prepab[35] = Resources.Load<GameObject>("Item/Crafting Table").gameObject;
+        prepab[36] = Resources.Load<GameObject>("Item/Hp Potion").gameObject;
+        prepab[37] = Resources.Load<GameObject>("Item/Mp Potion").gameObject;
+        #endregion
         #endregion
     }
 
@@ -1644,25 +1686,9 @@ public class InGameUIManager : MonoBehaviour
     }
     #endregion
 
-    public string GetPlayerHandType()
+    public int GetPlayerHand()
     {
-        Inventory playerData = player.playerData.inventory[playerHand];
-
-        return playerData.type;
-    }
-
-    public int GetPlayerHandTag()
-    {
-        Inventory playerData = player.playerData.inventory[playerHand];
-
-        return playerData.tag;
-    }
-
-    public int GetPlayerHandQuantity()
-    {
-        Inventory playerData = player.playerData.inventory[playerHand];
-
-        return playerData.quantity;
+        return playerHand;
     }
 
     private void TimerCheck()
