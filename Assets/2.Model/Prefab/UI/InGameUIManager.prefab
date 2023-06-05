@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4129455142039880701
+--- !u!1 &3501441508774232878
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2909016739796275436}
-  - component: {fileID: 4035550699426884180}
+  - component: {fileID: 2416106834608885823}
+  - component: {fileID: 3591758039861062279}
   m_Layer: 0
   m_Name: InGameUIManager
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2909016739796275436
+--- !u!4 &2416106834608885823
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4129455142039880701}
+  m_GameObject: {fileID: 3501441508774232878}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,13 +31,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4035550699426884180
+--- !u!114 &3591758039861062279
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4129455142039880701}
+  m_GameObject: {fileID: 3501441508774232878}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0565171fd86a3154d9e8f805aa950b4e, type: 3}
@@ -292,7 +292,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1e761a494a89dde43be2438b899efaba, type: 3}
   - {fileID: 21300000, guid: 2318ae501ff0c2245895da3a0dee6d47, type: 3}
   - {fileID: 21300000, guid: cf9a9cc8570df314a87de63ad2bd0d13, type: 3}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: a1f04a88b732c4f42940401c421740b8, type: 3}
   - {fileID: 21300000, guid: c9556eefcbc340744a8d75bd1581b26d, type: 3}
   - {fileID: 21300000, guid: d3ed5536759a803419255b8dd465c9aa, type: 3}
   - {fileID: 21300000, guid: 3e2ccd4599f39b647aa1f96b3df073ad, type: 3}
@@ -312,7 +312,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ec9a5fe5c12887e4d9559bc4f27cf188, type: 3}
   - {fileID: 21300000, guid: fdef53a181e5c844fb7f2279b4a2fb64, type: 3}
   - {fileID: 21300000, guid: 932b108e6f96dc947a5e99295f28c1eb, type: 3}
-  - {fileID: 0}
   - {fileID: 21300000, guid: e161974d5e760ed49aecdc54715d2829, type: 3}
   - {fileID: 21300000, guid: c39a39c213203d0479ec142c04f2350d, type: 3}
   - {fileID: 21300000, guid: 1fa4ed9ca85c8e3419be4333ea341447, type: 3}
@@ -323,6 +322,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e7188afc0e647c541b26e91c89701495, type: 3}
   - {fileID: 21300000, guid: 68c4343c57b62054989f18929dca96aa, type: 3}
   - {fileID: 21300000, guid: 35485a66c7594984e9555e414c99b944, type: 3}
+  - {fileID: 21300000, guid: c5338c2a3d2b3a74598e630e992d772e, type: 3}
   - {fileID: 21300000, guid: 68552a19928957e41aa0893398c1a8fe, type: 3}
   - {fileID: 21300000, guid: d20c055f6920a514fa6820ab50e2fa95, type: 3}
   image_Tooltip: {fileID: 0}
@@ -402,5 +402,50 @@ MonoBehaviour:
   - {fileID: 0}
   skillPoint: {fileID: 0}
   target: {fileID: 0}
+  currentSlot: {fileID: 0}
+  currentImage: {fileID: 0}
+  text_currentSlot: {fileID: 0}
+  SlotItemCount: {fileID: 0}
+  prefab:
+  - {fileID: 6777844419383867407, guid: 42e15d745e76fa74e883e86491c37eb3, type: 3}
+  - {fileID: -5343717072959027213, guid: fd524c225df9d994d922ec19308cfbe9, type: 3}
+  - {fileID: 7684998079876651198, guid: 70564351e8706854690d699838cf71c0, type: 3}
+  - {fileID: 8889863271255097589, guid: a3fdf4c694b210c4685b929db4ebaee6, type: 3}
+  - {fileID: 6171990219620718844, guid: add0e8ce24a563d4ca516f6f9644a7df, type: 3}
+  - {fileID: 4380210738597434752, guid: e5e5c45eef559ed49bccadb1f05987ce, type: 3}
+  - {fileID: 7379044553202108390, guid: c6b71331677bce6449a1b26abe66b872, type: 3}
+  - {fileID: 2797671520473305249, guid: 9fd3b5aa3497f684081d429abcc412e9, type: 3}
+  - {fileID: 5107268914437216694, guid: 230778e846634f34fa0b3aebd5c96074, type: 3}
+  - {fileID: 2553375640344679284, guid: 01d446d38ac5c374f9e3b5e938a47b0d, type: 3}
+  - {fileID: -5633954264595434632, guid: e020b6b1d506cb846bcca11f7736c78e, type: 3}
+  - {fileID: -7798073141870319087, guid: 0f4828cf31e43d1409352e09f2dd8321, type: 3}
+  - {fileID: 6327641339919990419, guid: ef1f0748afaec984284213801bd41b26, type: 3}
+  - {fileID: 5699437464842742059, guid: 1c6878bcccadcb84d9b17e6dc10639fe, type: 3}
+  - {fileID: -4948102780345388033, guid: cb58da23e308b06489ed37a3b2bce27d, type: 3}
+  - {fileID: -6064363222415531443, guid: 80db74154b56d804981efa8050b583bb, type: 3}
+  - {fileID: 5645154138394177009, guid: 5f575804ffe4d6b449e534c4985fdbab, type: 3}
+  - {fileID: 8507087794581714265, guid: 0d42b580733a7cc4a82b18710ee914ca, type: 3}
+  - {fileID: -7247497508291805073, guid: 9b96f98bda0a57c4e930b67a5d1597b7, type: 3}
+  - {fileID: 4522062929559566123, guid: 00a5dd1b0b765324e9900333563097aa, type: 3}
+  - {fileID: 7380853313312960712, guid: 501761ff24144da45948a326d5907c16, type: 3}
+  - {fileID: -7024556558093764521, guid: 3c5a9157edd0bf446bdfb29398f53122, type: 3}
+  - {fileID: 3195955418252101049, guid: de7cae707a0c87c4aa8f088f60ab9436, type: 3}
+  - {fileID: 3332489625192284470, guid: 4bad3be41ea6e3b45a2231c67ff1221c, type: 3}
+  - {fileID: 3440539922682259836, guid: 0a5dacb7d8f8a014c82c34975c0fa54a, type: 3}
+  - {fileID: 5447220292586899522, guid: 0bdaa868214737a4fa8b5e312f2cd056, type: 3}
+  - {fileID: -6753359562263480842, guid: 468da37adc777d04cbf89015405f73e3, type: 3}
+  - {fileID: -229476992856238890, guid: 88cccea57fc256f418b3dc9857c5f025, type: 3}
+  - {fileID: 7435161486207894376, guid: fed699677ba5dd84b9cdea2077e488ba, type: 3}
+  - {fileID: -2196711858128088193, guid: 69277e3ff76cc6b439ef8174ec80828d, type: 3}
+  - {fileID: -186770239186836948, guid: 7de4881b91b05a14a8b67435b9b9aca1, type: 3}
+  - {fileID: -4878781950993904498, guid: 2e74ef91dd4014d40aa8210b93403389, type: 3}
+  - {fileID: 1364879872217041700, guid: 56a1a75b46682d1428f4293894ae4fa6, type: 3}
+  - {fileID: -8169711341754337103, guid: 2c54eceb80b61a64d893cbb5b8a5fac0, type: 3}
+  - {fileID: -4808723756831732759, guid: 65d3acf5a03c25a4c94ebd762d4ef107, type: 3}
+  - {fileID: 8104382067663344960, guid: 792713c042b70f54ca4309dd3f9d16f8, type: 3}
+  - {fileID: -6012106887506016193, guid: 40433d8f8ef13b0448553794af1a12c6, type: 3}
+  - {fileID: 7831010219372931502, guid: 176ef614cefcf554e900fe2533d40d45, type: 3}
   playerHand: 30
+  currentTag: 0
+  currentSlotNumber: 0
   isQuickSlot: 1

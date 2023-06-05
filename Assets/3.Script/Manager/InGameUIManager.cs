@@ -78,7 +78,7 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] Text SlotItemCount;
 
     [Header("Prefab")]
-    [SerializeField] GameObject[] prepab;  // 필드 드랍용 아이템 프리펩 배열
+    [SerializeField] FieldItem[] prefab;  // 필드 드랍용 아이템 프리펩 배열
 
     private bool isResolution = false;
 
@@ -95,6 +95,8 @@ public class InGameUIManager : MonoBehaviour
     private Coroutine hpCoroutine;
     private Coroutine mpCoroutine;
     private Coroutine expCoroutine;
+
+    Camera camera;
 
     // 플레이어가 현재 퀵슬롯을 사용할지 인벤토리 상호 작용 인지 알수 있는 bool 값 변수
     public bool isQuickSlot = true;
@@ -307,45 +309,45 @@ public class InGameUIManager : MonoBehaviour
         text_currentSlot = DragSlotUI.GetChild(1).GetComponentInChildren<Transform>(true).gameObject;
         SlotItemCount = DragSlotUI.GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
         #region 아이템 프리펩
-        prepab = new GameObject[38];
-        prepab[0] = Resources.Load<GameObject>("Item/Sand").gameObject;
-        prepab[1] = Resources.Load<GameObject>("Item/Grass").gameObject;
-        prepab[2] = Resources.Load<GameObject>("Item/Snow").gameObject;
-        prepab[3] = Resources.Load<GameObject>("Item/Metal").gameObject;
-        prepab[4] = Resources.Load<GameObject>("Item/Gold").gameObject;
-        prepab[5] = Resources.Load<GameObject>("Item/Coal").gameObject;
-        prepab[6] = Resources.Load<GameObject>("Item/Brown_Brick").gameObject;
-        prepab[7] = Resources.Load<GameObject>("Item/Black_Brick").gameObject;
-        prepab[8] = Resources.Load<GameObject>("Item/Random").gameObject;
-        prepab[9] = Resources.Load<GameObject>("Item/Wood").gameObject;
-        prepab[10] = Resources.Load<GameObject>("Item/Archer T1").gameObject;
-        prepab[11] = Resources.Load<GameObject>("Item/Archer T2").gameObject;
-        prepab[12] = Resources.Load<GameObject>("Item/Warrior T1").gameObject;
-        prepab[13] = Resources.Load<GameObject>("Item/Warrior T2").gameObject;
-        prepab[14] = Resources.Load<GameObject>("Item/Archer Helmet T1").gameObject;
-        prepab[15] = Resources.Load<GameObject>("Item/Archer Helmet T2").gameObject;
-        prepab[16] = Resources.Load<GameObject>("Item/Warrior Helmet T1").gameObject;
-        prepab[17] = Resources.Load<GameObject>("Item/Warrior Helmet T2").gameObject;
-        prepab[18] = Resources.Load<GameObject>("Item/Pickaxe").gameObject;
-        prepab[19] = Resources.Load<GameObject>("Item/Axe").gameObject;
-        prepab[20] = Resources.Load<GameObject>("Item/Sword").gameObject;
-        prepab[21] = Resources.Load<GameObject>("Item/Sword T1").gameObject;
-        prepab[22] = Resources.Load<GameObject>("Item/Sword T2").gameObject;
-        prepab[23] = Resources.Load<GameObject>("Item/Bow").gameObject;
-        prepab[24] = Resources.Load<GameObject>("Item/Bow T1").gameObject;
-        prepab[25] = Resources.Load<GameObject>("Item/Bow T2").gameObject;
-        prepab[26] = Resources.Load<GameObject>("Item/Torch Light").gameObject;
-        prepab[27] = Resources.Load<GameObject>("Item/Cloak").gameObject;
-        prepab[28] = Resources.Load<GameObject>("Item/Potal T1").gameObject;
-        prepab[29] = Resources.Load<GameObject>("Item/Potal T2").gameObject;
-        prepab[30] = Resources.Load<GameObject>("Item/Spider Wap").gameObject;
-        prepab[31] = Resources.Load<GameObject>("Item/Slime Drop").gameObject;
-        prepab[32] = Resources.Load<GameObject>("Item/String").gameObject;
-        prepab[33] = Resources.Load<GameObject>("Item/Bon").gameObject;
-        prepab[34] = Resources.Load<GameObject>("Item/Wood Group").gameObject;
-        prepab[35] = Resources.Load<GameObject>("Item/Crafting Table").gameObject;
-        prepab[36] = Resources.Load<GameObject>("Item/Hp Potion").gameObject;
-        prepab[37] = Resources.Load<GameObject>("Item/Mp Potion").gameObject;
+        prefab = new FieldItem[38];
+        prefab[0] = Resources.Load<FieldItem>("Item/Sand");
+        prefab[1] = Resources.Load<FieldItem>("Item/Grass");
+        prefab[2] = Resources.Load<FieldItem>("Item/Snow");
+        prefab[3] = Resources.Load<FieldItem>("Item/Metal");
+        prefab[4] = Resources.Load<FieldItem>("Item/Gold");
+        prefab[5] = Resources.Load<FieldItem>("Item/Coal");
+        prefab[6] = Resources.Load<FieldItem>("Item/Brown_Brick");
+        prefab[7] = Resources.Load<FieldItem>("Item/Black_Brick");
+        prefab[8] = Resources.Load<FieldItem>("Item/Random");
+        prefab[9] = Resources.Load<FieldItem>("Item/Wood");
+        prefab[10] = Resources.Load<FieldItem>("Item/Archer T1");
+        prefab[11] = Resources.Load<FieldItem>("Item/Archer T2");
+        prefab[12] = Resources.Load<FieldItem>("Item/Warrior T1");
+        prefab[13] = Resources.Load<FieldItem>("Item/Warrior T2");
+        prefab[14] = Resources.Load<FieldItem>("Item/Archer Helmet T1");
+        prefab[15] = Resources.Load<FieldItem>("Item/Archer Helmet T2");
+        prefab[16] = Resources.Load<FieldItem>("Item/Warrior Helmet T1");
+        prefab[17] = Resources.Load<FieldItem>("Item/Warrior Helmet T2");
+        prefab[18] = Resources.Load<FieldItem>("Item/Pickaxe");
+        prefab[19] = Resources.Load<FieldItem>("Item/Axe");
+        prefab[20] = Resources.Load<FieldItem>("Item/Sword");
+        prefab[21] = Resources.Load<FieldItem>("Item/Sword T1");
+        prefab[22] = Resources.Load<FieldItem>("Item/Sword T2");
+        prefab[23] = Resources.Load<FieldItem>("Item/Bow");
+        prefab[24] = Resources.Load<FieldItem>("Item/Bow T1");
+        prefab[25] = Resources.Load<FieldItem>("Item/Bow T2");
+        prefab[26] = Resources.Load<FieldItem>("Item/Torch Light");
+        prefab[27] = Resources.Load<FieldItem>("Item/Cloak");
+        prefab[28] = Resources.Load<FieldItem>("Item/Potal T1");
+        prefab[29] = Resources.Load<FieldItem>("Item/Potal T2");
+        prefab[30] = Resources.Load<FieldItem>("Item/Spider Wap");
+        prefab[31] = Resources.Load<FieldItem>("Item/Slime Drop");
+        prefab[32] = Resources.Load<FieldItem>("Item/String");
+        prefab[33] = Resources.Load<FieldItem>("Item/Bon");
+        prefab[34] = Resources.Load<FieldItem>("Item/Wood Group");
+        prefab[35] = Resources.Load<FieldItem>("Item/Crafting Table");
+        prefab[36] = Resources.Load<FieldItem>("Item/Hp Potion");
+        prefab[37] = Resources.Load<FieldItem>("Item/Mp Potion");
         #endregion
         #endregion
     }
@@ -368,6 +370,7 @@ public class InGameUIManager : MonoBehaviour
     private void OnEnable()
     {
         player = GameObject.Find("Player").GetComponent<PlayerControl>();
+        camera = GameObject.Find("MainCamera").GetComponent<Camera>();
 
         menuImage.SetActive(false);
         settingMenu.SetActive(false);
@@ -387,6 +390,7 @@ public class InGameUIManager : MonoBehaviour
         InventoryCheck();
         SetQuickSlot();
         TimerCheck();
+        OutItem();
     }
 
     #region  세팅 ui 설정
@@ -634,7 +638,6 @@ public class InGameUIManager : MonoBehaviour
         }
 
         SkillCheck();
-
         StatusCheck();
     }
 
@@ -1077,6 +1080,18 @@ public class InGameUIManager : MonoBehaviour
         {
             if (playerData.inventory[i].hasItem)
             {
+                if(playerData.inventory[i].quantity <= 0)
+                {
+                    playerData.inventory[i].hasItem = false;
+                    playerData.inventory[i].tag = 0;
+                    playerData.inventory[i].quantity = 0;
+                    playerData.inventory[i].type = null;
+                    itemSlot[i].sprite = null;
+                    itemFrame[i].sprite = frameColor[0];
+                    itemCount[i].SetActive(false);
+                    break;
+                }
+
                 for (int k = 0; k < itemInfo.list_AllItem.Count; k++)
                 {
                     if (playerData.inventory[i].tag == itemInfo.list_AllItem[k].tag)
@@ -1563,7 +1578,7 @@ public class InGameUIManager : MonoBehaviour
 
         if (newObject == null)
         {
-            print("버리기");
+            DropItem(slotNumber, tag, quantity, prefab);
             return;
         }
 
@@ -1696,8 +1711,59 @@ public class InGameUIManager : MonoBehaviour
         timer.text = TimeManager.instance.GetInGameTimeString();
     }
 
-    private void DropItem(int slotNumber, int tag, string type, int quantity)
+    private void DropItem(int slotNumber, int tag, int quantity, FieldItem[] prefab)
     {
-        
+        Inventory inven = player.playerData.inventory[slotNumber];
+        int itemNumber = 0;
+
+        if (!inven.hasItem)
+        {
+            return;
+        }
+
+        for (int i = 0; i < itemInfo.list_AllItem.Count; i++)
+        {
+            if(tag == itemInfo.list_AllItem[i].tag)
+            {
+                itemNumber = i;
+                break;
+            }
+        }
+        prefab[itemNumber].quantity = quantity;
+        Vector3 pos = player.transform.position;
+
+        GameObject item = Instantiate(prefab[itemNumber].gameObject, new Vector3(pos.x, pos.y + 2f, pos.z), Quaternion.identity);
+
+        StartCoroutine(FieldItem_co(item));
+
+        Rigidbody clone = item.GetComponent<Rigidbody>();
+
+        Vector3 throwDirection = Camera.main.transform.forward;
+
+        clone.AddForce(throwDirection * 6f, ForceMode.Impulse);
+
+        inven.quantity = 0;
+        inven.tag = 0;
+        inven.type = null;
+        itemSlot[slotNumber].sprite = null;
+        itemFrame[slotNumber].sprite = frameColor[0];
+        itemCount[slotNumber].SetActive(false);
+    }
+
+    private void OutItem()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            Inventory inven = player.playerData.inventory[playerHand];
+            DropItem(playerHand, inven.tag, inven.quantity, prefab);
+        }
+    }
+
+    private IEnumerator FieldItem_co(GameObject item)
+    {
+        Collider col = item.transform.GetChild(0).GetComponent<Collider>();
+        col.enabled = false;
+        yield return new WaitForSeconds(1f);
+        col.enabled = true;
     }
 }
