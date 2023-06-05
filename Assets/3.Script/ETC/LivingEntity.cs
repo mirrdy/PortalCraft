@@ -67,7 +67,9 @@ public class LivingEntity : MonoBehaviour, IDestroyable
         {
             int rand = Random.Range(1, 4);
             Vector3 dropPoint = transform.position + Random.insideUnitSphere;
+            dropPoint.y = transform.position.y;
             Vector3 dropPointSecond = transform.position + Random.insideUnitSphere;
+            dropPointSecond.y = transform.position.y;
             switch (rand)
             {
                 case 1:

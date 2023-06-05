@@ -92,6 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 633194209356806275}
   - component: {fileID: 721631539028182429}
+  - component: {fileID: 7831010219372931502}
   m_Layer: 0
   m_Name: MpPotion
   m_TagString: Untagged
@@ -143,6 +144,21 @@ LODGroup:
     renderers:
     - renderer: {fileID: 616288900206424851}
   m_Enabled: 1
+--- !u!114 &7831010219372931502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638691739893039577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2327b5da59275df48b9662c544a0feb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagNum: 502
+  type: About
+  quantity: 1
 --- !u!1 &638890035506689779
 GameObject:
   m_ObjectHideFlags: 0

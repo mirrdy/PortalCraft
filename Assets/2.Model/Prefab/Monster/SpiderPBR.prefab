@@ -517,7 +517,9 @@ MonoBehaviour:
   animator: {fileID: 0}
   entityController: {fileID: 0}
   exp: {fileID: 5924249166686555895, guid: 549f1432cd6b25c4ebe0e161b61dca98, type: 3}
-  dropTables: []
+  dropTables:
+  - {fileID: 7435161486207894376, guid: fed699677ba5dd84b9cdea2077e488ba, type: 3}
+  - {fileID: -186770239186836948, guid: 7de4881b91b05a14a8b67435b9b9aca1, type: 3}
   target: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
   patrolRange: 0

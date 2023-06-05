@@ -204,6 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 865365360127653467}
   - component: {fileID: 865365360127653466}
+  - component: {fileID: -6753359562263480842}
   m_Layer: 12
   m_Name: Toach
   m_TagString: Untagged
@@ -257,6 +258,21 @@ LODGroup:
     renderers:
     - renderer: {fileID: 865365358952869864}
   m_Enabled: 1
+--- !u!114 &-6753359562263480842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865365360127653465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2327b5da59275df48b9662c544a0feb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagNum: 209
+  type: Arms
+  quantity: 1
 --- !u!1 &865365360225193687
 GameObject:
   m_ObjectHideFlags: 0

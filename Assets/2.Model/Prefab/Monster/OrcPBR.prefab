@@ -1940,7 +1940,9 @@ MonoBehaviour:
   animator: {fileID: 0}
   entityController: {fileID: 0}
   exp: {fileID: 5924249166686555895, guid: 549f1432cd6b25c4ebe0e161b61dca98, type: 3}
-  dropTables: []
+  dropTables:
+  - {fileID: -2196711858128088193, guid: 69277e3ff76cc6b439ef8174ec80828d, type: 3}
+  - {fileID: 1364879872217041700, guid: 56a1a75b46682d1428f4293894ae4fa6, type: 3}
   target: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
   patrolRange: 0
