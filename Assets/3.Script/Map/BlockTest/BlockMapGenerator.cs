@@ -175,19 +175,34 @@ public class BlockMapGenerator : MonoBehaviour
     {
         for(int i=0; i<islandPos.Length; i++)
         {
+            if(!isCreatedPortal[i])
+            {
+                SetDefaultPortalPos(i);
+            }
             GameObject portal = Instantiate(portalInfo);
             portal.transform.SetParent(islands[i].transform);
             portal.transform.localPosition = portalPos[i];
-
         }
-
-
-        for(int i=0; i<islandPos.Length; i++)
+        SetPortalLink();
+    }
+    private void SetDefaultPortalPos(int islandIndex)
+    {
+        for (int y = 0; y < height; y++)
         {
-            if(i < islandPos.Length - 1)
+            if (worldBlocks[islandIndex, widthX / 2, y, widthZ / 2].isVisible)
+            {
+                portalPos[islandIndex] = worldBlocks[islandIndex, widthX / 2, y, widthZ / 2].block.transform.localPosition + Vector3.up;
+            }
+        }
+    }
+    private void SetPortalLink()
+    {
+        for (int i = 0; i < islandPos.Length; i++)
+        {
+            if (i < islandPos.Length - 1)
             {
                 PortalController portal1 = islands[i].GetComponentInChildren<PortalController>();
-                PortalController portal2 = islands[i+1].GetComponentInChildren<PortalController>();
+                PortalController portal2 = islands[i + 1].GetComponentInChildren<PortalController>();
 
                 portal1.destPortal = portal2;
                 portal2.destPortal = portal1;
@@ -198,10 +213,24 @@ public class BlockMapGenerator : MonoBehaviour
     {
         for (int i = 0; i < islandPos.Length; i++)
         {
+            if(!isCreatedSpawner[i])
+            {
+                SetDefaultMonsterSpawnerPos(i);
+            }
             //GameObject spawner = Instantiate(monsterSpawnerInfo, monsterSpawnerPos[i], Quaternion.identity);
             GameObject spawner = Instantiate(monsterSpawnerInfo);
             spawner.transform.SetParent(islands[i].transform);
             spawner.transform.localPosition = monsterSpawnerPos[i];
+        }
+    }
+    private void SetDefaultMonsterSpawnerPos(int islandIndex)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            if (worldBlocks[islandIndex, widthX / 3, y, widthZ / 3].isVisible)
+            {
+                monsterSpawnerPos[islandIndex] = worldBlocks[islandIndex, widthX / 3, y, widthZ / 3].block.transform.localPosition + Vector3.up;
+            }
         }
     }
 

@@ -16,10 +16,7 @@ public class PortalController : MonoBehaviour
                 {
                     StartCoroutine(SetEnablePortalCollider(coll));
                 }
-
-                destPortal.transform.parent.gameObject.SetActive(true);
-                player.transform.position = destPortal.transform.position + Vector3.forward;
-                transform.parent.gameObject.SetActive(false);
+                StartCoroutine(OperatePortal(player));
             }
         }
     }
@@ -28,5 +25,15 @@ public class PortalController : MonoBehaviour
         coll.enabled = false;
         yield return new WaitForSeconds(3f);
         coll.enabled = true;
+    }
+    IEnumerator OperatePortal(PlayerControl player)
+    {
+        destPortal.transform.parent.gameObject.SetActive(true);
+        while (destPortal.transform.parent.gameObject.activeSelf)
+        {
+            yield return null;
+        }
+        player.transform.position = destPortal.transform.position + Vector3.forward;
+        transform.parent.gameObject.SetActive(false);
     }
 }
