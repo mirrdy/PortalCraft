@@ -12,8 +12,15 @@ public class PlayerControl : MonoBehaviour, IDamage
     public CameraView currentView = CameraView.ThirdPerson;
 
     //장착아이템 열거형
-    public enum ItemType { Empty = 0, Sword, Bow, Potion, Block, Torch }
+    public enum ItemType { Empty = 0, Arms, About, Block}
     [SerializeField] private ItemType currentItem = ItemType.Empty;
+
+    [Header("현재 장착중인 아이템")]
+    public GameObject equipItem;
+
+    public string quickSlotItem_Type;
+
+    public int quickSlotItem_Tag;
 
     // --------------- 컴포넌트들 ----------------
     private Animator animator;
@@ -73,6 +80,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private bool hasAnimator;
 
+
     #region 애니메이션 파라미터ID
     private int animID_Speed;
     private int animID_Ground;
@@ -96,9 +104,6 @@ public class PlayerControl : MonoBehaviour, IDamage
     #endregion
 
 
-    //public GameObject[] QuickSlotItem;
-    [Header("현재 장착중인 아이템")]
-    public GameObject equipItem;
     private Transform rayPoint;
     
 
@@ -112,6 +117,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     public event WhenPlayerDie whenPlayerDie;
 
     private InGameUIManager uiManager;
+
+    public List<GameObject> ItemList = new List<GameObject>();
 
 
 
@@ -162,7 +169,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         playerData.inventory[24].quantity = 1;
         playerData.inventory[24].type = "Helmet";
         #endregion
-        //QuickSlotItem = new GameObject[8];
     }
     private void Update()
     {
@@ -171,6 +177,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         JumpAndGravity();
         DodgeRoll();
         Attack();
+        //ItemSelect();
     }
 
     private void GroundCheck()
@@ -230,14 +237,14 @@ public class PlayerControl : MonoBehaviour, IDamage
                     }
                     if (input.move != Vector2.zero && input.attack) //움직임O && 공격O
                     {
-                        if (currentItem != ItemType.Potion)
+                        if (currentItem != ItemType.About)
                         {
                             transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
                         }
                     }
                     if (input.move == Vector2.zero && input.attack) //움직임X && 공격O
                     {
-                        if(currentItem != ItemType.Potion)
+                        if(currentItem != ItemType.About)
                         {
                             transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
                         }                       
@@ -319,7 +326,6 @@ public class PlayerControl : MonoBehaviour, IDamage
 
                 verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
-                // update animator if using character
                 if (hasAnimator)
                 {
                     animator.SetBool(animID_Jump, true);
@@ -398,33 +404,47 @@ public class PlayerControl : MonoBehaviour, IDamage
                     }
                     break;
                 }
-            case ItemType.Sword:
+            case ItemType.Arms:
                 {
-                    float equipItem_attackRate = equipItem.GetComponent<Sword>().attackRate;
-                    CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
-                    if (input.attack && CanAction)
+                    float equipItem_attackRate;
+
+                    if (equipItem.TryGetComponent(out Sword sword))
                     {
-                        animator.SetFloat(animID_AttackSpeed, 0.533f / equipItem_attackRate);
-                        animator.SetTrigger(animID_Swing);
-                        equipItem.GetComponent<Sword>().Use();
-                        ActionCool = 0;
+                        equipItem_attackRate = sword.attackRate;
+                        CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
+                        if (input.attack && CanAction)
+                        {
+                            animator.SetFloat(animID_AttackSpeed, 0.533f / equipItem_attackRate);
+                            animator.SetTrigger(animID_Swing);
+                            equipItem.GetComponent<Sword>().Use();
+                            ActionCool = 0;
+                        }
+                    }
+                    else if (equipItem.TryGetComponent(out Bow bow))
+                    {
+                        equipItem_attackRate = bow.attackRate;
+                        CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
+                        if (input.attack && CanAction)
+                        {
+                            animator.SetFloat(animID_AttackSpeed, 0.667f / equipItem_attackRate);
+                            animator.SetTrigger(animID_Shot);
+                            equipItem.GetComponent<Bow>().Use();
+                            ActionCool = 0;
+                        }
+                    }
+                    else if (equipItem.TryGetComponent(out Torch torch))
+                    {
+                        equipItem_attackRate = 0.5f; //0.5f를 torch.attackRate 로 변경 
+                        CanAction = ActionCool > 1f * 0.5f; //0.5f 를 equipItem 으로 변경
+                        if (input.attack && CanAction)
+                        {
+                            CreateTorch();
+                            ActionCool = 0;
+                        }
                     }
                     break;
                 }
-            case ItemType.Bow:
-                {
-                    float equipItem_attackRate = equipItem.GetComponent<Bow>().attackRate;
-                    CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
-                    if (input.attack && CanAction)
-                    {
-                        animator.SetFloat(animID_AttackSpeed, 0.667f / equipItem_attackRate);
-                        animator.SetTrigger(animID_Shot);
-                        equipItem.GetComponent<Bow>().Use();
-                        ActionCool = 0;
-                    }
-                    break;
-                }
-            case ItemType.Potion:
+            case ItemType.About:
                 {
                     CanAction = ActionCool > 1f * 2.33f; //1f를 playerData.status.attackSpeed 로 넣어야함
                     if (input.attack && CanAction)
@@ -441,16 +461,6 @@ public class PlayerControl : MonoBehaviour, IDamage
                     if (input.attack && CanAction)
                     {
                         CreateBlock();
-                        ActionCool = 0;
-                    }
-                    break;
-                }
-            case ItemType.Torch:
-                {
-                    CanAction = ActionCool > 1f * 0.5f;
-                    if (input.attack && CanAction)
-                    {
-                        CreateTorch();
                         ActionCool = 0;
                     }
                     break;
@@ -603,10 +613,74 @@ public class PlayerControl : MonoBehaviour, IDamage
             }
         }
     }
+
+
+    private void ItemListInActive()
+    {
+        for (int i = 0; i < ItemList.Count; i++)
+        {
+            ItemList[i].SetActive(false);
+        }
+    }
+
     private void ItemSelect()
     {
+        quickSlotItem_Type = uiManager.GetPlayerHandType();
+        quickSlotItem_Tag = uiManager.GetPlayerHandTag();
 
+        #region 아이템타입
+        if (quickSlotItem_Type == null)
+        {
+            currentItem = ItemType.Empty;
+        }
+        else if (quickSlotItem_Type == "Arms")
+        {
+            currentItem = ItemType.Arms;
+        }
+        else if (quickSlotItem_Type == "About")
+        {
+            currentItem = ItemType.Arms;
+        }
+        else if (quickSlotItem_Type == "Block")
+        {
+            currentItem = ItemType.Block;
+        }
+        #endregion
+        #region 아이템태그
+        if (quickSlotItem_Tag == 203)
+        {
+            ItemListInActive();
+            ItemList[3].SetActive(true);
+            equipItem = ItemList[3];
+        }
+        else if (quickSlotItem_Tag == 204)
+        {
+            equipItem = ItemList[4];
+        }
+        else if (quickSlotItem_Tag == 205)
+        {
+            equipItem = ItemList[5];
+        }
+        else if (quickSlotItem_Tag == 206)
+        {
+            equipItem = ItemList[6];
+        }
+        else if (quickSlotItem_Tag == 207)
+        {
+            equipItem = ItemList[7];
+        }
+        else if (quickSlotItem_Tag == 208)
+        {
+            equipItem = ItemList[8];
+        }
+        #endregion
     }
+
+
+
+
+
+
     private void Skill_1() //Q 
     {
         
@@ -711,6 +785,8 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
     public int playerLevel;
     [XmlElement]
     public float playerExp;
+    [XmlElement]
+    public float GameTime;
     [XmlElement]
     public Status status;
     [XmlElement]
