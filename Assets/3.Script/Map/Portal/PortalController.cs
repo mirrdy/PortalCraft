@@ -14,7 +14,7 @@ public class PortalController : MonoBehaviour
             {
                 if (destPortal.TryGetComponent(out Collider coll))
                 {
-                    StartCoroutine(SetEnablePortalCollider(coll));
+                    //StartCoroutine(SetEnablePortalCollider(coll));
                 }
                 StartCoroutine(OperatePortal(player));
             }
@@ -29,11 +29,22 @@ public class PortalController : MonoBehaviour
     IEnumerator OperatePortal(PlayerControl player)
     {
         destPortal.transform.parent.gameObject.SetActive(true);
-        while (destPortal.transform.parent.gameObject.activeSelf)
+
+        int lastIndex = destPortal.transform.parent.childCount-1;
+        Transform lastChild = destPortal.transform.parent.GetChild(lastIndex);
+
+        while (!lastChild.gameObject.activeSelf)
         {
             yield return null;
         }
+        player.TryGetComponent(out CharacterController controller);
+        controller.enabled = false;
+        
+        Debug.Log($"목표포탈 위치: {destPortal.transform.position}");
         player.transform.position = destPortal.transform.position + Vector3.forward;
+        Debug.Log($"플레이어 위치: {player.transform.position}");
+
+        controller.enabled = true;
         transform.parent.gameObject.SetActive(false);
     }
 }
