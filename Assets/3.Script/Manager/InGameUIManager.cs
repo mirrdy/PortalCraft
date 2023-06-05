@@ -69,13 +69,16 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] Text skillPoint; // 현재 스킬 포인트 표시
 
     [Header("Player Target Image")]
-    [SerializeField] GameObject target;
+    [SerializeField] GameObject target;  // 플레이어 타켓 표시 용 오브젝트
 
     [Header("Current Slot")]
     [SerializeField] GameObject currentSlot;
     [SerializeField] Image currentImage;
     [SerializeField] GameObject text_currentSlot;
     [SerializeField] Text SlotItemCount;
+
+    [Header("Prefab")]
+    [SerializeField] GameObject[] prepab;  // 필드 드랍용 아이템 프리펩 배열
 
     private bool isResolution = false;
 
@@ -228,7 +231,7 @@ public class InGameUIManager : MonoBehaviour
         image_Item[2] = Resources.Load<Sprite>("Sprites/Snow");
         image_Item[3] = Resources.Load<Sprite>("Sprites/Metal");
         image_Item[4] = Resources.Load<Sprite>("Sprites/Gold");
-        image_Item[5] = Resources.Load<Sprite>("Sprites/Clal");
+        image_Item[5] = Resources.Load<Sprite>("Sprites/Coal");
         image_Item[6] = Resources.Load<Sprite>("Sprites/Brown_Brick");
         image_Item[7] = Resources.Load<Sprite>("Sprites/Black_Brick");
         image_Item[8] = Resources.Load<Sprite>("Sprites/Random");
@@ -1464,21 +1467,21 @@ public class InGameUIManager : MonoBehaviour
     public void NewChangedItme(int tag, int newSlot)
     {
         PlayerData playerData = player.playerData;
-        int currentSlot = 0;
+        int itemNumber = 0;
         
         for(int i = 0; i < itemInfo.list_AllItem.Count; i++)
         {
             if(tag == itemInfo.list_AllItem[i].tag)
             {
-                currentSlot = i;
+                itemNumber = i;
                 break;
             }
         }
 
         playerData.inventory[newSlot].hasItem = true;
-        playerData.inventory[newSlot].tag = itemInfo.list_AllItem[currentSlot].tag;
-        playerData.inventory[newSlot].quantity = itemInfo.list_AllItem[currentSlot].quantity;
-        playerData.inventory[newSlot].type = itemInfo.list_AllItem[currentSlot].type;
+        playerData.inventory[newSlot].tag = itemInfo.list_AllItem[itemNumber].tag;
+        playerData.inventory[newSlot].quantity = itemInfo.list_AllItem[itemNumber].quantity;
+        playerData.inventory[newSlot].type = itemInfo.list_AllItem[itemNumber].type;
 
         InventoryCheck();
         StatusCheck();
@@ -1658,5 +1661,10 @@ public class InGameUIManager : MonoBehaviour
     private void TimerCheck()
     {
         timer.text = TimeManager.instance.GetInGameTimeString();
+    }
+
+    private void DropItem(int slotNumber, int tag, string type, int quantity)
+    {
+        
     }
 }
