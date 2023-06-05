@@ -96,6 +96,7 @@ MonoBehaviour:
   monsterSpawnerInfo: {fileID: 1466419724128333080, guid: 3fc726b3b8ba2a943ae93a1e47d4fbed, type: 3}
   portalInfo: {fileID: 8944633514463417326, guid: 1664a6a08b7d2224d9b9ded75afe6b47, type: 3}
   prefab_playerSpawner: {fileID: 1520078118186438496, guid: 7d99bf3659f1d5d459297b8a03b1371f, type: 3}
+  prefab_Deadzone: {fileID: 7441867424590624264, guid: 22ec6d1ca274ed84190f8dd3c252f24a, type: 3}
   waveLength: 50
   amplitude: 20
   groundHeightOffset: 25

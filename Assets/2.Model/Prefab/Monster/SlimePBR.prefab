@@ -464,7 +464,7 @@ MonoBehaviour:
   dropExpNum: 0
   animator: {fileID: 0}
   entityController: {fileID: 0}
-  exp: {fileID: 1311826795877879922, guid: 549f1432cd6b25c4ebe0e161b61dca98, type: 3}
+  exp: {fileID: 5924249166686555895, guid: 549f1432cd6b25c4ebe0e161b61dca98, type: 3}
   dropTables: []
   target: {fileID: 0}
   spawnPoint: {x: 0, y: 0, z: 0}
