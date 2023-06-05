@@ -12,11 +12,13 @@ public class PlayerControl : MonoBehaviour, IDamage
     public CameraView currentView = CameraView.ThirdPerson;
 
     //장착아이템 열거형
-    public enum ItemType { Empty = 0, Sword, Bow, Potion, Block, Torch }
+    public enum ItemType { Empty = 0, Arms, About, Block}
     [SerializeField] private ItemType currentItem = ItemType.Empty;
 
     [Header("현재 장착중인 아이템")]
     public GameObject equipItem;
+
+    public string quickSlotItem;
 
     // --------------- 컴포넌트들 ----------------
     private Animator animator;
@@ -173,6 +175,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         JumpAndGravity();
         DodgeRoll();
         Attack();
+        //ItemSelect();
     }
 
     private void GroundCheck()
@@ -232,14 +235,14 @@ public class PlayerControl : MonoBehaviour, IDamage
                     }
                     if (input.move != Vector2.zero && input.attack) //움직임O && 공격O
                     {
-                        if (currentItem != ItemType.Potion)
+                        if (currentItem != ItemType.About)
                         {
                             transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
                         }
                     }
                     if (input.move == Vector2.zero && input.attack) //움직임X && 공격O
                     {
-                        if(currentItem != ItemType.Potion)
+                        if(currentItem != ItemType.About)
                         {
                             transform.rotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
                         }                       
@@ -400,33 +403,47 @@ public class PlayerControl : MonoBehaviour, IDamage
                     }
                     break;
                 }
-            case ItemType.Sword:
+            case ItemType.Arms:
                 {
-                    float equipItem_attackRate = equipItem.GetComponent<Sword>().attackRate;
-                    CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
-                    if (input.attack && CanAction)
+                    float equipItem_attackRate;
+
+                    if (equipItem.TryGetComponent(out Sword sword))
                     {
-                        animator.SetFloat(animID_AttackSpeed, 0.533f / equipItem_attackRate);
-                        animator.SetTrigger(animID_Swing);
-                        equipItem.GetComponent<Sword>().Use();
-                        ActionCool = 0;
+                        equipItem_attackRate = sword.attackRate;
+                        CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
+                        if (input.attack && CanAction)
+                        {
+                            animator.SetFloat(animID_AttackSpeed, 0.533f / equipItem_attackRate);
+                            animator.SetTrigger(animID_Swing);
+                            equipItem.GetComponent<Sword>().Use();
+                            ActionCool = 0;
+                        }
+                    }
+                    else if (equipItem.TryGetComponent(out Bow bow))
+                    {
+                        equipItem_attackRate = bow.attackRate;
+                        CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
+                        if (input.attack && CanAction)
+                        {
+                            animator.SetFloat(animID_AttackSpeed, 0.667f / equipItem_attackRate);
+                            animator.SetTrigger(animID_Shot);
+                            equipItem.GetComponent<Bow>().Use();
+                            ActionCool = 0;
+                        }
+                    }
+                    else if (equipItem.TryGetComponent(out Torch torch))
+                    {
+                        equipItem_attackRate = 0.5f; //0.5f를 torch.attackRate 로 변경 
+                        CanAction = ActionCool > 1f * 0.5f; //0.5f 를 equipItem 으로 변경
+                        if (input.attack && CanAction)
+                        {
+                            CreateTorch();
+                            ActionCool = 0;
+                        }
                     }
                     break;
                 }
-            case ItemType.Bow:
-                {
-                    float equipItem_attackRate = equipItem.GetComponent<Bow>().attackRate;
-                    CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
-                    if (input.attack && CanAction)
-                    {
-                        animator.SetFloat(animID_AttackSpeed, 0.667f / equipItem_attackRate);
-                        animator.SetTrigger(animID_Shot);
-                        equipItem.GetComponent<Bow>().Use();
-                        ActionCool = 0;
-                    }
-                    break;
-                }
-            case ItemType.Potion:
+            case ItemType.About:
                 {
                     CanAction = ActionCool > 1f * 2.33f; //1f를 playerData.status.attackSpeed 로 넣어야함
                     if (input.attack && CanAction)
@@ -443,16 +460,6 @@ public class PlayerControl : MonoBehaviour, IDamage
                     if (input.attack && CanAction)
                     {
                         CreateBlock();
-                        ActionCool = 0;
-                    }
-                    break;
-                }
-            case ItemType.Torch:
-                {
-                    CanAction = ActionCool > 1f * 0.5f;
-                    if (input.attack && CanAction)
-                    {
-                        CreateTorch();
                         ActionCool = 0;
                     }
                     break;
@@ -610,8 +617,25 @@ public class PlayerControl : MonoBehaviour, IDamage
 
 
     private void ItemSelect()
-    { 
-        //currentItem = ItemType.Empty;
+    {
+        quickSlotItem = uiManager.GetPlayerHand();
+
+        if (quickSlotItem == null)
+        {
+            currentItem = ItemType.Empty;
+        }
+        else if (quickSlotItem == "Arms")
+        {
+            currentItem = ItemType.Arms;
+        }
+        else if (quickSlotItem == "About")
+        {
+            currentItem = ItemType.Arms;
+        }
+        else if (quickSlotItem == "Block")
+        {
+            currentItem = ItemType.Block;
+        }
     }
 
 
