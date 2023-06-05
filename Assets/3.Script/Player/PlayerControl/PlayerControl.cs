@@ -158,7 +158,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
         jumpCoolDelta = jumpCool;
         fallTimeDelta = fallTime;
-        BuiltCube_List = GameObject.FindGameObjectWithTag("BuiltCube_List").transform;
+        //BuiltCube_List = GameObject.FindGameObjectWithTag("BuiltCube_List").transform;
 
         uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
         uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);

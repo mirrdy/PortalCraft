@@ -10187,6 +10187,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188722458501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10234,6 +10235,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!224 &2162192188727719874
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10356,6 +10358,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188755301766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10467,6 +10470,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188759762533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10514,6 +10518,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188760836283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10779,6 +10784,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188832447751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11119,6 +11125,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188897292567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11402,6 +11409,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!222 &2162192188958725105
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11495,6 +11503,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188960885531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11748,6 +11757,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189047451774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11913,6 +11923,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189091636410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12046,6 +12057,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189121665616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12507,6 +12519,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!1 &2162192189274924795
 GameObject:
   m_ObjectHideFlags: 0
@@ -12666,6 +12679,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189315995314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12795,6 +12809,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189329996331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13086,6 +13101,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189457490200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13411,6 +13427,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189624999713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13548,6 +13565,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189637095916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13659,6 +13677,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189651435994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13952,6 +13971,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189737462355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14063,6 +14083,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189755046048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14110,6 +14131,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189755954088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14187,6 +14209,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189778240756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14693,6 +14716,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189916274914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15140,6 +15164,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190079128856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15277,6 +15302,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190119878692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15461,6 +15487,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190134459130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15672,6 +15699,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!1 &2162192190214708154
 GameObject:
   m_ObjectHideFlags: 0
@@ -15827,6 +15855,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190236393556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16000,6 +16029,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190275245156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16227,6 +16257,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190335605307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16597,6 +16628,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!1 &2162192190466598476
 GameObject:
   m_ObjectHideFlags: 0
@@ -16632,6 +16664,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190478400146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16731,6 +16764,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190505474903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16993,6 +17027,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190548865619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17070,6 +17105,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190577601099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17633,6 +17669,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190768025583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17828,6 +17865,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190810576648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17909,6 +17947,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190819161909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17926,6 +17965,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190819161912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18174,6 +18214,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!4 &2163183636776602113
 Transform:
   m_ObjectHideFlags: 0
@@ -26111,7 +26152,7 @@ MonoBehaviour:
     playerName: 
     playerLevel: 0
     playerExp: 0
-    GameTime: 0
+    gameTime: 0
     status:
       maxHp: 0
       maxMp: 0
@@ -29759,6 +29800,7 @@ MonoBehaviour:
   currentImage: {fileID: 2162192188727719933}
   text_currentSlot: {fileID: 2162192188958725108}
   SlotItemCount: {fileID: 2162192188842623617}
+  prepab: []
   playerHand: 30
   currentTag: 0
   currentSlotNumber: 0
@@ -47496,6 +47538,53 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &8411414744260904688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8411414744260904702}
+  - component: {fileID: 8411414744260904689}
+  m_Layer: 0
+  m_Name: TimeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &8411414744260904689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8411414744260904688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab13e1a923e92c41bbf48446bc831a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingameTime: 0
+  timeString: 
+  isNight: 0
+  timeSpeedMultiply: 24
+--- !u!4 &8411414744260904702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8411414744260904688}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 90.02176, y: 19.318851, z: 71.047646}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!222 &8412113011009806754
 CanvasRenderer:
   m_ObjectHideFlags: 0
