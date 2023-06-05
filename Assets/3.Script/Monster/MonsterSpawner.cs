@@ -20,6 +20,7 @@ public class MonsterSpawner : MonoBehaviour
             randomSpawnPosition[i] = transform.position + Random.insideUnitSphere * spawnRange;
             randomSpawnPosition[i].y = transform.position.y;
             spawnList[i] = Instantiate(spawnMonsterList[i], randomSpawnPosition[i], Quaternion.identity);
+            spawnList[i].transform.SetParent(gameObject.transform);
             spawnList[i].gameObject.SetActive(false);
         }
     }
