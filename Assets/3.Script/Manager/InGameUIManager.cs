@@ -1658,6 +1658,13 @@ public class InGameUIManager : MonoBehaviour
         return playerData.tag;
     }
 
+    public int GetPlayerHandQuantity()
+    {
+        Inventory playerData = player.playerData.inventory[playerHand];
+
+        return playerData.quantity;
+    }
+
     private void TimerCheck()
     {
         timer.text = TimeManager.instance.GetInGameTimeString();
