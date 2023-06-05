@@ -21,7 +21,7 @@ public class LivingEntity : MonoBehaviour, IDestroyable
     public Animator animator;
     public CharacterController entityController;
 
-    [SerializeField] Exp exp;
+    [SerializeField] GameObject exp;
 
     public List<FieldItem> dropTables;
 
