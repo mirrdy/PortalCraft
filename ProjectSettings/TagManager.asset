@@ -18,6 +18,7 @@ TagManager:
   - Weapon_L
   - Weapon_R
   - BuiltCube_List
+  - Head
   layers:
   - Default
   - TransparentFX
