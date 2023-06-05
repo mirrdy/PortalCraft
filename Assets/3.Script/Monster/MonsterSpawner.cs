@@ -42,6 +42,7 @@ public class MonsterSpawner : MonoBehaviour
             // 비활성화된 몬스터를 찾아서 스폰
             for (int i = 0; i < spawnList.Length; i++)
             {
+                spawnList[i].transform.position = randomSpawnPosition[i];
                 if (!spawnList[i].activeSelf)
                 {
                     if (Physics.Raycast(randomSpawnPosition[i] + Vector3.up * 1f, Vector3.down, out RaycastHit hit, 3f))

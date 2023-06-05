@@ -18,7 +18,6 @@ public class Exp : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
-            Debug.Log("트리거 실행됨");
             other.transform.TryGetComponent(out PlayerControl player);
             player.GetExp(exp);
             Destroy(gameObject);
