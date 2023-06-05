@@ -341,7 +341,7 @@ public class InGameUIManager : MonoBehaviour
         InventoryOnOff();
         InventoryCheck();
         SetQuickSlot();
-        Test();
+        TimerCheck();
     }
 
     #region  세팅 ui 설정
@@ -1641,17 +1641,6 @@ public class InGameUIManager : MonoBehaviour
     }
     #endregion
 
-    #region 블록 생성 메소드 테스트 용
-    void Test()
-    {
-        float x = Input.GetAxisRaw("Mouse ScrollWheel");
-        if (x != 0f)
-        {
-            AddItem(10, "Block", 1, -1);
-        }
-    }
-    #endregion
-
     public string GetPlayerHandType()
     {
         Inventory playerData = player.playerData.inventory[playerHand];
@@ -1668,6 +1657,6 @@ public class InGameUIManager : MonoBehaviour
 
     private void TimerCheck()
     {
-        
+        timer.text = TimeManager.instance.GetInGameTimeString();
     }
 }
