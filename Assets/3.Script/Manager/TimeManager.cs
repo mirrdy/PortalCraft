@@ -8,8 +8,11 @@ public class TimeManager : MonoBehaviour
     public float ingameTime;
     public string timeString;
     public bool isNight;
+    public int timeSpeedMultiply = 24;
     public delegate void PassedSingleMinute();
     public PassedSingleMinute passedSingleMinute;
+
+    private Light mapLight;
 
     private void Awake()
     {
@@ -25,6 +28,7 @@ public class TimeManager : MonoBehaviour
 
     void Start()
     {
+        mapLight = FindObjectOfType<Light>();
         LoadIngameTime();
     }
     private void LoadIngameTime()
@@ -41,14 +45,14 @@ public class TimeManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        ingameTime += Time.fixedDeltaTime;
+        ingameTime += Time.fixedDeltaTime * timeSpeedMultiply;
         CheckItsNight();
     }
     public string GetInGameTimeString()
     {
         string timeStr;
-        timeStr = "" + ingameTime.ToString("00.00");
-        timeStr = timeStr.Replace(".", ":");
+
+        timeStr = System.TimeSpan.FromSeconds(ingameTime).ToString(@"hh\:mm");
 
         return timeStr;
     }
@@ -56,13 +60,21 @@ public class TimeManager : MonoBehaviour
     {
         int.TryParse(GetInGameTimeString().Substring(0, 2), out int hour);
 
-        if (hour < 6 && hour >= 18)
+        if(isNight)
         {
-            isNight = true;
+            if(hour >= 6 && hour < 18)
+            {
+                isNight = false;
+                mapLight.transform.Rotate(new Vector3(180, 0));
+            }
         }
         else
         {
-            isNight = false;
+            if(hour < 6 || hour >= 18)
+            {
+                isNight = true;
+                mapLight.transform.Rotate(new Vector3(180, 0));
+            }
         }
     }
 }
