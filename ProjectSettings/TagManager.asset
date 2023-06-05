@@ -17,6 +17,7 @@ TagManager:
   - Boss
   - Weapon_L
   - Weapon_R
+  - BuiltCube_List
   layers:
   - Default
   - TransparentFX
