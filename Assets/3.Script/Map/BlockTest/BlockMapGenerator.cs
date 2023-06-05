@@ -113,7 +113,7 @@ public class BlockMapGenerator : MonoBehaviour
     [Header("¼¶ À§Ä¡")]
     public Vector3[] islandPos;
     private GameObject[] islands;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -121,7 +121,6 @@ public class BlockMapGenerator : MonoBehaviour
         SetCollisionLayer();
         StartCoroutine(InitGame());
     }
-
     private void CreateIsland()
     {
         islands = new GameObject[islandPos.Length];

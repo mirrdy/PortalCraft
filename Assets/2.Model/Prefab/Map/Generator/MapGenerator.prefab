@@ -50,7 +50,7 @@ MonoBehaviour:
     isFlat: 0
     block: {fileID: 8166117886805122766, guid: e43caa5e91edea449ab9fd27a8323770, type: 3}
   - region: 2
-    height: 35
+    height: 20
     isFlat: 0
     block: {fileID: 2798252439276858965, guid: 103261567964d944b993222ea36d9b08, type: 3}
   - region: 0
