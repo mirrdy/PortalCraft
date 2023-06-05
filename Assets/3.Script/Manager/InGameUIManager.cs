@@ -1650,10 +1650,17 @@ public class InGameUIManager : MonoBehaviour
     }
     #endregion
 
-    public string GetPlayerHand()
+    public string GetPlayerHandType()
     {
         Inventory playerData = player.playerData.inventory[playerHand];
 
         return playerData.type;
+    }
+
+    public int GetPlayerHandTag()
+    {
+        Inventory playerData = player.playerData.inventory[playerHand];
+
+        return playerData.tag;
     }
 }
