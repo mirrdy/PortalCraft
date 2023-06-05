@@ -4368,6 +4368,7 @@ MonoBehaviour:
     playerName: 
     playerLevel: 0
     playerExp: 0
+    gameTime: 0
     status:
       maxHp: 0
       maxMp: 0
@@ -4388,126 +4389,167 @@ MonoBehaviour:
       hasSkill: 0
     inventory:
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
     - tag: 0
+      type: 
       quantity: 0
       hasItem: 0
   saveNumber: 0

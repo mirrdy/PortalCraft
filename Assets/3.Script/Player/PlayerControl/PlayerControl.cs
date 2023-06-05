@@ -786,7 +786,7 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
     [XmlElement]
     public float playerExp;
     [XmlElement]
-    public float GameTime;
+    public float gameTime;
     [XmlElement]
     public Status status;
     [XmlElement]
