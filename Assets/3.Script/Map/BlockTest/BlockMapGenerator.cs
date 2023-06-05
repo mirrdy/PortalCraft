@@ -94,6 +94,8 @@ public class BlockMapGenerator : MonoBehaviour
     public GameObject prefab_playerSpawner;
     private Vector3 playerSpawnerPos;
     private bool isCreatedPlayerSpawner;
+    // 데드존
+    public GameObject prefab_Deadzone;
 
 
     [Header("맵정보")]
@@ -140,7 +142,7 @@ public class BlockMapGenerator : MonoBehaviour
         int fieldItemLayer = LayerMask.NameToLayer("FieldItem");
         int monsterLayer = LayerMask.NameToLayer("Monster");
 
-        Physics.IgnoreLayerCollision(fieldItemLayer, playerLayer, false);
+        Physics.IgnoreLayerCollision(fieldItemLayer, playerLayer);
         Physics.IgnoreLayerCollision(fieldItemLayer, fieldItemLayer);
         Physics.IgnoreLayerCollision(fieldItemLayer, monsterLayer);
     }
@@ -267,6 +269,8 @@ public class BlockMapGenerator : MonoBehaviour
                 }
                 yield return null;
             }
+            GameObject deadzone = Instantiate(prefab_Deadzone, new Vector3(islandPos[i].x, 0, islandPos[i].z), Quaternion.identity);
+            deadzone.transform.localScale = new Vector3(widthX, 1, widthZ);
         }
         islands[1].SetActive(false);
         Debug.Log("생성끝");

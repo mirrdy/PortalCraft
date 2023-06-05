@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2327b5da59275df48b9662c544a0feb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagNum: 0
+  tagNum: 1
   type: Block
   quantity: 1
 --- !u!54 &1546307206216177249
