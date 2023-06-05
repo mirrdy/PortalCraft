@@ -656,62 +656,73 @@ public class PlayerControl : MonoBehaviour, IDamage
         #endregion
 
         #region 아이템태그
-        if (quickSlotItem_Tag == 203)
+        if (quickSlotItem_Tag >= 201 && quickSlotItem_Tag <= 209)
         {
             ItemList_Equip_InActive();
-            ItemList_Equip[0].SetActive(true);
-            equipItem = ItemList_Equip[0];
+            ItemList_Equip[quickSlotItem_Tag - 201].SetActive(true);
+            equipItem = ItemList_Equip[quickSlotItem_Tag - 201];
         }
-        else if (quickSlotItem_Tag == 204)
+        //if (quickSlotItem_Tag == 203)
+        //{
+        //    ItemList_Equip_InActive();
+        //    ItemList_Equip[0].SetActive(true);
+        //    equipItem = ItemList_Equip[0];
+        //}
+        //else if (quickSlotItem_Tag == 204)
+        //{
+        //    ItemList_Equip_InActive();
+        //    ItemList_Equip[1].SetActive(true);
+        //    equipItem = ItemList_Equip[1];
+        //}
+        //else if (quickSlotItem_Tag == 205)
+        //{
+        //    ItemList_Equip_InActive();
+        //    ItemList_Equip[2].SetActive(true);
+        //    equipItem = ItemList_Equip[2];
+        //}
+        //else if (quickSlotItem_Tag == 206)
+        //{
+        //    ItemList_Equip_InActive();
+        //    ItemList_Equip[3].SetActive(true);
+        //    equipItem = ItemList_Equip[3];
+        //}
+        //else if (quickSlotItem_Tag == 207)
+        //{
+        //    ItemList_Equip_InActive();
+        //    ItemList_Equip[4].SetActive(true);
+        //    equipItem = ItemList_Equip[4];
+        //}
+        //else if (quickSlotItem_Tag == 208)
+        //{
+        //    ItemList_Equip_InActive();
+        //    ItemList_Equip[5].SetActive(true);
+        //    equipItem = ItemList_Equip[5];
+        //}
+        if (quickSlotItem_Tag >= 1 && quickSlotItem_Tag <= 10)
         {
             ItemList_Equip_InActive();
-            ItemList_Equip[1].SetActive(true);
-            equipItem = ItemList_Equip[1];
+            equipItem = ItemList_Build[quickSlotItem_Tag - 1];
         }
-        else if (quickSlotItem_Tag == 205)
-        {
-            ItemList_Equip_InActive();
-            ItemList_Equip[2].SetActive(true);
-            equipItem = ItemList_Equip[2];
-        }
-        else if (quickSlotItem_Tag == 206)
-        {
-            ItemList_Equip_InActive();
-            ItemList_Equip[3].SetActive(true);
-            equipItem = ItemList_Equip[3];
-        }
-        else if (quickSlotItem_Tag == 207)
-        {
-            ItemList_Equip_InActive();
-            ItemList_Equip[4].SetActive(true);
-            equipItem = ItemList_Equip[4];
-        }
-        else if (quickSlotItem_Tag == 208)
-        {
-            ItemList_Equip_InActive();
-            ItemList_Equip[5].SetActive(true);
-            equipItem = ItemList_Equip[5];
-        }
-        else if (quickSlotItem_Tag == 1)
-        {
-            ItemList_Equip_InActive();
-            equipItem = ItemList_Build[0];
-        }
-        else if (quickSlotItem_Tag == 2)
-        {
-            ItemList_Equip_InActive();
-            equipItem = ItemList_Build[1];
-        }
-        else if (quickSlotItem_Tag == 3)
-        {
-            ItemList_Equip_InActive();
-            equipItem = ItemList_Build[2];
-        }
-        else if (quickSlotItem_Tag == 10)
-        {
-            ItemList_Equip_InActive();
-            equipItem = ItemList_Build[9];
-        }
+        //else if (quickSlotItem_Tag == 1) //모래블록
+        //{
+        //    ItemList_Equip_InActive();
+        //    equipItem = ItemList_Build[0];
+        //}
+        //else if (quickSlotItem_Tag == 2) //잔디블록
+        //{
+        //    ItemList_Equip_InActive();
+        //    equipItem = ItemList_Build[1];
+        //}
+        //else if (quickSlotItem_Tag == 3) //눈블록
+        //{
+        //    ItemList_Equip_InActive();
+        //    equipItem = ItemList_Build[2];
+        //}
+        //else if (quickSlotItem_Tag == 10) //나무판자블록
+        //{
+        //    ItemList_Equip_InActive();
+        //    equipItem = ItemList_Build[9];
+        //}
         else
         {
             ItemList_Equip_InActive();
