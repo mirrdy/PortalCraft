@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1466419724128333080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.09}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -49,6 +49,7 @@ MonoBehaviour:
   - {fileID: 8504587492760480446, guid: 9d9471a5c43b82645a6d052eaa1936dd, type: 3}
   - {fileID: 866425983523307995, guid: 405e454aec3fbfd4083c869c34bc676e, type: 3}
   - {fileID: 8631376547364901448, guid: c2de0aab2b143b942ad0aea8cd402468, type: 3}
+  spawnList: []
 --- !u!65 &8985661068691447532
 BoxCollider:
   m_ObjectHideFlags: 0
