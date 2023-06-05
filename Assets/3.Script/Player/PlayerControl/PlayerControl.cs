@@ -15,6 +15,9 @@ public class PlayerControl : MonoBehaviour, IDamage
     public enum ItemType { Empty = 0, Sword, Bow, Potion, Block, Torch }
     [SerializeField] private ItemType currentItem = ItemType.Empty;
 
+    [Header("현재 장착중인 아이템")]
+    public GameObject equipItem;
+
     // --------------- 컴포넌트들 ----------------
     private Animator animator;
     private CharacterController charController;
@@ -73,6 +76,8 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private bool hasAnimator;
 
+    //private int 
+
     #region 애니메이션 파라미터ID
     private int animID_Speed;
     private int animID_Ground;
@@ -96,9 +101,6 @@ public class PlayerControl : MonoBehaviour, IDamage
     #endregion
 
 
-    //public GameObject[] QuickSlotItem;
-    [Header("현재 장착중인 아이템")]
-    public GameObject equipItem;
     private Transform rayPoint;
     
 
@@ -613,10 +615,20 @@ public class PlayerControl : MonoBehaviour, IDamage
             }
         }
     }
-    private void ItemSelect()
-    {
 
+
+
+
+    private void ItemSelect()
+    { 
+        //currentItem = ItemType.Empty;
     }
+
+
+
+
+
+
     private void Skill_1() //Q 
     {
         

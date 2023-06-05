@@ -21,6 +21,11 @@ public class CameraControl_Ray : MonoBehaviour
     private float bottomClamp_Third = -60.0f;
     private const float threshold = 0.01f;
 
+    private Vector3 Third_Vec = new Vector3(1, 1.6f, 0);
+    private Vector3 First_Vec = new Vector3(-0.1f, 0.8f, 0);
+    private float Third_distance = 8f;
+    private float First_distance = -0.94f;
+
     private float cinemachineTargetYaw_Third;
     private float cinemachineTargetPitch_Third;
 
@@ -57,13 +62,13 @@ public class CameraControl_Ray : MonoBehaviour
                     {
                         if (hitInfo.transform.CompareTag("Block")) //3ÀÎÄª¿¡¼­ -> 1ÀÎÄª
                         {
-                            _3rdPersonFollow.ShoulderOffset = new Vector3(-0.1f, 0.8f, 0);
-                            _3rdPersonFollow.CameraDistance = -0.94f;
+                            _3rdPersonFollow.ShoulderOffset = First_Vec;
+                            _3rdPersonFollow.CameraDistance = First_distance;
                         }
                         if (hitInfo.transform.CompareTag("Player")) //1ÀÎÄª¿¡¼­ -> 3ÀÎÄª
                         {
-                            _3rdPersonFollow.ShoulderOffset = new Vector3(1, 1.6f, 0);
-                            _3rdPersonFollow.CameraDistance = 8f;
+                            _3rdPersonFollow.ShoulderOffset = Third_Vec;
+                            _3rdPersonFollow.CameraDistance = Third_distance;
                         }
                     }
                     break;

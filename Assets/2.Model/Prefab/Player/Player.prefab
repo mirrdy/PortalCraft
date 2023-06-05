@@ -3119,6 +3119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentView: 0
   currentItem: 0
+  equipItem: {fileID: 0}
   input: {fileID: 0}
   mainCamera: {fileID: 0}
   cameraAngleOverride: 0
@@ -3141,7 +3142,7 @@ MonoBehaviour:
     m_Bits: 384
   layerMask_Block:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2304
   layerMask_Torch:
     serializedVersion: 2
     m_Bits: 4096
@@ -3155,7 +3156,6 @@ MonoBehaviour:
   equip_Speed: 0
   equip_Attack: 0
   equip_AttackRate: 0
-  equipItem: {fileID: 0}
   playerData:
     job: 
     hair: 0

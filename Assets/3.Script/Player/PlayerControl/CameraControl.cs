@@ -24,6 +24,11 @@ public class CameraControl : MonoBehaviour
 
     public GameObject cinemachineCameraTarget_Third; //3ÀÎÄªÅ¸°Ù
 
+    private Vector3 Third_Vec = new Vector3(1, 1.6f, 0);
+    private Vector3 First_Vec = new Vector3(-0.1f, 0.8f, 0);
+    private float Third_distance = 8f;
+    private float First_distance = -0.94f;
+
     private void Start()
     {
         followTarget = GameObject.FindGameObjectWithTag("Player").transform.GetChild(1);
@@ -54,14 +59,14 @@ public class CameraControl : MonoBehaviour
             if (cameraView == CameraView.ThirdPerson) //3ÀÎÄª -> 1ÀÎÄª
             {
                 cameraView = CameraView.FirstPerson;
-                _3rdPersonFollow.ShoulderOffset = new Vector3(-0.1f, 0.8f, 0);
-                _3rdPersonFollow.CameraDistance = -0.94f;
+                _3rdPersonFollow.ShoulderOffset = First_Vec;
+                _3rdPersonFollow.CameraDistance = First_distance;
             }
             else if (cameraView == CameraView.FirstPerson) //1ÀÎÄª -> 3ÀÎÄª
             {
                 cameraView = CameraView.ThirdPerson;
-                _3rdPersonFollow.ShoulderOffset = new Vector3(1, 1.6f, 0);
-                _3rdPersonFollow.CameraDistance = 8f;
+                _3rdPersonFollow.ShoulderOffset = Third_Vec;
+                _3rdPersonFollow.CameraDistance = Third_distance;
             }
             input_Camera.viewChange = false;
         }
