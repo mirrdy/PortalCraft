@@ -1524,24 +1524,21 @@ public class InGameUIManager : MonoBehaviour
 
         Slot slot = newObject.GetComponent<Slot>();
 
-        if (slot == null)
-        {
-            return;
-        }
-
-        if(slotNumber == slot.slotNumber)
+        if (slot == null || slotNumber == slot.slotNumber)
         {
             return;
         }
 
         if (slot.slotNumber <= 37)
         {
-            if (tag == slot.tag)
+            if (tag == slot.tag && quantity < 99)
             {
                 SumItem(slot, slotNumber);
-                return;
             }
-            ChangedItme(slotNumber, slot.slotNumber);
+            else
+            {
+                ChangedItme(slotNumber, slot.slotNumber);
+            }
         }
         else if (slot.slotNumber == 38)
         {
@@ -1627,18 +1624,15 @@ public class InGameUIManager : MonoBehaviour
                 }
             }
         }
-        else
+        else if (slot.tag == tag)
         {
-            if (slot.tag == tag)
+            if (slot.quantity < 99)
             {
-                if(slot.quantity < 99)
+                if (quantity >= 2)
                 {
-                    if (quantity >= 2)
-                    {
-                        inven.quantity++;
-                        player.playerData.inventory[slotNumber].quantity--;
-                        SlotItemCount.text = "" + player.playerData.inventory[slotNumber].quantity;
-                    }
+                    inven.quantity++;
+                    player.playerData.inventory[slotNumber].quantity--;
+                    SlotItemCount.text = "" + player.playerData.inventory[slotNumber].quantity;
                 }
             }
         }
@@ -1656,10 +1650,17 @@ public class InGameUIManager : MonoBehaviour
     }
     #endregion
 
-    public string GetPlayerHand()
+    public string GetPlayerHandType()
     {
         Inventory playerData = player.playerData.inventory[playerHand];
 
         return playerData.type;
+    }
+
+    public int GetPlayerHandTag()
+    {
+        Inventory playerData = player.playerData.inventory[playerHand];
+
+        return playerData.tag;
     }
 }

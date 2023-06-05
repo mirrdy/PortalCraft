@@ -1,6 +1,11 @@
 fileFormatVersion: 2
-guid: bc125f7bc96c5304e8d4c47186340f0c
+<<<<<<<< Updated upstream:Assets/6.Materials/MapTest/DeadZone.mat.meta
+guid: 271947b729cb1ce41be242d763d270f8
 NativeFormatImporter:
+========
+guid: b725737a4b9f04575bdeb0f9ef00ebc1
+DefaultImporter:
+>>>>>>>> Stashed changes:Assets/GUI PRO Kit - Casual Game/ResourcesData/Sprite/Component/Icon_ItemIcons(x2)/ItemIcons(x2).unitypackage.meta
   externalObjects: {}
   mainObjectFileID: 2100000
   userData: 

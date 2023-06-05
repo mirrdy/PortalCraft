@@ -20,7 +20,7 @@ public class Exp : MonoBehaviour
         {
             other.transform.TryGetComponent(out PlayerControl player);
             player.GetExp(exp);
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
 }

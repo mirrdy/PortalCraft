@@ -119,13 +119,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
     {
         if (hasItem)
         {
-            uiManager.DragInItem(eventData.position);
-
-            if (isRightMouseDown)
+            if (isRightMouseDown && eventData.pointerEnter)
             {
                 drag = eventData.pointerCurrentRaycast.gameObject;
                 uiManager.dragAllocation(drag, tag, quantity, slotNumber);
             }
+            uiManager.DragInItem(eventData.position);
         }
     }
 
