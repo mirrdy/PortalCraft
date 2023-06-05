@@ -42,6 +42,7 @@ public class TimeManager : MonoBehaviour
     void FixedUpdate()
     {
         ingameTime += Time.fixedDeltaTime;
+        CheckItsNight();
     }
     public string GetInGameTimeString()
     {

@@ -246,6 +246,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingameTime: 0
+  timeString: 
+  isNight: 0
 --- !u!4 &2046740600
 Transform:
   m_ObjectHideFlags: 0
@@ -11953,6 +11955,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188722458501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12000,6 +12003,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!224 &2162192188727719874
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12122,6 +12126,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188755301766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12233,6 +12238,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188759762533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12280,6 +12286,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188760836283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12545,6 +12552,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188832447751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12885,6 +12893,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188897292567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13168,6 +13177,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!222 &2162192188958725105
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13261,6 +13271,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192188960885531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13514,6 +13525,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189047451774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13679,6 +13691,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189091636410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13812,6 +13825,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189121665616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14273,6 +14287,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!1 &2162192189274924795
 GameObject:
   m_ObjectHideFlags: 0
@@ -14432,6 +14447,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189315995314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14561,6 +14577,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189329996331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14852,6 +14869,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189457490200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15177,6 +15195,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189624999713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15314,6 +15333,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189637095916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15425,6 +15445,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189651435994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15718,6 +15739,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189737462355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15829,6 +15851,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189755046048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15876,6 +15899,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189755954088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15953,6 +15977,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189778240756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16459,6 +16484,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192189916274914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16906,6 +16932,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190079128856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17043,6 +17070,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190119878692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17227,6 +17255,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190134459130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17438,6 +17467,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!1 &2162192190214708154
 GameObject:
   m_ObjectHideFlags: 0
@@ -17593,6 +17623,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190236393556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17766,6 +17797,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190275245156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17993,6 +18025,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190335605307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18363,6 +18396,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!1 &2162192190466598476
 GameObject:
   m_ObjectHideFlags: 0
@@ -18398,6 +18432,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190478400146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18497,6 +18532,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190505474903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18759,6 +18795,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190548865619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18836,6 +18873,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190577601099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19399,6 +19437,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190768025583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19594,6 +19633,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190810576648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19675,6 +19715,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190819161909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19692,6 +19733,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!114 &2162192190819161912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19940,6 +19982,7 @@ MonoBehaviour:
   quantity: 0
   type: 
   slotNumber: 0
+  count: 1
 --- !u!224 &2170664311694111418
 RectTransform:
   m_ObjectHideFlags: 0
