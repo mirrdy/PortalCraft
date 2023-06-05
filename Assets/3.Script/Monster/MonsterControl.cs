@@ -16,7 +16,6 @@ public class MonsterControl : LivingEntity
     {
         currentHp = hp; 
         isDead = false;
-
         entityController.enabled = true;
         currentState = new MonsterIdleState();
         ChangeState(new MonsterIdleState());
