@@ -14,7 +14,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
 
     GameObject drag;
     bool isRightMouseDown = false;
-    public bool isDragged = false;
 
     private InGameUIManager uiManager;
 
@@ -110,14 +109,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (isDragged)
-        {
-            return;
-        }
-
         if (hasItem)
         {
-            isDragged = true;
             uiManager.SlotNumberReset(tag, quantity, eventData.position);
         }
     }
@@ -127,6 +120,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
         if (hasItem)
         {
             uiManager.DragInItem(eventData.position);
+
             if (isRightMouseDown)
             {
                 drag = eventData.pointerCurrentRaycast.gameObject;
@@ -142,8 +136,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
             drag = eventData.pointerCurrentRaycast.gameObject;
             uiManager.DragDropItem(slotNumber, drag, type, tag, quantity);
         }
-
-        isDragged = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)

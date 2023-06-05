@@ -1032,18 +1032,6 @@ public class InGameUIManager : MonoBehaviour
         {
             if (playerData.inventory[i].hasItem)
             {
-                if(playerData.inventory[i].quantity <= 0)
-                {
-                    playerData.inventory[i].hasItem = false;
-                    playerData.inventory[i].tag = 0;
-                    playerData.inventory[i].quantity = 0;
-                    playerData.inventory[i].type = null;
-                    itemSlot[i].sprite = null;
-                    itemFrame[i].sprite = frameColor[0];
-                    itemCount[i].SetActive(false);
-                    continue;
-                }
-
                 for (int k = 0; k < itemInfo.list_AllItem.Count; k++)
                 {
                     if (playerData.inventory[i].tag == itemInfo.list_AllItem[k].tag)
@@ -1092,6 +1080,7 @@ public class InGameUIManager : MonoBehaviour
                 }
             }
         }
+
         for (int i = 0; i < slotUi.Length; i++)
         {
             slotUi[i].quantity = playerData.inventory[i].quantity;
@@ -1527,7 +1516,7 @@ public class InGameUIManager : MonoBehaviour
         text_currentSlot.SetActive(false);
         SlotItemCount.text = "";
 
-        if(newObject == null)
+        if (newObject == null)
         {
             print("¹ö¸®±â");
             return;
@@ -1535,7 +1524,12 @@ public class InGameUIManager : MonoBehaviour
 
         Slot slot = newObject.GetComponent<Slot>();
 
-        if(slot == null)
+        if (slot == null)
+        {
+            return;
+        }
+
+        if(slotNumber == slot.slotNumber)
         {
             return;
         }
@@ -1545,13 +1539,13 @@ public class InGameUIManager : MonoBehaviour
             if (tag == slot.tag)
             {
                 SumItem(slot, slotNumber);
-                    return;
+                return;
             }
             ChangedItme(slotNumber, slot.slotNumber);
         }
         else if (slot.slotNumber == 38)
         {
-            if(type.Equals("Helmet"))
+            if (type.Equals("Helmet"))
             {
                 ChangedItme(slotNumber, slot.slotNumber);
             }
@@ -1612,6 +1606,7 @@ public class InGameUIManager : MonoBehaviour
         {
             return;
         }
+
         Inventory inven = player.playerData.inventory[slot.slotNumber];
 
         if (!slot.hasItem)
