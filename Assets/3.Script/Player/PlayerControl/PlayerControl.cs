@@ -24,7 +24,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
 
     // --------------- ÄÄÆ÷³ÍÆ®µé ----------------
-    private Animator animator;
+    public Animator animator;
     private CharacterController charController;
     [HideInInspector]
     public Input_Info input;
@@ -93,6 +93,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     private int animID_Die;
     private int animID_Potion;
     private int animID_Roll;
+    private int animID_A1;
+    private int animID_A2;
     private int animID_AttackSpeed;  
     #endregion
 
@@ -193,6 +195,16 @@ public class PlayerControl : MonoBehaviour, IDamage
         Attack();
         ItemSelect();
         ArmorSelect();
+        if (input.skill_1)
+        {
+            Skill_1();
+            input.skill_1 = false;
+        }
+        if (input.skill_2)
+        {
+            Skill_2();
+            input.skill_2 = false;
+        }
     }
 
 
@@ -509,11 +521,28 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     private void Skill_1() //Q 
     {
-
+        if (currentItem == ItemType.Arms)
+        {
+            if (equipItem.TryGetComponent(out Bow bow))
+            {
+                bow.Skill_1();
+            }
+            else if (equipItem.TryGetComponent(out Sword sword))
+            {
+                sword.Skill_1();
+            }
+        }
     }
     private void Skill_2() //E
     {
-
+        if (currentItem == ItemType.Arms && equipItem.TryGetComponent(out Bow bow))
+        {
+            bow.Skill_2();
+        }
+        else if (equipItem.TryGetComponent(out Sword sword))
+        {
+            sword.Skill_2();
+        }
     }
 
 
@@ -861,6 +890,8 @@ public class PlayerControl : MonoBehaviour, IDamage
         animID_Die = Animator.StringToHash("Die");
         animID_Potion = Animator.StringToHash("Potion");
         animID_AttackSpeed = Animator.StringToHash("AttackSpeed");
+        animID_A1 = Animator.StringToHash("A1");
+        animID_A2 = Animator.StringToHash("A2");
         animID_Roll = Animator.StringToHash("Roll");
     }
 }
