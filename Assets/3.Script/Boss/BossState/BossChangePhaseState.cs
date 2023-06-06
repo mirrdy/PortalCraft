@@ -18,8 +18,7 @@ public class BossChangePhase : BossState
         boss.bossUseEffect[0].Stop();
         boss.bossUseEffect[1].Play();
         boss.bossControl.enabled = true;
-        boss.bossMonsterSpawner.gameObject.SetActive(false);
-
+        boss.bossMonsterSpawner.GetComponent<MonsterSpawner>().enabled = false;
     }
 
     public override void UpdateState(BossControl boss)
