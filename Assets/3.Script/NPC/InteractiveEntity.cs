@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class InteractiveEntity : MonoBehaviour
+public abstract class InteractiveEntity : MonoBehaviour
 {
-    virtual public void Interact()
-    {
-
-    }
+    abstract public void Interact();
 }

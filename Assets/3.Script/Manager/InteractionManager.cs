@@ -4,28 +4,71 @@ using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
 {
-    public float interactionDistance = 5f; // 상호작용 거리
-    public KeyCode interactionKey = KeyCode.F; // 상호작용 키
+    public static InteractionManager instance = null;
 
-    private void Update()
+    [SerializeField] private float interactionDistance = 5f; // 상호작용 거리
+    [SerializeField] private KeyCode interactionKey = KeyCode.F; // 상호작용 키
+    private GameObject interactionUI; // 상호작용 키 표시 UI
+    public bool isInteracting;
+
+    // 테스트용 임시 오브젝트, 삭제 예정
+    [SerializeField] private GameObject NPC;
+
+    private void Awake()
     {
-        if (Input.GetKeyDown(interactionKey))
+        if (null == instance)
         {
-            TryInteract();
+            instance = this;
         }
-    }
+        else
+        {
+            Destroy(this.gameObject);
+        }
 
-    private void TryInteract()
+        interactionUI = GetComponentInChildren<TMPro.TextMeshPro>().gameObject;
+    }
+    private void Update()
     {
         // 플레이어의 조준점에서 Raycast를 사용하여 NPC와의 충돌을 확인
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, interactionDistance))
+        if (Physics.Raycast(ray, out RaycastHit hit, interactionDistance))
         {
-            if(hit.collider.TryGetComponent(out InteractiveEntity interactiveEntity))
+            if (hit.collider.TryGetComponent(out InteractiveEntity interactiveEntity))
             {
-                interactiveEntity.Interact();
+                interactionUI.transform.position = interactiveEntity.transform.position + new Vector3(0.5f, 1.5f, 0);
+                if (!interactionUI.activeSelf)
+                {
+                    // 상호작용 키 알려주는 UI 활성화
+                    interactionUI.SetActive(true);
+                }
+                // 상호작용 키 눌렀는지 확인
+                if (Input.GetKeyDown(interactionKey))
+                {
+                    interactiveEntity.Interact();
+                }
+            }
+            else
+            {
+                if (interactionUI.activeSelf)
+                {
+                    // NPC와의 충돌이 없는 경우 UI 비활성화
+                    interactionUI.SetActive(false);
+                }
+            }
+        }
+
+
+        // 임시 
+        if (!isInteracting)
+        {
+            if (Input.GetKeyDown(interactionKey))
+            {
+                NPC = FindObjectOfType<PortalNPC>().gameObject;
+                if (NPC.TryGetComponent(out InteractiveEntity interactiveEntity))
+                {
+                    interactiveEntity.Interact();
+                }
             }
         }
     }

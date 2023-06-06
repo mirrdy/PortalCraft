@@ -191,24 +191,28 @@ public class BlockMapGenerator : MonoBehaviour
             GameObject portalNPC = Instantiate(prefab_PortalNPC);
             portalNPC.transform.SetParent(islands[i].transform);
 
-            
-            for (int k = 0; k < 10000; k++)
-            {
-                int offsetX = Random.Range(0, 3);
-                int offsetY = Random.Range(0, 3);
-                int offsetZ = Random.Range(0, 3);
+            System.Random random = new System.Random();
+
+            // 만약 1만번 돌때까지 NPC 위치 못잡으면 생성 안됨 - 무한루프시 프리징 문제, 예외처리 추후 필요
+            for(int k=0; k<10000; k++)
+            { 
+                int offsetX = random.Next(-2, 3);
+                int offsetY = random.Next(-2, 3);
+                int offsetZ = random.Next(-2, 3);
 
                 Vector3 offset = new Vector3(portalPos[i].x + offsetX, portalPos[i].y + offsetY, portalPos[i].z + offsetZ);
-                if(portalPos[i].Equals(offset))
+                if(portalPos[i].Equals(offset) || 
+                    offset.x >= widthX || offset.x < 0 ||
+                    offset.y >= height || offset.y < 0 ||
+                    offset.z >= widthZ || offset.z < 0)
                 {
                     continue;
                 }
 
                 if (worldBlocks[i, (int)offset.x, (int)offset.y, (int)offset.z].isVisible == true)
                 {
-                    portalNPC.transform.localPosition = offset;
-                    Debug.Log($"NPC 로컬포지션: {portalNPC.transform.localPosition}");
-                    Debug.Log($"offset: {offset}");
+                    Vector3 NPCPos = offset + new Vector3(0.5f, 0.66f);
+                    portalNPC.transform.localPosition = NPCPos;
                     break;
                 }
             }
