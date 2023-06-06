@@ -19,6 +19,7 @@ TagManager:
   - Weapon_R
   - BuiltCube_List
   - Head
+  - NPC
   layers:
   - Default
   - TransparentFX

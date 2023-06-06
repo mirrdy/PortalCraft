@@ -90,6 +90,9 @@ public class BlockMapGenerator : MonoBehaviour
     public GameObject portalInfo;
     private Vector3[] portalPos;
     private bool[] isCreatedPortal;
+    // 포탈 - NPC
+    public GameObject prefab_PortalNPC;
+
     // 플레이어 스포너
     public GameObject prefab_playerSpawner;
     private Vector3 playerSpawnerPos;
@@ -166,6 +169,7 @@ public class BlockMapGenerator : MonoBehaviour
         // 맵 위 오브젝트 생성
         CreatePortal();
         CreateMonsterSpawner();
+        //SetActiveIslands(); // 플레이어 위치 저장에 관한 내용 필요
         ResetPlayer();
         PlayerControl.instance.whenPlayerDie += ResetPlayer;
         //PlayerControl.instance.enabled = true;
@@ -183,8 +187,37 @@ public class BlockMapGenerator : MonoBehaviour
             GameObject portal = Instantiate(portalInfo);
             portal.transform.SetParent(islands[i].transform);
             portal.transform.localPosition = portalPos[i];
+
+            GameObject portalNPC = Instantiate(prefab_PortalNPC);
+            portalNPC.transform.SetParent(islands[i].transform);
+
+            
+            for (int k = 0; k < 10000; k++)
+            {
+                int offsetX = Random.Range(0, 3);
+                int offsetY = Random.Range(0, 3);
+                int offsetZ = Random.Range(0, 3);
+
+                Vector3 offset = new Vector3(portalPos[i].x + offsetX, portalPos[i].y + offsetY, portalPos[i].z + offsetZ);
+                if(portalPos[i].Equals(offset))
+                {
+                    continue;
+                }
+
+                if (worldBlocks[i, (int)offset.x, (int)offset.y, (int)offset.z].isVisible == true)
+                {
+                    portalNPC.transform.localPosition = offset;
+                    Debug.Log($"NPC 로컬포지션: {portalNPC.transform.localPosition}");
+                    Debug.Log($"offset: {offset}");
+                    break;
+                }
+            }
         }
         SetPortalLink();
+    }
+    private void CreatePortalNPC()
+    {
+
     }
     private void SetDefaultPortalPos(int islandIndex)
     {
@@ -224,6 +257,10 @@ public class BlockMapGenerator : MonoBehaviour
             spawner.transform.localPosition = monsterSpawnerPos[i];
             spawner.gameObject.SetActive(true);
         }
+    }
+    private void SetActiveIslands()
+    {
+        
     }
     private void SetDefaultMonsterSpawnerPos(int islandIndex)
     {
@@ -272,7 +309,6 @@ public class BlockMapGenerator : MonoBehaviour
             GameObject deadzone = Instantiate(prefab_Deadzone, new Vector3(islandPos[i].x, 0, islandPos[i].z), Quaternion.identity);
             deadzone.transform.localScale = new Vector3(widthX, 1, widthZ);
         }
-        islands[1].SetActive(false);
         Debug.Log("생성끝");
         progress = 100;
         isFinishBlockGeneration = true;
@@ -302,21 +338,27 @@ public class BlockMapGenerator : MonoBehaviour
                     // 몬스터 스포너 생성할 위치 저장 (현재 섬 하나에 한개)
                     if (blockPrefabInfos[i].region == Region.Sand && !isCreatedSpawner[islandIndex])
                     {
-                        int spawnProb = (int)(widthX * widthZ * 0.3f);
-                        if (Random.Range(0, spawnProb) >= spawnProb - 1)
+                        if (blockPos.x > 10 && blockPos.z > 10)
                         {
-                            isCreatedSpawner[islandIndex] = true;
-                            monsterSpawnerPos[islandIndex] = blockPos + Vector3.up;
+                            int spawnProb = (int)(widthX * widthZ * 0.3f);
+                            if (Random.Range(0, spawnProb) >= spawnProb - 1)
+                            {
+                                isCreatedSpawner[islandIndex] = true;
+                                monsterSpawnerPos[islandIndex] = blockPos + Vector3.up;
+                            }
                         }
                     }
                     // 포탈 생성할 위치 저장
                     if (!isCreatedPortal[islandIndex])
                     {
-                        int spawnProb = (int)(widthX * widthZ * 0.5f);
-                        if (Random.Range(0, spawnProb) >= spawnProb - 1)
+                        if(blockPos.x > 10 && blockPos.z > 10)
                         {
-                            isCreatedPortal[islandIndex] = true;
-                            portalPos[islandIndex] = blockPos + Vector3.up;
+                            int spawnProb = (int)(widthX * widthZ * 0.5f);
+                            if (Random.Range(0, spawnProb) >= spawnProb - 1)
+                            {
+                                isCreatedPortal[islandIndex] = true;
+                                portalPos[islandIndex] = blockPos + Vector3.up;
+                            }
                         }
                     }
 
