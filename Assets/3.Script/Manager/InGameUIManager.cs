@@ -80,10 +80,24 @@ public class InGameUIManager : MonoBehaviour
     [Header("Prefab")]
     [SerializeField] FieldItem[] prefab;  // 필드 드랍용 아이템 프리펩 배열
 
+    [Header("Craft")]
+    [SerializeField] GameObject craftWindow;
+    [SerializeField] Image[] image_Tab;
+    [SerializeField] GameObject[] material1Obejct;
+    [SerializeField] Image[] material1;
+    [SerializeField] Text[] material1Quantity;
+    [SerializeField] GameObject[] craftItemSlot;
+    [SerializeField] Image[] craftItem;
+    [SerializeField] Text[] craftName;
+    [SerializeField] GameObject[] image_Count;
+    [SerializeField] Text[] craftingQuantity;
+    [SerializeField] Button craftBtn;
+
     private bool isResolution = false;
 
     private ItemManager itemInfo;
     private SkillManager skillInfo;
+    private CraftManager craftInfo;
 
     private PlayerControl player;
 
@@ -96,11 +110,13 @@ public class InGameUIManager : MonoBehaviour
     private Coroutine mpCoroutine;
     private Coroutine expCoroutine;
 
-    Camera camera;
-
     // 플레이어가 현재 퀵슬롯을 사용할지 인벤토리 상호 작용 인지 알수 있는 bool 값 변수
     public bool isQuickSlot = true;
-    
+
+    private string craftType; // 아이템 제작에 필요한 변수
+    private int craftingNumber = 0;
+    private List<int> tagCount = new List<int>();
+
     private void Reset()
     {
         #region 리셋
@@ -122,6 +138,10 @@ public class InGameUIManager : MonoBehaviour
         Transform menuUI = objects_UI.transform.GetChild(3);
         Transform tooltipUI = objects_UI.transform.GetChild(4);
         Transform DragSlotUI = objects_UI.transform.GetChild(5);
+
+        Canvas craft_UI = GameObject.Find("Craft Canvas").GetComponent<Canvas>();
+
+        Transform craftUI = craft_UI.transform.GetChild(0);
 
         playerUI.GetChild(0).GetChild(0).TryGetComponent(out timer);
         playerUI.GetChild(2).GetChild(0).TryGetComponent(out hpBar);
@@ -349,6 +369,53 @@ public class InGameUIManager : MonoBehaviour
         prefab[36] = Resources.Load<FieldItem>("Item/Hp Potion");
         prefab[37] = Resources.Load<FieldItem>("Item/Mp Potion");
         #endregion
+
+        craftWindow = craftUI.GetComponentInChildren<Transform>(true).gameObject;
+        image_Tab = new Image[3];
+        image_Tab[0] = craftUI.GetChild(3).GetComponentInChildren<Image>(true);
+        image_Tab[1] = craftUI.GetChild(4).GetComponentInChildren<Image>(true);
+        image_Tab[2] = craftUI.GetChild(5).GetComponentInChildren<Image>(true);
+        material1Obejct = new GameObject[4];
+        material1Obejct[0] = craftUI.GetChild(0).GetChild(0).GetComponentInChildren<Transform>(true).gameObject;
+        material1Obejct[1] = craftUI.GetChild(0).GetChild(1).GetComponentInChildren<Transform>(true).gameObject;
+        material1Obejct[2] = craftUI.GetChild(0).GetChild(2).GetComponentInChildren<Transform>(true).gameObject;
+        material1Obejct[3] = craftUI.GetChild(0).GetChild(3).GetComponentInChildren<Transform>(true).gameObject;
+        material1 = new Image[4];
+        material1[0] = craftUI.GetChild(0).GetChild(0).GetChild(0).GetComponentInChildren<Image>(true);
+        material1[1] = craftUI.GetChild(0).GetChild(1).GetChild(0).GetComponentInChildren<Image>(true);
+        material1[2] = craftUI.GetChild(0).GetChild(2).GetChild(0).GetComponentInChildren<Image>(true);
+        material1[3] = craftUI.GetChild(0).GetChild(3).GetChild(0).GetComponentInChildren<Image>(true);
+        material1Quantity = new Text[4];
+        material1Quantity[0] = craftUI.GetChild(0).GetChild(0).GetChild(1).GetComponentInChildren<Text>(true);
+        material1Quantity[1] = craftUI.GetChild(0).GetChild(1).GetChild(1).GetComponentInChildren<Text>(true);
+        material1Quantity[2] = craftUI.GetChild(0).GetChild(2).GetChild(1).GetComponentInChildren<Text>(true);
+        material1Quantity[3] = craftUI.GetChild(0).GetChild(3).GetChild(1).GetComponentInChildren<Text>(true);
+        craftItemSlot = new GameObject[9];
+        for (int i = 0; i < craftItemSlot.Length; i++)
+        {
+            craftItemSlot[i] = craftUI.GetChild(1).GetChild(0).GetChild(0).GetChild(i).GetComponentInChildren<Transform>(true).gameObject;
+        }
+        craftItem = new Image[9];
+        for (int i = 0; i < craftItem.Length; i++)
+        {
+            craftItem[i] = craftUI.GetChild(1).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetComponentInChildren<Image>(true);
+        }
+        craftName = new Text[9];
+        for (int i = 0; i < craftItem.Length; i++)
+        {
+            craftName[i] = craftUI.GetChild(1).GetChild(0).GetChild(0).GetChild(i).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
+        }
+        image_Count = new GameObject[9];
+        for (int i = 0; i < craftItemSlot.Length; i++)
+        {
+            image_Count[i] = craftUI.GetChild(1).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetChild(0).GetComponentInChildren<Transform>(true).gameObject;
+        }
+        craftingQuantity = new Text[9];
+        for (int i = 0; i < craftItem.Length; i++)
+        {
+            craftingQuantity[i] = craftUI.GetChild(1).GetChild(0).GetChild(0).GetChild(i).GetChild(0).GetChild(0).GetChild(0).GetComponentInChildren<Text>(true);
+        }
+        craftBtn = craftUI.GetChild(2).GetComponentInChildren<Button>(true);
         #endregion
     }
 
@@ -359,18 +426,20 @@ public class InGameUIManager : MonoBehaviour
         resolution.value = DataManager.instance.LoadResolution();
         itemInfo = FindObjectOfType<ItemManager>();
         skillInfo = FindObjectOfType<SkillManager>();
+        craftInfo = FindObjectOfType<CraftManager>();
 
         for (int i = 1; i < 8; i++)
         {
             itemBorder[30 + i].sprite = border[0];
         }
         itemBorder[30].sprite = border[1];
+
+        TabSetting("T1");
     }
     
     private void OnEnable()
     {
         player = GameObject.Find("Player").GetComponent<PlayerControl>();
-        camera = GameObject.Find("MainCamera").GetComponent<Camera>();
 
         menuImage.SetActive(false);
         settingMenu.SetActive(false);
@@ -1082,13 +1151,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 if(playerData.inventory[i].quantity <= 0)
                 {
-                    playerData.inventory[i].hasItem = false;
-                    playerData.inventory[i].tag = 0;
-                    playerData.inventory[i].quantity = 0;
-                    playerData.inventory[i].type = null;
-                    itemSlot[i].sprite = null;
-                    itemFrame[i].sprite = frameColor[0];
-                    itemCount[i].SetActive(false);
+                    DeleteItem(i);
                     break;
                 }
 
@@ -1711,6 +1774,7 @@ public class InGameUIManager : MonoBehaviour
         timer.text = TimeManager.instance.GetInGameTimeString();
     }
 
+    #region 아이템 버리기
     private void DropItem(int slotNumber, int tag, int quantity, FieldItem[] prefab)
     {
         Inventory inven = player.playerData.inventory[slotNumber];
@@ -1742,12 +1806,7 @@ public class InGameUIManager : MonoBehaviour
 
         clone.AddForce(throwDirection * 6f, ForceMode.Impulse);
 
-        inven.quantity = 0;
-        inven.tag = 0;
-        inven.type = null;
-        itemSlot[slotNumber].sprite = null;
-        itemFrame[slotNumber].sprite = frameColor[0];
-        itemCount[slotNumber].SetActive(false);
+        DeleteItem(slotNumber);
     }
 
     private void OutItem()
@@ -1765,5 +1824,248 @@ public class InGameUIManager : MonoBehaviour
         col.enabled = false;
         yield return new WaitForSeconds(1f);
         col.enabled = true;
+    }
+
+    private void DeleteItem(int slotNumber)
+    {
+        Inventory inven = player.playerData.inventory[slotNumber];
+
+        inven.quantity = 0;
+        inven.tag = 0;
+        inven.type = null;
+        itemSlot[slotNumber].sprite = null;
+        itemFrame[slotNumber].sprite = frameColor[0];
+        itemCount[slotNumber].SetActive(false);
+    }
+    #endregion
+
+    public void TabSetting(string tab)
+    {
+        PlayerData playerData = player.playerData;
+        int count = 0;
+        List<int> tagQuantity = new List<int>();
+
+        for (int i = tagCount.Count - 1; i >= 0; i--)
+        {
+            tagCount.Remove(tagCount[i]);
+        }
+
+        craftType = tab;
+
+        for (int i = 0; i < craftInfo.list_Craft.Count; i++)
+        {
+            if (craftInfo.list_Craft[i].tab.Equals(tab))
+            {
+                if (craftInfo.list_Craft[i].job.Equals(playerData.job) || craftInfo.list_Craft[i].job.Equals("기타"))
+                {
+                    tagCount.Add(craftInfo.list_Craft[i].tag);
+                    tagQuantity.Add(craftInfo.list_Craft[i].quantity);
+                    count++; 
+                }
+            }
+        }
+
+        for(int i = 0; i < craftItemSlot.Length; i++)
+        {
+            if (count <= 0)
+            {
+                craftItemSlot[i].SetActive(false);
+                continue;
+            }
+
+            count--;
+            craftItemSlot[i].SetActive(true);
+
+            for (int j = 0; j < itemInfo.list_AllItem.Count; j++)
+            {
+                if(tagCount[count] == itemInfo.list_AllItem[j].tag)
+                {
+                    craftItem[count].sprite = image_Item[j];
+                    craftName[count].text = itemInfo.list_AllItem[j].name;
+                    if(tagQuantity[count] >= 2)
+                    {
+                        image_Count[count].SetActive(true);
+                        craftingQuantity[count].text = "" + tagQuantity[count];
+                    }
+                    else
+                    {
+                        image_Count[count].SetActive(false);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < image_Tab.Length; i++)
+        {
+            image_Tab[i].color = new Color(0.8f, 0.8f, 0.8f, 1f);
+        }
+
+        if (tab.Equals(craftType))
+        {
+            image_Tab[0].color = new Color(1f, 1f, 1f, 1f);
+        }
+        else if(tab.Equals(craftType))
+        {
+            image_Tab[1].color = new Color(1f, 1f, 1f, 1f);
+        }
+        else
+        {
+            image_Tab[2].color = new Color(1f, 1f, 1f, 1f);
+        }
+
+        ItemCrafting(0);
+    }
+
+    public void ItemCrafting(int value)
+    {
+        int count = 0;
+        craftingNumber = value;
+        bool[] hasItem = new bool[4];
+
+        for (int i = 0; i < material1Obejct.Length; i++)
+        {
+            material1Obejct[i].SetActive(false);
+        }
+
+        for (int i = 0; i < craftInfo.list_Craft.Count; i++)
+        {
+            if (craftType.Equals(craftInfo.list_Craft[i].tab))
+            {
+                if (tagCount[value] == craftInfo.list_Craft[i].tag)
+                {
+                    for (int j = 0; j < itemInfo.list_AllItem.Count; j++)
+                    {
+                        if (craftInfo.list_Craft[i].materialTag1 == itemInfo.list_AllItem[j].tag)
+                        {
+                            material1[0].sprite = image_Item[j];
+                            material1Quantity[0].text = "" + craftInfo.list_Craft[i].quantity;
+                            material1Obejct[0].SetActive(true);
+                            hasItem[0] = InventoryItemCheck(craftInfo.list_Craft[i].materialTag1, craftInfo.list_Craft[i].quantity);
+                            count++;
+                        }
+                        else if (craftInfo.list_Craft[i].materialTag2 == itemInfo.list_AllItem[j].tag)
+                        {
+                            material1[1].sprite = image_Item[j];
+                            material1Quantity[1].text = "" + craftInfo.list_Craft[i].quantity;
+                            material1Obejct[1].SetActive(true);
+                            hasItem[1] = InventoryItemCheck(craftInfo.list_Craft[i].materialTag2, craftInfo.list_Craft[i].quantity);
+                            count++;
+                        }
+                        else if (craftInfo.list_Craft[i].materialTag3 == itemInfo.list_AllItem[j].tag)
+                        {
+                            material1[2].sprite = image_Item[j];
+                            material1Quantity[2].text = "" + craftInfo.list_Craft[i].quantity;
+                            material1Obejct[2].SetActive(true);
+                            hasItem[2] = InventoryItemCheck(craftInfo.list_Craft[i].materialTag3, craftInfo.list_Craft[i].quantity);
+                            count++;
+                        }
+                        else if (craftInfo.list_Craft[i].materialTag4 == itemInfo.list_AllItem[j].tag)
+                        {
+                            material1[3].sprite = image_Item[j];
+                            material1Quantity[3].text = "" + craftInfo.list_Craft[i].quantity;
+                            material1Obejct[3].SetActive(true);
+                            hasItem[3] = InventoryItemCheck(craftInfo.list_Craft[i].materialTag4, craftInfo.list_Craft[i].quantity);
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < hasItem.Length; i++)
+        {
+            if(hasItem[i])
+            {
+                count--;
+            }
+        }
+
+        if (count == 0)
+        {
+            craftBtn.interactable = true;
+        }
+        else
+        {
+            craftBtn.interactable  = false;
+        }
+    }
+
+    private bool InventoryItemCheck(int tag, int quantity)
+    {
+        PlayerData playerData = player.playerData;
+
+        for (int i = 0; i < playerData.inventory.Length; i++)
+        {
+            if (playerData.inventory[i].hasItem)
+            {
+                if (playerData.inventory[i].tag == tag)
+                {
+                    if(playerData.inventory[i].quantity >= quantity)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void CraftingItem()
+    {
+        PlayerData playerData = player.playerData;
+
+        for (int i = 0; i < craftInfo.list_Craft.Count; i++)
+        {
+            if (craftType.Equals(craftInfo.list_Craft[i].tab))
+            {
+                if (tagCount[craftingNumber] == craftInfo.list_Craft[i].tag)
+                {
+                    for (int j = 0; j < itemInfo.list_AllItem.Count; j++)
+                    {
+                        if (craftInfo.list_Craft[i].materialTag1 == playerData.inventory[j].tag)
+                        {
+                            playerData.inventory[j].quantity -= craftInfo.list_Craft[i].quantity;
+                            if (playerData.inventory[j].quantity <= 0)
+                            {
+                                DeleteItem(j);
+                            }
+                        }
+                        else if (craftInfo.list_Craft[i].materialTag2 == playerData.inventory[j].tag)
+                        {
+                            playerData.inventory[j].quantity -= craftInfo.list_Craft[i].quantity;
+                            if (playerData.inventory[j].quantity <= 0)
+                            {
+                                DeleteItem(j);
+                            }
+                        }
+                        else if (craftInfo.list_Craft[i].materialTag3 == playerData.inventory[j].tag)
+                        {
+                            playerData.inventory[j].quantity -= craftInfo.list_Craft[i].quantity;
+                            if (playerData.inventory[j].quantity <= 0)
+                            {
+                                DeleteItem(j);
+                            }
+                        }
+                        else if (craftInfo.list_Craft[i].materialTag4 == playerData.inventory[j].tag)
+                        {
+                            playerData.inventory[j].quantity -= craftInfo.list_Craft[i].quantity;
+                            if (playerData.inventory[j].quantity <= 0)
+                            {
+                                DeleteItem(j);
+                            }
+                        }
+                    }
+                }
+            }
+
+            for(int j = 0; j < itemInfo.list_AllItem.Count; j++)
+            {
+                if(craftInfo.list_Craft[i].tag == itemInfo.list_AllItem[j].tag)
+                {
+                    AddItem(itemInfo.list_AllItem[j].tag, itemInfo.list_AllItem[j].type, craftInfo.list_Craft[i].quantity, -1);
+                    break;
+                }
+            }
+        }
+        TabSetting(craftType);
     }
 }

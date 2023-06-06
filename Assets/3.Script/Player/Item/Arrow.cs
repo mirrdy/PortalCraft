@@ -6,6 +6,7 @@ public class Arrow : MonoBehaviour
 {
     private Rigidbody rigid;
     public TrailRenderer trailEffect;
+    private float lifeTime;
 
     private void Start()
     {
@@ -16,8 +17,8 @@ public class Arrow : MonoBehaviour
     {
         transform.forward = rigid.velocity;
     }
-
-    private void OnTriggerEnter(Collider coll)
+    
+private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Monster"))
         {
@@ -26,8 +27,12 @@ public class Arrow : MonoBehaviour
             int damage = PlayerControl.instance.equipItem.TryGetComponent(out Bow bow) ? bow.attackDamage : 0;
             //Vector3 hitPoint = coll.ClosestPoint(transform.position);
             //Vector3 hitNormal = transform.position - coll.transform.position;
-            monsterControl.TakeDamage(damage);      
+            monsterControl.TakeDamage(damage);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+        else if(coll.CompareTag("Block") || coll.CompareTag("Environment"))
+        {
+            Destroy(gameObject, lifeTime);
+        }       
     }
 }
