@@ -160,6 +160,7 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
         yield return new WaitForSeconds(3f);
         meleeArea.enabled = false;
         PlayerControl.instance.animator.SetTrigger("W2Done");
+        yield return new WaitForSeconds(0.15f);
         trailEffect_Q.enabled = false;
         isSkill_2 = false;   
     }

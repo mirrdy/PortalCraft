@@ -109,6 +109,8 @@ public class InGameUIManager : MonoBehaviour
     private Coroutine hpCoroutine;
     private Coroutine mpCoroutine;
     private Coroutine expCoroutine;
+    private Coroutine oneSkillCool;
+    private Coroutine tweSkillCool;
 
     // 플레이어가 현재 퀵슬롯을 사용할지 인벤토리 상호 작용 인지 알수 있는 bool 값 변수
     public bool isQuickSlot = true;
@@ -695,6 +697,8 @@ public class InGameUIManager : MonoBehaviour
         {
             skillImage[0].sprite = sprite_Skill[0];
             skillImage[1].sprite = sprite_Skill[1];
+            image_Skill[0].GetComponent<Image>().sprite = sprite_Skill[0];
+            image_Skill[1].GetComponent<Image>().sprite = sprite_Skill[1];
             playerData.skill[0].skillNum = 3;
             playerData.skill[1].skillNum = 4;
         }
@@ -702,6 +706,8 @@ public class InGameUIManager : MonoBehaviour
         {
             skillImage[0].sprite = sprite_Skill[2];
             skillImage[1].sprite = sprite_Skill[3];
+            image_Skill[0].GetComponent<Image>().sprite = sprite_Skill[2];
+            image_Skill[1].GetComponent<Image>().sprite = sprite_Skill[3];
             playerData.skill[0].skillNum = 1;
             playerData.skill[1].skillNum = 2;
         }
@@ -1161,6 +1167,7 @@ public class InGameUIManager : MonoBehaviour
                     {
                         itemSlot[i].gameObject.SetActive(true);
                         itemSlot[i].sprite = image_Item[k];
+                        playerData.inventory[i].type = itemInfo.list_AllItem[k].type;
 
                         if (itemInfo.list_AllItem[k].maxQuantity > 2)
                         {
@@ -1308,6 +1315,19 @@ public class InGameUIManager : MonoBehaviour
 
         hpBar.fillAmount = goals;
         hpCoroutine = null;
+    }
+
+    public void MpCheck(int maxHp, int currentHp)
+    {
+        float goals = currentHp / (float)maxHp;
+
+        if (mpCoroutine != null)
+        {
+            StopCoroutine(mpCoroutine); // 기존 코루틴 종료
+        }
+
+        mpCoroutine = StartCoroutine(HpMpDelay_co(goals));
+        mpCheck.text = currentHp + " / " + maxHp;
     }
 
     public void ExpCheck(float maxExp, float currentExp)

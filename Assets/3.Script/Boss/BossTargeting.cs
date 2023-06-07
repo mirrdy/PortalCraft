@@ -5,13 +5,15 @@ using UnityEngine;
 public class BossTargeting : MonoBehaviour
 {
     [SerializeField]BossControl boss;
-    [SerializeField] MonsterSpawner bossUseSpawner;
+    [SerializeField] GameObject playerBlock;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             boss.target = other.transform;
+            playerBlock.SetActive(true);
+            boss.currentHp = boss.hp;
         }
     }
     private void OnTriggerStay(Collider other)

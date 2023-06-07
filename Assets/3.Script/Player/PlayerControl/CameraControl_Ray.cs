@@ -52,6 +52,7 @@ public class CameraControl_Ray : MonoBehaviour
     {
         VeiwChange();
 
+
         Vector3 rayDir = rayPoint.position - transform.position;
         Debug.DrawRay(transform.position, rayDir, Color.red);
         switch (cameraView)
@@ -66,6 +67,11 @@ public class CameraControl_Ray : MonoBehaviour
                             _3rdPersonFollow.CameraDistance = First_distance;
                         }
                         if (hitInfo.transform.CompareTag("Player")) //1인칭에서 -> 3인칭
+                        {
+                            _3rdPersonFollow.ShoulderOffset = Third_Vec;
+                            _3rdPersonFollow.CameraDistance = Third_distance;
+                        }
+                        if (!PlayerControl.instance.grounded) //점프하는 도중엔 시점교체 X
                         {
                             _3rdPersonFollow.ShoulderOffset = Third_Vec;
                             _3rdPersonFollow.CameraDistance = Third_distance;

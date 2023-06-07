@@ -925,6 +925,8 @@ public class PlayerData  // 플레이어 데이터 관리 클레스
     [XmlElement]
     public float gameTime;
     [XmlElement]
+    public int mapIndex;
+    [XmlElement]
     public Status status;
     [XmlElement]
     public Skill[] skill = new Skill[2];
