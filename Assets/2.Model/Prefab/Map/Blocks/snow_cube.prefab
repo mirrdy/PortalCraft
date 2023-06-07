@@ -334,7 +334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc914542fd6dbda4587680517f2262e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10
+  maxHp: 5
   currentHp: 0
+  isCreatedByGenerator: 0
   dropTables:
   - {fileID: 7684998079876651198, guid: 70564351e8706854690d699838cf71c0, type: 3}
