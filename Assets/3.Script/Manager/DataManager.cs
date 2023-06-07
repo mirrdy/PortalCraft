@@ -23,7 +23,7 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;  // DataManager 싱글톤 생성
     public PlayerData playerData = new PlayerData();
-    //public MapData mapData = new MapData();
+    public MapData mapData = new MapData();
 
     // Yaml 데이터형 변수 지정
     SettingData settingData = new SettingData();
@@ -375,62 +375,25 @@ public class DataManager : MonoBehaviour
         File.Delete(mapfilePath);
 
     }
-    /*
-        public void MapDataSet(int num)
-        {
-            string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
 
-            if (!File.Exists(filePath))  // xml의 데이터에 따라서 저장 데이터를 전달 초기화 이후에 대입하여 기본값을 설정
+    /*public void MapDataSet(int num)
+    {
+        string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
+
+        if (!File.Exists(filePath))  // xml의 데이터에 따라서 저장 데이터를 전달 초기화 이후에 대입하여 기본값을 설정
+        {
+            for (int i = 0; i < mapData.list_BlockData.Count; i++)
             {
-                for (int i = 0; i < mapData.posX.Count; i++)
-                {
-                    mapData = new MapData();
-
-                    mapData.posX[i] = 0;
-                    mapData.posY[i] = 0;
-                    mapData.posZ[i] = 0;
-                    mapData.isBlock[i] = false;
-                    mapData.isCraftBlock[i] = false;
-                    mapData.type[i] = null;
-                }
-
-                // XML 데이터를 문자열로 직렬화
-                string serializedData = SerializeDataMap(mapData);
-
-                byte[] key = settingData.dataKey[num - 1].playerDataKey;  // 키값 데이터 저장
-
-                // 암호화된 데이터 생성
-                byte[] encryptData = Encrypt(serializedData, key);
-
-                SaveEncryptDataFile(encryptData, filePath);
+                
             }
-            else
+            for (int i = 0; i < mapData.list_PortalData.Count; i++)
             {
-                mapData = MapDataGet(num);  // 파일이 있을 경우 데이터를 읽어오는 메소드 실행
+
             }
-        }
+            for (int i = 0; i < mapData.list_StructureData.Count; i++)
+            {
 
-        public MapData MapDataGet(int num)  // 저장된 xml의 데이터를 가져오는 메소드
-        {
-            // 파일의 경로와 이름을 지정
-            string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
-
-            // 암호화된 데이터를 파일에서 불러옴
-            byte[] encryptedData = LoadEncryptDataFile(filePath);
-
-            // 암호화된 데이터를 복호화하여 XML 데이터로 변환
-            string decryptedData = Decrypt(encryptedData, settingData.dataKey[num - 1].playerDataKey);
-
-            // XML 데이터를 역직렬화하여 객체로 변환
-            MapData mapData = DeserializeDataMap(decryptedData);
-
-            return mapData;
-        }
-
-        public void SaveData(MapData mapData, int num)  // 사용한 데이터를 받아와 다시 xml파일에 저장하는 메소드
-        {
-            // 파일의 경로와 이름을 지정
-            string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
+            }
 
             // XML 데이터를 문자열로 직렬화
             string serializedData = SerializeDataMap(mapData);
@@ -438,31 +401,69 @@ public class DataManager : MonoBehaviour
             byte[] key = settingData.dataKey[num - 1].playerDataKey;  // 키값 데이터 저장
 
             // 암호화된 데이터 생성
-            byte[] encryptedData = Encrypt(serializedData, key);
+            byte[] encryptData = Encrypt(serializedData, key);
 
-            SaveEncryptDataFile(encryptedData, filePath);
+            SaveEncryptDataFile(encryptData, filePath);
         }
-
-        private static string SerializeDataMap(MapData data)  // 텍스트 데이터를 직렬화 해주는 메소드
+        else
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(MapData));
-            using (StringWriter writer = new StringWriter())
-            {
-                serializer.Serialize(writer, data);
-                return writer.ToString();
-            }
+            mapData = MapDataGet(num);  // 파일이 있을 경우 데이터를 읽어오는 메소드 실행
         }
+    }*/
 
-        private static MapData DeserializeDataMap(string data)  // 텍스트 데이터를 역직렬화 해주는 메소드
+    public MapData MapDataGet(int num)  // 저장된 xml의 데이터를 가져오는 메소드
+    {
+        // 파일의 경로와 이름을 지정
+        string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
+
+        // 암호화된 데이터를 파일에서 불러옴
+        byte[] encryptedData = LoadEncryptDataFile(filePath);
+
+        // 암호화된 데이터를 복호화하여 XML 데이터로 변환
+        string decryptedData = Decrypt(encryptedData, settingData.dataKey[num - 1].playerDataKey);
+
+        // XML 데이터를 역직렬화하여 객체로 변환
+        MapData mapData = DeserializeDataMap(decryptedData);
+
+        return mapData;
+    }
+
+    public void SaveData(MapData mapData, int num)  // 사용한 데이터를 받아와 다시 xml파일에 저장하는 메소드
+    {
+        // 파일의 경로와 이름을 지정
+        string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
+
+        // XML 데이터를 문자열로 직렬화
+        string serializedData = SerializeDataMap(mapData);
+
+        byte[] key = settingData.dataKey[num - 1].playerDataKey;  // 키값 데이터 저장
+
+        // 암호화된 데이터 생성
+        byte[] encryptedData = Encrypt(serializedData, key);
+
+        SaveEncryptDataFile(encryptedData, filePath);
+    }
+
+    private static string SerializeDataMap(MapData data)  // 텍스트 데이터를 직렬화 해주는 메소드
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(MapData));
+        using (StringWriter writer = new StringWriter())
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(MapData));
-            using (StringReader reader = new StringReader(data))
-            {
-                MapData mapData = (MapData)serializer.Deserialize(reader);
-
-                return mapData;
-            }
+            serializer.Serialize(writer, data);
+            return writer.ToString();
         }
-    
-    */
+    }
+
+    private static MapData DeserializeDataMap(string data)  // 텍스트 데이터를 역직렬화 해주는 메소드
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(MapData));
+        using (StringReader reader = new StringReader(data))
+        {
+            MapData mapData = (MapData)serializer.Deserialize(reader);
+
+            return mapData;
+        }
+    }
+
+
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using System.IO;
 
 public enum Region
 {
@@ -118,7 +119,11 @@ public class BlockMapGenerator : MonoBehaviour
     {
         CreateIsland();
         SetCollisionLayer();
-        StartCoroutine(InitGame());
+        string filePath = Application.persistentDataPath + "/MapData" + DataManager.instance.saveNumber + ".xml";
+        if (!File.Exists(filePath))
+        {
+            StartCoroutine(InitGame());
+        }
     }
     private void CreateIsland()
     {
