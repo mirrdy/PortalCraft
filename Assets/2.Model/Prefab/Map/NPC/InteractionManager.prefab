@@ -217,4 +217,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionDistance: 5
   interactionKey: 102
-  interactionUI: {fileID: 0}
+  interactionUIInfo: {fileID: 4094578598086144060, guid: 24f37d12254b0154aa6bdd7ec148068a, type: 3}
+  isInteracting: 0

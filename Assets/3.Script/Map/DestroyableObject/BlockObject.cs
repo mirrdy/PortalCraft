@@ -6,6 +6,7 @@ public class BlockObject : MonoBehaviour, IDestroyable
 {
     public int maxHp;
     public int currentHp;
+    public bool isCreatedByGenerator;
     public List<FieldItem> dropTables;
 
     private void Awake()
@@ -18,8 +19,11 @@ public class BlockObject : MonoBehaviour, IDestroyable
         if (currentHp <= 0)
         {
             DropItem();
-            int.TryParse(transform.parent.name.Substring(6), out int islandIndex);
-            BlockMapGenerator.instance.CheckAroundDestroyedBlock(islandIndex-1, transform.position);
+            if (isCreatedByGenerator)
+            {
+                int.TryParse(transform.parent.name.Substring(6), out int islandIndex);
+                BlockMapGenerator.instance.CheckAroundDestroyedBlock(islandIndex - 1, transform.position);
+            }
             Destroy(gameObject);
             return;
         }

@@ -33,7 +33,7 @@ public class TimeManager : MonoBehaviour
     }
     private void LoadIngameTime()
     {
-        if (PlayerControl.instance?.playerData?.gameTime == null)
+        if (PlayerControl.instance?.playerData?.gameTime == 0)
         {
             ingameTime = 3600 * 6;
         }

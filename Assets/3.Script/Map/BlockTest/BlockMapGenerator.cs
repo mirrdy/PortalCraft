@@ -94,9 +94,15 @@ public class BlockMapGenerator : MonoBehaviour
     public GameObject prefab_PortalNPC;
 
     // 플레이어 스포너
-    public GameObject prefab_playerSpawner;
+    public GameObject prefab_PlayerSpawner;
     private Vector3 playerSpawnerPos;
     private bool isCreatedPlayerSpawner;
+
+    // 제작대
+    public GameObject prefab_CraftingTable;
+    private Vector3 craftingTablePos;
+    private bool isCreatedCraftingTable;
+
     // 데드존
     public GameObject prefab_Deadzone;
 
@@ -171,10 +177,51 @@ public class BlockMapGenerator : MonoBehaviour
         CreateMonsterSpawner();
         //SetActiveIslands(); // 플레이어 위치 저장에 관한 내용 필요
         ResetPlayer();
+        InitSetCraftingTable();
+
+
         PlayerControl.instance.whenPlayerDie += ResetPlayer;
         //PlayerControl.instance.enabled = true;
 
         // 생성2
+    }
+    private void InitSetCraftingTable()
+    {
+        int startCheckPointX = widthX / 8;
+        int endCheckPointX = widthX - (widthX / 8);
+        int startCheckPointZ = widthZ / 8;
+        int endCheckPointZ = widthZ - (widthZ / 8);
+
+        while (!isCreatedCraftingTable)
+        {
+            for (int x = startCheckPointX; x < endCheckPointX; x++)
+            {
+                for (int z = startCheckPointZ; z < endCheckPointZ; z++)
+                {
+                    for (int y = (int)groundHeightOffset; y < height; y++)
+                    {
+                        if (worldBlocks[0, x, y, z].isVisible && !new Vector3(x, y, z).Equals(playerSpawnerPos))
+                        {
+                            craftingTablePos = new Vector3(x, y + 0.5f, z);
+                            isCreatedCraftingTable = true;
+                            break;
+                        }
+                    }
+                    if (isCreatedCraftingTable)
+                    {
+                        break;
+                    }
+                }
+                if (isCreatedCraftingTable)
+                {
+                    break;
+                }
+            }
+        }
+        GameObject craftingTable = Instantiate(prefab_CraftingTable);
+        craftingTable.transform.SetParent(islands[0].transform);
+        craftingTable.transform.localPosition = craftingTablePos;
+
     }
     private void CreatePortal()
     {
@@ -380,6 +427,10 @@ public class BlockMapGenerator : MonoBehaviour
                     GameObject block = Instantiate(blockPrefabInfos[i].block);
                     block.transform.SetParent(islands[islandIndex].transform);
                     block.transform.localPosition = blockPos;
+                    if(block.TryGetComponent(out BlockObject blockInfo))
+                    {
+                        blockInfo.isCreatedByGenerator = true;
+                    }
 
                     worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, block, true);
 
@@ -433,6 +484,11 @@ public class BlockMapGenerator : MonoBehaviour
                         GameObject block = Instantiate(blockPrefabInfos[i].block);
                         block.transform.SetParent(islands[islandIndex].transform);
                         block.transform.localPosition = blockPos;
+                        if (block.TryGetComponent(out BlockObject blockInfo))
+                        {
+                            blockInfo.isCreatedByGenerator = true;
+                        }
+
 
                         worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, true, block, true);
                     }
@@ -485,6 +541,7 @@ public class BlockMapGenerator : MonoBehaviour
                 }
             }
         }
+        PlayerControl.instance.playerData.mapIndex = 0;
 
         PlayerControl.instance.transform.position = playerSpawnerPos;
         PlayerControl.instance.playerData.status.currentHp = PlayerControl.instance.playerData.status.maxHp;
@@ -546,6 +603,10 @@ public class BlockMapGenerator : MonoBehaviour
                     newBlock = Instantiate(blockPrefabInfos[i].block);
                     newBlock.transform.SetParent(islands[islandIndex].transform);
                     newBlock.transform.localPosition = blockPos;
+                    if (newBlock.TryGetComponent(out BlockObject blockInfo))
+                    {
+                        blockInfo.isCreatedByGenerator = true;
+                    }
                     break;
                 }
             }
