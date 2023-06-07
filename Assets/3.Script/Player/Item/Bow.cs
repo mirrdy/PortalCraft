@@ -29,14 +29,13 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
     private float SkillCoolDelta_2 = 20;
     #endregion
 
-
     private InGameUIManager uiManager;
 
     private void Start()
     {
         mainCam = GameObject.FindGameObjectWithTag("MainCamera");
         player = GameObject.FindGameObjectWithTag("Player");
-        GameObject.Find("InGame Canvas").TryGetComponent(out uiManager);
+        uiManager = GameObject.Find("InGameUIManager").GetComponent<InGameUIManager>();
     }
 
     private void Update()
@@ -85,13 +84,15 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
                 break;
             }
         }
+
+        uiManager.MpCheck(status.maxMp, status.currentMp, 1, SkillCool_1);
+
         if (SkillCoolDelta_1 >= SkillCool_1)
         {
             PlayerControl.instance.animator.SetTrigger("A1");
             SkillCoolDelta_1 = 0;
             StartCoroutine(ThreeShot());
             status.currentMp -= SkillMP_1;
-            //uiManager
         }     
     }   
     IEnumerator ThreeShot()
@@ -141,6 +142,9 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
                     break;
                 }
         }
+
+        uiManager.MpCheck(status.maxMp, status.currentMp, 2, SkillCool_2);
+
         if (SkillCoolDelta_2 >= SkillCool_2)
         {
             PlayerControl.instance.animator.SetTrigger("A2");
