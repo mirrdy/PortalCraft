@@ -9,6 +9,7 @@ public class MonsterChaseState : EntityState
     {
         entity.animator.SetBool("isMove", true);
         monster = entity.GetComponent<MonsterControl>();
+        AudioManager.instance.PlaySFX(entity.name+"Attack");
     }
 
     public override void ExitState(LivingEntity entity)
