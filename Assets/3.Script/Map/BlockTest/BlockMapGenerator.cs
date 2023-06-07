@@ -114,6 +114,8 @@ public class BlockMapGenerator : MonoBehaviour
     public Vector3[] islandPos;
     private GameObject[] islands;
 
+    public MapData mapData;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -123,6 +125,11 @@ public class BlockMapGenerator : MonoBehaviour
         if (!File.Exists(filePath))
         {
             StartCoroutine(InitGame());
+            DataManager.instance.MapSaveData(mapData, DataManager.instance.saveNumber);
+        }
+        else
+        {
+            mapData = DataManager.instance.MapDataGet(DataManager.instance.saveNumber);
         }
     }
     private void CreateIsland()
