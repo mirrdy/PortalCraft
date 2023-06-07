@@ -94,7 +94,9 @@ MonoBehaviour:
     mapObject: {fileID: 8149247797850641817, guid: ab546f17a7c93874582f4e6dd546326d, type: 3}
   prob_NonObject: 99
   monsterSpawnerInfo: {fileID: 1466419724128333080, guid: 3fc726b3b8ba2a943ae93a1e47d4fbed, type: 3}
-  portalInfo: {fileID: 8944633514463417326, guid: 1664a6a08b7d2224d9b9ded75afe6b47, type: 3}
+  portalInfo:
+  - {fileID: 8944633514463417326, guid: 1664a6a08b7d2224d9b9ded75afe6b47, type: 3}
+  - {fileID: 3746077249596692989, guid: 08222787c5b6e3d4096ffce08f68309b, type: 3}
   prefab_PortalNPC: {fileID: 1523954917324167652, guid: acb1e63e9249cc0498f41bdd0c81bce0, type: 3}
   prefab_playerSpawner: {fileID: 1520078118186438496, guid: 7d99bf3659f1d5d459297b8a03b1371f, type: 3}
   prefab_Deadzone: {fileID: 7441867424590624264, guid: 0160b6716a445cf4aa0726da45a60c9b, type: 3}

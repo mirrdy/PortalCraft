@@ -87,7 +87,7 @@ public class BlockMapGenerator : MonoBehaviour
     private Vector3[] monsterSpawnerPos;
     private bool[] isCreatedSpawner;
     // Æ÷Å»
-    public GameObject portalInfo;
+    public GameObject[] portalInfo;
     private Vector3[] portalPos;
     private bool[] isCreatedPortal;
     // Æ÷Å» - NPC
@@ -184,7 +184,7 @@ public class BlockMapGenerator : MonoBehaviour
             {
                 SetDefaultPortalPos(i);
             }
-            GameObject portal = Instantiate(portalInfo);
+            GameObject portal = Instantiate(portalInfo[i]);
             portal.transform.SetParent(islands[i].transform);
             portal.transform.localPosition = portalPos[i];
 
@@ -298,6 +298,12 @@ public class BlockMapGenerator : MonoBehaviour
                     float zCoord = z / waveLength + randomOffsetZ;
                     int noiseValueY = (int)(Mathf.PerlinNoise(xCoord, zCoord) * amplitude + groundHeightOffset);
 
+                    if(noiseValueY >= height)
+                    {
+                        z--;
+                        continue;
+                    }
+
                     Vector3 pos = new Vector3(x, noiseValueY, z);
                     StartCoroutine(CreateBlock(i, noiseValueY, pos, true));
 
@@ -355,6 +361,8 @@ public class BlockMapGenerator : MonoBehaviour
                     // Æ÷Å» »ý¼ºÇÒ À§Ä¡ ÀúÀå
                     if (!isCreatedPortal[islandIndex])
                     {
+
+
                         if(blockPos.x > 10 && blockPos.z > 10)
                         {
                             int spawnProb = (int)(widthX * widthZ * 0.5f);
@@ -406,7 +414,39 @@ public class BlockMapGenerator : MonoBehaviour
         PlayerControl.instance.TryGetComponent(out CharacterController control);
 
         control.enabled = false;
-        
+
+        int startCheckPointX = widthX / 8;
+        int endCheckPointX = widthX - (widthX / 8);
+        int startCheckPointZ = widthZ / 8;
+        int endCheckPointZ = widthZ - (widthZ / 8);
+
+        while(!isCreatedPlayerSpawner)
+        {
+            for(int x=startCheckPointX; x < endCheckPointX; x++)
+            {
+                for(int z = startCheckPointZ; z<endCheckPointZ; z++)
+                {
+                    for(int y = (int)groundHeightOffset; y<height; y++)
+                    {
+                        if(worldBlocks[0, x, y, z].isVisible)
+                        {
+                            playerSpawnerPos = new Vector3(x, y + 1, z);
+                            isCreatedPlayerSpawner = true;
+                            break;
+                        }
+                    }
+                    if(isCreatedPlayerSpawner)
+                    {
+                        break;
+                    }
+                }
+                if(isCreatedPlayerSpawner)
+                {
+                    break;
+                }
+            }
+        }
+
         PlayerControl.instance.transform.position = playerSpawnerPos;
         PlayerControl.instance.playerData.status.currentHp = PlayerControl.instance.playerData.status.maxHp;
         PlayerControl.instance.playerData.status.currentMp = PlayerControl.instance.playerData.status.maxMp;

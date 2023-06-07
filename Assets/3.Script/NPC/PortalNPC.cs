@@ -14,6 +14,12 @@ public class PortalNPC : InteractiveEntity
     }
     private QuestProgress progress;
     private GameObject canvas_Dialog;
+    private InGameUIManager ingameUIManager;
+
+    private void Start()
+    {
+        GameObject.Find("InGameUIManager").TryGetComponent(out ingameUIManager);
+    }
 
     public override void Interact()
     {
@@ -37,6 +43,7 @@ public class PortalNPC : InteractiveEntity
         else if(progress == QuestProgress.Doing)
         {
             // 인벤토리에서 재료가 있는지 없는지 확인 필요
+            
             TMP.text = "가져온 조각으로 포탈을 활성화시켜줬어.";
         }
         else if(progress == QuestProgress.Finish)
