@@ -51,6 +51,7 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] Sprite[] frameColor;  // 아이템 종류에 따른 프레임 컬러 보관 스프라이트
     [SerializeField] Sprite[] image_Item;  // 아이템 2D스프라이트
     [SerializeField] GameObject image_Tooltip;  // 아이템 툴팁;
+    [SerializeField] RectTransform rectTooltip;  // 아이템 툴팁;
     [SerializeField] Text tooltip;  // 아이템 설명 표시
     [SerializeField] Sprite[] border;  // 슬롯에 마우스 올라갈때 테두리 변경용 이미지
     [SerializeField] Slot[] slotUi;
@@ -72,25 +73,26 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] GameObject target;  // 플레이어 타켓 표시 용 오브젝트
 
     [Header("Current Slot")]
-    [SerializeField] GameObject currentSlot;
-    [SerializeField] Image currentImage;
-    [SerializeField] GameObject text_currentSlot;
-    [SerializeField] Text SlotItemCount;
+    [SerializeField] GameObject currentSlot;  // 마우스 드래그 앤 드롭 시 이미지를 받아오는 오브젝트
+    [SerializeField] Image currentImage;  // 마우스 드래그 앤 드롭 시 이미지를 받아오는 이미지
+    [SerializeField] GameObject text_currentSlot;  // 해당 아이템의 수량을 표기해주는 이미지
+    [SerializeField] Text SlotItemCount;  // 이미지 파일 내부에 수량을 표기할 텍스트
 
     [Header("Prefab")]
     [SerializeField] FieldItem[] prefab;  // 필드 드랍용 아이템 프리펩 배열
 
     [Header("Boss")]
-    [SerializeField] GameObject bossUi;
-    [SerializeField] Slider bossHp;
-    [SerializeField] Text bossHpCheck;
+    [SerializeField] GameObject bossUi;  // 보스 UI 오브젝트
+    [SerializeField] Slider bossHp;  // 보스 몬스터의 체력을 나타내는 ui
+    [SerializeField] Text bossHpCheck;  // 보스 몬스터의 체력을 보다 직관적으로 표기해줄 텍스트
 
     [Header("Craft")]
-    [SerializeField] GameObject craftWindow;
-    [SerializeField] Image[] image_Tab;
-    [SerializeField] GameObject[] material1Obejct;
-    [SerializeField] Image[] material1;
-    [SerializeField] Text[] material1Quantity;
+    [SerializeField] GameObject craftWindow;  // 제작대 ui 창
+    [SerializeField] Image[] image_Tab;  // 
+    [SerializeField] GameObject[] materialObejct;
+    [SerializeField] Image[] material;
+    [SerializeField] Text[] materialQuantity;
+    [SerializeField] Text[] materialName;
     [SerializeField] GameObject[] craftItemSlot;
     [SerializeField] Image[] craftItem;
     [SerializeField] Text[] craftName;
@@ -124,6 +126,8 @@ public class InGameUIManager : MonoBehaviour
     private string craftType; // 아이템 제작에 필요한 변수
     private int craftingNumber = 0;
     private List<int> tagCount = new List<int>();
+
+    private Camera mainCamera;
 
     private void Reset()
     {
@@ -331,6 +335,7 @@ public class InGameUIManager : MonoBehaviour
         skillPoint = statusUI.GetChild(0).GetChild(5).GetChild(0).GetComponentInChildren<Text>(true);
 
         image_Tooltip = tooltipUI.GetComponentInChildren<Transform>(true).gameObject;
+        rectTooltip = tooltipUI.GetComponentInChildren<RectTransform>(true);
         tooltip = tooltipUI.GetChild(0).GetComponentInChildren<Text>(true);
 
         currentSlot = DragSlotUI.GetComponentInChildren<Transform>(true).gameObject;
@@ -388,21 +393,26 @@ public class InGameUIManager : MonoBehaviour
         image_Tab[0] = craftUI.GetChild(3).GetComponentInChildren<Image>(true);
         image_Tab[1] = craftUI.GetChild(4).GetComponentInChildren<Image>(true);
         image_Tab[2] = craftUI.GetChild(5).GetComponentInChildren<Image>(true);
-        material1Obejct = new GameObject[4];
-        material1Obejct[0] = craftUI.GetChild(0).GetChild(0).GetComponentInChildren<Transform>(true).gameObject;
-        material1Obejct[1] = craftUI.GetChild(0).GetChild(1).GetComponentInChildren<Transform>(true).gameObject;
-        material1Obejct[2] = craftUI.GetChild(0).GetChild(2).GetComponentInChildren<Transform>(true).gameObject;
-        material1Obejct[3] = craftUI.GetChild(0).GetChild(3).GetComponentInChildren<Transform>(true).gameObject;
-        material1 = new Image[4];
-        material1[0] = craftUI.GetChild(0).GetChild(0).GetChild(0).GetComponentInChildren<Image>(true);
-        material1[1] = craftUI.GetChild(0).GetChild(1).GetChild(0).GetComponentInChildren<Image>(true);
-        material1[2] = craftUI.GetChild(0).GetChild(2).GetChild(0).GetComponentInChildren<Image>(true);
-        material1[3] = craftUI.GetChild(0).GetChild(3).GetChild(0).GetComponentInChildren<Image>(true);
-        material1Quantity = new Text[4];
-        material1Quantity[0] = craftUI.GetChild(0).GetChild(0).GetChild(1).GetComponentInChildren<Text>(true);
-        material1Quantity[1] = craftUI.GetChild(0).GetChild(1).GetChild(1).GetComponentInChildren<Text>(true);
-        material1Quantity[2] = craftUI.GetChild(0).GetChild(2).GetChild(1).GetComponentInChildren<Text>(true);
-        material1Quantity[3] = craftUI.GetChild(0).GetChild(3).GetChild(1).GetComponentInChildren<Text>(true);
+        materialObejct = new GameObject[4];
+        materialObejct[0] = craftUI.GetChild(0).GetChild(0).GetComponentInChildren<Transform>(true).gameObject;
+        materialObejct[1] = craftUI.GetChild(0).GetChild(1).GetComponentInChildren<Transform>(true).gameObject;
+        materialObejct[2] = craftUI.GetChild(0).GetChild(2).GetComponentInChildren<Transform>(true).gameObject;
+        materialObejct[3] = craftUI.GetChild(0).GetChild(3).GetComponentInChildren<Transform>(true).gameObject;
+        material = new Image[4];
+        material[0] = craftUI.GetChild(0).GetChild(0).GetChild(0).GetComponentInChildren<Image>(true);
+        material[1] = craftUI.GetChild(0).GetChild(1).GetChild(0).GetComponentInChildren<Image>(true);
+        material[2] = craftUI.GetChild(0).GetChild(2).GetChild(0).GetComponentInChildren<Image>(true);
+        material[3] = craftUI.GetChild(0).GetChild(3).GetChild(0).GetComponentInChildren<Image>(true);
+        materialQuantity = new Text[4];
+        materialQuantity[0] = craftUI.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
+        materialQuantity[1] = craftUI.GetChild(0).GetChild(1).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
+        materialQuantity[2] = craftUI.GetChild(0).GetChild(2).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
+        materialQuantity[3] = craftUI.GetChild(0).GetChild(3).GetChild(1).GetChild(0).GetComponentInChildren<Text>(true);
+        materialName = new Text[4];
+        materialName[0] = craftUI.GetChild(0).GetChild(0).GetChild(2).GetComponentInChildren<Text>(true);
+        materialName[1] = craftUI.GetChild(0).GetChild(1).GetChild(2).GetComponentInChildren<Text>(true);
+        materialName[2] = craftUI.GetChild(0).GetChild(2).GetChild(2).GetComponentInChildren<Text>(true);
+        materialName[3] = craftUI.GetChild(0).GetChild(3).GetChild(2).GetComponentInChildren<Text>(true);
         craftItemSlot = new GameObject[9];
         for (int i = 0; i < craftItemSlot.Length; i++)
         {
@@ -435,6 +445,7 @@ public class InGameUIManager : MonoBehaviour
     private void OnEnable()
     {
         player = GameObject.Find("Player").GetComponent<PlayerControl>();
+        mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
 
         menuImage.SetActive(false);
         settingMenu.SetActive(false);
@@ -628,6 +639,7 @@ public class InGameUIManager : MonoBehaviour
                 image_Status.SetActive(false);
                 inventory.SetActive(false);
                 playerView.SetActive(false);
+                craftWindow.SetActive(false);
             }
             else
             {
@@ -656,6 +668,7 @@ public class InGameUIManager : MonoBehaviour
                 inventory.SetActive(false);
                 menuImage.SetActive(false);
                 playerView.SetActive(true);
+                craftWindow.SetActive(false);
             }
             else
             {
@@ -684,6 +697,7 @@ public class InGameUIManager : MonoBehaviour
                 image_Status.SetActive(false);
                 menuImage.SetActive(false);
                 playerView.SetActive(true);
+                craftWindow.SetActive(false);
             }
             else
             {
@@ -738,8 +752,21 @@ public class InGameUIManager : MonoBehaviour
             int num = 0;
             int tag = playerData.inventory[value].tag;
 
-            image_Tooltip.SetActive(true);
-            image_Tooltip.transform.position = itemSlot[value].transform.position + (new Vector3(300, -50, 0));
+            image_Tooltip.gameObject.SetActive(true);
+
+            Vector2 mousePosition = new Vector2(itemSlot[value].transform.position.x + 180, itemSlot[value].transform.position.y -120);
+            Vector2 viewportPosition = Camera.main.ScreenToViewportPoint(mousePosition);
+            Vector2 anchoredPosition = rectTooltip.anchoredPosition;
+
+            // UI 요소의 위치를 마우스 포지션에 맞춰 설정합니다.
+            anchoredPosition.x = viewportPosition.x * Screen.width;
+            anchoredPosition.y = viewportPosition.y * Screen.height;
+
+            // UI 요소의 위치를 화면의 뷰포트 영역 내에 제한합니다.
+            anchoredPosition.x = Mathf.Clamp(anchoredPosition.x, 150, Screen.width - 150);
+            anchoredPosition.y = Mathf.Clamp(anchoredPosition.y, 200, Screen.height - 200);
+
+            rectTooltip.anchoredPosition = anchoredPosition;
 
             for (int i = 0; i < itemInfo.list_AllItem.Count; i++)
             {
@@ -1138,7 +1165,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void MouseExit()
     {
-        image_Tooltip.SetActive(false);
+        image_Tooltip.gameObject.SetActive(false);
     }
 
     public void BorderChange(int value)
@@ -1368,6 +1395,10 @@ public class InGameUIManager : MonoBehaviour
             }
 
             TwoSkillCo = StartCoroutine(TwoskillDelay_co(skillCool));
+        }
+        else
+        {
+            return;
         }
     }
 
@@ -2037,15 +2068,7 @@ public class InGameUIManager : MonoBehaviour
                 {
                     craftItem[count].sprite = image_Item[j];
                     craftName[count].text = itemInfo.list_AllItem[j].name;
-                    if(tagQuantity[count] >= 2)
-                    {
-                        image_Count[count].SetActive(true);
-                        craftingQuantity[count].text = "" + tagQuantity[count];
-                    }
-                    else
-                    {
-                        image_Count[count].SetActive(false);
-                    }
+                    craftingQuantity[count].text = "" + tagQuantity[count];
                 }
             }
         }
@@ -2062,7 +2085,7 @@ public class InGameUIManager : MonoBehaviour
         {
             image_Tab[1].color = new Color(1f, 1f, 1f, 1f);
         }
-        else
+        else if(tab.Equals(craftType))
         {
             image_Tab[2].color = new Color(1f, 1f, 1f, 1f);
         }
@@ -2076,9 +2099,9 @@ public class InGameUIManager : MonoBehaviour
         craftingNumber = value;
         bool[] hasItem = new bool[4];
 
-        for (int i = 0; i < material1Obejct.Length; i++)
+        for (int i = 0; i < materialObejct.Length; i++)
         {
-            material1Obejct[i].SetActive(false);
+            materialObejct[i].SetActive(false);
         }
 
         for (int i = 0; i < craftInfo.list_Craft.Count; i++)
@@ -2091,33 +2114,37 @@ public class InGameUIManager : MonoBehaviour
                     {
                         if (craftInfo.list_Craft[i].materialTag1 == itemInfo.list_AllItem[j].tag)
                         {
-                            material1[0].sprite = image_Item[j];
-                            material1Quantity[0].text = "" + craftInfo.list_Craft[i].quantity;
-                            material1Obejct[0].SetActive(true);
+                            material[0].sprite = image_Item[j];
+                            materialQuantity[0].text = "" + craftInfo.list_Craft[i].quantity;
+                            materialObejct[0].SetActive(true);
+                            materialName[0].text = "" + itemInfo.list_AllItem[j].name;
                             hasItem[0] = InventoryItemCheck(craftInfo.list_Craft[i].materialTag1, craftInfo.list_Craft[i].quantity);
                             count++;
                         }
                         else if (craftInfo.list_Craft[i].materialTag2 == itemInfo.list_AllItem[j].tag)
                         {
-                            material1[1].sprite = image_Item[j];
-                            material1Quantity[1].text = "" + craftInfo.list_Craft[i].quantity;
-                            material1Obejct[1].SetActive(true);
+                            material[1].sprite = image_Item[j];
+                            materialQuantity[1].text = "" + craftInfo.list_Craft[i].quantity;
+                            materialObejct[1].SetActive(true);
+                            materialName[1].text = "" + itemInfo.list_AllItem[j].name;
                             hasItem[1] = InventoryItemCheck(craftInfo.list_Craft[i].materialTag2, craftInfo.list_Craft[i].quantity);
                             count++;
                         }
                         else if (craftInfo.list_Craft[i].materialTag3 == itemInfo.list_AllItem[j].tag)
                         {
-                            material1[2].sprite = image_Item[j];
-                            material1Quantity[2].text = "" + craftInfo.list_Craft[i].quantity;
-                            material1Obejct[2].SetActive(true);
+                            material[2].sprite = image_Item[j];
+                            materialQuantity[2].text = "" + craftInfo.list_Craft[i].quantity;
+                            materialObejct[2].SetActive(true);
+                            materialName[2].text = "" + itemInfo.list_AllItem[j].name;
                             hasItem[2] = InventoryItemCheck(craftInfo.list_Craft[i].materialTag3, craftInfo.list_Craft[i].quantity);
                             count++;
                         }
                         else if (craftInfo.list_Craft[i].materialTag4 == itemInfo.list_AllItem[j].tag)
                         {
-                            material1[3].sprite = image_Item[j];
-                            material1Quantity[3].text = "" + craftInfo.list_Craft[i].quantity;
-                            material1Obejct[3].SetActive(true);
+                            material[3].sprite = image_Item[j];
+                            materialQuantity[3].text = "" + craftInfo.list_Craft[i].quantity;
+                            materialObejct[3].SetActive(true);
+                            materialName[3].text = "" + itemInfo.list_AllItem[j].name;
                             hasItem[3] = InventoryItemCheck(craftInfo.list_Craft[i].materialTag4, craftInfo.list_Craft[i].quantity);
                             count++;
                         }
