@@ -81,6 +81,8 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private bool hasAnimator;
 
+    public int playerHand; 
+
 
     #region 애니메이션 파라미터ID
     private int animID_Speed;
@@ -129,9 +131,6 @@ public class PlayerControl : MonoBehaviour, IDamage
     public List<GameObject> ItemList_Potion = new List<GameObject>();
 
     private Transform head;
-
-
-
 
 
 
@@ -702,6 +701,12 @@ public class PlayerControl : MonoBehaviour, IDamage
             }
         }
     }
+
+
+
+
+
+
     private void ItemList_Equip_InActive() //Tag가 Arms 인 오브젝트들 비활성화
     {
         for (int i = 0; i < ItemList_Equip.Count; i++)
@@ -753,7 +758,7 @@ public class PlayerControl : MonoBehaviour, IDamage
             ItemList_Equip_InActive();
             equipItem = ItemList_Potion[quickSlotItem_Tag - 501];
         }
-        else //실질적으로 빈손상태 -> 엑셀에 ㅇ 표시 없는애들은 여기로 들어옴 
+        else 
         {
             ItemList_Equip_InActive();
             currentItem = ItemType.Empty;
@@ -817,6 +822,8 @@ public class PlayerControl : MonoBehaviour, IDamage
 
 
     
+
+
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
     {
         Status status = playerData.status;
@@ -860,6 +867,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         playerData.playerLevel++;
         uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
     }
+
 
 
 
