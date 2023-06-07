@@ -71,6 +71,11 @@ public class CameraControl_Ray : MonoBehaviour
                             _3rdPersonFollow.ShoulderOffset = Third_Vec;
                             _3rdPersonFollow.CameraDistance = Third_distance;
                         }
+                        if (!PlayerControl.instance.grounded) //점프하는 도중엔 시점교체 X
+                        {
+                            _3rdPersonFollow.ShoulderOffset = Third_Vec;
+                            _3rdPersonFollow.CameraDistance = Third_distance;
+                        }
                     }
                     break;
                 }
