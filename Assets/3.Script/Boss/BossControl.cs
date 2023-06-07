@@ -19,6 +19,8 @@ public class BossControl : MonoBehaviour ,IDestroyable
     public int phase = 1;
     public int attackDelay = 5;
 
+    private Vector3 bossSpawn;
+
     [SerializeField] public float timebetAttack = 0.5f;
     public float lastAttackTimebet;
     //데미지계수
@@ -45,7 +47,12 @@ public class BossControl : MonoBehaviour ,IDestroyable
     //보스 파티클
     [SerializeField] private ParticleSystem hitParticle;
     [SerializeField] public ParticleSystem[] bossUseEffect;
-    private void Start()
+    
+
+    //플레이어 길막 오브젝트
+    [SerializeField] private GameObject playerBlock;
+
+    private void Awake()
     {
         DataSetting(bossData);
         currentHp = hp;
@@ -54,15 +61,36 @@ public class BossControl : MonoBehaviour ,IDestroyable
         currentState = new BossIdleState();
         ChangeState(new BossIdleState());
         bossControl = GetComponent<CharacterController>();
-            
+        onDeath.AddListener(DropItem);
+        onDeath.AddListener(OpenDoor);
+        bossSpawn = transform.position;
     }
+
+    private void OnEnable()
+    {
+        playerBlock.SetActive(false);
+        gameObject.transform.position = bossSpawn;
+    }
+    //private void Start()
+    //{
+    //    DataSetting(bossData);
+    //    currentHp = hp;
+    //    canAttack = true;
+    //    animator = GetComponent<Animator>();
+    //    currentState = new BossIdleState();
+    //    ChangeState(new BossIdleState());
+    //    bossControl = GetComponent<CharacterController>();
+    //    onDeath.AddListener(DropItem);
+    //    onDeath.AddListener(OpenDoor);
+            
+    //}
     private void Update()   
     {
         currentState.UpdateState(this);
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            ChangePhase();
-        }
+        //if (input.getkeydown(keycode.k))
+        //{
+        //    changephase();
+        //}
     }
     public void DataSetting(MonsterData data)
     {
@@ -92,7 +120,7 @@ public class BossControl : MonoBehaviour ,IDestroyable
 
     public void DropItem()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public void TakeDamage(int damage)
@@ -103,7 +131,7 @@ public class BossControl : MonoBehaviour ,IDestroyable
         if (currentHp <= 0 && !isDead)
         {
             isDead = true;
-            //ChangeState(new MonsterDieState());
+            ChangeState(new BossDieState());
             //entityController.enabled = false;
         }
         if(currentHp <= currentHp*0.5&&phase == 1)
@@ -122,5 +150,9 @@ public class BossControl : MonoBehaviour ,IDestroyable
     {
         ChangeState(new BossChangePhase());
 
+    }
+    private void OpenDoor()
+    {
+        playerBlock.SetActive(false);
     }
 }
