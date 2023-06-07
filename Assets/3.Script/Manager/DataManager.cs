@@ -376,41 +376,6 @@ public class DataManager : MonoBehaviour
 
     }
 
-    /*public void MapDataSet(int num)
-    {
-        string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
-
-        if (!File.Exists(filePath))  // xml의 데이터에 따라서 저장 데이터를 전달 초기화 이후에 대입하여 기본값을 설정
-        {
-            for (int i = 0; i < mapData.list_BlockData.Count; i++)
-            {
-                
-            }
-            for (int i = 0; i < mapData.list_PortalData.Count; i++)
-            {
-
-            }
-            for (int i = 0; i < mapData.list_StructureData.Count; i++)
-            {
-
-            }
-
-            // XML 데이터를 문자열로 직렬화
-            string serializedData = SerializeDataMap(mapData);
-
-            byte[] key = settingData.dataKey[num - 1].playerDataKey;  // 키값 데이터 저장
-
-            // 암호화된 데이터 생성
-            byte[] encryptData = Encrypt(serializedData, key);
-
-            SaveEncryptDataFile(encryptData, filePath);
-        }
-        else
-        {
-            mapData = MapDataGet(num);  // 파일이 있을 경우 데이터를 읽어오는 메소드 실행
-        }
-    }*/
-
     public MapData MapDataGet(int num)  // 저장된 xml의 데이터를 가져오는 메소드
     {
         // 파일의 경로와 이름을 지정
@@ -428,7 +393,7 @@ public class DataManager : MonoBehaviour
         return mapData;
     }
 
-    public void SaveData(MapData mapData, int num)  // 사용한 데이터를 받아와 다시 xml파일에 저장하는 메소드
+    public void MapSaveData(MapData mapData, int num)  // 사용한 데이터를 받아와 다시 xml파일에 저장하는 메소드
     {
         // 파일의 경로와 이름을 지정
         string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
@@ -464,6 +429,4 @@ public class DataManager : MonoBehaviour
             return mapData;
         }
     }
-
-
 }

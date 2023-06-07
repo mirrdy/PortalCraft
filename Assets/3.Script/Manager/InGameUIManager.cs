@@ -127,7 +127,7 @@ public class InGameUIManager : MonoBehaviour
     private int craftingNumber = 0;
     private List<int> tagCount = new List<int>();
 
-    private Camera mainCamera;
+    private BlockMapGenerator mapData;
 
     private void Reset()
     {
@@ -445,7 +445,7 @@ public class InGameUIManager : MonoBehaviour
     private void OnEnable()
     {
         player = GameObject.Find("Player").GetComponent<PlayerControl>();
-        mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+        mapData = GameObject.Find("MapGenerator").GetComponent<BlockMapGenerator>();
 
         menuImage.SetActive(false);
         settingMenu.SetActive(false);
@@ -547,6 +547,7 @@ public class InGameUIManager : MonoBehaviour
     public void SaveBtn()
     {
         DataManager.instance.SaveData(player.playerData, DataManager.instance.saveNumber);
+        DataManager.instance.MapSaveData(mapData.mapData, DataManager.instance.saveNumber);
     }
 
     public void SettingWindow()  // 옵션 창 호출 버튼 메소드
