@@ -69,8 +69,6 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
             {
                 damage = PlayerControl.instance.playerData.status.attack + attackDamage;
             }
-            //Vector3 hitPoint = coll.ClosestPoint(transform.position);
-            //Vector3 hitNormal = transform.position - coll.transform.position;
             monsterControl.TakeDamage(damage);
         }
     }

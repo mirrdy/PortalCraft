@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 132678614106948876}
   - component: {fileID: 122612891777631456}
   - component: {fileID: 113791494416358492}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: box_wooden_2_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 132599666211387938}
   - component: {fileID: 121717636857240324}
   - component: {fileID: 113158008830167602}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: box_wooden_2_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 128395632113154378}
   - component: {fileID: 121822416896671116}
   - component: {fileID: 113573612851480914}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: box_wooden_2_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 224230751795340272}
   - component: {fileID: -2961740201238756460}
   - component: {fileID: 2494807628593732128}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wooden_box
   m_TagString: Block
   m_Icon: {fileID: 0}
@@ -336,5 +336,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 100
   currentHp: 0
+  isCreatedByGenerator: 0
   dropTables:
   - {fileID: 2553375640344679284, guid: 01d446d38ac5c374f9e3b5e938a47b0d, type: 3}

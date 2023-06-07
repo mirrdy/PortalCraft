@@ -38,6 +38,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Build",
+                    "type": "Button",
+                    "id": "01773a3c-510f-4a2a-902e-1e5698637470",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Skill_1",
                     "type": "Button",
                     "id": "c2815112-94e9-4ac1-a8de-8cbabf6afba4",
@@ -124,7 +132,7 @@
                 {
                     "name": "",
                     "id": "a57c97fa-c6ff-4e0a-9f4d-a0f6fea0a284",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/leftCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -162,6 +170,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Skill_2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "904fc876-b0c5-4022-aa20-391ea8d5563f",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Build",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

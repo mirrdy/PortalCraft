@@ -21,3 +21,4 @@ MonoBehaviour:
   patrolRange: 2
   gravity: -6
   dropExpNum: 0
+  name: Skeleton

@@ -131,7 +131,6 @@ public class PlayerControl : MonoBehaviour, IDamage
     private Transform head;
 
     public int playerHand;
-    private string oldEquip = string.Empty;
 
 
     private void Awake()
@@ -192,9 +191,9 @@ public class PlayerControl : MonoBehaviour, IDamage
         JumpAndGravity();
         DodgeRoll();
         Attack();
-        //ItemSelect();
-        //ArmorSelect();
+        Build();
         QuickSlotItem();
+        ArmorSelect();
         if (input.skill_1)
         {
             Skill_1();
@@ -226,7 +225,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void Move()
     {
         #region 플레이어 스피드 설정
-        float targetSpeed = input.sprint ? sprintSpeed : moveSpeed;
+        float targetSpeed = input.sprint ? sprintSpeed : playerData.status.moveSpeed;
         if (input.move == Vector2.zero)
         {
             targetSpeed = 0.0f;
@@ -314,7 +313,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
         if (canDodge) // 구르기 가능 상태
         {
-            if (Input.GetMouseButtonDown(1) && inputDirection.magnitude != 0 && grounded)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && inputDirection.magnitude != 0 && grounded)
             {
                 animator.SetTrigger(animID_Roll);
                 DodgeCoolDelta = DodgeCool;
@@ -402,7 +401,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             case ItemType.Empty:
                 {
-                    CanAction = ActionCool > 1f * 0.5f; //->1f를 staters.attackSpeed 로 바꿔야함
+                    CanAction = ActionCool > 1f * 0.5f; 
 
                     if (input.attack && CanAction)
                     {
@@ -413,7 +412,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                         {
                             if (hitInfo.transform.TryGetComponent(out IDestroyable obj))
                             {
-                                obj.TakeDamage(25); // 25->playerData.Status.attack
+                                obj.TakeDamage(5);
                             }
                         }
                         else
@@ -453,16 +452,6 @@ public class PlayerControl : MonoBehaviour, IDamage
                             ActionCool = 0;
                         }
                     }
-                    else if (equipItem.TryGetComponent(out Torch torch))
-                    {
-                        equipItem_attackRate = 1f * torch.attackRate; //0.5f를 torch.attackRate 로 변경 
-                        CanAction = ActionCool > 1f * equipItem_attackRate; //0.5f 를 equipItem.attackRate 로 변경
-                        if (input.attack && CanAction)
-                        {
-                            CreateTorch();
-                            ActionCool = 0;
-                        }
-                    }
                     else if (equipItem.TryGetComponent(out Pickaxe pickaxe))
                     {
                         equipItem_attackRate = 1f * pickaxe.attackRate; //0.5f를 pickaxe.attackRate 로 변경 
@@ -494,8 +483,32 @@ public class PlayerControl : MonoBehaviour, IDamage
                             ActionCool = 0;
                         }
                     }
+                    else if (equipItem == ItemList_Equip[8])
+                    {
+                        CanAction = ActionCool > 1f * 0.5f;
+
+                        if (input.attack && CanAction)
+                        {
+                            Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+                            Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+                            if (Physics.Raycast(ray, out RaycastHit hitInfo, 15f, LayerMask_Dig))
+                            {
+                                if (hitInfo.transform.TryGetComponent(out IDestroyable obj))
+                                {
+                                    obj.TakeDamage(5);
+                                }
+                            }
+                            else
+                            {
+                                Debug.Log("헛손질");
+                            }
+                            animator.SetTrigger(animID_Attack);
+                            ActionCool = 0;
+                        }
+                    }
                     break;
-                }
+                }                   
             case ItemType.About:
                 {
                     CanAction = ActionCool > 1f * 2.33f; //1f를 playerData.status.attackSpeed 로 넣어야함
@@ -512,11 +525,62 @@ public class PlayerControl : MonoBehaviour, IDamage
                     CanAction = ActionCool > 1f * 0.5f;
                     if (input.attack && CanAction)
                     {
-                        CreateBlock();
+                        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+                        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+                        if (Physics.Raycast(ray, out RaycastHit hitInfo, 15f, LayerMask_Dig))
+                        {
+                            if (hitInfo.transform.TryGetComponent(out IDestroyable obj))
+                            {
+                                obj.TakeDamage(5); 
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("헛손질");
+                        }
+                        animator.SetTrigger(animID_Attack);
                         ActionCool = 0;
                     }
                     break;
                 }
+        }
+    }
+    private void Build()
+    {
+        switch (currentItem) //장착중인 현재아이템
+        {
+            case ItemType.Block:
+                {
+                    if (input.mouse_1)
+                    {
+                        animator.SetTrigger(animID_Attack);
+                        CreateBlock();
+                        input.mouse_1 = false;
+                    }
+                    break;
+                }
+            case ItemType.Arms:
+                {
+                    if (equipItem == ItemList_Equip[8])
+                    {
+                        if (input.mouse_1)
+                        {
+                            animator.SetTrigger(animID_Attack);
+                            CreateTorch();
+                            input.mouse_1 = false;
+                        }
+                    }
+                    break;
+                }
+            case ItemType.Empty:
+                {
+                    break;
+                }        
+            case ItemType.About:
+                {
+                    break;
+                }           
         }
     }
     private void Skill_1() //Q 
@@ -709,65 +773,54 @@ public class PlayerControl : MonoBehaviour, IDamage
 
 
 
-    private void ItemList_Equip_InActive() //Tag가 Arms 인 오브젝트들 비활성화
+    private void ItemList_Equip_InActive()
     {
+        int tag = playerData.inventory[playerHand].tag;
+
         for (int i = 0; i < ItemList_Equip.Count; i++)
         {
             ItemList_Equip[i].SetActive(false);
         }
     }
-    private void ItemSelect()
+    private void QuickSlotItem()
     {
-        int playerHand = uiManager.GetPlayerHand();
-
-        quickSlotItem_Type = playerData.inventory[playerHand].type;
-        quickSlotItem_Tag = playerData.inventory[playerHand].tag;
-        quickSlotItem_Quantity = playerData.inventory[playerHand].quantity;
-
-        #region 아이템타입
-        if (quickSlotItem_Type == null)
+        int tag = playerData.inventory[playerHand].tag;
+        if (tag >= 1 && tag <= 10) //블록들
         {
-            currentItem = ItemType.Empty;
+            ItemList_Equip_InActive();
+            currentItem = ItemType.Block;
+            equipItem = ItemList_Build[tag - 1];
         }
-        else if (quickSlotItem_Type == "Arms")
+        else if (tag >= 201 && tag <= 209) //무기
         {
             currentItem = ItemType.Arms;
+            equipItem = ItemList_Equip[tag - 201];
+            for (int i = 0; i < ItemList_Equip.Count; i++)
+            {
+                if (i == tag - 201)
+                {
+                    ItemList_Equip[i].SetActive(true);
+                }
+                else
+                {
+                    ItemList_Equip[i].SetActive(false);
+                }
+            }
         }
-        else if (quickSlotItem_Type == "About")
+        else if (tag == 501 || tag == 502) //포션
         {
+            ItemList_Equip_InActive();
             currentItem = ItemType.About;
+            equipItem = ItemList_Potion[0];
         }
-        else if (quickSlotItem_Type == "Block")
-        {
-            currentItem = ItemType.Block;
-        }
-        #endregion
-
-        #region 아이템태그
-        if (quickSlotItem_Tag >= 201 && quickSlotItem_Tag <= 209)
-        {
-            ItemList_Equip_InActive();
-            ItemList_Equip[quickSlotItem_Tag - 201].SetActive(true);
-            equipItem = ItemList_Equip[quickSlotItem_Tag - 201];
-        }
-        else if (quickSlotItem_Tag >= 1 && quickSlotItem_Tag <= 10)
-        {
-            ItemList_Equip_InActive();
-            equipItem = ItemList_Build[quickSlotItem_Tag - 1];
-        }
-        else if (quickSlotItem_Tag == 501 && quickSlotItem_Tag == 502)
-        {
-            ItemList_Equip_InActive();
-            equipItem = ItemList_Potion[quickSlotItem_Tag - 501];
-        }
-        else 
+        else
         {
             ItemList_Equip_InActive();
             currentItem = ItemType.Empty;
             equipItem = null;
-        }       
-        #endregion
+        }
     }
+
 
     private void HatInActive()
     {
@@ -791,8 +844,17 @@ public class PlayerControl : MonoBehaviour, IDamage
 
         if (armor_Tag >= 101 && armor_Tag <= 104) //아머
         {
-            ArmorInActive();          
-            ItemList_Armor[armor_Tag - 101].SetActive(true);
+            for (int i = 0; i < ItemList_Armor.Count; i++)
+            {
+                if (i == armor_Tag - 101)
+                {
+                    ItemList_Armor[i].SetActive(true);
+                }
+                else
+                {
+                    ItemList_Armor[i].SetActive(false);
+                }
+            }
             transform.GetChild(0).GetChild(playerData.body).gameObject.GetComponent<SkinnedMeshRenderer>().enabled = false; 
         }
         else
@@ -800,10 +862,20 @@ public class PlayerControl : MonoBehaviour, IDamage
             ArmorInActive();
             transform.GetChild(0).GetChild(playerData.body).gameObject.GetComponent<SkinnedMeshRenderer>().enabled = true;
         }
+
         if (helmet_Tag >= 105 && helmet_Tag <= 108) //헬멧
         {
-            HatInActive();
-            ItemList_Hat[helmet_Tag - 105].SetActive(true);
+            for (int i = 0; i < ItemList_Hat.Count; i++)
+            {
+                if (i == helmet_Tag - 105)
+                {
+                    ItemList_Hat[i].SetActive(true);
+                }
+                else
+                {
+                    ItemList_Hat[i].SetActive(false);
+                }
+            }
             head.GetChild(0).GetChild(playerData.hair).gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
         else
@@ -822,35 +894,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         }
     }
 
-    private void QuickSlotItem()
-    {
-        //if (!oldEquip.Equals(equipItem.name))
-        //{
-        //    oldEquip = equipItem.name;
-        //}
-        int tag = playerData.inventory[playerHand].tag;
-        if (tag >= 1 && tag <= 10) //블록들
-        {
-            currentItem = ItemType.Block;
-            equipItem = ItemList_Build[tag - 1];           
-        }
-        else if (tag >= 201 && tag <= 209) //무기
-        {
-            currentItem = ItemType.Arms;
-            equipItem = ItemList_Equip[tag - 201];
-            ItemList_Equip[tag - 201].SetActive(true);
-        }
-        else if (tag >= 501 && tag <= 502) //포션
-        {
-            currentItem = ItemType.About;
-            equipItem = ItemList_Potion[tag - 501];
-        }
-        else
-        {
-            currentItem = ItemType.Empty;
-            equipItem = null;
-        }
-    }
+    
 
 
 
@@ -893,8 +937,11 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     public void LevelUp() //후에 스탯상승 추가 
     {
+        Status status = playerData.status;
         playerData.playerExp -= (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
         playerData.playerLevel++;
+        status.statusPoint += 5;
+        status.skillPoint += 3;
         uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
     }
 

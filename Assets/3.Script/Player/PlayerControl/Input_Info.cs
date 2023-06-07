@@ -10,6 +10,7 @@ public class Input_Info : MonoBehaviour
     public bool sprint;
     public bool jump;
     public bool attack;
+    public bool mouse_1;
     public bool skill_1;
     public bool skill_2;
 
@@ -34,6 +35,10 @@ public class Input_Info : MonoBehaviour
     public void OnAttack(InputValue value)
     {
         attack = value.isPressed;
+    }
+    public void OnBuild(InputValue value)
+    {
+        mouse_1 = value.isPressed;
     }
 
     public void OnSkill_1(InputValue value)

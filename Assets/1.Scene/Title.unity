@@ -3254,6 +3254,32 @@ MonoBehaviour:
   sfx:
   - name: SoundCheck
     clip: {fileID: 8300000, guid: 78419f98379502c4dbfb2774bc94e7c1, type: 3}
+  - name: BossFreeze
+    clip: {fileID: 8300000, guid: 23c28e2f5389dee4fb6c42147cc9224a, type: 3}
+  - name: BossPullAttack
+    clip: {fileID: 8300000, guid: 2e137dc0536ebe341bab477757a5a62a, type: 3}
+  - name: BossSlash
+    clip: {fileID: 8300000, guid: 9852d5e8fd9fdb14a9b651789600dc36, type: 3}
+  - name: BossStabAttack
+    clip: {fileID: 8300000, guid: 04b07c07d2fe6334babf0c2a50abf33c, type: 3}
+  - name: OrcAttack
+    clip: {fileID: 8300000, guid: 94ef5ef6a4ccd9b4bb2245ebe6f4fb02, type: 3}
+  - name: OrcDie
+    clip: {fileID: 8300000, guid: f1a2fc90cefc6fa4798de700186a154f, type: 3}
+  - name: SkeletonAttack
+    clip: {fileID: 8300000, guid: 7e2aa2873adc2414c8576017ae4133df, type: 3}
+  - name: SkeletonDie
+    clip: {fileID: 8300000, guid: f194ce2ec5c61b041b758823422f85ad, type: 3}
+  - name: SlimeAttack
+    clip: {fileID: 8300000, guid: f194ce2ec5c61b041b758823422f85ad, type: 3}
+  - name: SlimeDie
+    clip: {fileID: 8300000, guid: ecfdf4f543a88aa46a95f4c73599962a, type: 3}
+  - name: SpiderAttack
+    clip: {fileID: 8300000, guid: 82110d6afab12fe4d9fe04a0714c0892, type: 3}
+  - name: SpiderDie
+    clip: {fileID: 8300000, guid: c17976530939eda449d94f890327bea2, type: 3}
+  - name: HitMonster
+    clip: {fileID: 8300000, guid: 60248b2189543274db07c475e0f7dfdb, type: 3}
   bgmPlay: {fileID: 0}
   sfxPlay: []
 --- !u!1 &903954516

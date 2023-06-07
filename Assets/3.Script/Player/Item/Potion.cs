@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Potion : MonoBehaviour
 {
-    public int healAmount;  //회복량
+    //public int healAmount;  //회복량
 
     private InGameUIManager uiManager;
 
@@ -35,12 +35,5 @@ public class Potion : MonoBehaviour
                 playerData.currentMp = playerData.maxMp;
             }
         }
-    }
-
-    IEnumerator DrinkPotion()
-    {
-        yield return new WaitForSeconds(1f);
-        //PlayerControl.instance.playerData.status.currentHp += healAmount;
-        Debug.Log("체력" + healAmount + "회복");
     }
 }
