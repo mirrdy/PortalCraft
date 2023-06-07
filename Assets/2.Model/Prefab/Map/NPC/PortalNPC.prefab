@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 2192685949004104542}
   - component: {fileID: 1866536701728812487}
   - component: {fileID: 4030574199582708117}
+  - component: {fileID: -5508774897248534314}
   m_Layer: 0
   m_Name: PortalNPC
   m_TagString: Untagged
@@ -432,6 +433,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8213a90586900044874bbf1417a686c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &-5508774897248534314
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523954917324167652}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &1544553252278542637
 GameObject:
   m_ObjectHideFlags: 0

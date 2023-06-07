@@ -155,8 +155,19 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
         }
     }
 
+    public void DragEnter(int value)
+    {
+        uiManager.MouseEnter(value);
+    }
+
+    public void BorderEnter(int value)
+    {
+        uiManager.BorderChange(value);
+    }
+
     public void DragExit()
     {
+        uiManager.MouseExit();
         count = 1;
     }
 }

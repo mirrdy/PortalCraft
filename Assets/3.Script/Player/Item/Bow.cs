@@ -30,12 +30,13 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
     #endregion
 
 
-
+    private InGameUIManager uiManager;
 
     private void Start()
     {
         mainCam = GameObject.FindGameObjectWithTag("MainCamera");
         player = GameObject.FindGameObjectWithTag("Player");
+        GameObject.Find("InGame Canvas").TryGetComponent(out uiManager);
     }
 
     private void Update()
@@ -90,6 +91,7 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
             SkillCoolDelta_1 = 0;
             StartCoroutine(ThreeShot());
             status.currentMp -= SkillMP_1;
+            //uiManager
         }     
     }   
     IEnumerator ThreeShot()
