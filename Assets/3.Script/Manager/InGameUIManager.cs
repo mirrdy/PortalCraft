@@ -2209,19 +2209,18 @@ public class InGameUIManager : MonoBehaviour
                             }
                         }
                     }
-                }
-            }
-
-            for(int j = 0; j < itemInfo.list_AllItem.Count; j++)
-            {
-                if(craftInfo.list_Craft[i].tag == itemInfo.list_AllItem[j].tag)
-                {
-                    AddItem(itemInfo.list_AllItem[j].tag, itemInfo.list_AllItem[j].type, craftInfo.list_Craft[i].quantity, -1);
-                    break;
+                    for (int j = 0; j < itemInfo.list_AllItem.Count; j++)
+                    {
+                        if (craftInfo.list_Craft[i].tag == itemInfo.list_AllItem[j].tag)
+                        {
+                            AddItem(itemInfo.list_AllItem[j].tag, itemInfo.list_AllItem[j].type, craftInfo.list_Craft[i].quantity, -1);
+                            TabSetting(craftType);
+                            return;
+                        }
+                    }
                 }
             }
         }
-        TabSetting(craftType);
     }
 
     #region 보스 체력 UI

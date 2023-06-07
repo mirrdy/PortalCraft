@@ -90,7 +90,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 100
   currentHp: 0
-  dropTables: []
+  dropTables:
+  - {fileID: 6171990219620718844, guid: add0e8ce24a563d4ca516f6f9644a7df, type: 3}
 --- !u!1 &4625410471650372545
 GameObject:
   m_ObjectHideFlags: 0

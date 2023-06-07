@@ -14,7 +14,7 @@ public class MonsterReturnState : EntityState
             entity.TryGetComponent(out monster);
         }
         entity.animator.SetBool("isMove", true);
-        
+        monster.isHit = false;
 
     }
 
