@@ -25,7 +25,12 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
     private bool isSkill_2;
     #endregion
 
+    private InGameUIManager uiManager;
 
+    private void Awake()
+    {
+        uiManager = GameObject.Find("InGameUIManager").GetComponent<InGameUIManager>();
+    }
 
 
     private void Update()
@@ -97,6 +102,9 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
                     break;
                 }
         }
+
+        uiManager.MpCheck(status.maxMp, status.currentMp, 1, SkillCool_1);
+
         if (SkillCoolDelta_1 >= SkillCool_1)
         {
             PlayerControl.instance.animator.SetTrigger("W1");
@@ -144,6 +152,9 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
                     break;
                 }
         }
+
+        uiManager.MpCheck(status.maxMp, status.currentMp, 2, SkillCool_2);
+
         if (SkillCoolDelta_2 >= SkillCool_2)
         {
             PlayerControl.instance.animator.SetTrigger("W2");

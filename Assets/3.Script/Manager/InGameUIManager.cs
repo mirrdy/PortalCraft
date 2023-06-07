@@ -80,6 +80,11 @@ public class InGameUIManager : MonoBehaviour
     [Header("Prefab")]
     [SerializeField] FieldItem[] prefab;  // 필드 드랍용 아이템 프리펩 배열
 
+    [Header("Boss")]
+    [SerializeField] GameObject bossUi;
+    [SerializeField] Slider bossHp;
+    [SerializeField] Text bossHpCheck;
+
     [Header("Craft")]
     [SerializeField] GameObject craftWindow;
     [SerializeField] Image[] image_Tab;
@@ -109,8 +114,9 @@ public class InGameUIManager : MonoBehaviour
     private Coroutine hpCoroutine;
     private Coroutine mpCoroutine;
     private Coroutine expCoroutine;
-    private Coroutine oneSkillCool;
-    private Coroutine tweSkillCool;
+    private Coroutine bossCoroutine;
+    private Coroutine oneSkillCo;
+    private Coroutine TwoSkillCo;
 
     // 플레이어가 현재 퀵슬롯을 사용할지 인벤토리 상호 작용 인지 알수 있는 bool 값 변수
     public bool isQuickSlot = true;
@@ -140,6 +146,7 @@ public class InGameUIManager : MonoBehaviour
         Transform menuUI = objects_UI.transform.GetChild(3);
         Transform tooltipUI = objects_UI.transform.GetChild(4);
         Transform DragSlotUI = objects_UI.transform.GetChild(5);
+        Transform BossUI = objects_UI.transform.GetChild(6);
 
         Canvas craft_UI = GameObject.Find("Craft Canvas").GetComponent<Canvas>();
 
@@ -372,6 +379,10 @@ public class InGameUIManager : MonoBehaviour
         prefab[37] = Resources.Load<FieldItem>("Item/Mp Potion");
         #endregion
 
+        bossUi = BossUI.GetComponentInChildren<Transform>(true).gameObject;
+        bossHp = BossUI.GetChild(0).GetComponentInChildren<Slider>(true);
+        bossHpCheck = BossUI.GetChild(0).GetChild(4).GetComponentInChildren<Text>(true);
+
         craftWindow = craftUI.GetComponentInChildren<Transform>(true).gameObject;
         image_Tab = new Image[3];
         image_Tab[0] = craftUI.GetChild(3).GetComponentInChildren<Image>(true);
@@ -451,6 +462,7 @@ public class InGameUIManager : MonoBehaviour
         playerView.SetActive(false);
         image_Tooltip.SetActive(false);
         SetCursorState(true);
+        OnSkillStatusCall();
     }
 
     private void LateUpdate()
@@ -1295,11 +1307,11 @@ public class InGameUIManager : MonoBehaviour
             StopCoroutine(hpCoroutine); // 기존 코루틴 종료
         }
 
-        hpCoroutine = StartCoroutine(HpMpDelay_co(goals));
+        hpCoroutine = StartCoroutine(HpDelay_co(goals));
         hpCheck.text = currentHp + " / " + maxHp;
     }
 
-    IEnumerator HpMpDelay_co(float goals)
+    IEnumerator HpDelay_co(float goals)
     {
         float timer = 0f;
         float current = hpBar.fillAmount;
@@ -1317,17 +1329,94 @@ public class InGameUIManager : MonoBehaviour
         hpCoroutine = null;
     }
 
-    public void MpCheck(int maxHp, int currentHp)
+    public void MpCheck(int maxMp, int currentMp, int skillNumber, float skillMp)
     {
-        float goals = currentHp / (float)maxHp;
+        float goals = currentMp / (float)maxMp;
 
         if (mpCoroutine != null)
         {
             StopCoroutine(mpCoroutine); // 기존 코루틴 종료
         }
 
-        mpCoroutine = StartCoroutine(HpMpDelay_co(goals));
-        mpCheck.text = currentHp + " / " + maxHp;
+        mpCoroutine = StartCoroutine(MpDelay_co(goals));
+        mpCheck.text = currentMp + " / " + maxMp;
+
+        if(skillNumber == 1)
+        {
+            if (oneSkillCo != null)
+            {
+                StopCoroutine(oneSkillCo); // 기존 코루틴 종료
+            }
+
+            oneSkillCo = StartCoroutine(OneskillDelay_co(skillMp));
+        }
+        else if(skillNumber == 2)
+        {
+            if (TwoSkillCo != null)
+            {
+                StopCoroutine(TwoSkillCo); // 기존 코루틴 종료
+            }
+
+            TwoSkillCo = StartCoroutine(TwoskillDelay_co(skillMp));
+        }
+    }
+
+    IEnumerator OneskillDelay_co(float goals)
+    {
+        image_Skill[0].SetActive(true);
+        float timer = 0f;
+        float current = slider_Skill[0].fillAmount;
+
+        while (timer <= goals)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            float t = timer / goals;
+            skillTimer[0].text = "" + t + "(s)";
+            slider_Skill[0].fillAmount = Mathf.Lerp(current, goals, t);
+        }
+
+        slider_Skill[0].fillAmount = goals;
+        oneSkillCo = null;
+        image_Skill[0].SetActive(false);
+    }
+
+    IEnumerator TwoskillDelay_co(float goals)
+    {
+        image_Skill[1].SetActive(true);
+        float timer = 0f;
+        float current = slider_Skill[1].fillAmount;
+
+        while (timer <= goals)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            float t = timer / goals;
+            skillTimer[1].text = "" + t + "(s)";
+            slider_Skill[1].fillAmount = Mathf.Lerp(current, goals, t);
+        }
+
+        slider_Skill[1].fillAmount = goals;
+        TwoSkillCo = null;
+        image_Skill[1].SetActive(false);
+    }
+
+    IEnumerator MpDelay_co(float goals)
+    {
+        float timer = 0f;
+        float current = mpBar.fillAmount;
+        float duration = 1f; // 체력 감소 지속 시간
+
+        while (timer <= duration)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            float t = timer / duration;
+            mpBar.fillAmount = Mathf.Lerp(current, goals, t);
+        }
+
+        mpBar.fillAmount = goals;
+        mpCoroutine = null;
     }
 
     public void ExpCheck(float maxExp, float currentExp)
@@ -1360,7 +1449,7 @@ public class InGameUIManager : MonoBehaviour
         }
 
         expBar.value = goals;
-        hpCoroutine = null;
+        expCoroutine = null;
     }
     #endregion
 
@@ -2092,4 +2181,47 @@ public class InGameUIManager : MonoBehaviour
         }
         TabSetting(craftType);
     }
+
+    #region 보스 체력 UI
+    public void BossHpOn()
+    {
+        bossUi.SetActive(true);
+    }
+
+    public void BossHpOff()
+    {
+        bossUi.SetActive(false);
+    }
+
+    public void BossHpCheck(float maxHp, float currentHp)
+    {
+        float goals = currentHp / maxHp;
+
+        if (bossCoroutine != null)
+        {
+            StopCoroutine(bossCoroutine); // 기존 코루틴 종료
+        }
+
+        bossCoroutine = StartCoroutine(BossHpMpDelay_co(goals));
+        bossHpCheck.text = currentHp.ToString("N2") + " / " + maxHp.ToString("N2") + "( " + (goals * 100) + "% )";
+    }
+
+    IEnumerator BossHpMpDelay_co(float goals)
+    {
+        float timer = 0f;
+        float current = bossHp.value;
+        float duration = 1f;
+
+        while (timer <= duration)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            float t = timer / duration;
+            bossHp.value = Mathf.Lerp(current, goals, t);
+        }
+
+        bossHp.value = goals;
+        bossCoroutine = null;
+    }
+    #endregion
 }
