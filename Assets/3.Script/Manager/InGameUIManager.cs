@@ -1956,6 +1956,34 @@ public class InGameUIManager : MonoBehaviour
     }
     #endregion
 
+    public void OnCraftTable()
+    {
+        craftWindow.SetActive(true);
+        isQuickSlot = false;
+        target.SetActive(false);
+        SetCursorState(false);
+        Time.timeScale = 0;
+        OnSkillStatusCall();
+        image_Status.SetActive(false);
+        inventory.SetActive(false);
+        menuImage.SetActive(false);
+        playerView.SetActive(true);
+
+        TabSetting("T1");
+    }
+
+    public void OffCraftTable()
+    {
+        craftWindow.SetActive(false);
+        isQuickSlot = true;
+        target.SetActive(true);
+        image_Tooltip.SetActive(false);
+        SetCursorState(true);
+        image_Status.SetActive(false);
+        playerView.SetActive(false);
+        Time.timeScale = 1;
+    }
+
     public void TabSetting(string tab)
     {
         PlayerData playerData = player.playerData;
