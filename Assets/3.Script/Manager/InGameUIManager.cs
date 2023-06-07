@@ -448,6 +448,7 @@ public class InGameUIManager : MonoBehaviour
         itemBorder[30].sprite = border[1];
 
         TabSetting("T1");
+        OnSkillStatusCall();
     }
     
     private void OnEnable()
@@ -461,8 +462,7 @@ public class InGameUIManager : MonoBehaviour
         inventory.SetActive(false);
         playerView.SetActive(false);
         image_Tooltip.SetActive(false);
-        SetCursorState(true);
-        OnSkillStatusCall();
+        SetCursorState(true);       
     }
 
     private void LateUpdate()
