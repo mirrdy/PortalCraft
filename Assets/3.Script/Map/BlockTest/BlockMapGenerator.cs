@@ -3,6 +3,19 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
+public enum BlockType
+{
+    Snow,   //눈
+    Grass,  //풀
+    Sand,   //모래
+    Black,  //검정
+    Brown,  //갈색
+    Coal,   //석탄
+    Gold,   //금
+    Metal,  //철
+    Rando   //랜덤
+}
+
 public enum Region
 {
     Sand,
@@ -60,24 +73,13 @@ public class BlockMapGenerator : MonoBehaviour
         instance = this;
     }
 
-    static public int widthX = 225;
-    static public int widthZ = 225;
+    static public int widthX = 100;
+    static public int widthZ = 100;
     static public int height = 225;
 
     [Header("블록")]
     public BlockPrefabInfo[] blockPrefabInfos;
 
-    //public GameObject prefab_BlackBlock;
-    //public GameObject prefab_BrownBlock;
-
-    //public GameObject prefab_SnowBlock;
-    //public GameObject prefab_GroundBlock;
-    //public GameObject prefab_GrassBlock;
-
-    //public GameObject prefab_CoalBlock;
-    //public GameObject prefab_MetalBlock;
-    //public GameObject prefab_GoldBlock;
-    //public GameObject prefab_FloorBlock; // 바닥블럭(파괴불가)
 
 
     [Header("환경 오브젝트")]
@@ -156,7 +158,6 @@ public class BlockMapGenerator : MonoBehaviour
         Physics.IgnoreLayerCollision(fieldItemLayer, monsterLayer);
     }
     
-
     IEnumerator InitGame()
     {
         //PlayerControl.instance.enabled = false;
@@ -233,7 +234,6 @@ public class BlockMapGenerator : MonoBehaviour
                 SetDefaultPortalPos(i);
             }
 
-
             GameObject portal = Instantiate(portalInfo[i]);
             portal.transform.SetParent(islands[i].transform);
             portal.transform.localPosition = portalPos[i];
@@ -241,7 +241,7 @@ public class BlockMapGenerator : MonoBehaviour
             {
                 portalPos[i] = GetRandomBlockPos(i, 20);
 
-                portal = Instantiate(portalInfo[1]);
+                portal = Instantiate(portalInfo[0]);
                 portal.transform.SetParent(islands[i].transform);
                 portal.transform.localPosition = portalPos[i];
             }
@@ -280,6 +280,16 @@ public class BlockMapGenerator : MonoBehaviour
                 }
             }
         }
+        GameObject bossMap = GameObject.Find("BossMap");
+        if(bossMap != null)
+        {
+            Vector3 bossPortalPos = bossMap.transform.Find("BossMapPortal").localPosition;
+
+            GameObject portal = Instantiate(portalInfo[1]);
+            portal.transform.SetParent(bossMap.transform);
+            portal.transform.localPosition = bossPortalPos + Vector3.up;
+        }
+
         SetPortalLink();
     }
 
@@ -324,17 +334,17 @@ public class BlockMapGenerator : MonoBehaviour
     }
     private void SetPortalLink()
     {
-        for (int i = 0; i < islandPos.Length; i++)
-        {
-            if (i < islandPos.Length - 1)
-            {
-                PortalController portal1 = islands[i].GetComponentInChildren<PortalController>();
-                PortalController portal2 = islands[i + 1].GetComponentInChildren<PortalController>();
+        PortalController portal1 = islands[0].transform.Find("Portal1(Clone)").GetComponent<PortalController>();
+        PortalController portal2 = islands[1].transform.Find("Portal1(Clone)").GetComponent<PortalController>();
 
-                portal1.destPortal = portal2;
-                portal2.destPortal = portal1;
-            }
-        }
+        portal1.destPortal = portal2;
+        portal2.destPortal = portal1;
+
+        portal1 = islands[1].transform.Find("Portal2(Clone)").GetComponent<PortalController>();
+        portal2 = GameObject.Find("BossMap").transform.Find("Portal2(Clone)").GetComponent<PortalController>();
+
+        portal1.destPortal = portal2;
+        portal2.destPortal = portal1;
     }
     private void CreateMonsterSpawner()
     {
@@ -662,7 +672,7 @@ public class MapData  // 플레이어 데이터 관리 클레스
     [XmlElement]
     public List<StructureData> list_StructureData;
 
-    
+
 }
 
 [System.Serializable]
@@ -682,6 +692,7 @@ public class PortalData
     public float x;
     public float y;
     public float z;
+    public int portalType;
 }
 
 [System.Serializable]
