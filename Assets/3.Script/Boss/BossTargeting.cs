@@ -14,6 +14,8 @@ public class BossTargeting : MonoBehaviour
             boss.target = other.transform;
             playerBlock.SetActive(true);
             boss.currentHp = boss.hp;
+            InGameUIManager bossUi = FindObjectOfType<InGameUIManager>();
+            bossUi.BossHpOn();
         }
     }
     private void OnTriggerStay(Collider other)

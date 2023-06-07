@@ -31,11 +31,7 @@ public class BossChaseState : BossState
             playerDirection.y = 0f; // Y 축 방향을 무시하여 평면 상의 방향만 고려합니다.
             Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
             boss.transform.rotation = targetRotation;
-
-            //if (distance >= 20 && boss.canRush)
-            //{
-            //    boss.ChangeState(new BossRushState());
-            //}
+           
         }
         if(distance<= boss.attackRange * 4 && boss.canAttack)
         {
