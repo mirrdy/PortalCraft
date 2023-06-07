@@ -36,6 +36,7 @@ public class InteractionManager : MonoBehaviour
                 {
                     ui.OffCraftTable();
                     isInteracting = false;
+                    return;
                 }
             }
         }
