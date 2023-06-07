@@ -70,7 +70,7 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
         {
             case 0:
             {
-                SkillDamage_1 = 20; SkillMP_1 = 10; SkillCool_1 = 5;
+                SkillDamage_1 = 30; SkillMP_1 = 10; SkillCool_1 = 15;
                 break;
             }
             case 1:
@@ -80,7 +80,7 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
             }
             case 2:
             {
-                SkillDamage_1 = 40; SkillMP_1 = 20; SkillCool_1 = 5;
+                SkillDamage_1 = 30; SkillMP_1 = 20; SkillCool_1 = 5;
                 break;
             }
         }
@@ -97,7 +97,7 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
     }   
     IEnumerator ThreeShot()
     {
-        for (int i = 0; i < 3; i++) //3->arrowsToShoot
+        for (int i = 0; i < 3; i++) 
         {
             ShootArrow_Q();
             yield return new WaitForSeconds(0.25f);
@@ -128,17 +128,17 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
         {
             case 0:
                 {
-                    SkillDamage_2 = 80; SkillMP_2 = 20; SkillCool_2 = 5;
+                    SkillDamage_2 = 200; SkillMP_2 = 20; SkillCool_2 = 60;
                     break;
                 }
             case 1:
                 {
-                    SkillDamage_2 = 90; SkillMP_2 = 25; SkillCool_2 = 15;
+                    SkillDamage_2 = 250; SkillMP_2 = 25; SkillCool_2 = 55;
                     break;
                 }
             case 2:
                 {
-                    SkillDamage_2 = 100; SkillMP_2 = 30; SkillCool_2 = 10;
+                    SkillDamage_2 = 300; SkillMP_2 = 30; SkillCool_2 = 50;
                     break;
                 }
         }
