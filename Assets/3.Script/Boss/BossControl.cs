@@ -37,7 +37,7 @@ public class BossControl : MonoBehaviour ,IDestroyable
 
     public Animator animator;
 
-    public bool canRush;
+    //public bool canRush;
 
     public Transform target;
 
