@@ -431,6 +431,20 @@ public class InGameUIManager : MonoBehaviour
         craftBtn = craftUI.GetChild(2).GetComponentInChildren<Button>(true);
         #endregion
     }
+    
+    private void OnEnable()
+    {
+        player = GameObject.Find("Player").GetComponent<PlayerControl>();
+
+        menuImage.SetActive(false);
+        settingMenu.SetActive(false);
+        resolutionWindow.SetActive(false);
+        image_Status.SetActive(false);
+        inventory.SetActive(false);
+        playerView.SetActive(false);
+        image_Tooltip.SetActive(false);
+        SetCursorState(true);  
+    }
 
     private void Start()
     {
@@ -449,20 +463,6 @@ public class InGameUIManager : MonoBehaviour
 
         TabSetting("T1");
         OnSkillStatusCall();
-    }
-    
-    private void OnEnable()
-    {
-        player = GameObject.Find("Player").GetComponent<PlayerControl>();
-
-        menuImage.SetActive(false);
-        settingMenu.SetActive(false);
-        resolutionWindow.SetActive(false);
-        image_Status.SetActive(false);
-        inventory.SetActive(false);
-        playerView.SetActive(false);
-        image_Tooltip.SetActive(false);
-        SetCursorState(true);       
     }
 
     private void LateUpdate()
@@ -1329,7 +1329,7 @@ public class InGameUIManager : MonoBehaviour
         hpCoroutine = null;
     }
 
-    public void MpCheck(int maxMp, int currentMp, int skillNumber, float skillMp)
+    public void MpCheck(int maxMp, int currentMp, int skillNumber, float skillCool)
     {
         float goals = currentMp / (float)maxMp;
 
@@ -1348,7 +1348,7 @@ public class InGameUIManager : MonoBehaviour
                 StopCoroutine(oneSkillCo); // 기존 코루틴 종료
             }
 
-            oneSkillCo = StartCoroutine(OneskillDelay_co(skillMp));
+            oneSkillCo = StartCoroutine(OneskillDelay_co(skillCool));
         }
         else if(skillNumber == 2)
         {
@@ -1357,7 +1357,7 @@ public class InGameUIManager : MonoBehaviour
                 StopCoroutine(TwoSkillCo); // 기존 코루틴 종료
             }
 
-            TwoSkillCo = StartCoroutine(TwoskillDelay_co(skillMp));
+            TwoSkillCo = StartCoroutine(TwoskillDelay_co(skillCool));
         }
     }
 
@@ -1366,14 +1366,16 @@ public class InGameUIManager : MonoBehaviour
         image_Skill[0].SetActive(true);
         float timer = 0f;
         float current = slider_Skill[0].fillAmount;
+        float time = goals;
 
         while (timer <= goals)
         {
             yield return null;
             timer += Time.deltaTime;
             float t = timer / goals;
-            skillTimer[0].text = "" + t + "(s)";
-            slider_Skill[0].fillAmount = Mathf.Lerp(current, goals, t);
+            time -= Time.deltaTime;
+            skillTimer[0].text = time.ToString("N1") + "(s)";
+            slider_Skill[0].fillAmount = Mathf.Lerp(current, 0, t);
         }
 
         slider_Skill[0].fillAmount = goals;
@@ -1386,14 +1388,16 @@ public class InGameUIManager : MonoBehaviour
         image_Skill[1].SetActive(true);
         float timer = 0f;
         float current = slider_Skill[1].fillAmount;
+        float time = goals;
 
         while (timer <= goals)
         {
             yield return null;
             timer += Time.deltaTime;
             float t = timer / goals;
-            skillTimer[1].text = "" + t + "(s)";
-            slider_Skill[1].fillAmount = Mathf.Lerp(current, goals, t);
+            time -= Time.deltaTime;
+            skillTimer[1].text = time.ToString("N1") + "(s)";
+            slider_Skill[1].fillAmount = Mathf.Lerp(current, 0, t);
         }
 
         slider_Skill[1].fillAmount = goals;
@@ -2224,4 +2228,15 @@ public class InGameUIManager : MonoBehaviour
         bossCoroutine = null;
     }
     #endregion
+
+    public void CraftingBlock(int slotNumber)
+    {
+        PlayerData playerData = player.playerData;
+
+        playerData.inventory[slotNumber].quantity--;
+        if(playerData.inventory[slotNumber].quantity <= 0)
+        {
+            DeleteItem(playerHand);
+        }
+    }
 }

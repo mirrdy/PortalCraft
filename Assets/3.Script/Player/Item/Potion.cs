@@ -4,20 +4,36 @@ using UnityEngine;
 
 public class Potion : MonoBehaviour
 {
-    public enum Type { Hp, MP };
-
-    public Type potionType; //포션타입
     public int healAmount;  //회복량
 
-    public void Use()
+    private InGameUIManager uiManager;
+
+    private void Start()
     {
-        if (potionType == Type.Hp)
+        uiManager = GameObject.Find("InteractionManager").GetComponent<InGameUIManager>();
+    }
+
+    public void Use(int slotNumber, int tag)
+    {
+        Status playerData = PlayerControl.instance.playerData.status;
+
+        if (tag == 501)
         {
-            StartCoroutine("DrinkPotion");
+            uiManager.CraftingBlock(slotNumber);
+            playerData.currentHp += 30;
+            if(playerData.currentHp >= playerData.maxHp)
+            {
+                playerData.currentHp = playerData.maxHp;
+            }
         }
-        else if (potionType == Type.MP)
+        else if (tag == 502)
         {
-            StartCoroutine("DrinkPotion");
+            uiManager.CraftingBlock(slotNumber);
+            playerData.currentMp += 30;
+            if (playerData.currentMp >= playerData.maxMp)
+            {
+                playerData.currentMp = playerData.maxMp;
+            }
         }
     }
 
