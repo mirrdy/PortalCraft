@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -661,7 +660,7 @@ public enum BlockType
     Rando   //랜덤
 }
 
-[Serializable]
+[System.Serializable]
 public class MapData  // 플레이어 데이터 관리 클레스
 {
     [XmlElement]
@@ -672,7 +671,7 @@ public class MapData  // 플레이어 데이터 관리 클레스
     public List<StructureData> list_StructureData;
 }
 
-[Serializable]
+[System.Serializable]
 public class BlockData
 {
     [XmlElement]
@@ -689,7 +688,7 @@ public class BlockData
     public bool isExist;
 }
 
-[Serializable]
+[System.Serializable]
 public class PortalData
 {
     [XmlElement]
@@ -702,7 +701,7 @@ public class PortalData
     public int portalType;
 }
 
-[Serializable]
+[System.Serializable]
 public class StructureData
 {
     [XmlElement]
