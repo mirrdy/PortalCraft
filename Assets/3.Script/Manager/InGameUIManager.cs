@@ -141,7 +141,7 @@ public class InGameUIManager : MonoBehaviour
 
         Canvas craft_UI = GameObject.Find("Craft Canvas").GetComponent<Canvas>();
 
-        Transform craftUI = craft_UI.transform.GetChild(0);
+        Transform craftUI = craft_UI.transform.GetChild(0).GetComponentInChildren<Transform>(true);
 
         playerUI.GetChild(0).GetChild(0).TryGetComponent(out timer);
         playerUI.GetChild(2).GetChild(0).TryGetComponent(out hpBar);
