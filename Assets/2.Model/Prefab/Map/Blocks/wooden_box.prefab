@@ -336,4 +336,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 100
   currentHp: 0
-  dropTables: []
+  dropTables:
+  - {fileID: 2553375640344679284, guid: 01d446d38ac5c374f9e3b5e938a47b0d, type: 3}

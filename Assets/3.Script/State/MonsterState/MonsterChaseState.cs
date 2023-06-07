@@ -18,6 +18,10 @@ public class MonsterChaseState : EntityState
 
     public override void UpdateState(LivingEntity entity)   
     {
+        if (monster.isHit)
+        {
+            monster.target = PlayerControl.instance.transform;
+        }
         if (monster.target != null)
         {   
 
