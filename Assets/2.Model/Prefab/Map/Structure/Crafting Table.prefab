@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2397071082840235511}
   - component: {fileID: 8778080386354812609}
   - component: {fileID: 5566009810230717639}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: tavern_dresser_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,9 +95,9 @@ GameObject:
   - component: {fileID: 3765463919957785208}
   - component: {fileID: 6443167477314943055}
   - component: {fileID: 6694725095396211787}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Crafting Table
-  m_TagString: Untagged
+  m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 2767150728099999042}
   - component: {fileID: 9177120965162370473}
   - component: {fileID: 4883061436445760049}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: tavern_dresser_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 8456267912547458372}
   - component: {fileID: 6331938323973856089}
   - component: {fileID: 2688930677530035366}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: tavern_dresser_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
