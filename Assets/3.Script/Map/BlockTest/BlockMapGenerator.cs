@@ -3,19 +3,6 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
-public enum BlockType
-{
-    Snow,   //´«
-    Grass,  //Ç®
-    Sand,   //¸ð·¡
-    Black,  //°ËÁ¤
-    Brown,  //°¥»ö
-    Coal,   //¼®Åº
-    Gold,   //±Ý
-    Metal,  //Ã¶
-    Rando   //·£´ý
-}
-
 public enum Region
 {
     Sand,
@@ -660,6 +647,19 @@ public class BlockMapGenerator : MonoBehaviour
     }
 }
 
+public enum BlockType
+{
+    Snow,   //´«
+    Grass,  //Ç®
+    Sand,   //¸ð·¡
+    Black,  //°ËÁ¤
+    Brown,  //°¥»ö
+    Coal,   //¼®Åº
+    Gold,   //±Ý
+    Metal,  //Ã¶
+    Rando   //·£´ý
+}
+
 [System.Serializable]
 public class MapData  // ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍ °ü¸® Å¬·¹½º
 {
@@ -668,46 +668,47 @@ public class MapData  // ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍ °ü¸® Å¬·¹½º
     [XmlElement]
     public List<PortalData> list_PortalData;
     [XmlElement]
-    public List<NPCData> list_NPCData;
-    [XmlElement]
     public List<StructureData> list_StructureData;
-
-
 }
 
 [System.Serializable]
 public class BlockData
 {
+    [XmlElement]
     public float x;
+    [XmlElement]
     public float y;
+    [XmlElement]
     public float z;
+    [XmlElement]
     public int blockType;
+    [XmlElement]
     public bool isVisible;
+    [XmlElement]
     public bool isExist;
 }
 
 [System.Serializable]
 public class PortalData
 {
+    [XmlElement]
     public float x;
+    [XmlElement]
     public float y;
+    [XmlElement]
     public float z;
+    [XmlElement]
     public int portalType;
-}
-
-[System.Serializable]
-public class NPCData
-{
-    public float x;
-    public float y;
-    public float z;
 }
 
 [System.Serializable]
 public class StructureData
 {
+    [XmlElement]
     public float x;
+    [XmlElement]
     public float y;
+    [XmlElement]
     public float z;
 }
 
