@@ -3053,7 +3053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6150727523752229748, guid: eb8dafd931f39b143bf288ccaba363de, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6679790125938373256, guid: eb8dafd931f39b143bf288ccaba363de, type: 3}
       propertyPath: arrowForce
