@@ -104,7 +104,7 @@ public class BlockMapGenerator : MonoBehaviour
 
     private int seed;
 
-    public BlockInfo[,,,] worldBlocks;
+    //public BlockInfo[,,,] worldBlocks;
 
     public float groundHeightOffset = 20;
     public bool isFinishBlockGeneration = false;
@@ -124,19 +124,29 @@ public class BlockMapGenerator : MonoBehaviour
         string filePath = Application.persistentDataPath + "/MapData" + DataManager.instance.saveNumber + ".xml";
         if (!File.Exists(filePath))
         {
-            StartCoroutine(InitGame());
+            StartCoroutine(InitGame_co(true));
             DataManager.instance.MapSaveData(mapData, DataManager.instance.saveNumber);
         }
         else
         {
             mapData = DataManager.instance.MapDataGet(DataManager.instance.saveNumber);
+            StartCoroutine(InitGame_co(false));
         }
     }
+
     private void CreateIsland()
     {
+        mapData = new MapData();
+        mapData.list_IslandData = new List<IslandData>();
+
         islands = new GameObject[islandPos.Length];
         for(int i=0; i<islandPos.Length; i++)
         {
+            mapData.list_IslandData.Add(new IslandData());
+            mapData.list_IslandData[i].list_BlockData = new List<BlockData>();
+            mapData.list_IslandData[i].list_PortalData = new List<PortalData>();
+            mapData.list_IslandData[i].list_StructureData = new List<StructureData>();
+
             islands[i] = new GameObject($"Island{i + 1}");
             islands[i].transform.position = islandPos[i];
         }
@@ -144,7 +154,8 @@ public class BlockMapGenerator : MonoBehaviour
         portalPos = new Vector3[islandPos.Length];
         isCreatedSpawner = new bool[islandPos.Length];
         monsterSpawnerPos = new Vector3[islandPos.Length];
-        worldBlocks = new BlockInfo[islandPos.Length, widthX, height, widthZ];
+
+        //worldBlocks = new BlockInfo[islandPos.Length, widthX, height, widthZ];
     }
     private void SetCollisionLayer()
     {
@@ -157,11 +168,18 @@ public class BlockMapGenerator : MonoBehaviour
         Physics.IgnoreLayerCollision(fieldItemLayer, monsterLayer);
     }
     
-    IEnumerator InitGame()
+    IEnumerator InitGame_co(bool isNewMap)
     {
         //PlayerControl.instance.enabled = false;
         // 맵 생성
-        yield return StartCoroutine(MapInit());
+        if (isNewMap)
+        {
+            yield return StartCoroutine(MapInit_co());
+        }
+        else
+        {
+            yield return StartCoroutine(MapInitWithSaveData_co());
+        }
 
         // 맵 생성 대기
         while (true)
@@ -195,7 +213,22 @@ public class BlockMapGenerator : MonoBehaviour
 
         while (!isCreatedCraftingTable)
         {
-            for (int x = startCheckPointX; x < endCheckPointX; x++)
+            // 선택한 범위에 맞는 블럭 탐색
+            List<BlockData> list_SelectedForX = mapData.list_IslandData[0].list_BlockData.FindAll(
+                block => (
+                ((block.x >= startCheckPointX) && (block.x < endCheckPointX)) &&
+                ((block.z >= startCheckPointZ) && (block.z < endCheckPointZ)) &&
+                ((block.y >= groundHeightOffset) && (block.y < height)) &&
+                block.isVisible && !(new Vector3(block.x, block.y, block.z).Equals(playerSpawnerPos))
+                )
+                );
+
+            int randomIndex = Random.Range(0, list_SelectedForX.Count);
+
+            craftingTablePos = new Vector3(list_SelectedForX[randomIndex].x, list_SelectedForX[randomIndex].y+0.5f, list_SelectedForX[randomIndex].z);
+            isCreatedCraftingTable = true;
+
+            /*for (int x = startCheckPointX; x < endCheckPointX; x++)
             {
                 for (int z = startCheckPointZ; z < endCheckPointZ; z++)
                 {
@@ -217,7 +250,7 @@ public class BlockMapGenerator : MonoBehaviour
                 {
                     break;
                 }
-            }
+            }*/
         }
         GameObject craftingTable = Instantiate(prefab_CraftingTable);
         craftingTable.transform.SetParent(islands[0].transform);
@@ -255,8 +288,19 @@ public class BlockMapGenerator : MonoBehaviour
 
             System.Random random = new System.Random();
 
-            // 만약 1만번 돌때까지 NPC 위치 못잡으면 생성 안됨 - 무한루프시 프리징 문제, 예외처리 추후 필요
-            for(int k=0; k<10000; k++)
+            List<BlockData> selectedBlocks = mapData.list_IslandData[i].list_BlockData.FindAll(
+                block =>
+                block.x >= portalPos[i].x - 2 && block.x < portalPos[i].x + 3 &&
+                block.y >= portalPos[i].y - 2 && block.y < portalPos[i].y + 3 &&
+                block.z >= portalPos[i].z - 2 && block.z < portalPos[i].z + 3 &&
+                block.isVisible);
+
+            BlockData selectedBlock = selectedBlocks[Random.Range(0, selectedBlocks.Count)];
+            Vector3 NPCPos = new Vector3(selectedBlock.x + 0.5f, selectedBlock.y + 0.66f, selectedBlock.z);
+            portalNPC.transform.localPosition = NPCPos;
+
+            /*// 만약 1만번 돌때까지 NPC 위치 못잡으면 생성 안됨 - 무한루프시 프리징 문제, 예외처리 추후 필요
+            for (int k=0; k<10000; k++)
             { 
                 int offsetX = random.Next(-2, 3);
                 int offsetY = random.Next(-2, 3);
@@ -277,7 +321,7 @@ public class BlockMapGenerator : MonoBehaviour
                     portalNPC.transform.localPosition = NPCPos;
                     break;
                 }
-            }
+            }*/
         }
         GameObject bossMap = GameObject.Find("BossMap");
         if(bossMap != null)
@@ -294,16 +338,16 @@ public class BlockMapGenerator : MonoBehaviour
 
     private void SetDefaultPortalPos(int islandIndex)
     {
-        for (int y = 0; y < height; y++)
+        /*for (int y = 0; y < height; y++)
         {
             if (worldBlocks[islandIndex, widthX / 2, y, widthZ / 2].isVisible)
             {
                 portalPos[islandIndex] = worldBlocks[islandIndex, widthX / 2, y, widthZ / 2].block.transform.localPosition + Vector3.up;
             }
-        }
+        }*/
 
         // 임시
-        GetRandomBlockPos(islandIndex, 20);        
+        portalPos[islandIndex] = GetRandomBlockPos(islandIndex, 20);        
     }
     private Vector3 GetRandomBlockPos(int islandIndex, int offset)
     {
@@ -313,8 +357,19 @@ public class BlockMapGenerator : MonoBehaviour
         int endCheckPointZ = widthZ - (widthZ / offset);
 
         System.Random random = new System.Random();
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        List<BlockData> selectedBlocks = mapData.list_IslandData[islandIndex].list_BlockData.FindAll(
+                block =>
+                block.x >= startCheckPointX && block.x < endCheckPointX &&
+                block.y >= groundHeightOffset && block.y < height &&
+                block.z >= startCheckPointZ - 2 && block.z < endCheckPointZ &&
+                block.isVisible);
 
-        while (true)
+        BlockData selectedBlock = selectedBlocks[Random.Range(0, selectedBlocks.Count)];
+        return new Vector3(selectedBlock.x, selectedBlock.y + 1, selectedBlock.z);
+
+
+        /*while (true)
         {
             for (int x = startCheckPointX; x < endCheckPointX; x++)
             {
@@ -329,7 +384,7 @@ public class BlockMapGenerator : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
     }
     private void SetPortalLink()
     {
@@ -352,6 +407,7 @@ public class BlockMapGenerator : MonoBehaviour
             if(!isCreatedSpawner[i])
             {
                 SetDefaultMonsterSpawnerPos(i);
+                monsterSpawnerPos[i] = GetRandomBlockPos(i, 3);
             }
             //GameObject spawner = Instantiate(monsterSpawnerInfo, monsterSpawnerPos[i], Quaternion.identity);
             GameObject spawner = Instantiate(monsterSpawnerInfo[i]);
@@ -366,20 +422,19 @@ public class BlockMapGenerator : MonoBehaviour
     }
     private void SetDefaultMonsterSpawnerPos(int islandIndex)
     {
-        for (int y = 0; y < height; y++)
+       /* for (int y = 0; y < height; y++)
         {
             if (worldBlocks[islandIndex, widthX / 3, y, widthZ / 3].isVisible)
             {
                 monsterSpawnerPos[islandIndex] = worldBlocks[islandIndex, widthX / 3, y, widthZ / 3].block.transform.localPosition + Vector3.up;
             }
-        }
+        }*/
     }
 
-    IEnumerator MapInit()
+    IEnumerator MapInit_co()
     {
         int islandCount = islandPos.Length;
         
-
         for (int i = 0; i < islandCount; i++)
         {
             float randomOffsetX = Random.Range(0, 100);
@@ -403,13 +458,58 @@ public class BlockMapGenerator : MonoBehaviour
                     }
 
                     Vector3 pos = new Vector3(x, noiseValueY, z);
-                    StartCoroutine(CreateBlock(i, noiseValueY, pos, true));
+                    StartCoroutine(CreateBlock_co(i, noiseValueY, pos, true));
 
                     // 노이즈 Y값에 블럭 설치 후 그 밑부분부터는 블록을 생성하지 않고 정보만 배열에 저장함
                     for (int y = noiseValueY - 1; y > 0; y--)
                     {
                         pos = new Vector3(x, y, z);
-                        StartCoroutine(CreateBlock(i, y, pos, false));
+                        StartCoroutine(CreateBlock_co(i, y, pos, false));
+                    }
+                }
+                yield return null;
+            }
+            GameObject deadzone = Instantiate(prefab_Deadzone, new Vector3(islandPos[i].x, 0, islandPos[i].z), Quaternion.identity);
+            deadzone.transform.localScale = new Vector3(widthX, 1, widthZ);
+        }
+        Debug.Log("생성끝");
+        progress = 100;
+        isFinishBlockGeneration = true;
+    }
+    IEnumerator MapInitWithSaveData_co()
+    {
+        int islandCount = islandPos.Length;
+
+        int visibleBlockCount = mapData.list_IslandData[0].list_BlockData.Count;
+
+        for (int i = 0; i < islandCount; i++)
+        {
+            IslandData island = mapData.list_IslandData[i];
+
+            List<BlockData> visibleBlocks = island.list_BlockData.FindAll(block => block.isVisible);
+
+            for(int j=0; j<visibleBlockCount; j++)
+            {
+                Vector3 pos = new Vector3(visibleBlocks[j].x, visibleBlocks[j].y, visibleBlocks[j].z);
+                ////////////
+            }
+
+            float totalProgressSize = ((float)widthX * islandCount);
+            float progressOffset = i * (100 / islandCount);
+            for (int x = 0; x < widthX; x++)
+            {
+                progress = (x / totalProgressSize * 100) + progressOffset;
+                for (int z = 0; z < widthZ; z++)
+                {
+                    
+                    Vector3 pos = new Vector3(x, noiseValueY, z);
+                    StartCoroutine(CreateBlock_co(i, noiseValueY, pos, true));
+
+                    // 노이즈 Y값에 블럭 설치 후 그 밑부분부터는 블록을 생성하지 않고 정보만 배열에 저장함
+                    for (int y = noiseValueY - 1; y > 0; y--)
+                    {
+                        pos = new Vector3(x, y, z);
+                        StartCoroutine(CreateBlock_co(i, y, pos, false));
                     }
                 }
                 yield return null;
@@ -422,7 +522,7 @@ public class BlockMapGenerator : MonoBehaviour
         isFinishBlockGeneration = true;
     }
 
-    IEnumerator CreateBlock(int islandIndex, int y, Vector3 blockPos, bool visible)
+    IEnumerator CreateBlock_co(int islandIndex, int y, Vector3 blockPos, bool visible)
     {
         for (int i = 0; i < blockPrefabInfos.Length; i++)
         {
@@ -442,10 +542,13 @@ public class BlockMapGenerator : MonoBehaviour
                         blockInfo.isCreatedByGenerator = true;
                     }
 
-                    worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, block, true);
+                    IslandData island = mapData.list_IslandData[islandIndex];
+                    island.list_BlockData.Add(new BlockData(blockPos, i, visible, true));
+                    
+                    //worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, block, true);
 
                     // 생성한 블록 위에 오브젝트 설치
-                    StartCoroutine(CreateObject(islandIndex, blockPos + new Vector3(0, 0.5f, 0), blockPrefabInfos[i].region));
+                    StartCoroutine(CreateObject_co(islandIndex, blockPos + new Vector3(0, 0.5f, 0), blockPrefabInfos[i].region));
 
                     // 몬스터 스포너 생성할 위치 저장 (현재 섬 하나에 한개)
                     if (blockPrefabInfos[i].region == Region.Sand && !isCreatedSpawner[islandIndex])
@@ -498,14 +601,20 @@ public class BlockMapGenerator : MonoBehaviour
                         {
                             blockInfo.isCreatedByGenerator = true;
                         }
+                        
+                        IslandData island = mapData.list_IslandData[islandIndex];
+                        island.list_BlockData.Add(new BlockData(blockPos, i, true, true));
 
-
-                        worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, true, block, true);
+                        //worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, true, block, true);
                     }
                     else
                     {
                         // 보이지 않는 부분은 생성은 하지 않고 블록정보만 저장
-                        worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, null, true);
+
+                        IslandData island = mapData.list_IslandData[islandIndex];
+                        island.list_BlockData.Add(new BlockData(blockPos, i, visible, true));
+
+                        //worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z] = new BlockInfo(blockPrefabInfos[i].region, visible, null, true);
                     }
                 }
                 break;
@@ -525,9 +634,24 @@ public class BlockMapGenerator : MonoBehaviour
         int startCheckPointZ = widthZ / 8;
         int endCheckPointZ = widthZ - (widthZ / 8);
 
-        while(!isCreatedPlayerSpawner)
+        if(!isCreatedPlayerSpawner)
         {
-            for(int x=startCheckPointX; x < endCheckPointX; x++)
+            // 선택한 범위에 맞는 블럭 탐색
+            List<BlockData> list_SelectedForX = mapData.list_IslandData[0].list_BlockData.FindAll(
+                block => (
+                ((block.x >= startCheckPointX) && (block.x < endCheckPointX)) &&
+                ((block.z >= startCheckPointZ) && (block.z < endCheckPointZ)) &&
+                ((block.y >= groundHeightOffset) && (block.y < height)) &&
+                block.isVisible
+                )
+                );
+
+            int randomIndex = Random.Range(0, list_SelectedForX.Count);
+
+            playerSpawnerPos = new Vector3(list_SelectedForX[randomIndex].x, list_SelectedForX[randomIndex].y, list_SelectedForX[randomIndex].z);
+            isCreatedPlayerSpawner = true;
+
+            /*for(int x=startCheckPointX; x < endCheckPointX; x++)
             {
                 for(int z = startCheckPointZ; z<endCheckPointZ; z++)
                 {
@@ -549,7 +673,7 @@ public class BlockMapGenerator : MonoBehaviour
                 {
                     break;
                 }
-            }
+            }*/
         }
         PlayerControl.instance.playerData.mapIndex = 0;
 
@@ -561,8 +685,12 @@ public class BlockMapGenerator : MonoBehaviour
     }
     public void CheckAroundDestroyedBlock(int islandIndex, Vector3 blockPos)
     {
-        worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isExist = false;
-        worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isVisible = false;
+        BlockData block = mapData.list_IslandData[islandIndex].list_BlockData.Find(block => new Vector3(block.x, block.y, block.z).Equals(blockPos));
+        block.isExist = false;
+        block.isVisible = false;
+
+        //worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isExist = false;
+        //worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isVisible = false;
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
@@ -592,7 +720,39 @@ public class BlockMapGenerator : MonoBehaviour
     }
     private void DrawBlock(int islandIndex, Vector3 blockPos)
     {
-        BlockInfo worldBlock = worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z];
+        BlockData block = mapData.list_IslandData[islandIndex].list_BlockData.Find(block => new Vector3(block.x, block.y, block.z).Equals(blockPos));
+
+        if(!block.isExist)
+        {
+            return;
+        }
+        if(!block.isVisible)
+        {
+            GameObject newBlock = null;
+
+            for (int i = 0; i < blockPrefabInfos.Length; i++)
+            {
+                int blockHeight = blockPrefabInfos[i].height;
+
+                if (blockHeight < blockPos.y)
+                {
+                    //newBlock = Instantiate(blockPrefabInfos[i].block, blockPos, Quaternion.identity);
+                    newBlock = Instantiate(blockPrefabInfos[i].block);
+                    newBlock.transform.SetParent(islands[islandIndex].transform);
+                    newBlock.transform.localPosition = blockPos;
+                    if (newBlock.TryGetComponent(out BlockObject blockInfo))
+                    {
+                        blockInfo.isCreatedByGenerator = true;
+                    }
+                    block.blockType = i;
+                    block.isVisible = true;
+                    break;
+                }
+            }
+        }
+
+
+        /*BlockInfo worldBlock = worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z];
 
         if (!worldBlock.isExist)
         {
@@ -626,9 +786,9 @@ public class BlockMapGenerator : MonoBehaviour
                 worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z].block = newBlock;
                 worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isVisible = true;
             }
-        }
+        }*/
     }
-    IEnumerator CreateObject(int islandIndex, Vector3 objectPos, Region region)
+    IEnumerator CreateObject_co(int islandIndex, Vector3 objectPos, Region region)
     {
         if (Random.Range(0, 100) >= prob_NonObject)
         {
@@ -661,7 +821,7 @@ public class BlockMapGenerator : MonoBehaviour
 
 public enum BlockType
 {
-    Snow,   //눈
+    Snow = 0,   //눈
     Grass,  //풀
     Sand,   //모래
     Black,  //검정
@@ -705,6 +865,25 @@ public class BlockData
     public bool isVisible;
     [XmlElement]
     public bool isExist;
+    
+    public BlockData(float x, float y, float z, int blockType, bool isVisible, bool isExist)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.blockType = blockType;
+        this.isVisible = isVisible;
+        this.isExist = isExist;
+    }
+    public BlockData(Vector3 pos, int blockType, bool isVisible, bool isExist)
+    {
+        this.x = pos.x;
+        this.y = pos.y;
+        this.z = pos.z;
+        this.blockType = blockType;
+        this.isVisible = isVisible;
+        this.isExist = isExist;
+    }
 }
 
 [System.Serializable]
@@ -718,6 +897,21 @@ public class PortalData
     public float z;
     [XmlElement]
     public int portalType;
+
+    public PortalData(float x, float y, float z, int portalType)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.portalType = portalType;
+    }
+    public PortalData(Vector3 pos, int portalType)
+    {
+        this.x = pos.x;
+        this.y = pos.y;
+        this.z = pos.z;
+        this.portalType = portalType;
+    }
 }
 
 [System.Serializable]
@@ -729,6 +923,19 @@ public class StructureData
     public float y;
     [XmlElement]
     public float z;
+
+    public StructureData(float x, float y, float z)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+    public StructureData(Vector3 pos)
+    {
+        this.x = pos.x;
+        this.y = pos.y;
+        this.z = pos.z;
+    }
 }
 
 
