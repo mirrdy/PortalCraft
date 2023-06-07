@@ -15,6 +15,8 @@ public class MonsterAttackState : EntityState
             entity.TryGetComponent(out monster);
         }
         monster.animator.SetBool("isAttack", true);
+        AudioManager.instance.PlaySFX(entity.name + "Attack");
+
         //waitForSeconds = new WaitForSeconds(2f);
     }
 
