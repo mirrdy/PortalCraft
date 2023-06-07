@@ -81,6 +81,8 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private bool hasAnimator;
 
+    public int playerHand; 
+
 
     #region 애니메이션 파라미터ID
     private int animID_Speed;
@@ -129,9 +131,6 @@ public class PlayerControl : MonoBehaviour, IDamage
     public List<GameObject> ItemList_Potion = new List<GameObject>();
 
     private Transform head;
-
-
-
 
 
 
