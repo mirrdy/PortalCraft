@@ -6,6 +6,20 @@ using System.Xml.Serialization;
 using System.Security.Cryptography;
 using System;
 
+[Serializable]
+public class MapData  // 플레이어 데이터 관리 클레스
+{
+    [XmlElement]
+    public float posX;
+    [XmlElement]
+    public float[] posY;
+    [XmlElement]
+    public float[] posZ;
+    [XmlElement]
+    public bool[] isBlock;
+
+}
+
 public class SettingData  // Yaml 데이터형 class생성
 {
     public float bgmSound;  // BGM 사운드 저장할 변수
