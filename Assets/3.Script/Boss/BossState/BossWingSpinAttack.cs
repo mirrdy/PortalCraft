@@ -8,6 +8,7 @@ public class BossWingSpinAttack : BossState
     {
         boss.animator.SetBool("isSpinWingSlash", true);
         boss.atk *= boss.spinCoefficient;
+        AudioManager.instance.PlaySFX("BossSpinAttack");
     }
 
     public override void ExitState(BossControl boss)

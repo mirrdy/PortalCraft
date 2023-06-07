@@ -11,6 +11,7 @@ public class BossChangePhase : BossState
         boss.bossControl.enabled = false;
         boss.StartCoroutine(ChangePhase_co(boss));
         boss.bossMonsterSpawner.gameObject.SetActive(true);
+        AudioManager.instance.PlaySFX("BossChangePhase");
     }
 
     public override void ExitState(BossControl boss)
