@@ -192,8 +192,9 @@ public class PlayerControl : MonoBehaviour, IDamage
         JumpAndGravity();
         DodgeRoll();
         Attack();
-        ItemSelect();
-        ArmorSelect();
+        //ItemSelect();
+        //ArmorSelect();
+        QuickSlotItem();
         if (input.skill_1)
         {
             Skill_1();
@@ -501,7 +502,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     if (input.attack && CanAction)
                     {
                         animator.SetTrigger(animID_Potion);
-                        equipItem.GetComponent<Potion>().Use();
+                        equipItem.GetComponent<Potion>().Use(playerHand, playerData.inventory[playerHand].tag);
                         ActionCool = 0;
                     }
                     break;
@@ -766,6 +767,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         }       
         #endregion
     }
+
     private void HatInActive()
     {
         for (int i = 0; i < ItemList_Hat.Count; i++) 
@@ -819,9 +821,15 @@ public class PlayerControl : MonoBehaviour, IDamage
         }
     }
 
+    private void QuickSlotItem()
+    {
+        int tag = playerData.inventory[playerHand].tag;
+        if (playerData.inventory[playerHand].tag >= 1 && playerData.inventory[playerHand].tag <= 10)
+        {
+            equipItem = ItemList_Build[tag - 1];
+        }
+    }
 
-
-    
 
 
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
