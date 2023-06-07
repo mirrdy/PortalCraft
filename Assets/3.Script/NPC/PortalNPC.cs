@@ -15,6 +15,8 @@ public class PortalNPC : InteractiveEntity
     private QuestProgress progress;
     private GameObject canvas_Dialog;
     private InGameUIManager ingameUIManager;
+    public PortalController portal;
+    public int portalIndex;
 
     private void Start()
     {
@@ -37,18 +39,27 @@ public class PortalNPC : InteractiveEntity
 
         if(progress == QuestProgress.NoStart)
         {
-            TMP.text = "포탈조각을 10개 가져오면 포탈을 활성화시켜줄게.";
+            TMP.text = $"T{portalIndex+1} 포탈조각을 10개 가져오면 포탈을 활성화시켜줄게.";
             progress = QuestProgress.Doing;
         }
         else if(progress == QuestProgress.Doing)
         {
             // 인벤토리에서 재료가 있는지 없는지 확인 필요
-            
-            TMP.text = "가져온 조각으로 포탈을 활성화시켜줬어.";
+            if ((portalIndex == 0 && ingameUIManager.InventoryItemCheck(401, 10)) ||
+                (portalIndex == 1 && ingameUIManager.InventoryItemCheck(402, 10)))
+            {
+                TMP.text = "가져온 조각으로 포탈을 활성화시켰어.";
+                portal.enabled = true;
+                progress = QuestProgress.Finish;
+            }
+            else
+            {
+                TMP.text = $"아직 T{portalIndex + 1} 포탈조각 10개를 모으지 못했는데?";
+            }
         }
         else if(progress == QuestProgress.Finish)
         {
-            TMP.text = "포탈은 활성화되어있어. 포탈로 이동해봐.";
+            TMP.text = "포탈을 활성화했어. 다음 섬으로 이동해봐.";
         }
         StartCoroutine(ActiveOffDialog(dialogFrame));
     }
@@ -56,9 +67,5 @@ public class PortalNPC : InteractiveEntity
     {
         yield return new WaitForSeconds(5f);
         dialogFrame.gameObject.SetActive(false);
-    }
-    private void UpdateQuestProgress()
-    {
-
     }
 }

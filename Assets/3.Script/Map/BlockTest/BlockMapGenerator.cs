@@ -83,7 +83,7 @@ public class BlockMapGenerator : MonoBehaviour
     public MapObjectPrefabInfo[] envirionmentInfos;
     public int prob_NonObject; // 오브젝트가 생기지 않을 확률 (0~100)
     // 몬스터 스포너
-    public GameObject monsterSpawnerInfo;
+    public GameObject[] monsterSpawnerInfo;
     private Vector3[] monsterSpawnerPos;
     private bool[] isCreatedSpawner;
     // 포탈
@@ -184,12 +184,27 @@ public class BlockMapGenerator : MonoBehaviour
             {
                 SetDefaultPortalPos(i);
             }
+
+
             GameObject portal = Instantiate(portalInfo[i]);
             portal.transform.SetParent(islands[i].transform);
             portal.transform.localPosition = portalPos[i];
+            if(i==1)
+            {
+                portalPos[i] = GetRandomBlockPos(i, 20);
+
+                portal = Instantiate(portalInfo[1]);
+                portal.transform.SetParent(islands[i].transform);
+                portal.transform.localPosition = portalPos[i];
+            }
 
             GameObject portalNPC = Instantiate(prefab_PortalNPC);
             portalNPC.transform.SetParent(islands[i].transform);
+            if(portalNPC.TryGetComponent(out PortalNPC npc))
+            {
+                npc.portal = portal.GetComponent<PortalController>();
+                npc.portalIndex = i;
+            }
 
             System.Random random = new System.Random();
 
@@ -219,10 +234,7 @@ public class BlockMapGenerator : MonoBehaviour
         }
         SetPortalLink();
     }
-    private void CreatePortalNPC()
-    {
 
-    }
     private void SetDefaultPortalPos(int islandIndex)
     {
         for (int y = 0; y < height; y++)
@@ -230,6 +242,35 @@ public class BlockMapGenerator : MonoBehaviour
             if (worldBlocks[islandIndex, widthX / 2, y, widthZ / 2].isVisible)
             {
                 portalPos[islandIndex] = worldBlocks[islandIndex, widthX / 2, y, widthZ / 2].block.transform.localPosition + Vector3.up;
+            }
+        }
+
+        // 임시
+        GetRandomBlockPos(islandIndex, 20);        
+    }
+    private Vector3 GetRandomBlockPos(int islandIndex, int offset)
+    {
+        int startCheckPointX = widthX / offset;
+        int endCheckPointX = widthX - (widthX / offset);
+        int startCheckPointZ = widthZ / offset;
+        int endCheckPointZ = widthZ - (widthZ / offset);
+
+        System.Random random = new System.Random();
+
+        while (true)
+        {
+            for (int x = startCheckPointX; x < endCheckPointX; x++)
+            {
+                for (int z = startCheckPointZ; z < endCheckPointZ; z++)
+                {
+                    for (int y = (int)groundHeightOffset; y < height; y++)
+                    {
+                        if (random.Next(Mathf.Abs(endCheckPointX - startCheckPointX)) < 1 && worldBlocks[islandIndex, x, y, z].isVisible)
+                        {
+                            return new Vector3(x, y+1, z);
+                        }
+                    }
+                }
             }
         }
     }
@@ -256,7 +297,7 @@ public class BlockMapGenerator : MonoBehaviour
                 SetDefaultMonsterSpawnerPos(i);
             }
             //GameObject spawner = Instantiate(monsterSpawnerInfo, monsterSpawnerPos[i], Quaternion.identity);
-            GameObject spawner = Instantiate(monsterSpawnerInfo);
+            GameObject spawner = Instantiate(monsterSpawnerInfo[i]);
             spawner.transform.SetParent(islands[i].transform);
             spawner.transform.localPosition = monsterSpawnerPos[i];
             spawner.gameObject.SetActive(true);
@@ -361,8 +402,6 @@ public class BlockMapGenerator : MonoBehaviour
                     // 포탈 생성할 위치 저장
                     if (!isCreatedPortal[islandIndex])
                     {
-
-
                         if(blockPos.x > 10 && blockPos.z > 10)
                         {
                             int spawnProb = (int)(widthX * widthZ * 0.5f);
@@ -456,6 +495,7 @@ public class BlockMapGenerator : MonoBehaviour
     public void CheckAroundDestroyedBlock(int islandIndex, Vector3 blockPos)
     {
         worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isExist = false;
+        worldBlocks[islandIndex, (int)blockPos.x, (int)blockPos.y, (int)blockPos.z].isVisible = false;
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
@@ -546,12 +586,5 @@ public class BlockMapGenerator : MonoBehaviour
         }
         yield return null;
     }
-    IEnumerator CreateSpawner(Vector3 objectPos)
-    {
-        Instantiate(monsterSpawnerInfo, objectPos, Quaternion.identity);
-
-        yield break;
-    }
-
 }
 
