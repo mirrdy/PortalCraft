@@ -4073,6 +4073,7 @@ MonoBehaviour:
     playerLevel: 0
     playerExp: 0
     gameTime: 0
+    mapIndex: 0
     status:
       maxHp: 0
       maxMp: 0
