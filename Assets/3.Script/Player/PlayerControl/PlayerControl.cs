@@ -81,9 +81,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private bool hasAnimator;
 
-    public int playerHand; 
-
-
+   
     #region 애니메이션 파라미터ID
     private int animID_Speed;
     private int animID_Ground;
@@ -132,6 +130,8 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private Transform head;
 
+    public int playerHand;
+    private string oldEquip = string.Empty;
 
 
     private void Awake()
@@ -823,10 +823,31 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private void QuickSlotItem()
     {
-        int tag = playerData.inventory[playerHand].tag;
-        if (playerData.inventory[playerHand].tag >= 1 && playerData.inventory[playerHand].tag <= 10)
+        if (!oldEquip.Equals(equipItem.name))
         {
-            equipItem = ItemList_Build[tag - 1];
+            oldEquip = equipItem.name;
+        }
+        int tag = playerData.inventory[playerHand].tag;
+        if (tag >= 1 && tag <= 10) //블록들
+        {
+            currentItem = ItemType.Block;
+            equipItem = ItemList_Build[tag - 1];           
+        }
+        else if (tag >= 201 && tag <= 209) //무기
+        {
+            currentItem = ItemType.Arms;
+            equipItem = ItemList_Equip[tag - 201];
+            ItemList_Equip[tag - 201].SetActive(true);
+        }
+        else if (tag >= 501 && tag <= 502) //포션
+        {
+            currentItem = ItemType.About;
+            equipItem = ItemList_Potion[tag - 501];
+        }
+        else
+        {
+            currentItem = ItemType.Empty;
+            equipItem = null;
         }
     }
 
