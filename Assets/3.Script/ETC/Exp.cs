@@ -14,6 +14,13 @@ public class Exp : MonoBehaviour
     //        Destroy(gameObject);
     //    }
     //}
+    
+    //경험치 아이템 생성시 일정시간뒤에 사라지는 코루틴사용
+    private void Start()
+    {
+        StartCoroutine(Exp_co());
+    }
+    //플레이어 태그와 접촉시 경험치획득
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Player"))
@@ -22,5 +29,10 @@ public class Exp : MonoBehaviour
             player.GetExp(exp);
             Destroy(transform.parent.gameObject);
         }
+    }
+    private IEnumerator Exp_co()
+    {
+        yield return new WaitForSeconds(90f);
+        Destroy(transform.parent.gameObject);
     }
 }
