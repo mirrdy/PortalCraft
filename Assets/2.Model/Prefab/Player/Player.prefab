@@ -4326,6 +4326,8 @@ MonoBehaviour:
   - {fileID: 127775837729495978, guid: 274acab4e5afd79448990bcff2424a4c, type: 3}
   ItemList_Potion:
   - {fileID: 7650732973643261186, guid: d1fcc6c4362cfda4098c26ca3cb662d9, type: 3}
+  ItemList_Structure:
+  - {fileID: 3765463919957785209, guid: 56fb05317ad8e7144b11d09b9a95a807, type: 3}
   playerHand: 0
 --- !u!114 &3569978988760483235
 MonoBehaviour:

@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     public CameraView currentView = CameraView.ThirdPerson;
 
     //장착아이템 열거형
-    public enum ItemType { Empty = 0, Arms, About, Block}
+    public enum ItemType { Empty = 0, Arms, About, Block, Structure}
     [SerializeField] private ItemType currentItem = ItemType.Empty;
 
     [Header("현재 장착중인 아이템")]
@@ -127,6 +127,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     public List<GameObject> ItemList_Cloak = new List<GameObject>();
     public List<GameObject> ItemList_Build = new List<GameObject>();
     public List<GameObject> ItemList_Potion = new List<GameObject>();
+    public List<GameObject> ItemList_Structure = new List<GameObject>();
 
     private Transform head;
 
@@ -546,11 +547,21 @@ public class PlayerControl : MonoBehaviour, IDamage
                 }
         }
     }
-    private void Build()
+    private void Build() //마우스우클릭
     {
         switch (currentItem) //장착중인 현재아이템
         {
             case ItemType.Block:
+                {
+                    if (input.mouse_1)
+                    {
+                        animator.SetTrigger(animID_Attack);
+                        CreateBlock();
+                        input.mouse_1 = false;
+                    }
+                    break;
+                }
+            case ItemType.Structure:
                 {
                     if (input.mouse_1)
                     {
@@ -580,7 +591,7 @@ public class PlayerControl : MonoBehaviour, IDamage
             case ItemType.About:
                 {
                     break;
-                }           
+                }         
         }
     }
     private void Skill_1() //Q 
@@ -812,6 +823,12 @@ public class PlayerControl : MonoBehaviour, IDamage
             ItemList_Equip_InActive();
             currentItem = ItemType.About;
             equipItem = ItemList_Potion[0];
+        }
+        else if (tag == 408)
+        {
+            ItemList_Equip_InActive();
+            currentItem = ItemType.Structure;
+            equipItem = ItemList_Structure[0];
         }
         else
         {
