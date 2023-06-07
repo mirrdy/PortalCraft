@@ -6,6 +6,7 @@ public class MonsterPatrolState : EntityState
 {
     private MonsterControl monster;
     private IEnumerator patrol_co;
+    Vector3 targetPosition;
     //private bool canPatrol;
     public override void EnterState(LivingEntity entity)
     {
@@ -27,11 +28,14 @@ public class MonsterPatrolState : EntityState
 
     public override void UpdateState(LivingEntity entity)
     {
+
         if (monster.target != null)
         {
             entity.ChangeState(new MonsterChaseState());
         }
 
+        // 몬스터가 타겟 쪽을 바라보도록 회전 설정
+       
         //if (canPatrol)
         //{
         //    canPatrol = false;
@@ -49,8 +53,9 @@ public class MonsterPatrolState : EntityState
             Vector3 targetPosition = monster.spawnPoint + Random.insideUnitSphere * monster.patrolRange;
             targetPosition.y = monster.spawnPoint.y;
 
-            // 몬스터가 플레이어 쪽을 바라보도록 회전 설정
+            // 몬스터가 타겟 쪽을 바라보도록 회전 설정
             Vector3 patrolDirection = targetPosition - monster.transform.position;
+            patrolDirection.Normalize();
             Quaternion targetRotation = Quaternion.LookRotation(patrolDirection);
             monster.transform.rotation = targetRotation;
 

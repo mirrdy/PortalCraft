@@ -47,6 +47,7 @@ public class LivingEntity : MonoBehaviour, IDestroyable
         currentState.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
+        Debug.Log("상태변경됨");
     }
 
     //public virtual void OnDamage(int damage, Vector3 on, Vector3 hitNomal)
