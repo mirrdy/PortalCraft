@@ -51,6 +51,8 @@ public class BossControl : MonoBehaviour ,IDestroyable
 
     //플레이어 길막 오브젝트
     [SerializeField] private GameObject playerBlock;
+    //Ui매니저
+    InGameUIManager bossUi;
 
     private void Awake()
     {
@@ -64,12 +66,17 @@ public class BossControl : MonoBehaviour ,IDestroyable
         onDeath.AddListener(DropItem);
         onDeath.AddListener(OpenDoor);
         bossSpawn = transform.position;
+        bossUi = FindObjectOfType<InGameUIManager>();
     }
 
     private void OnEnable()
     {
         playerBlock.SetActive(false);
         gameObject.transform.position = bossSpawn;
+    }
+    private void OnDisable()
+    {
+        bossUi.BossHpOff();   
     }
     //private void Start()
     //{
@@ -82,7 +89,7 @@ public class BossControl : MonoBehaviour ,IDestroyable
     //    bossControl = GetComponent<CharacterController>();
     //    onDeath.AddListener(DropItem);
     //    onDeath.AddListener(OpenDoor);
-            
+
     //}
     private void Update()   
     {
@@ -128,6 +135,7 @@ public class BossControl : MonoBehaviour ,IDestroyable
         hitParticle.Play();
         damage = damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(def / (def + 50) * 100) * 0.01f);
         currentHp -= damage;
+        bossUi.BossHpCheck(hp,currentHp);
         if (currentHp <= 0 && !isDead)
         {
             isDead = true;
@@ -154,5 +162,10 @@ public class BossControl : MonoBehaviour ,IDestroyable
     private void OpenDoor()
     {
         playerBlock.SetActive(false);
+    }
+    
+    public void DestroyBoss()
+    {
+        Destroy(gameObject);
     }
 }
