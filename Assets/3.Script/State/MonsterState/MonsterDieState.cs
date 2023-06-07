@@ -10,7 +10,7 @@ public class MonsterDieState : EntityState
         {
             entity.onDeath.Invoke();
             entity.StartCoroutine(Die_co(entity));
-
+            AudioManager.instance.PlaySFX(entity.name + "Die");
         }
     }
 
