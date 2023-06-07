@@ -1239,34 +1239,42 @@ public class InGameUIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             playerHand = 30;
+            player.playerHand = playerHand;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             playerHand = 31;
+            player.playerHand = playerHand;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             playerHand = 32;
+            player.playerHand = playerHand;
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             playerHand = 33;
+            player.playerHand = playerHand;
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             playerHand = 34;
+            player.playerHand = playerHand;
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             playerHand = 35;
+            player.playerHand = playerHand;
         }
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             playerHand = 36;
+            player.playerHand = playerHand;
         }
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
             playerHand = 37;
+            player.playerHand = playerHand;
         }
 
         float wheelInput = Input.GetAxis("Mouse ScrollWheel");
@@ -1277,6 +1285,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 playerHand = 37;
             }
+            player.playerHand = playerHand;
         }
         else if (wheelInput < 0)
         {
@@ -1285,6 +1294,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 playerHand = 30;
             }
+            player.playerHand = playerHand;
         }
 
         for (int i = 0; i < 8; i++)
