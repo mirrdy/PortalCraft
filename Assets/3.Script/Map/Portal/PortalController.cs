@@ -5,6 +5,7 @@ using UnityEngine;
 public class PortalController : MonoBehaviour
 {
     public PortalController destPortal;
+    public float moveProgress;
 
     private void OnTriggerStay(Collider other)
     {
@@ -28,21 +29,37 @@ public class PortalController : MonoBehaviour
     }
     IEnumerator OperatePortal(PlayerControl player)
     {
+        moveProgress = 0;
+
+        LoadingSceneManager.Instance.LoadPortal(this);
+        yield return new WaitForSeconds(1f);
         destPortal.transform.parent.gameObject.SetActive(true);
 
         int lastIndex = destPortal.transform.parent.childCount-1;
-        Transform lastChild = destPortal.transform.parent.GetChild(lastIndex);
+        int unit = lastIndex / 100;
 
+        for(int i=0; i<100; i++)
+        {
+            Debug.Log(Time.realtimeSinceStartup);
+            Transform child = destPortal.transform.parent.GetChild(i * unit);
+            while (!child.gameObject.activeSelf)
+            {
+                yield return null;
+            }
+            moveProgress++;
+        }
+
+        Transform lastChild = destPortal.transform.parent.GetChild(lastIndex);
         while (!lastChild.gameObject.activeSelf)
         {
             yield return null;
         }
+        moveProgress = 100;
+
         player.TryGetComponent(out CharacterController controller);
         controller.enabled = false;
         
-        Debug.Log($"목표포탈 위치: {destPortal.transform.position}");
         player.transform.position = destPortal.transform.position + Vector3.forward;
-        Debug.Log($"플레이어 위치: {player.transform.position}");
 
         controller.enabled = true;
         transform.parent.gameObject.SetActive(false);

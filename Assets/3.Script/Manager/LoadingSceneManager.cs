@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class LoadingSceneManager : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] TMP_Text text_Loding;
+    [SerializeField] TMP_Text text_Loading;
     [SerializeField] Slider slider_Loding;
     [SerializeField] CanvasGroup canvasGroup;
 
@@ -73,7 +73,7 @@ public class LoadingSceneManager : MonoBehaviour
         while(!op.isDone)
         {
             yield return null;
-            text_Loding.text = "Loading... " + (int)(slider_Loding.value * 100) + "%";
+            text_Loading.text = "Loading... " + (int)(slider_Loding.value * 100) + "%";
             if (op.progress < 0.9f)
             {
                 slider_Loding.value = op.progress;
@@ -126,35 +126,42 @@ public class LoadingSceneManager : MonoBehaviour
         while (blockMap.progress < 100f)
         {
             yield return null;
-            text_Loding.text = "Loading... " + (int)blockMap.progress + "%";
+            text_Loading.text = "Loading... " + (int)blockMap.progress + "%";
             slider_Loding.value = blockMap.progress * 0.01f;
         }
         StartCoroutine(Fade_co(false));
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    public void LoadPotal()
+    public void LoadPortal(PortalController portal)
     {
         gameObject.SetActive(true);
 
-        StartCoroutine(nameof(LoadPotal_co));
+        StartCoroutine(LoadPortal_co(portal));
     }
 
-    private IEnumerator LoadPotal_co()
+    private IEnumerator LoadPortal_co(PortalController portal)
     {
-        blockMap = FindObjectOfType<BlockMapGenerator>();
-
+        text_Loading.text = "Loading... " + 0 + "%";
         slider_Loding.value = 0f;
         yield return StartCoroutine(Fade_co(true));
 
-        while (blockMap.progress < 100f)
+        // 일단 최소 약 5초는 기다리게 함 (SetActive 조작 시 유니티가 단계별로 제어를 돌려주지 않고 프리징을 걸어서 눈속임용)
+        for(int i=0; i<100; i++)
+        {
+            yield return new WaitForSeconds(0.05f);
+            int min = (int)portal.moveProgress < i ? (int)portal.moveProgress : i;
+            text_Loading.text = "Loading... " + min + "%";
+            slider_Loding.value = min * 0.01f;
+        }
+
+        while (portal.moveProgress < 100f)
         {
             yield return null;
-            text_Loding.text = "Loading... " + (int)blockMap.progress + "%";
-            slider_Loding.value = blockMap.progress * 0.01f;
+            text_Loading.text = "Loading... " + (int)portal.moveProgress + "%";
+            slider_Loding.value = portal.moveProgress * 0.01f;
         }
 
         StartCoroutine(Fade_co(false));
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

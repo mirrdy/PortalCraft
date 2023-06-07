@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public enum Region
@@ -59,8 +60,8 @@ public class BlockMapGenerator : MonoBehaviour
         instance = this;
     }
 
-    static public int widthX = 100;
-    static public int widthZ = 100;
+    static public int widthX = 225;
+    static public int widthZ = 225;
     static public int height = 225;
 
     [Header("블록")]
@@ -648,4 +649,55 @@ public class BlockMapGenerator : MonoBehaviour
         yield return null;
     }
 }
+
+[System.Serializable]
+public class MapData  // 플레이어 데이터 관리 클레스
+{
+    [XmlElement]
+    public List<BlockData> list_BlockData;
+    [XmlElement]
+    public List<PortalData> list_PortalData;
+    [XmlElement]
+    public List<NPCData> list_NPCData;
+    [XmlElement]
+    public List<StructureData> list_StructureData;
+
+    
+}
+
+[System.Serializable]
+public class BlockData
+{
+    public float x;
+    public float y;
+    public float z;
+    public int blockType;
+    public bool isVisible;
+    public bool isExist;
+}
+
+[System.Serializable]
+public class PortalData
+{
+    public float x;
+    public float y;
+    public float z;
+}
+
+[System.Serializable]
+public class NPCData
+{
+    public float x;
+    public float y;
+    public float z;
+}
+
+[System.Serializable]
+public class StructureData
+{
+    public float x;
+    public float y;
+    public float z;
+}
+
 
