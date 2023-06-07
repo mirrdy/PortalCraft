@@ -18,11 +18,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
     bool isRightMouseDown = false;
     public int count = 1;
 
+    private Potion potion;
+
     private InGameUIManager uiManager;
 
     private void Awake()
     {
         uiManager = FindObjectOfType<InGameUIManager>();
+        potion = FindObjectOfType<Potion>();
     }
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -60,7 +63,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
                 }
                 else if (type.Equals("About"))
                 {
-
+                    if (tag == 501)
+                    {
+                        potion.Use(slotNumber, 501);
+                    }
+                    else if(tag == 502)
+                    {
+                        potion.Use(slotNumber, 502);
+                    }
                 }
             }
         }
@@ -102,7 +112,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEnd
                     }
                     else if (type.Equals("About"))
                     {
-
+                        if (tag == 501)
+                        {
+                            potion.Use(slotNumber, 501);
+                        }
+                        else if (tag == 502)
+                        {
+                            potion.Use(slotNumber, 502);
+                        }
                     }
                 }
             }

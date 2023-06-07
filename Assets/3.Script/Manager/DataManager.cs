@@ -10,13 +10,15 @@ using System;
 public class MapData  // 플레이어 데이터 관리 클레스
 {
     [XmlElement]
-    public float posX;
+    public float[] posX;
     [XmlElement]
     public float[] posY;
     [XmlElement]
     public float[] posZ;
     [XmlElement]
     public bool[] isBlock;
+    [XmlElement]
+    public bool[] isCraftBlock;
 
 }
 
