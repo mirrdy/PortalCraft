@@ -8,6 +8,7 @@ public class BossWingStabAttack : BossState
     {
         boss.animator.SetBool("isWingStab", true);
         boss.atk *= boss.stabCoefficient;
+        AudioManager.instance.PlaySFX("BossStabAttack");
     }
 
     public override void ExitState(BossControl boss)

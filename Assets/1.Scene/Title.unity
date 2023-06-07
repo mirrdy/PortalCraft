@@ -3280,6 +3280,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: c17976530939eda449d94f890327bea2, type: 3}
   - name: HitMonster
     clip: {fileID: 8300000, guid: 60248b2189543274db07c475e0f7dfdb, type: 3}
+  - name: BossSpinAttack
+    clip: {fileID: 8300000, guid: 6529e480bf6eb544bbd5d1bc96afec21, type: 3}
   bgmPlay: {fileID: 0}
   sfxPlay: []
 --- !u!1 &903954516

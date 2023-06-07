@@ -9,9 +9,11 @@ public class BossWingSlashState : BossState
     {
         boss.animator.SetBool("isWingSlash", true);
         boss.atk *= boss.slashCoefficient;
+        AudioManager.instance.PlaySFX("BossSlash");
         if (boss.phase == 2)
         {
             boss.bossUseEffect[2].Play();
+            AudioManager.instance.PlaySFX("BossFreeze");
         }
     }
 

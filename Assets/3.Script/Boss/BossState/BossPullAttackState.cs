@@ -8,6 +8,7 @@ public class BossPullAttackState : BossState
     {
         boss.animator.SetBool("isPullAttack", true);
         boss.atk *= boss.pullCoefficient;
+        AudioManager.instance.PlaySFX("BossPullAttack");
     }
 
     public override void ExitState(BossControl boss)

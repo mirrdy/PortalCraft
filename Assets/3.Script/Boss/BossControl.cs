@@ -136,6 +136,7 @@ public class BossControl : MonoBehaviour ,IDestroyable
         damage = damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(def / (def + 50) * 100) * 0.01f);
         currentHp -= damage;
         bossUi.BossHpCheck(hp,currentHp);
+        AudioManager.instance.PlaySFX("HitMonster");
         if (currentHp <= 0 && !isDead)
         {
             isDead = true;
