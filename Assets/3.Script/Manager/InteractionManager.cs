@@ -28,6 +28,17 @@ public class InteractionManager : MonoBehaviour
     }
     private void Update()
     {
+        if(isInteracting)
+        {
+            if(Input.GetKeyDown(interactionKey))
+            {
+                if (GameObject.Find("InGameUIManager").TryGetComponent(out InGameUIManager ui))
+                {
+                    ui.OffCraftTable();
+                    isInteracting = false;
+                }
+            }
+        }
         // 플레이어랑 가까이 있으면 상호작용 가능
         Collider[] cols = Physics.OverlapSphere(PlayerControl.instance.transform.position, interactionDistance);
         foreach(Collider col in cols)
