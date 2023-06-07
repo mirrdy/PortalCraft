@@ -669,6 +669,13 @@ public enum BlockType
 public class MapData  // 플레이어 데이터 관리 클레스
 {
     [XmlElement]
+    public List<IslandData> list_IslandData;
+}
+
+[System.Serializable]
+public class IslandData
+{
+    [XmlElement]
     public List<BlockData> list_BlockData;
     [XmlElement]
     public List<PortalData> list_PortalData;
