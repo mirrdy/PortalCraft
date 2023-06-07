@@ -566,7 +566,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     if (input.mouse_1)
                     {
                         animator.SetTrigger(animID_Attack);
-                        CreateBlock();
+                        CreateStructure();
                         input.mouse_1 = false;
                     }
                     break;
@@ -596,28 +596,37 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     private void Skill_1() //Q 
     {
-        if (currentItem == ItemType.Arms)
+        if (playerData.skill[0].hasSkill)
         {
-            if (equipItem.TryGetComponent(out Bow bow))
+            if (currentItem == ItemType.Arms)
             {
-                bow.Skill_1();
+                if (equipItem.TryGetComponent(out Bow bow))
+                {
+                    bow.Skill_1();
+                }
+                else if (equipItem.TryGetComponent(out Sword sword))
+                {
+                    sword.Skill_1();
+                }
             }
-            else if (equipItem.TryGetComponent(out Sword sword))
-            {
-                sword.Skill_1();
-            }
-        }
+        }      
     }
     private void Skill_2() //E
     {
-        if (currentItem == ItemType.Arms && equipItem.TryGetComponent(out Bow bow))
+        if (playerData.skill[1].hasSkill)
         {
-            bow.Skill_2();
-        }
-        else if (equipItem.TryGetComponent(out Sword sword))
-        {
-            sword.Skill_2();
-        }
+            if (currentItem == ItemType.Arms)
+            {
+                if (equipItem.TryGetComponent(out Bow bow))
+                {
+                    bow.Skill_2();
+                }
+                else if (equipItem.TryGetComponent(out Sword sword))
+                {
+                    sword.Skill_2();
+                }
+            }           
+        }       
     }
 
 
@@ -776,6 +785,43 @@ public class PlayerControl : MonoBehaviour, IDamage
                     }
                 }
             }
+        }
+    }
+    public void CreateStructure()
+    {
+        uiManager.CraftingBlock(playerHand);
+
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 20f, layerMask_Block))
+        {
+            //Debug.Log("해당오브젝트의 좌표는" + hitInfo.transform.position);
+            //Debug.Log("레이좌표는" + hitInfo.point);
+            Vector3 vecDir = hitInfo.point - hitInfo.transform.position;
+            //Debug.Log("두 벡터간의 차이는" + vecDir);
+            float xValue = vecDir.x;
+            float yValue = vecDir.y;
+            float zValue = vecDir.z;
+
+            float maxValue = Mathf.Max(Mathf.Abs(xValue), Mathf.Abs(yValue), Mathf.Abs(zValue));
+
+            bool isTorch; //해당 지점에 토치가 설치되어있는지
+            Vector3 spherePosition; //토치를 감지할 구
+
+            if (Mathf.Abs(yValue) == maxValue)
+            {
+                //Debug.Log("vecDir.y가 가장 큰값");
+                if (yValue > 0)
+                {
+                    spherePosition = hitInfo.transform.position + Vector3.up;
+                    isTorch = Physics.CheckSphere(spherePosition, groundedRadius, layerMask_Torch, QueryTriggerInteraction.Ignore);
+                    if (!isTorch)
+                    {
+                        Instantiate(equipItem, hitInfo.transform.position + Vector3.up * 0.8f, Quaternion.identity);
+                    }
+                }
+            }            
         }
     }
 

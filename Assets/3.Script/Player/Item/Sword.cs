@@ -19,8 +19,8 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
     public int SkillMP_2 { get; set; }
     public float SkillCool_2 { get; set; }
 
-    private float SkillCoolDelta_1 = 15;
-    private float SkillCoolDelta_2 = 20;
+    private float SkillCoolDelta_1 = 100;
+    private float SkillCoolDelta_2 = 100;
     private bool isSkill_1;
     private bool isSkill_2;
     #endregion
@@ -58,16 +58,22 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
     {
         if (coll.CompareTag("Monster"))
         {
+            Status status = PlayerControl.instance.playerData.status;
+
             Debug.Log("몬스터피격");
             coll.TryGetComponent(out MonsterControl monsterControl);
-            int damage; 
+            int damage;
             if (isSkill_1)
             {
-                damage = PlayerControl.instance.playerData.status.attack + attackDamage + SkillDamage_1;
+                damage = status.attack + attackDamage + SkillDamage_1;
+            }
+            else if(isSkill_2)
+            {
+                damage = status.attack + attackDamage + SkillDamage_2;
             }
             else
             {
-                damage = PlayerControl.instance.playerData.status.attack + attackDamage;
+                damage = status.attack + attackDamage;
             }
             monsterControl.TakeDamage(damage);
         }
@@ -85,17 +91,17 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
         {
             case 0:
                 {
-                    SkillDamage_1 = 80; SkillMP_1 = 10; SkillCool_1 = 5;
+                    SkillDamage_1 = 80; SkillMP_1 = 10; SkillCool_1 = 30;
                     break;
                 }
             case 1:
                 {
-                    SkillDamage_1 = 100; SkillMP_1 = 15; SkillCool_1 = 10;
+                    SkillDamage_1 = 100; SkillMP_1 = 15; SkillCool_1 = 30;
                     break;
                 }
             case 2:
                 {
-                    SkillDamage_1 = 120; SkillMP_1 = 20; SkillCool_1 = 5;
+                    SkillDamage_1 = 120; SkillMP_1 = 20; SkillCool_1 = 30;
                     break;
                 }
         }
@@ -135,17 +141,17 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
         {
             case 0:
                 {
-                    SkillDamage_2 = 80; SkillMP_2 = 10; SkillCool_2 = 5;
+                    SkillDamage_2 = 20; SkillMP_2 = 10; SkillCool_2 = 50;
                     break;
                 }
             case 1:
                 {
-                    SkillDamage_2 = 100; SkillMP_1 = 15; SkillCool_2 = 10;
+                    SkillDamage_2 = 30; SkillMP_1 = 15; SkillCool_2 = 60;
                     break;
                 }
             case 2:
                 {
-                    SkillDamage_2 = 120; SkillMP_1 = 20; SkillCool_2 = 5;
+                    SkillDamage_2 = 40; SkillMP_1 = 20; SkillCool_2 = 70;
                     break;
                 }
         }
