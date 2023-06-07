@@ -11,9 +11,12 @@ public class MonsterControl : LivingEntity
     [SerializeField] public float timebetAttack = 0.5f;
     public float lastAttackTimebet;
     [SerializeField]private ParticleSystem hitParticle;
+
+    public bool isHit;
     
     private void OnEnable()
     {
+        isHit = false;
         currentHp = hp; 
         isDead = false;
         entityController.enabled = true;
@@ -74,8 +77,9 @@ public class MonsterControl : LivingEntity
         }
         else
         {
+            isHit = true;
             ChangeState(new MonsterHitState());
-            target = gameObject.transform;
+            target = PlayerControl.instance.transform;
         }
     }
     //private void ItemDrop()
