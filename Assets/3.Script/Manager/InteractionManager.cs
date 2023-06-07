@@ -6,7 +6,7 @@ public class InteractionManager : MonoBehaviour
 {
     public static InteractionManager instance = null;
 
-    [SerializeField] private float interactionDistance = 5f; // 상호작용 거리
+    [SerializeField] private float interactionDistance = 50f; // 상호작용 거리
     [SerializeField] private KeyCode interactionKey = KeyCode.F; // 상호작용 키
     private GameObject interactionUI; // 상호작용 키 표시 UI
     public bool isInteracting;
@@ -30,10 +30,12 @@ public class InteractionManager : MonoBehaviour
     private void Update()
     {
         // 플레이어의 조준점에서 Raycast를 사용하여 NPC와의 충돌을 확인
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector2 screenCenterPos = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPos);
 
         if (Physics.Raycast(ray, out RaycastHit hit, interactionDistance))
         {
+            Debug.Log($"{hit.transform.name}");
             if (hit.collider.TryGetComponent(out InteractiveEntity interactiveEntity))
             {
                 interactionUI.transform.position = interactiveEntity.transform.position + new Vector3(0.5f, 1.5f, 0);
@@ -59,7 +61,7 @@ public class InteractionManager : MonoBehaviour
         }
 
 
-        // 임시 
+        /*// 임시 
         if (!isInteracting)
         {
             if (Input.GetKeyDown(interactionKey))
@@ -70,6 +72,6 @@ public class InteractionManager : MonoBehaviour
                     interactiveEntity.Interact();
                 }
             }
-        }
+        }*/
     }
 }
