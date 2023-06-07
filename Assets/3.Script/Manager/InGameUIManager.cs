@@ -1501,7 +1501,7 @@ public class InGameUIManager : MonoBehaviour
         PlayerData playerData = player.playerData;
         if (type.Equals("Armor") || type.Equals("Cloak") || type.Equals("Helmet") && currentSlot >= 0)
         {
-            NewItemSlot(tag, currentSlot);
+            NewItemSlot(tag, currentSlot, quantity);
         }
         else
         {
@@ -1516,7 +1516,7 @@ public class InGameUIManager : MonoBehaviour
                     }
                 }
             }
-            NewItemSlot(tag, currentSlot);
+            NewItemSlot(tag, currentSlot, quantity);
         }
     }
 
@@ -1539,10 +1539,10 @@ public class InGameUIManager : MonoBehaviour
                 }
             }
         }
-        NewItemSlot(tag, currentSlot);
+        NewItemSlot(tag, currentSlot, quantity);
     }
 
-    private void NewItemSlot(int tag, int currentSlot)
+    private void NewItemSlot(int tag, int currentSlot, int quantity)
     {
         PlayerData playerData = player.playerData;
 
@@ -1552,7 +1552,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 if (!playerData.inventory[i].hasItem)
                 {
-                    NewChangedItme(tag, i);
+                    NewChangedItme(tag, i, quantity);
                     return;
                 }
             }
@@ -1560,7 +1560,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 if (!playerData.inventory[i].hasItem)
                 {
-                    NewChangedItme(tag, i);
+                    NewChangedItme(tag, i, quantity);
                     return;
                 }
             }
@@ -1584,7 +1584,7 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
-    public void NewChangedItme(int tag, int newSlot)
+    public void NewChangedItme(int tag, int newSlot, int quantity)
     {
         PlayerData playerData = player.playerData;
         int itemNumber = 0;
@@ -1600,7 +1600,7 @@ public class InGameUIManager : MonoBehaviour
 
         playerData.inventory[newSlot].hasItem = true;
         playerData.inventory[newSlot].tag = itemInfo.list_AllItem[itemNumber].tag;
-        playerData.inventory[newSlot].quantity = itemInfo.list_AllItem[itemNumber].quantity;
+        playerData.inventory[newSlot].quantity = quantity;
         playerData.inventory[newSlot].type = itemInfo.list_AllItem[itemNumber].type;
 
         InventoryCheck();
@@ -1793,11 +1793,15 @@ public class InGameUIManager : MonoBehaviour
                 break;
             }
         }
-        prefab[itemNumber].quantity = quantity;
+
         Vector3 pos = player.transform.position;
 
         GameObject item = Instantiate(prefab[itemNumber].gameObject, new Vector3(pos.x, pos.y + 2f, pos.z), Quaternion.identity);
-
+        if(item.TryGetComponent(out FieldItem fieldItem))
+        {
+            fieldItem.quantity = quantity;
+        }
+        
         StartCoroutine(FieldItem_co(item));
 
         Rigidbody clone = item.GetComponent<Rigidbody>();
@@ -1830,11 +1834,11 @@ public class InGameUIManager : MonoBehaviour
     {
         Inventory inven = player.playerData.inventory[slotNumber];
 
+        inven.hasItem = false;
         inven.quantity = 0;
         inven.tag = 0;
         inven.type = null;
         itemSlot[slotNumber].sprite = null;
-        itemFrame[slotNumber].sprite = frameColor[0];
         itemCount[slotNumber].SetActive(false);
     }
     #endregion
@@ -1989,7 +1993,7 @@ public class InGameUIManager : MonoBehaviour
         }
     }
 
-    private bool InventoryItemCheck(int tag, int quantity)
+    public bool InventoryItemCheck(int tag, int quantity)
     {
         PlayerData playerData = player.playerData;
 
