@@ -559,6 +559,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     public void CreateTorch()
     {
+        uiManager.CraftingBlock(playerHand);
+
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
@@ -613,6 +615,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     public void CreateBlock()
     {
+        uiManager.CraftingBlock(playerHand);
+
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
@@ -631,8 +635,6 @@ public class PlayerControl : MonoBehaviour, IDamage
             bool isTorch; //해당 지점에 토치가 설치되어있는지
             Vector3 spherePosition; //토치를 감지할 구
 
-            GameObject builtCube;
-
             if (Mathf.Abs(xValue) == maxValue)
             {
                 //Debug.Log("vecDir.x가 가장 큰값");
@@ -642,8 +644,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     isTorch = Physics.CheckSphere(spherePosition, groundedRadius, layerMask_Torch, QueryTriggerInteraction.Ignore);
                     if (!isTorch)
                     {
-                        builtCube = Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
-                        builtCube.transform.SetParent(builtCube.transform);
+                        Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
                     }
                 }
                 else if (xValue < 0)
@@ -721,7 +722,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
         quickSlotItem_Type = playerData.inventory[playerHand].type;
         quickSlotItem_Tag = playerData.inventory[playerHand].tag;
-        //quickSlotItem_Quantity = playerData.inventory[playerHand].quantity;
+        quickSlotItem_Quantity = playerData.inventory[playerHand].quantity;
 
         #region 아이템타입
         if (quickSlotItem_Type == null)
@@ -823,10 +824,10 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private void QuickSlotItem()
     {
-        if (!oldEquip.Equals(equipItem.name))
-        {
-            oldEquip = equipItem.name;
-        }
+        //if (!oldEquip.Equals(equipItem.name))
+        //{
+        //    oldEquip = equipItem.name;
+        //}
         int tag = playerData.inventory[playerHand].tag;
         if (tag >= 1 && tag <= 10) //블록들
         {
