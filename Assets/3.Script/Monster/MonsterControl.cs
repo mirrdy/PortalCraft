@@ -69,6 +69,7 @@ public class MonsterControl : LivingEntity
     {
         hitParticle.Play();
         base.TakeDamage(damage);
+        AudioManager.instance.PlaySFX("HitMonster");
         if (currentHp <= 0 && !isDead)
         {
             isDead = true;
@@ -105,6 +106,7 @@ public class MonsterControl : LivingEntity
         patrolRange = data.patrolRange;
         gravity = data.gravity;
         dropExpNum = data.dropExpNum;
+        name = data.name;
     }
 
     public void EndAttack()
