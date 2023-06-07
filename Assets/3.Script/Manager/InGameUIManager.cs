@@ -474,6 +474,7 @@ public class InGameUIManager : MonoBehaviour
 
         TabSetting("T1");
         OnSkillStatusCall();
+        SkillCheck();
     }
 
     private void LateUpdate()
@@ -891,17 +892,24 @@ public class InGameUIManager : MonoBehaviour
 
         for (int i = 0; i < skillLevel.Length; i++)
         {
-            skillLevel[i].text = "레벨 : " + playerData.skill[0].skillLevel;
+            skillLevel[i].text = "레벨 : " + playerData.skill[i].skillLevel;
 
-            if (playerData.skill[i].skillLevel > 0)
+            for (int k = 0; k < skillInfo.list_Skill.Count; k++)
             {
-                for (int k = 0; k < skillInfo.list_Skill.Count; k++)
+                if (skillInfo.list_Skill[k].level == playerData.skill[i].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[i].skillNum)
                 {
-                    if (skillInfo.list_Skill[k].level == playerData.skill[i].skillLevel && skillInfo.list_Skill[i].tag == playerData.skill[i].skillNum)
-                    {
-                        skillNum = k;
-                    }
+                    skillNum = k;
+                    break;
                 }
+                else if (playerData.skill[i].skillLevel == 0 && skillInfo.list_Skill[skillNum].levelLimit <= playerData.playerLevel)
+                {
+                    skillUp[i].interactable = true;
+                    return;
+                }
+            }
+
+            if (playerData.skill[i].hasSkill)
+            {
                 skillTooltip[i].text = "데미지 : " + skillInfo.list_Skill[skillNum].damage + "\n" +
                                         "쿨타임 : " + skillInfo.list_Skill[skillNum].coolTime + " (S)\n" +
                                         "설명 : \n" + skillInfo.list_Skill[skillNum].tooltip;
@@ -916,7 +924,7 @@ public class InGameUIManager : MonoBehaviour
                 skillDown[i].interactable = false;
             }
 
-            if (playerData.status.skillPoint >= skillInfo.list_Skill[skillNum + 1].skillUpPoint && playerData.playerLevel >= skillInfo.list_Skill[skillNum].levelLimit && playerData.skill[i].skillLevel < 3)
+            if (playerData.status.skillPoint >= skillInfo.list_Skill[skillNum].skillUpPoint && playerData.playerLevel >= skillInfo.list_Skill[skillNum].levelLimit && playerData.skill[i].skillLevel < 3)
             {
                 skillUp[i].interactable = true;
             }
@@ -1030,9 +1038,14 @@ public class InGameUIManager : MonoBehaviour
         {
             for (int k = 0; k < skillInfo.list_Skill.Count; k++)
             {
-                if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
+                if (skillInfo.list_Skill[k].levelLimit > playerData.playerLevel)
                 {
-                    playerData.status.skillPoint -= skillInfo.list_Skill[k + 1].skillUpPoint;
+                    continue;
+                }
+                else if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
+                {
+                    playerData.status.skillPoint -= skillInfo.list_Skill[k].skillUpPoint;
+                    break;
                 }
             }
         }
@@ -1040,9 +1053,14 @@ public class InGameUIManager : MonoBehaviour
         {
             for (int k = 0; k < skillInfo.list_Skill.Count; k++)
             {
-                if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
+                if(skillInfo.list_Skill[k].levelLimit > playerData.playerLevel)
                 {
-                    playerData.status.skillPoint += skillInfo.list_Skill[k].skillUpPoint;
+                    continue;
+                }
+                else if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
+                {
+                    playerData.status.skillPoint += skillInfo.list_Skill[k + 1].skillUpPoint;
+                    break;
                 }
             }
         }
@@ -1069,19 +1087,29 @@ public class InGameUIManager : MonoBehaviour
         {
             for (int k = 0; k < skillInfo.list_Skill.Count; k++)
             {
-                if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum)
+                if (skillInfo.list_Skill[k].levelLimit > playerData.playerLevel)
                 {
-                    playerData.status.skillPoint -= skillInfo.list_Skill[k + 1].skillUpPoint;
+                    continue;
+                }
+                else if (skillInfo.list_Skill[k].level == playerData.skill[1].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum && skillInfo.list_Skill[k].job.Equals(playerData.job))
+                {
+                    playerData.status.skillPoint -= skillInfo.list_Skill[k].skillUpPoint;
+                    break;
                 }
             }
         }
-        else
+        else if (value < 0)
         {
             for (int k = 0; k < skillInfo.list_Skill.Count; k++)
             {
-                if (skillInfo.list_Skill[k].level == playerData.skill[1].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum)
+                if (skillInfo.list_Skill[k].levelLimit > playerData.playerLevel)
                 {
-                    playerData.status.skillPoint += skillInfo.list_Skill[k].skillUpPoint;
+                    continue;
+                }
+                else if (skillInfo.list_Skill[k].level == playerData.skill[1].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum && skillInfo.list_Skill[k].job.Equals(playerData.job))
+                {
+                    playerData.status.skillPoint += skillInfo.list_Skill[k + 1].skillUpPoint;
+                    break;
                 }
             }
         }
@@ -2072,21 +2100,23 @@ public class InGameUIManager : MonoBehaviour
                 }
             }
         }
-        for (int i = 0; i < image_Tab.Length; i++)
-        {
-            image_Tab[i].color = new Color(0.8f, 0.8f, 0.8f, 1f);
-        }
 
-        if (tab.Equals(craftType))
+        if (tab.Equals("T1"))
         {
             image_Tab[0].color = new Color(1f, 1f, 1f, 1f);
+            image_Tab[1].color = new Color(0.8f, 0.8f, 0.8f, 1f);
+            image_Tab[2].color = new Color(0.8f, 0.8f, 0.8f, 1f);
         }
-        else if(tab.Equals(craftType))
+        else if(tab.Equals("T2"))
         {
+            image_Tab[0].color = new Color(0.8f, 0.8f, 0.8f, 1f);
             image_Tab[1].color = new Color(1f, 1f, 1f, 1f);
+            image_Tab[2].color = new Color(0.8f, 0.8f, 0.8f, 1f);
         }
-        else if(tab.Equals(craftType))
+        else if(tab.Equals("ETC"))
         {
+            image_Tab[0].color = new Color(0.8f, 0.8f, 0.8f, 1f);
+            image_Tab[1].color = new Color(0.8f, 0.8f, 0.8f, 1f);
             image_Tab[2].color = new Color(1f, 1f, 1f, 1f);
         }
 
