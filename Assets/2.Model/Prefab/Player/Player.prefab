@@ -71,8 +71,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 10
   attackRate: 0.5
-  arrowForce: 250
-  throwUpwardForce: 60
+  arrowForce: 500
+  throwUpwardForce: 100
   player: {fileID: 0}
   arrowPrefab: {fileID: 540982521389504186, guid: 1e4b8455ebcbda74b8076d8d2615d994, type: 3}
   arrowPrefab_Q: {fileID: 600817092136878249, guid: 02ef6e565f5f815478ee0d30236009a4, type: 3}
@@ -435,6 +435,7 @@ GameObject:
   - component: {fileID: 1013834622920868226}
   - component: {fileID: 4160770401112149543}
   - component: {fileID: 2187326562744875757}
+  - component: {fileID: 3347852064482430571}
   m_Layer: 9
   m_Name: Hat_Warrior_T1
   m_TagString: Untagged
@@ -506,6 +507,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3347852064482430571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385635678714633016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c7d070ebdd7274b9a5a0bdbed8fc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 100
+  defense: 0
+  moveSpeed: 0
 --- !u!1 &451003665887358971
 GameObject:
   m_ObjectHideFlags: 0
@@ -3242,8 +3258,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 10
   attackRate: 0.5
-  arrowForce: 250
-  throwUpwardForce: 60
+  arrowForce: 500
+  throwUpwardForce: 100
   player: {fileID: 0}
   arrowPrefab: {fileID: 540982521389504186, guid: 1e4b8455ebcbda74b8076d8d2615d994, type: 3}
   arrowPrefab_Q: {fileID: 600817092136878249, guid: 02ef6e565f5f815478ee0d30236009a4, type: 3}
@@ -3708,6 +3724,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3839114543237958658}
   - component: {fileID: 4649260888128459213}
+  - component: {fileID: 4820539705112934432}
   m_Layer: 9
   m_Name: Body_Warrior_T2
   m_TagString: Untagged
@@ -3825,6 +3842,21 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.014823109, y: -0.009416476, z: 0.37241507}
     m_Extent: {x: 0.76054096, y: 0.2331669, z: 0.3966998}
   m_DirtyAABB: 0
+--- !u!114 &4820539705112934432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3476663024025383797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c7d070ebdd7274b9a5a0bdbed8fc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 0
+  defense: 40
+  moveSpeed: 2
 --- !u!1 &3555083787071451330
 GameObject:
   m_ObjectHideFlags: 0
@@ -4292,7 +4324,9 @@ MonoBehaviour:
   - {fileID: 610782951697940975, guid: c13e063aff761f841bffc87c07d9e47d, type: 3}
   - {fileID: 2299724366970418133, guid: 9e9a1615f1b85774987e26e1f0d6bb41, type: 3}
   - {fileID: 6847352304807127427, guid: acfe438b5a48ffe4db64357068d98137, type: 3}
-  ItemList_Potion: []
+  ItemList_Potion:
+  - {fileID: 7650732973643261186, guid: d1fcc6c4362cfda4098c26ca3cb662d9, type: 3}
+  playerHand: 0
 --- !u!114 &3569978988760483235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4309,6 +4343,7 @@ MonoBehaviour:
   sprint: 0
   jump: 0
   attack: 0
+  mouse_1: 0
   skill_1: 0
   skill_2: 0
   cursorLocked: 1
@@ -4325,7 +4360,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.6
-  m_Radius: 0.4
+  m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 1
   m_SkinWidth: 0.08
@@ -4696,6 +4731,7 @@ GameObject:
   - component: {fileID: 4331952707173094324}
   - component: {fileID: 842713661898693649}
   - component: {fileID: 3194491214976510171}
+  - component: {fileID: 8490883002000672605}
   m_Layer: 9
   m_Name: Hat_Warrior_T2
   m_TagString: Untagged
@@ -4767,6 +4803,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8490883002000672605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3987340046736312590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c7d070ebdd7274b9a5a0bdbed8fc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 200
+  defense: 0
+  moveSpeed: 0
 --- !u!1 &4024599067472527025
 GameObject:
   m_ObjectHideFlags: 0
@@ -4920,8 +4971,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 10
   attackRate: 0.5
-  arrowForce: 800
-  throwUpwardForce: 60
+  arrowForce: 400
+  throwUpwardForce: 100
   player: {fileID: 0}
   arrowPrefab: {fileID: 540982521389504186, guid: 1e4b8455ebcbda74b8076d8d2615d994, type: 3}
   arrowPrefab_Q: {fileID: 600817092136878249, guid: 02ef6e565f5f815478ee0d30236009a4, type: 3}
@@ -6979,6 +7030,7 @@ GameObject:
   - component: {fileID: 5727399489770726556}
   - component: {fileID: 8706606970247228217}
   - component: {fileID: 6859232513225023475}
+  - component: {fileID: 4987475945788702933}
   m_Layer: 9
   m_Name: Hat_Archer_T2
   m_TagString: Untagged
@@ -7050,6 +7102,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4987475945788702933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913462176778944038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c7d070ebdd7274b9a5a0bdbed8fc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 100
+  defense: 0
+  moveSpeed: 0
 --- !u!1 &4938519772111469104
 GameObject:
   m_ObjectHideFlags: 0
@@ -7487,6 +7554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8676036309950581947}
   - component: {fileID: 481665652900984736}
+  - component: {fileID: 8199153355397632871}
   m_Layer: 9
   m_Name: Body_Archer_T1
   m_TagString: Untagged
@@ -7604,6 +7672,21 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000000029802322, y: -0.011255816, z: 0.35936284}
     m_Extent: {x: 0.73125017, y: 0.19827996, z: 0.3774873}
   m_DirtyAABB: 0
+--- !u!114 &8199153355397632871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353950285846270210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c7d070ebdd7274b9a5a0bdbed8fc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 0
+  defense: 10
+  moveSpeed: 2
 --- !u!1 &5470434033950234667
 GameObject:
   m_ObjectHideFlags: 0
@@ -8056,6 +8139,7 @@ GameObject:
   - component: {fileID: 4964998005993670310}
   - component: {fileID: 8307150046471227651}
   - component: {fileID: 6101282097330748873}
+  - component: {fileID: 1630966245416410423}
   m_Layer: 9
   m_Name: Hat_Archer_T1
   m_TagString: Untagged
@@ -8127,6 +8211,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1630966245416410423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5741218496461069340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c7d070ebdd7274b9a5a0bdbed8fc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 50
+  defense: 0
+  moveSpeed: 0
 --- !u!1 &5772293395312573497
 GameObject:
   m_ObjectHideFlags: 0
@@ -9406,6 +9505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 96100246138688341}
   - component: {fileID: 4008183122687899853}
+  - component: {fileID: 185443244757285094}
   m_Layer: 9
   m_Name: Body_Archer_T2
   m_TagString: Untagged
@@ -9523,6 +9623,21 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000000029802322, y: 0.0011999309, z: 0.36505052}
     m_Extent: {x: 0.7367735, y: 0.23378031, z: 0.38688412}
   m_DirtyAABB: 0
+--- !u!114 &185443244757285094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6713725580280799226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c7d070ebdd7274b9a5a0bdbed8fc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 0
+  defense: 15
+  moveSpeed: 3
 --- !u!1 &6716771088764355074
 GameObject:
   m_ObjectHideFlags: 0
@@ -12373,6 +12488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4818009552924561614}
   - component: {fileID: 1811486542420423755}
+  - component: {fileID: 6185629529843567064}
   m_Layer: 9
   m_Name: Body_Warrior_T1
   m_TagString: Untagged
@@ -12490,6 +12606,21 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0015201569, y: -0.013012782, z: 0.39163527}
     m_Extent: {x: 0.74634564, y: 0.20912838, z: 0.4124469}
   m_DirtyAABB: 0
+--- !u!114 &6185629529843567064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8559853837249409790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0c7d070ebdd7274b9a5a0bdbed8fc0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 0
+  defense: 30
+  moveSpeed: 1
 --- !u!1 &8739005524554891607
 GameObject:
   m_ObjectHideFlags: 0

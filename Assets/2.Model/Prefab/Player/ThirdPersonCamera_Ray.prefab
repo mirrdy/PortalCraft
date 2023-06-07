@@ -219,7 +219,7 @@ MonoBehaviour:
   rayPoint: {fileID: 0}
   layerMask_Ray:
     serializedVersion: 2
-    m_Bits: 2816
+    m_Bits: 11008
   cinemachineCamera: {fileID: 0}
   _3rdPersonFollow: {fileID: 0}
   followTarget: {fileID: 0}
