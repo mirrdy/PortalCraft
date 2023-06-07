@@ -52,6 +52,7 @@ public class CameraControl_Ray : MonoBehaviour
     {
         VeiwChange();
 
+
         Vector3 rayDir = rayPoint.position - transform.position;
         Debug.DrawRay(transform.position, rayDir, Color.red);
         switch (cameraView)
