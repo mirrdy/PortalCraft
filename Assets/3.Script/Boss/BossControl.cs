@@ -67,16 +67,20 @@ public class BossControl : MonoBehaviour ,IDestroyable
         onDeath.AddListener(OpenDoor);
         bossSpawn = transform.position;
         bossUi = FindObjectOfType<InGameUIManager>();
+        bossUi.BossHpCheck(hp, currentHp);
     }
 
     private void OnEnable()
     {
         playerBlock.SetActive(false);
         gameObject.transform.position = bossSpawn;
+        
     }
     private void OnDisable()
     {
-        bossUi.BossHpOff();   
+        bossUi.BossHpOff();
+        AudioManager.instance.StopBGM();
+        AudioManager.instance.PlayerBGM("InGame");
     }
     //private void Start()
     //{
