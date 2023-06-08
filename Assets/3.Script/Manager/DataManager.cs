@@ -389,7 +389,7 @@ public class DataManager : MonoBehaviour
 
                 for(int j = 0; j < mapData.list_IslandData[i].list_BlockData.Count; j++)
                 {
-                    mapData.list_IslandData[i].list_BlockData[j] = new BlockData();
+                    mapData.list_IslandData[i].list_BlockData[j] = new BlockData(0, 0, 0, 0, false, false);
 
                     mapData.list_IslandData[i].list_BlockData[j].x = 0;
                     mapData.list_IslandData[i].list_BlockData[j].y = 0;
@@ -400,7 +400,7 @@ public class DataManager : MonoBehaviour
                 }
                 for (int j = 0; j < mapData.list_IslandData[i].list_PortalData.Count; j++)
                 {
-                    mapData.list_IslandData[i].list_PortalData[j] = new PortalData();
+                    mapData.list_IslandData[i].list_PortalData[j] = new PortalData(0, 0, 0, 0);
 
                     mapData.list_IslandData[i].list_PortalData[j].x = 0;
                     mapData.list_IslandData[i].list_PortalData[j].y = 0;
@@ -409,7 +409,7 @@ public class DataManager : MonoBehaviour
                 }
                 for (int j = 0; j < mapData.list_IslandData[i].list_StructureData.Count; j++)
                 {
-                    mapData.list_IslandData[i].list_StructureData[j] = new StructureData();
+                    mapData.list_IslandData[i].list_StructureData[j] = new StructureData(0, 0, 0);
 
                     mapData.list_IslandData[i].list_StructureData[j].x = 0;
                     mapData.list_IslandData[i].list_StructureData[j].y = 0;
