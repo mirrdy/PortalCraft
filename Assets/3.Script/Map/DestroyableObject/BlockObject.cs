@@ -23,7 +23,7 @@ public class BlockObject : MonoBehaviour, IDestroyable
             if (isCreatedByGenerator)
             {
                 int.TryParse(transform.parent.name.Substring(6), out int islandIndex);
-                BlockMapGenerator.instance.CheckAroundDestroyedBlock(islandIndex - 1, transform.position);
+                BlockMapGenerator.instance.CheckAroundDestroyedBlock(islandIndex - 1, transform.localPosition);
             }
             Destroy(gameObject);
             return;
