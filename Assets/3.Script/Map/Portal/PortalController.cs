@@ -30,15 +30,16 @@ public class PortalController : MonoBehaviour
     IEnumerator OperatePortal(PlayerControl player)
     {
         moveProgress = 0;
-
-        LoadingSceneManager.Instance.LoadPortal(this);
-        yield return new WaitForSeconds(1f);
+        player.TryGetComponent(out CharacterController controller);
+        controller.enabled = false;
+        //LoadingSceneManager.Instance.LoadPortal(this);
+        //yield return new WaitForSeconds(1f);
         destPortal.transform.parent.gameObject.SetActive(true);
 
         int lastIndex = destPortal.transform.parent.childCount-1;
         int unit = lastIndex / 100;
 
-        for(int i=0; i<100; i++)
+        /*for(int i=0; i<100; i++)
         {
             Debug.Log(Time.realtimeSinceStartup);
             Transform child = destPortal.transform.parent.GetChild(i * unit);
@@ -47,7 +48,7 @@ public class PortalController : MonoBehaviour
                 yield return null;
             }
             moveProgress++;
-        }
+        }*/
 
         Transform lastChild = destPortal.transform.parent.GetChild(lastIndex);
         while (!lastChild.gameObject.activeSelf)
@@ -56,8 +57,7 @@ public class PortalController : MonoBehaviour
         }
         moveProgress = 100;
 
-        player.TryGetComponent(out CharacterController controller);
-        controller.enabled = false;
+        
         
         player.transform.position = destPortal.transform.position + Vector3.forward;
 

@@ -39,22 +39,23 @@ public class PortalNPC : InteractiveEntity
 
         if(progress == QuestProgress.NoStart)
         {
-            TMP.text = $"T{portalIndex+1} 포탈조각을 10개 가져오면 포탈을 활성화시켜줄게.";
+            TMP.text = $"T{portalIndex+1} 포탈조각을 1개 가져오면 포탈을 활성화시켜줄게.";
             progress = QuestProgress.Doing;
         }
         else if(progress == QuestProgress.Doing)
         {
             // 인벤토리에서 재료가 있는지 없는지 확인 필요
-            if ((portalIndex == 0 && ingameUIManager.InventoryItemCheck(401, 10)) ||
-                (portalIndex == 1 && ingameUIManager.InventoryItemCheck(402, 10)))
+            if ((portalIndex == 0 && ingameUIManager.InventoryItemCheck(401, 1)) ||
+                (portalIndex == 1 && ingameUIManager.InventoryItemCheck(402, 1)))
             {
                 TMP.text = "가져온 조각으로 포탈을 활성화시켰어.";
-                portal.enabled = true;
+                portal.gameObject.SetActive(true);
+                portal.destPortal.gameObject.SetActive(true);
                 progress = QuestProgress.Finish;
             }
             else
             {
-                TMP.text = $"아직 T{portalIndex + 1} 포탈조각 10개를 모으지 못했는데?";
+                TMP.text = $"아직 T{portalIndex + 1} 포탈조각 1개를 모으지 못했는데?";
             }
         }
         else if(progress == QuestProgress.Finish)
