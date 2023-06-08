@@ -16,6 +16,8 @@ public class BossTargeting : MonoBehaviour
             boss.currentHp = boss.hp;
             InGameUIManager bossUi = FindObjectOfType<InGameUIManager>();
             bossUi.BossHpOn();
+            AudioManager.instance.StopBGM();    
+            AudioManager.instance.PlayerBGM("BossMap");
         }
     }
     private void OnTriggerStay(Collider other)
