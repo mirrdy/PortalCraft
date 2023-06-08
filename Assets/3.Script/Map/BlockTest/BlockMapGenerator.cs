@@ -722,7 +722,10 @@ public class BlockMapGenerator : MonoBehaviour
     private void DrawBlock(int islandIndex, Vector3 blockPos)
     {
         BlockData block = mapData.list_IslandData[islandIndex].list_BlockData.Find(block => new Vector3(block.x, block.y, block.z).Equals(blockPos));
-
+        if(block == null)
+        {
+            return;
+        }
         if (!block.isExist)
         {
             return;
@@ -876,7 +879,7 @@ public class IslandData
 }
 
 [System.Serializable]
-public struct BlockData
+public class BlockData
 {
     [XmlElement]
     public float x;
@@ -914,7 +917,7 @@ public struct BlockData
 }
 
 [System.Serializable]
-public struct PortalData
+public class PortalData
 {
     [XmlElement]
     public float x;
@@ -943,7 +946,7 @@ public struct PortalData
 }
 
 [System.Serializable]
-public struct StructureData
+public class StructureData
 {
     [XmlElement]
     public float x;
