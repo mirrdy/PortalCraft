@@ -760,6 +760,7 @@ public class BlockMapGenerator : MonoBehaviour
                     }
                     block.blockType = i;
                     block.isVisible = true;
+                    block.isExist = true;
                     break;
                 }
             }
