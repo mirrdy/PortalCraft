@@ -54,6 +54,7 @@ public class LoadingSceneManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
+        AudioManager.instance.StopBGM();
         gameObject.SetActive(true);
         SceneManager.sceneLoaded += OnSceneLoaded;
         scene_next = sceneName;
@@ -108,7 +109,7 @@ public class LoadingSceneManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        if(arg0.name.Equals("MapTest") || arg0.name.Equals("In Game"))
+        if(arg0.name.Equals("In Game"))
         {
             StartCoroutine(nameof(MapLoading));
         }
@@ -116,6 +117,7 @@ public class LoadingSceneManager : MonoBehaviour
         {
             StartCoroutine(Fade_co(false));
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            AudioManager.instance.PlayerBGM("InGame");
         }
     }
 
