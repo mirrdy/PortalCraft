@@ -116,21 +116,25 @@ public class BlockMapGenerator : MonoBehaviour
 
     public MapData mapData;
 
+    private bool isExistSaveFile;
+
     // Start is called before the first frame update
     void Start()
     {
         CreateIsland();
         SetCollisionLayer();
         string filePath = Application.persistentDataPath + "/MapData" + DataManager.instance.saveNumber + ".xml";
-        if (!File.Exists(filePath))
-        {
-            StartCoroutine(InitGame_co(true));
-            DataManager.instance.MapSaveData(mapData, DataManager.instance.saveNumber);
+        isExistSaveFile = File.Exists(filePath);
+
+        if (isExistSaveFile)
+        { 
+            mapData = DataManager.instance.MapDataGet(DataManager.instance.saveNumber);
+            StartCoroutine(InitGame_co(false));
         }
         else
         {
-            mapData = DataManager.instance.MapDataGet(DataManager.instance.saveNumber);
-            StartCoroutine(InitGame_co(false));
+            StartCoroutine(InitGame_co(true));
+            DataManager.instance.MapSaveData(mapData, DataManager.instance.saveNumber);
         }
     }
 
@@ -458,13 +462,13 @@ public class BlockMapGenerator : MonoBehaviour
                     }
 
                     Vector3 pos = new Vector3(x, noiseValueY, z);
-                    StartCoroutine(CreateBlock_co(i, noiseValueY, pos, true));
+                    StartCoroutine(CreateBlock_co(i, pos, true));
 
                     // 노이즈 Y값에 블럭 설치 후 그 밑부분부터는 블록을 생성하지 않고 정보만 배열에 저장함
                     for (int y = noiseValueY - 1; y > 0; y--)
                     {
                         pos = new Vector3(x, y, z);
-                        StartCoroutine(CreateBlock_co(i, y, pos, false));
+                        StartCoroutine(CreateBlock_co(i, pos, false));
                     }
                 }
                 yield return null;
@@ -480,37 +484,28 @@ public class BlockMapGenerator : MonoBehaviour
     {
         int islandCount = islandPos.Length;
 
-        int visibleBlockCount = mapData.list_IslandData[0].list_BlockData.Count;
+        progress = 0;
 
         for (int i = 0; i < islandCount; i++)
         {
             IslandData island = mapData.list_IslandData[i];
-
             List<BlockData> visibleBlocks = island.list_BlockData.FindAll(block => block.isVisible);
 
-            for(int j=0; j<visibleBlockCount; j++)
-            {
-                Vector3 pos = new Vector3(visibleBlocks[j].x, visibleBlocks[j].y, visibleBlocks[j].z);
-                ////////////
-            }
-
-            float totalProgressSize = ((float)widthX * islandCount);
+            int visibleBlockCount = mapData.list_IslandData[i].list_BlockData.Count;
+            float totalProgressSize = ((float)visibleBlockCount * islandCount);
             float progressOffset = i * (100 / islandCount);
-            for (int x = 0; x < widthX; x++)
-            {
-                progress = (x / totalProgressSize * 100) + progressOffset;
-                for (int z = 0; z < widthZ; z++)
-                {
-                    
-                    Vector3 pos = new Vector3(x, noiseValueY, z);
-                    StartCoroutine(CreateBlock_co(i, noiseValueY, pos, true));
 
-                    // 노이즈 Y값에 블럭 설치 후 그 밑부분부터는 블록을 생성하지 않고 정보만 배열에 저장함
-                    for (int y = noiseValueY - 1; y > 0; y--)
-                    {
-                        pos = new Vector3(x, y, z);
-                        StartCoroutine(CreateBlock_co(i, y, pos, false));
-                    }
+            for (int j=0; j<visibleBlockCount; j++)
+            {
+                progress = (j / totalProgressSize * 100) + progressOffset;
+
+                Vector3 pos = new Vector3(visibleBlocks[j].x, visibleBlocks[j].y, visibleBlocks[j].z);
+                StartCoroutine(CreateBlock_co(i, pos, true));
+
+                for (int y = (int)pos.y - 1; y > 0; y--)
+                {
+                    pos = new Vector3(pos.x, y, pos.z);
+                    StartCoroutine(CreateBlock_co(i, pos, false));
                 }
                 yield return null;
             }
@@ -522,14 +517,14 @@ public class BlockMapGenerator : MonoBehaviour
         isFinishBlockGeneration = true;
     }
 
-    IEnumerator CreateBlock_co(int islandIndex, int y, Vector3 blockPos, bool visible)
+    IEnumerator CreateBlock_co(int islandIndex, Vector3 blockPos, bool visible)
     {
         for (int i = 0; i < blockPrefabInfos.Length; i++)
         {
             int blockHeight = blockPrefabInfos[i].height;
             //blockPos.y = 0;
 
-            if (blockHeight < y)
+            if (blockHeight < blockPos.y)
             {
                 if (visible)
                 {
@@ -563,7 +558,8 @@ public class BlockMapGenerator : MonoBehaviour
                             }
                         }
                     }
-                    // 포탈 생성할 위치 저장
+
+                    /*// 포탈 생성할 위치 저장
                     if (!isCreatedPortal[islandIndex])
                     {
                         if(blockPos.x > 10 && blockPos.z > 10)
@@ -575,7 +571,7 @@ public class BlockMapGenerator : MonoBehaviour
                                 portalPos[islandIndex] = blockPos + Vector3.up;
                             }
                         }
-                    }
+                    }*/
 
                     // 플레이어 스폰 위치 저장 (처음 섬에 1개만 생성)
                     if (!isCreatedPlayerSpawner)
