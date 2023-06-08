@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e1c48a9e3515e640b233dd85655a815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 30
+  attackDamage: 40
   attackRate: 0.5
   arrowForce: 500
   throwUpwardForce: 100
@@ -799,7 +799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bfd71a0ea4283e4da619f3a1ea22dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 20
+  attackDamage: 30
   attackRate: 0.4
   meleeArea: {fileID: 7997783137778991508}
   trailEffect: {fileID: 4475580542188232680}
@@ -3256,7 +3256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e1c48a9e3515e640b233dd85655a815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 20
+  attackDamage: 30
   attackRate: 0.5
   arrowForce: 500
   throwUpwardForce: 100
@@ -4971,7 +4971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e1c48a9e3515e640b233dd85655a815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 10
+  attackDamage: 20
   attackRate: 0.5
   arrowForce: 400
   throwUpwardForce: 100
@@ -8945,7 +8945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bfd71a0ea4283e4da619f3a1ea22dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 10
+  attackDamage: 20
   attackRate: 0.4
   meleeArea: {fileID: 3032751339470066439}
   trailEffect: {fileID: 5796918020916314840}
@@ -13092,7 +13092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bfd71a0ea4283e4da619f3a1ea22dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDamage: 30
+  attackDamage: 40
   attackRate: 0.4
   meleeArea: {fileID: 7239508671365097692}
   trailEffect: {fileID: 6861714678739060783}

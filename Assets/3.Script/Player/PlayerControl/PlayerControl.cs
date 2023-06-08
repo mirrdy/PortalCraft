@@ -194,6 +194,10 @@ public class PlayerControl : MonoBehaviour, IDamage
             Skill_2();
             input.skill_2 = false;
         }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            playerData.status.currentHp += 50;
+        }
     }
 
 
