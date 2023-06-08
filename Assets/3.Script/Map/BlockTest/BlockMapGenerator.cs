@@ -188,6 +188,8 @@ public class BlockMapGenerator : MonoBehaviour
         PlayerControl.instance.whenPlayerDie += ResetPlayer;
         //PlayerControl.instance.enabled = true;
         // »ý¼º2
+        bossMap.SetActive(false);
+        islands[1].SetActive(false);
     }
     private void InitSetCraftingTable()
     {
@@ -317,8 +319,9 @@ public class BlockMapGenerator : MonoBehaviour
             portal.transform.SetParent(bossMap.transform);
             portal.transform.localPosition = bossPortalPos + Vector3.up;
         }
-
+        
         SetPortalLink();
+
     }
 
     private void SetDefaultPortalPos(int islandIndex)
