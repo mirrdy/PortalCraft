@@ -170,7 +170,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
         uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
         uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
-
+        uiManager.MpCheck(playerData.status.maxMp, playerData.status.currentMp, 0, 0);
 
         CustomizePlayer();
     }

@@ -281,6 +281,11 @@ public class CustomizeCharacter : MonoBehaviour
             playerData.inventory[30].quantity = 1;
         }
 
+        playerData.inventory[31].hasItem = true;
+        playerData.inventory[31].tag = 408;
+        playerData.inventory[31].type = "ETC";
+        playerData.inventory[31].quantity = 1;
+
         DataManager.instance.SaveData(playerData, DataManager.instance.saveNumber);
 
         LoadingSceneManager.Instance.LoadScene("MapTest");
