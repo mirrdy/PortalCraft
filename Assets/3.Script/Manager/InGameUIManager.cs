@@ -547,7 +547,6 @@ public class InGameUIManager : MonoBehaviour
     public void SaveBtn()
     {
         DataManager.instance.SaveData(player.playerData, DataManager.instance.saveNumber);
-        DataManager.instance.MapSaveData(mapData.mapData, DataManager.instance.saveNumber);
     }
 
     public void SettingWindow()  // 옵션 창 호출 버튼 메소드
@@ -888,25 +887,20 @@ public class InGameUIManager : MonoBehaviour
         PlayerData playerData = player.playerData;
 
         skillPoint.text = "스킬 포인트 : " + playerData.status.skillPoint;
-
         int skillNum = 0;
 
         for (int i = 0; i < skillLevel.Length; i++)
         {
             skillLevel[i].text = "레벨 : " + playerData.skill[i].skillLevel;
+            skillNum = 0;
 
             for (int k = 0; k < skillInfo.list_Skill.Count; k++)
             {
-                if (skillInfo.list_Skill[k].level == playerData.skill[i].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[i].skillNum)
-                {
-                    skillNum = k;
-                    break;
-                }
-                else if (playerData.skill[i].skillLevel == 0 && skillInfo.list_Skill[skillNum].levelLimit <= playerData.playerLevel)
-                {
-                    skillUp[i].interactable = true;
-                    return;
-                }
+               if (skillInfo.list_Skill[k].level == playerData.skill[i].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[i].skillNum)
+               {
+                   skillNum = k;
+                   break;
+               }
             }
 
             if (playerData.skill[i].hasSkill)
@@ -1035,37 +1029,25 @@ public class InGameUIManager : MonoBehaviour
             playerData.skill[0].hasSkill = false;
         }
 
-        if (value > 0)
+        for (int k = 0; k < skillInfo.list_Skill.Count; k++)
         {
-            for (int k = 0; k < skillInfo.list_Skill.Count; k++)
+            if (skillInfo.list_Skill[k].levelLimit > playerData.playerLevel)
             {
-                if (skillInfo.list_Skill[k].levelLimit > playerData.playerLevel)
-                {
-                    continue;
-                }
-                else if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
+                continue;
+            }
+            else if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
+            {
+                if(value > 0)
                 {
                     playerData.status.skillPoint -= skillInfo.list_Skill[k].skillUpPoint;
-                    break;
                 }
-            }
-        }
-        else
-        {
-            for (int k = 0; k < skillInfo.list_Skill.Count; k++)
-            {
-                if(skillInfo.list_Skill[k].levelLimit > playerData.playerLevel)
-                {
-                    continue;
-                }
-                else if (skillInfo.list_Skill[k].level == playerData.skill[0].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[0].skillNum)
+                else
                 {
                     playerData.status.skillPoint += skillInfo.list_Skill[k + 1].skillUpPoint;
-                    break;
                 }
+                break;
             }
         }
-
         SkillCheck();
     }
 
@@ -1084,34 +1066,23 @@ public class InGameUIManager : MonoBehaviour
             playerData.skill[1].hasSkill = false;
         }
 
-        if (value > 0)
+        for (int k = 0; k < skillInfo.list_Skill.Count; k++)
         {
-            for (int k = 0; k < skillInfo.list_Skill.Count; k++)
+            if (skillInfo.list_Skill[k].levelLimit > playerData.playerLevel)
             {
-                if (skillInfo.list_Skill[k].levelLimit > playerData.playerLevel)
-                {
-                    continue;
-                }
-                else if (skillInfo.list_Skill[k].level == playerData.skill[1].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum && skillInfo.list_Skill[k].job.Equals(playerData.job))
+                continue;
+            }
+            else if (skillInfo.list_Skill[k].level == playerData.skill[1].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum && skillInfo.list_Skill[k].job.Equals(playerData.job))
+            {
+                if (value > 0)
                 {
                     playerData.status.skillPoint -= skillInfo.list_Skill[k].skillUpPoint;
-                    break;
                 }
-            }
-        }
-        else if (value < 0)
-        {
-            for (int k = 0; k < skillInfo.list_Skill.Count; k++)
-            {
-                if (skillInfo.list_Skill[k].levelLimit > playerData.playerLevel)
-                {
-                    continue;
-                }
-                else if (skillInfo.list_Skill[k].level == playerData.skill[1].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[1].skillNum && skillInfo.list_Skill[k].job.Equals(playerData.job))
+                else
                 {
                     playerData.status.skillPoint += skillInfo.list_Skill[k + 1].skillUpPoint;
-                    break;
                 }
+                break;
             }
         }
 
@@ -2333,5 +2304,29 @@ public class InGameUIManager : MonoBehaviour
         {
             DeleteItem(playerHand);
         }
+    }
+
+    public bool PotalItemUse(int tag, int quantity)
+    {
+        PlayerData playerData = player.playerData;
+
+        for (int i = 0; i < playerData.inventory.Length; i++)
+        {
+            if (playerData.inventory[i].hasItem)
+            {
+                if (playerData.inventory[i].tag == tag)
+                {
+                    if (playerData.inventory[i].quantity >= quantity)
+                    {
+                        playerData.inventory[i].quantity -= quantity;
+                        if (playerData.inventory[i].quantity <= 0)
+                        {
+                            DeleteItem(playerHand);
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

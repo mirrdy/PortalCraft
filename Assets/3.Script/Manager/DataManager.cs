@@ -23,7 +23,6 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;  // DataManager 싱글톤 생성
     public PlayerData playerData = new PlayerData();
-    public MapData mapData = new MapData();
 
     // Yaml 데이터형 변수 지정
     SettingData settingData = new SettingData();
@@ -374,61 +373,5 @@ public class DataManager : MonoBehaviour
         File.Delete(filePath);
         File.Delete(mapfilePath);
 
-    }
-
-    
-
-    public MapData MapDataGet(int num)  // 저장된 xml의 데이터를 가져오는 메소드
-    {
-        // 파일의 경로와 이름을 지정
-        string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
-
-        // 암호화된 데이터를 파일에서 불러옴
-        byte[] encryptedData = LoadEncryptDataFile(filePath);
-
-        // 암호화된 데이터를 복호화하여 XML 데이터로 변환
-        string decryptedData = Decrypt(encryptedData, settingData.dataKey[num - 1].playerDataKey);
-
-        // XML 데이터를 역직렬화하여 객체로 변환
-        MapData mapData = DeserializeDataMap(decryptedData);
-
-        return mapData;
-    }
-
-    public void MapSaveData(MapData mapData, int num)  // 사용한 데이터를 받아와 다시 xml파일에 저장하는 메소드
-    {
-        // 파일의 경로와 이름을 지정
-        string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
-
-        // XML 데이터를 문자열로 직렬화
-        string serializedData = SerializeDataMap(mapData);
-
-        byte[] key = settingData.dataKey[num - 1].playerDataKey;  // 키값 데이터 저장
-
-        // 암호화된 데이터 생성
-        byte[] encryptedData = Encrypt(serializedData, key);
-
-        SaveEncryptDataFile(encryptedData, filePath);
-    }
-
-    private static string SerializeDataMap(MapData data)  // 텍스트 데이터를 직렬화 해주는 메소드
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(MapData));
-        using (StringWriter writer = new StringWriter())
-        {
-            serializer.Serialize(writer, data);
-            return writer.ToString();
-        }
-    }
-
-    private static MapData DeserializeDataMap(string data)  // 텍스트 데이터를 역직렬화 해주는 메소드
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(MapData));
-        using (StringReader reader = new StringReader(data))
-        {
-            MapData mapData = (MapData)serializer.Deserialize(reader);
-
-            return mapData;
-        }
     }
 }
