@@ -928,7 +928,7 @@ public class InGameUIManager : MonoBehaviour
             {
                 skillUp[i].interactable = true;
             }
-            else
+            else if (playerData.skill[i].skillLevel != 0)
             {
                 skillUp[i].interactable = false;
             }
