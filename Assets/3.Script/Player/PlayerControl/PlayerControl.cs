@@ -411,7 +411,6 @@ public class PlayerControl : MonoBehaviour, IDamage
                         }
                         else
                         {
-                            Debug.Log("Çê¼ÕÁú");
                         }
                         animator.SetTrigger(animID_Attack);
                         ActionCool = 0;
