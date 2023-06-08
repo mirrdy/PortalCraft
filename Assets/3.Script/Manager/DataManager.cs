@@ -376,62 +376,7 @@ public class DataManager : MonoBehaviour
 
     }
 
-    public void MapDataSet(int num)  // Player의 정보(xml 파일의 유무)를 확인 하고 없으면 생성하고 있으면 Load 하는 메소드
-    {
-        // 파일의 경로와 이름을 지정
-        string filePath = Application.persistentDataPath + "/MapData" + num + ".xml";
-
-        if (!File.Exists(filePath))  // xml의 데이터에 따라서 저장 데이터를 전달 초기화 이후에 대입하여 기본값을 설정
-        {
-            for(int i = 0; i < mapData.list_IslandData.Count; i++)
-            {
-                mapData.list_IslandData[i] = new IslandData();
-
-                for(int j = 0; j < mapData.list_IslandData[i].list_BlockData.Count; j++)
-                {
-                    mapData.list_IslandData[i].list_BlockData[j] = new BlockData(0, 0, 0, 0, false, false);
-
-                    mapData.list_IslandData[i].list_BlockData[j].x = 0;
-                    mapData.list_IslandData[i].list_BlockData[j].y = 0;
-                    mapData.list_IslandData[i].list_BlockData[j].z = 0;
-                    mapData.list_IslandData[i].list_BlockData[j].isExist = false;
-                    mapData.list_IslandData[i].list_BlockData[j].isVisible = false;
-                    mapData.list_IslandData[i].list_BlockData[j].blockType = 0;
-                }
-                for (int j = 0; j < mapData.list_IslandData[i].list_PortalData.Count; j++)
-                {
-                    mapData.list_IslandData[i].list_PortalData[j] = new PortalData(0, 0, 0, 0);
-
-                    mapData.list_IslandData[i].list_PortalData[j].x = 0;
-                    mapData.list_IslandData[i].list_PortalData[j].y = 0;
-                    mapData.list_IslandData[i].list_PortalData[j].z = 0;
-                    mapData.list_IslandData[i].list_PortalData[j].portalType = 0;
-                }
-                for (int j = 0; j < mapData.list_IslandData[i].list_StructureData.Count; j++)
-                {
-                    mapData.list_IslandData[i].list_StructureData[j] = new StructureData(0, 0, 0);
-
-                    mapData.list_IslandData[i].list_StructureData[j].x = 0;
-                    mapData.list_IslandData[i].list_StructureData[j].y = 0;
-                    mapData.list_IslandData[i].list_StructureData[j].z = 0;
-                }
-            }
-
-            // XML 데이터를 문자열로 직렬화
-            string serializedData = SerializeDataMap(mapData);
-
-            byte[] key = settingData.dataKey[num - 1].playerDataKey ;  // 키값 데이터 저장
-
-            // 암호화된 데이터 생성
-            byte[] encryptData = Encrypt(serializedData, key);
-
-            SaveEncryptDataFile(encryptData, filePath);
-        }
-        else
-        {
-            mapData = MapDataGet(num);  // 파일이 있을 경우 데이터를 읽어오는 메소드 실행
-        }
-    }
+    
 
     public MapData MapDataGet(int num)  // 저장된 xml의 데이터를 가져오는 메소드
     {
