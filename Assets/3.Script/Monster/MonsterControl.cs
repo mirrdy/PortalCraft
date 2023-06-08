@@ -106,7 +106,7 @@ public class MonsterControl : LivingEntity
         patrolRange = data.patrolRange;
         gravity = data.gravity;
         dropExpNum = data.dropExpNum;
-        name = data.name;
+        name = data.monsterName;
     }
 
     public void EndAttack()

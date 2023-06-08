@@ -14,7 +14,7 @@ public class MonsterData : ScriptableObject
     public float patrolRange = 2f;
     public float gravity = -6f;
     public int dropExpNum = 2;
-    public string name = "Spider";
+    public string monsterName = "Spider";
     
 
 
