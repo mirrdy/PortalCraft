@@ -22,7 +22,7 @@ private void OnTriggerEnter(Collider coll)
     {
         if (coll.CompareTag("Monster"))
         {
-            Debug.Log("몬스터 화살 맞음");
+
             coll.TryGetComponent(out MonsterControl monsterControl);
             int damage = PlayerControl.instance.equipItem.TryGetComponent(out Bow bow) ? bow.attackDamage : 0;
             //Vector3 hitPoint = coll.ClosestPoint(transform.position);
@@ -33,6 +33,14 @@ private void OnTriggerEnter(Collider coll)
         else if(coll.CompareTag("Block") || coll.CompareTag("Environment"))
         {
             Destroy(gameObject, lifeTime);
-        }       
+        }
+        if (coll.CompareTag("Boss"))
+        {
+
+            coll.TryGetComponent(out BossControl monsterControl);
+            int damage = PlayerControl.instance.equipItem.TryGetComponent(out Bow bow) ? bow.attackDamage : 0;
+            monsterControl.TakeDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }

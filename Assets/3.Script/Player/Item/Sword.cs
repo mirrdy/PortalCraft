@@ -77,6 +77,27 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
             }
             monsterControl.TakeDamage(damage);
         }
+        if (coll.CompareTag("Boss"))
+        {
+            Status status = PlayerControl.instance.playerData.status;
+
+            Debug.Log("몬스터피격");
+            coll.TryGetComponent(out MonsterControl monsterControl);
+            int damage;
+            if (isSkill_1)
+            {
+                damage = status.attack + attackDamage + SkillDamage_1;
+            }
+            else if (isSkill_2)
+            {
+                damage = status.attack + attackDamage + SkillDamage_2;
+            }
+            else
+            {
+                damage = status.attack + attackDamage;
+            }
+            monsterControl.TakeDamage(damage);
+        }
     }
 
 

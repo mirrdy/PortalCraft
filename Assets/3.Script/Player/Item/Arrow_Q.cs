@@ -31,5 +31,13 @@ public class Arrow_Q : MonoBehaviour
         {
             Destroy(gameObject, lifeTime);
         }
+        if (coll.CompareTag("Boss"))
+        {
+
+            coll.TryGetComponent(out BossControl monsterControl);
+            int damage = PlayerControl.instance.equipItem.TryGetComponent(out Bow bow) ? bow.attackDamage : 0;
+            monsterControl.TakeDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }
