@@ -112,12 +112,13 @@ public class LoadingSceneManager : MonoBehaviour
         if(arg0.name.Equals("In Game"))
         {
             StartCoroutine(nameof(MapLoading));
+            AudioManager.instance.PlayerBGM("InGame");
         }
         else if(arg0.name == scene_next)
         {
             StartCoroutine(Fade_co(false));
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            AudioManager.instance.PlayerBGM("InGame");
+            AudioManager.instance.PlayerBGM("Title");
         }
     }
 
