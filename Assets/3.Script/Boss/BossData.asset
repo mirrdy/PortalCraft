@@ -21,3 +21,4 @@ MonoBehaviour:
   patrolRange: 0
   gravity: 0
   dropExpNum: 2
+  name: Boss
