@@ -123,20 +123,7 @@ public class BlockMapGenerator : MonoBehaviour
     {
         CreateIsland();
         SetCollisionLayer();
-        string filePath = Application.persistentDataPath + "/MapData" + DataManager.instance.saveNumber + ".xml";
-        isExistSaveFile = File.Exists(filePath);
-
-        if (isExistSaveFile)
-        { 
-            mapData = DataManager.instance.MapDataGet(DataManager.instance.saveNumber);
-            StartCoroutine(InitGame_co(false));
-        }
-        else
-        {
-            DataManager.instance.MapDataSet(DataManager.instance.saveNumber);
-            StartCoroutine(InitGame_co(true));
-            DataManager.instance.MapSaveData(mapData, DataManager.instance.saveNumber);
-        }
+        StartCoroutine(InitGame_co());
     }
 
     private void CreateIsland()
@@ -173,18 +160,13 @@ public class BlockMapGenerator : MonoBehaviour
         Physics.IgnoreLayerCollision(fieldItemLayer, monsterLayer);
     }
     
-    IEnumerator InitGame_co(bool isNewMap)
+    IEnumerator InitGame_co()
     {
         //PlayerControl.instance.enabled = false;
         // 맵 생성
-        if (isNewMap)
-        {
-            yield return StartCoroutine(MapInit_co());
-        }
-        else
-        {
-            yield return StartCoroutine(MapInitWithSaveData_co());
-        }
+        yield return StartCoroutine(MapInit_co());
+
+
 
         // 맵 생성 대기
         while (true)
@@ -201,12 +183,9 @@ public class BlockMapGenerator : MonoBehaviour
         CreateMonsterSpawner();
         //SetActiveIslands(); // 플레이어 위치 저장에 관한 내용 필요
         ResetPlayer();
-        InitSetCraftingTable();
-
-
+        //InitSetCraftingTable();
         PlayerControl.instance.whenPlayerDie += ResetPlayer;
         //PlayerControl.instance.enabled = true;
-
         // 생성2
     }
     private void InitSetCraftingTable()
@@ -474,7 +453,7 @@ public class BlockMapGenerator : MonoBehaviour
                 }
                 yield return null;
             }
-            GameObject deadzone = Instantiate(prefab_Deadzone, new Vector3(islandPos[i].x, 0, islandPos[i].z), Quaternion.identity);
+            GameObject deadzone = Instantiate(prefab_Deadzone, new Vector3(islandPos[i].x, -50, islandPos[i].z), Quaternion.identity);
             deadzone.transform.localScale = new Vector3(widthX, 1, widthZ);
         }
         Debug.Log("생성끝");
@@ -492,7 +471,7 @@ public class BlockMapGenerator : MonoBehaviour
             IslandData island = mapData.list_IslandData[i];
             List<BlockData> visibleBlocks = island.list_BlockData.FindAll(block => block.isVisible);
 
-            int visibleBlockCount = mapData.list_IslandData[i].list_BlockData.Count;
+            int visibleBlockCount = visibleBlocks.Count;
             float totalProgressSize = ((float)visibleBlockCount * islandCount);
             float progressOffset = i * (100 / islandCount);
 
@@ -858,7 +837,7 @@ public class IslandData
 }
 
 [System.Serializable]
-public class BlockData
+public struct BlockData
 {
     [XmlElement]
     public float x;
@@ -873,10 +852,7 @@ public class BlockData
     [XmlElement]
     public bool isExist;
     
-    public BlockData()
-    {
-
-    }
+    
 
     public BlockData(float x, float y, float z, int blockType, bool isVisible, bool isExist)
     {
@@ -899,7 +875,7 @@ public class BlockData
 }
 
 [System.Serializable]
-public class PortalData
+public struct PortalData
 {
     [XmlElement]
     public float x;
@@ -910,10 +886,7 @@ public class PortalData
     [XmlElement]
     public int portalType;
 
-    public PortalData()
-    {
-
-    }
+  
     public PortalData(float x, float y, float z, int portalType)
     {
         this.x = x;
@@ -931,7 +904,7 @@ public class PortalData
 }
 
 [System.Serializable]
-public class StructureData
+public struct StructureData
 {
     [XmlElement]
     public float x;
@@ -940,10 +913,7 @@ public class StructureData
     [XmlElement]
     public float z;
 
-    public StructureData()
-    {
-
-    }
+   
     public StructureData(float x, float y, float z)
     {
         this.x = x;
