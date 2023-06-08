@@ -10,6 +10,7 @@ public class FieldItemTrigger : MonoBehaviour
         {
             if(transform.parent.TryGetComponent(out FieldItem item))
             {
+                AudioManager.instance.PlaySFX("PlayerGrap");
                 InGameUIManager invenUI = FindObjectOfType<InGameUIManager>();
                 invenUI.AddItem(item.tagNum, item.type, item.quantity, -1); // -1 => 필드아이템이 인벤에 들어갈 때 파라미터
                 Destroy(item.gameObject);
