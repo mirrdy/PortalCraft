@@ -10,7 +10,7 @@ public class Potion : MonoBehaviour
 
     private void Start()
     {
-        uiManager = GameObject.Find("InteractionManager").GetComponent<InGameUIManager>();
+        uiManager = GameObject.Find("InGameUIManager").GetComponent<InGameUIManager>();
     }
 
     public void Use(int slotNumber, int tag)
