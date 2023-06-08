@@ -896,11 +896,16 @@ public class InGameUIManager : MonoBehaviour
 
             for (int k = 0; k < skillInfo.list_Skill.Count; k++)
             {
-               if (skillInfo.list_Skill[k].level == playerData.skill[i].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[i].skillNum)
-               {
-                   skillNum = k;
-                   break;
-               }
+                if (skillInfo.list_Skill[k].level == playerData.skill[i].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[i].skillNum)
+                {
+                    skillNum = k;
+                    break;
+                }
+                else if (playerData.skill[i].skillLevel == 0 && skillInfo.list_Skill[k].tag == playerData.skill[i].skillNum && playerData.playerLevel >= skillInfo.list_Skill[k].levelLimit)
+                {
+                    skillUp[i].interactable = true;
+                    return;
+                }
             }
 
             if (playerData.skill[i].hasSkill)
@@ -919,7 +924,7 @@ public class InGameUIManager : MonoBehaviour
                 skillDown[i].interactable = false;
             }
 
-            if (playerData.status.skillPoint >= skillInfo.list_Skill[skillNum].skillUpPoint && playerData.playerLevel >= skillInfo.list_Skill[skillNum].levelLimit && playerData.skill[i].skillLevel < 3)
+            if (playerData.status.skillPoint >= skillInfo.list_Skill[skillNum].skillUpPoint && playerData.playerLevel >= skillInfo.list_Skill[skillNum].levelLimit && playerData.skill[i].skillLevel < 3  && playerData.skill[i].skillLevel != 0)
             {
                 skillUp[i].interactable = true;
             }
