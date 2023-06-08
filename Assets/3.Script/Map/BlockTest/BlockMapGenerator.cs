@@ -86,7 +86,7 @@ public class BlockMapGenerator : MonoBehaviour
 
     // 플레이어 스포너
     public GameObject prefab_PlayerSpawner;
-    private Vector3 playerSpawnerPos;
+    public Vector3 playerSpawnerPos;
     private bool isCreatedPlayerSpawner;
 
     // 제작대
@@ -113,6 +113,7 @@ public class BlockMapGenerator : MonoBehaviour
     [Header("섬 위치")]
     public Vector3[] islandPos;
     private GameObject[] islands;
+    GameObject bossMap;
 
     public MapData mapData;
 
@@ -307,7 +308,7 @@ public class BlockMapGenerator : MonoBehaviour
                 }
             }*/
         }
-        GameObject bossMap = GameObject.Find("BossMap");
+        bossMap = GameObject.Find("BossMap");
         if(bossMap != null)
         {
             Vector3 bossPortalPos = bossMap.transform.Find("BossMapPortal").localPosition;
@@ -378,11 +379,17 @@ public class BlockMapGenerator : MonoBehaviour
         portal1.destPortal = portal2;
         portal2.destPortal = portal1;
 
+        portal1.gameObject.SetActive(false);
+        portal2.gameObject.SetActive(false);
+
         portal1 = islands[1].transform.Find("Portal2(Clone)").GetComponent<PortalController>();
         portal2 = GameObject.Find("BossMap").transform.Find("Portal2(Clone)").GetComponent<PortalController>();
 
         portal1.destPortal = portal2;
         portal2.destPortal = portal1;
+
+        portal1.gameObject.SetActive(false);
+        portal2.gameObject.SetActive(false);
     }
     private void CreateMonsterSpawner()
     {
@@ -602,7 +609,12 @@ public class BlockMapGenerator : MonoBehaviour
     private void ResetPlayer()
     {
         PlayerControl.instance.TryGetComponent(out CharacterController control);
-
+        if(!islands[0].activeSelf)
+        {
+            islands[0].SetActive(true);
+            islands[1].SetActive(false);
+            bossMap.SetActive(false);
+        }
         control.enabled = false;
 
         int startCheckPointX = widthX / 8;
