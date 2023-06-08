@@ -133,6 +133,7 @@ public class BlockMapGenerator : MonoBehaviour
         }
         else
         {
+            DataManager.instance.MapDataSet(DataManager.instance.saveNumber);
             StartCoroutine(InitGame_co(true));
             DataManager.instance.MapSaveData(mapData, DataManager.instance.saveNumber);
         }
@@ -833,6 +834,11 @@ public class MapData  // 플레이어 데이터 관리 클레스
 {
     [XmlElement]
     public List<IslandData> list_IslandData;
+
+    public MapData()
+    {
+
+    }
 }
 
 [System.Serializable]
@@ -844,6 +850,11 @@ public class IslandData
     public List<PortalData> list_PortalData;
     [XmlElement]
     public List<StructureData> list_StructureData;
+
+    public IslandData()
+    {
+
+    }
 }
 
 [System.Serializable]
@@ -862,6 +873,11 @@ public class BlockData
     [XmlElement]
     public bool isExist;
     
+    public BlockData()
+    {
+
+    }
+
     public BlockData(float x, float y, float z, int blockType, bool isVisible, bool isExist)
     {
         this.x = x;
@@ -894,6 +910,10 @@ public class PortalData
     [XmlElement]
     public int portalType;
 
+    public PortalData()
+    {
+
+    }
     public PortalData(float x, float y, float z, int portalType)
     {
         this.x = x;
@@ -920,6 +940,10 @@ public class StructureData
     [XmlElement]
     public float z;
 
+    public StructureData()
+    {
+
+    }
     public StructureData(float x, float y, float z)
     {
         this.x = x;

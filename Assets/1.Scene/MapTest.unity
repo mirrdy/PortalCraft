@@ -28952,7 +28952,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5561647955105404675
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29053,7 +29053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5563751142268180921
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37185,6 +37185,7 @@ MonoBehaviour:
   sprint: 0
   jump: 0
   attack: 0
+  mouse_1: 0
   skill_1: 0
   skill_2: 0
   cursorLocked: 1
@@ -37257,7 +37258,6 @@ MonoBehaviour:
   DodgePower: 8
   DodgeCool: 2
   DodgeDuration: 0.18
-  playerHand: 0
   equip_HP: 0
   equip_Defense: 0
   equip_Speed: 0
@@ -37494,6 +37494,8 @@ MonoBehaviour:
   - {fileID: 2299724366970418133, guid: 9e9a1615f1b85774987e26e1f0d6bb41, type: 3}
   - {fileID: 6847352304807127427, guid: acfe438b5a48ffe4db64357068d98137, type: 3}
   ItemList_Potion: []
+  ItemList_Structure: []
+  playerHand: 0
 --- !u!114 &7501058608663953369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54321,6 +54323,8 @@ MonoBehaviour:
   islandPos:
   - {x: 0, y: 0, z: 0}
   - {x: 250, y: 0, z: 250}
+  mapData:
+    list_IslandData: []
 --- !u!4 &8850277476923181941
 Transform:
   m_ObjectHideFlags: 0
@@ -55635,6 +55639,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 68552a19928957e41aa0893398c1a8fe, type: 3}
   - {fileID: 21300000, guid: d20c055f6920a514fa6820ab50e2fa95, type: 3}
   image_Tooltip: {fileID: 8598682136337735008}
+  rectTooltip: {fileID: 0}
   tooltip: {fileID: 8598682135938661018}
   border:
   - {fileID: 21300000, guid: 11682c1eab384411d9d22f54d5e646a7, type: 3}
@@ -55762,21 +55767,10 @@ MonoBehaviour:
   - {fileID: 8121856789554304937}
   - {fileID: 8121856788258503821}
   - {fileID: 8121856787609197097}
-  material1Obejct:
-  - {fileID: 5625888095132299385}
-  - {fileID: 8072309692168153995}
-  - {fileID: 8072309692543879563}
-  - {fileID: 8072309690811724625}
-  material1:
-  - {fileID: 5625888094077765674}
-  - {fileID: 8072309691596967743}
-  - {fileID: 8072309691409901787}
-  - {fileID: 8072309690843034969}
-  material1Quantity:
-  - {fileID: 5625888094196694358}
-  - {fileID: 8072309690844551739}
-  - {fileID: 8072309690914805554}
-  - {fileID: 8072309690990408603}
+  materialObejct: []
+  material: []
+  materialQuantity: []
+  materialName: []
   craftItemSlot:
   - {fileID: 8121856788199611326}
   - {fileID: 1372415642681728236}
