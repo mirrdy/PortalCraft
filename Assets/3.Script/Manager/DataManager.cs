@@ -369,9 +369,6 @@ public class DataManager : MonoBehaviour
     public void DeleteData(int num)
     {
         string filePath = Application.persistentDataPath + "/PlayerData" + num + ".xml";
-        string mapfilePath = Application.persistentDataPath + "/MapData" + num + ".xml";
         File.Delete(filePath);
-        File.Delete(mapfilePath);
-
     }
 }
