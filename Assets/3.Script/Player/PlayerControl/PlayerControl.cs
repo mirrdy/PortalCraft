@@ -171,17 +171,6 @@ public class PlayerControl : MonoBehaviour, IDamage
         uiManager.HpCheck(playerData.status.maxHp, playerData.status.currentHp);
         uiManager.ExpCheck((playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10, playerData.playerExp);
 
-        #region 플레이어 장비 테스트
-        playerData.inventory[23].hasItem = true;
-        playerData.inventory[23].tag = 101;
-        playerData.inventory[23].quantity = 1;
-        playerData.inventory[23].type = "Armor";
-
-        playerData.inventory[24].hasItem = true;
-        playerData.inventory[24].tag = 105;
-        playerData.inventory[24].quantity = 1;
-        playerData.inventory[24].type = "Helmet";
-        #endregion
 
         CustomizePlayer();
     }
@@ -435,6 +424,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                         CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
                         if (input.attack && CanAction)
                         {
+                            AudioManager.instance.PlaySFX("PlayerSwordAttack");
                             animator.SetFloat(animID_AttackSpeed, 0.533f / equipItem_attackRate);
                             animator.SetTrigger(animID_Swing);
                             equipItem.GetComponent<Sword>().Use();
@@ -447,6 +437,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                         CanAction = ActionCool > 1f * equipItem_attackRate; // 1f -> playerData.status.attackRate 후에 변경
                         if (input.attack && CanAction)
                         {
+                            AudioManager.instance.PlaySFX("PlayerBowAttack");
                             animator.SetFloat(animID_AttackSpeed, 0.667f / equipItem_attackRate);
                             animator.SetTrigger(animID_Shot);
                             equipItem.GetComponent<Bow>().Use();
@@ -515,6 +506,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     CanAction = ActionCool > 1f * 2.33f; //1f를 playerData.status.attackSpeed 로 넣어야함
                     if (input.attack && CanAction)
                     {
+                        AudioManager.instance.PlaySFX("PlayerUsePotion");
                         animator.SetTrigger(animID_Potion);
                         equipItem.GetComponent<Potion>().Use(playerHand, playerData.inventory[playerHand].tag);
                         ActionCool = 0;
@@ -549,50 +541,47 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     private void Build() //마우스우클릭
     {
-        switch (currentItem) //장착중인 현재아이템
+        if (input.mouse_1)
         {
-            case ItemType.Block:
-                {
-                    if (input.mouse_1)
+            switch (currentItem) //장착중인 현재아이템
+            {
+                case ItemType.Block:
                     {
+                        AudioManager.instance.PlaySFX("PlayerBlockInstall");
                         animator.SetTrigger(animID_Attack);
                         CreateBlock();
-                        input.mouse_1 = false;
+                        input.mouse_1 = false;                    
+                        break;
                     }
-                    break;
-                }
-            case ItemType.Structure:
-                {
-                    if (input.mouse_1)
+                case ItemType.Structure:
                     {
+                        AudioManager.instance.PlaySFX("PlayerBlockInstall");
                         animator.SetTrigger(animID_Attack);
                         CreateStructure();
-                        input.mouse_1 = false;
+                        input.mouse_1 = false;                      
+                        break;
                     }
-                    break;
-                }
-            case ItemType.Arms:
-                {
-                    if (equipItem == ItemList_Equip[8])
+                case ItemType.Arms:
                     {
-                        if (input.mouse_1)
+                        if (equipItem == ItemList_Equip[8])
                         {
+                            AudioManager.instance.PlaySFX("PlayerBlockInstall");
                             animator.SetTrigger(animID_Attack);
                             CreateTorch();
-                            input.mouse_1 = false;
+                            input.mouse_1 = false;                            
                         }
+                        break;
                     }
-                    break;
-                }
-            case ItemType.Empty:
-                {
-                    break;
-                }        
-            case ItemType.About:
-                {
-                    break;
-                }         
-        }
+                case ItemType.Empty:
+                    {
+                        break;
+                    }
+                case ItemType.About:
+                    {
+                        break;
+                    }
+            }
+        }    
     }
     private void Skill_1() //Q 
     {
@@ -962,11 +951,12 @@ public class PlayerControl : MonoBehaviour, IDamage
 
 
     public void OnDamage(int damage, Vector3 hitPosition, Vector3 hitNomal)
-    {
+    {      
         Status status = playerData.status;
 
         if (!isDodging) //테스트해봐야함
         {
+            AudioManager.instance.PlaySFX("PlayerHit");
             status.currentHp -= damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(100 * status.defens / (status.defens + 50)) * 0.01f);
         }       
 
@@ -1000,6 +990,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     public void LevelUp() //후에 스탯상승 추가 
     {
+        AudioManager.instance.PlaySFX("PlayerLevelUp");
         Status status = playerData.status;
         playerData.playerExp -= (playerData.playerLevel * playerData.playerLevel - playerData.playerLevel) * 5 + 10;
         playerData.playerLevel++;

@@ -3304,6 +3304,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: ee36359ee2f013d489d55c7dd06192dd, type: 3}
   - name: PlayerGrap
     clip: {fileID: 8300000, guid: 341cbd8a0393bfe4fad08f32c2399565, type: 3}
+  - name: PlayerSteb
+    clip: {fileID: 8300000, guid: 4101c507891d4594b9ab18c296ece1d0, type: 3}
+  - name: Teleport
+    clip: {fileID: 8300000, guid: aeafe5944aa7ee140be3f85042d41ec9, type: 3}
   bgmPlay: {fileID: 0}
   sfxPlay: []
 --- !u!1 &903954516
