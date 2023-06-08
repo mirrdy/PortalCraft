@@ -128,17 +128,17 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
         {
             case 0:
                 {
-                    SkillDamage_2 = 200; SkillMP_2 = 20; SkillCool_2 = 60;
+                    SkillDamage_2 = 200; SkillMP_2 = 20; SkillCool_2 = 15;
                     break;
                 }
             case 1:
                 {
-                    SkillDamage_2 = 250; SkillMP_2 = 25; SkillCool_2 = 55;
+                    SkillDamage_2 = 250; SkillMP_2 = 25; SkillCool_2 = 10;
                     break;
                 }
             case 2:
                 {
-                    SkillDamage_2 = 300; SkillMP_2 = 30; SkillCool_2 = 50;
+                    SkillDamage_2 = 300; SkillMP_2 = 30; SkillCool_2 = 10;
                     break;
                 }
         }
