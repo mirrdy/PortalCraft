@@ -4074,7 +4074,7 @@ MonoBehaviour:
   fallTime: 0.15
   LayerMask_Ground:
     serializedVersion: 2
-    m_Bits: 2432
+    m_Bits: 10624
   LayerMask_Dig:
     serializedVersion: 2
     m_Bits: 18688
