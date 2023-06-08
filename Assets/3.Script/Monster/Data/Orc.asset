@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Orc
   m_EditorClassIdentifier: 
   hp: 200
-  atk: 25
+  atk: 5
   def: 10
   attackTime: 2
   moveSpeed: 2
-  attackRange: 3
+  attackRange: 2.5
   patrolRange: 10
   gravity: -6
   dropExpNum: 4
