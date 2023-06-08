@@ -91,17 +91,17 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
         {
             case 0:
                 {
-                    SkillDamage_1 = 80; SkillMP_1 = 10; SkillCool_1 = 30;
+                    SkillDamage_1 = 80; SkillMP_1 = 10; SkillCool_1 = 5;
                     break;
                 }
             case 1:
                 {
-                    SkillDamage_1 = 100; SkillMP_1 = 15; SkillCool_1 = 30;
+                    SkillDamage_1 = 100; SkillMP_1 = 15; SkillCool_1 = 10;
                     break;
                 }
             case 2:
                 {
-                    SkillDamage_1 = 120; SkillMP_1 = 20; SkillCool_1 = 30;
+                    SkillDamage_1 = 120; SkillMP_1 = 20; SkillCool_1 = 10;
                     break;
                 }
         }
@@ -141,17 +141,17 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
         {
             case 0:
                 {
-                    SkillDamage_2 = 20; SkillMP_2 = 10; SkillCool_2 = 50;
+                    SkillDamage_2 = 20; SkillMP_2 = 10; SkillCool_2 = 10;
                     break;
                 }
             case 1:
                 {
-                    SkillDamage_2 = 30; SkillMP_1 = 15; SkillCool_2 = 60;
+                    SkillDamage_2 = 30; SkillMP_1 = 15; SkillCool_2 = 10;
                     break;
                 }
             case 2:
                 {
-                    SkillDamage_2 = 40; SkillMP_1 = 20; SkillCool_2 = 70;
+                    SkillDamage_2 = 40; SkillMP_1 = 20; SkillCool_2 = 10;
                     break;
                 }
         }
