@@ -15,6 +15,7 @@ public class BlockObject : MonoBehaviour, IDestroyable
     }
     public void TakeDamage(int damage)
     {
+        AudioManager.instance.PlaySFX("PlayerDestroyBlock");
         currentHp -= damage;
         if (currentHp <= 0)
         {
