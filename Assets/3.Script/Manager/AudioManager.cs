@@ -53,7 +53,6 @@ public class AudioManager : MonoBehaviour
                 bgmPlay.Play();
                 break;
             }
-            print(string.Format("BGM_Play : {0}가 없습니다.", name));
         }
     }
 
@@ -77,10 +76,8 @@ public class AudioManager : MonoBehaviour
                         return;
                     }
                 }
-                print("모든 플레이어가 재생중...\n 호출 Method : PlayerSFX");
                 return;
             }
-            print(string.Format("SFX_Play : {0}가 없습니다.", name));
         }
     }
 }

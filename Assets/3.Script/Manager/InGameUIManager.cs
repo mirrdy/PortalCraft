@@ -892,19 +892,18 @@ public class InGameUIManager : MonoBehaviour
         for (int i = 0; i < skillLevel.Length; i++)
         {
             skillLevel[i].text = "·¹º§ : " + playerData.skill[i].skillLevel;
-            skillNum = 0;
 
             for (int k = 0; k < skillInfo.list_Skill.Count; k++)
             {
+                if(!skillInfo.list_Skill[k].job.Equals(playerData.job))
+                {
+                    continue;
+                }
+
                 if (skillInfo.list_Skill[k].level == playerData.skill[i].skillLevel && skillInfo.list_Skill[k].tag == playerData.skill[i].skillNum)
                 {
                     skillNum = k;
                     break;
-                }
-                else if (playerData.skill[i].skillLevel == 0 && skillInfo.list_Skill[k].tag == playerData.skill[i].skillNum && playerData.playerLevel >= skillInfo.list_Skill[k].levelLimit)
-                {
-                    skillUp[i].interactable = true;
-                    return;
                 }
             }
 
@@ -924,11 +923,11 @@ public class InGameUIManager : MonoBehaviour
                 skillDown[i].interactable = false;
             }
 
-            if (playerData.status.skillPoint >= skillInfo.list_Skill[skillNum].skillUpPoint && playerData.playerLevel >= skillInfo.list_Skill[skillNum].levelLimit && playerData.skill[i].skillLevel < 3 && playerData.skill[i].skillLevel != 0)
+            if(skillInfo.list_Skill[skillNum].levelLimit <= playerData.playerLevel && playerData.status.skillPoint >= skillInfo.list_Skill[skillNum].skillUpPoint && playerData.playerLevel < 3)
             {
                 skillUp[i].interactable = true;
             }
-            else if (playerData.skill[i].skillLevel != 0)
+            else
             {
                 skillUp[i].interactable = false;
             }
