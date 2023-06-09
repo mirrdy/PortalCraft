@@ -22,7 +22,6 @@ public class CustomizeClass : MonoBehaviour
     {
         character_Warrior.SetActive(true);
         character_Archer.SetActive(false);
-        Debug.Log("전사선택");
 
         job = "전사";
 
@@ -34,7 +33,6 @@ public class CustomizeClass : MonoBehaviour
     {
         character_Warrior.SetActive(false);
         character_Archer.SetActive(true);
-        Debug.Log("레인저선택");
 
         job = "레인저";
 

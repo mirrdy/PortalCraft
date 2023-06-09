@@ -47,7 +47,10 @@ public class BossControl : MonoBehaviour ,IDestroyable
     //보스 파티클
     [SerializeField] private ParticleSystem hitParticle;
     [SerializeField] public ParticleSystem[] bossUseEffect;
-    
+
+    //드랍테이블
+    [SerializeField] public List<FieldItem> dropTables;
+
 
     //플레이어 길막 오브젝트
     [SerializeField] private GameObject playerBlock;
@@ -131,7 +134,10 @@ public class BossControl : MonoBehaviour ,IDestroyable
 
     public void DropItem()
     {
-
+        if (dropTables.Count > 0)
+        {
+            Instantiate(dropTables[0], transform.position, Quaternion.identity);
+        }
     }
 
     public void TakeDamage(int damage)
@@ -147,7 +153,7 @@ public class BossControl : MonoBehaviour ,IDestroyable
             ChangeState(new BossDieState());
             //entityController.enabled = false;
         }
-        if(currentHp <= currentHp*0.5&&phase == 1)
+        if(currentHp <= hp*0.5&&phase == 1)
         {
             ChangePhase();
         }

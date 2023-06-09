@@ -60,7 +60,6 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
         {
             Status status = PlayerControl.instance.playerData.status;
 
-            Debug.Log("몬스터피격");
             coll.TryGetComponent(out MonsterControl monsterControl);
             int damage;
             if (isSkill_1)
@@ -81,7 +80,6 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
         {
             Status status = PlayerControl.instance.playerData.status;
 
-            Debug.Log("몬스터피격");
             coll.TryGetComponent(out BossControl monsterControl);
             int damage;
             if (isSkill_1)
