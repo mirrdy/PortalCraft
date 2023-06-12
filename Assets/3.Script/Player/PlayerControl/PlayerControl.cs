@@ -380,8 +380,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
             input.jump = false;
         }
-
-  
+ 
         if (verticalVelocity < terminalVelocity)
         {
             verticalVelocity += gravity * Time.deltaTime;

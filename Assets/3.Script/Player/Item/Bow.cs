@@ -85,7 +85,7 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
             }
         }
 
-        uiManager.MpCheck(status.maxMp, status.currentMp, 1, SkillCool_1);
+        
 
         if (SkillCoolDelta_1 >= SkillCool_1)
         {
@@ -93,7 +93,8 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
             SkillCoolDelta_1 = 0;
             StartCoroutine(ThreeShot());
             status.currentMp -= SkillMP_1;
-        }     
+        }
+        uiManager.MpCheck(status.maxMp, status.currentMp, 1, SkillCool_1);
     }   
     IEnumerator ThreeShot()
     {
@@ -143,7 +144,7 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
                 }
         }
 
-        uiManager.MpCheck(status.maxMp, status.currentMp, 2, SkillCool_2);
+        
 
         if (SkillCoolDelta_2 >= SkillCool_2)
         {
@@ -152,6 +153,7 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
             StartCoroutine(Snipe());
             status.currentMp -= SkillMP_2;
         }
+        uiManager.MpCheck(status.maxMp, status.currentMp, 2, SkillCool_2);
     }
     IEnumerator Snipe()
     {
