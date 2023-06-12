@@ -43,7 +43,8 @@ public class BossControl : MonoBehaviour ,IDestroyable
 
     public CharacterController bossControl;
     [SerializeField] private MonsterData bossData;
-    [SerializeField] public MonsterSpawner bossMonsterSpawner;
+    [SerializeField] public GameObject[] bossMapMonsterList;
+    [SerializeField] public GameObject spawnMonster; 
     //보스 파티클
     [SerializeField] private ParticleSystem hitParticle;
     [SerializeField] public ParticleSystem[] bossUseEffect;
@@ -68,9 +69,11 @@ public class BossControl : MonoBehaviour ,IDestroyable
         bossControl = GetComponent<CharacterController>();
         onDeath.AddListener(DropItem);
         onDeath.AddListener(OpenDoor);
+        onDeath.AddListener(DestroyMonster);
         bossSpawn = transform.position;
         bossUi = FindObjectOfType<InGameUIManager>();
         bossUi.BossHpCheck(hp, currentHp);
+        bossMapMonsterList = new GameObject[5];
     }
 
     private void OnEnable()
@@ -82,6 +85,7 @@ public class BossControl : MonoBehaviour ,IDestroyable
     private void OnDisable()
     {
         bossUi.BossHpOff();
+        DestroyMonster();
         AudioManager.instance.StopBGM();
         AudioManager.instance.PlayerBGM("InGame");
     }
@@ -145,6 +149,10 @@ public class BossControl : MonoBehaviour ,IDestroyable
         hitParticle.Play();
         damage = damage - Mathf.RoundToInt(damage * Mathf.RoundToInt(def / (def + 50) * 100) * 0.01f);
         currentHp -= damage;
+        if(currentHp < 0)
+        {
+            currentHp = 0;
+        }
         bossUi.BossHpCheck(hp,currentHp);
         AudioManager.instance.PlaySFX("HitMonster");
         if (currentHp <= 0 && !isDead)
@@ -178,5 +186,22 @@ public class BossControl : MonoBehaviour ,IDestroyable
     public void DestroyBoss()
     {
         Destroy(gameObject);
+    }
+
+    public void SpawnMonster()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            bossMapMonsterList[i] = Instantiate(spawnMonster, transform.position + Random.insideUnitSphere*2, Quaternion.identity);
+            bossMapMonsterList[i].transform.SetParent(transform.parent);
+        }
+    }
+
+    public void DestroyMonster()
+    {
+        for (int i = 0; i < bossMapMonsterList.Length; i++)
+        {
+            Destroy(bossMapMonsterList[i]);
+        }
     }
 }

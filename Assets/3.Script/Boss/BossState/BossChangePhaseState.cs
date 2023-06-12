@@ -10,7 +10,7 @@ public class BossChangePhase : BossState
         boss.attackDelay = 3;
         boss.bossControl.enabled = false;
         boss.StartCoroutine(ChangePhase_co(boss));
-        boss.bossMonsterSpawner.gameObject.SetActive(true);
+        boss.SpawnMonster();
         AudioManager.instance.PlaySFX("BossChangePhase");
     }
 
@@ -19,7 +19,7 @@ public class BossChangePhase : BossState
         boss.bossUseEffect[0].Stop();
         boss.bossUseEffect[1].Play();
         boss.bossControl.enabled = true;
-        boss.bossMonsterSpawner.GetComponent<MonsterSpawner>().enabled = false;
+        //boss.bossMonsterSpawner.GetComponent<MonsterSpawner>().enabled = false;
     }
 
     public override void UpdateState(BossControl boss)
