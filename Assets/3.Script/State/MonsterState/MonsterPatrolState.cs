@@ -53,10 +53,8 @@ public class MonsterPatrolState : EntityState
             Vector3 targetPosition = monster.spawnPoint + Random.insideUnitSphere * monster.patrolRange;
             targetPosition.y = monster.spawnPoint.y;
 
-            // 몬스터가 타겟 쪽을 바라보도록 회전 설정
             Vector3 patrolDirection = targetPosition - monster.transform.position;
-            patrolDirection.Normalize();
-            Quaternion targetRotation = Quaternion.LookRotation(patrolDirection);
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(patrolDirection.x, 0f, patrolDirection.z));
             monster.transform.rotation = targetRotation;
 
             // 몬스터를 선택된 위치로 이동시킴
@@ -74,7 +72,7 @@ public class MonsterPatrolState : EntityState
             {
                 targetPosition.y = monster.transform.position.y;
                 Vector3 direction = targetPosition - monster.transform.position;
-                direction.y = 0; // Y값을 몬스터 위치로 설정하여 수직 이동을 방지합니다.
+                //direction.y = 0; // Y값을 몬스터 위치로 설정하여 수직 이동을 방지합니다.
                 if (direction.magnitude <= 0.1f)
                 {
                     break; // 거리 값이 0.1 이하인 경우 반복 종료
