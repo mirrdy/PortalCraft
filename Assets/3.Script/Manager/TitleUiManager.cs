@@ -37,8 +37,14 @@ public class TitleUiManager : MonoBehaviour
     [SerializeField] GameObject DataMissing;
     [SerializeField] Button[] Slot;
 
+    [Header("BackGround")]
+    [SerializeField] Sprite[] backGround;
+    [SerializeField] Image frame;
+    private int backGroundIndex;
+
     private bool isResolution = false;
     private int saveDataNumber = 0;
+    private Coroutine titleImage;
 
     private void Start()
     {
@@ -55,6 +61,11 @@ public class TitleUiManager : MonoBehaviour
         resolutionWindow.SetActive(false);
         image_Message.SetActive(false);
         image_DataSlot.SetActive(false);
+    }
+
+    private void Update()
+    {
+        BackGroundChange();
     }
 
     public void BGM_VolumeSetting()  // 배경음 소리 설정
@@ -321,5 +332,27 @@ public class TitleUiManager : MonoBehaviour
             }
             DataMissing.SetActive(true);
         }
+    }
+
+    private void BackGroundChange()
+    {
+        if(titleImage == null)
+        {
+            titleImage = StartCoroutine(nameof(BackGround_co));
+        }
+    }
+
+    IEnumerator BackGround_co()
+    {
+        float timer = 0;
+
+        while(timer < 2)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+        }
+
+        frame.sprite = backGround[(++backGroundIndex)%backGround.Length];
+        titleImage = null;
     }
 }

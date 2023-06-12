@@ -827,6 +827,11 @@ MonoBehaviour:
   - {fileID: 274765621}
   - {fileID: 1977470245}
   - {fileID: 1953818053}
+  backGround:
+  - {fileID: 21300000, guid: 8aafeec82fe699a4aa73b103f93bd3a9, type: 3}
+  - {fileID: 21300000, guid: 4b2d07b924371b0418c5b3722ec1b118, type: 3}
+  - {fileID: 21300000, guid: 5d2e9219828abe848b7ea181f55ed724, type: 3}
+  frame: {fileID: 1179500584}
 --- !u!4 &290396038
 Transform:
   m_ObjectHideFlags: 0
@@ -5058,7 +5063,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b9abb53f0a1857549ab8610251f33c80, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8aafeec82fe699a4aa73b103f93bd3a9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
