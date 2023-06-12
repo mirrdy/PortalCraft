@@ -140,7 +140,7 @@ public class DataManager : MonoBehaviour
             {
                 playerData.skill[j] = new Skill();
 
-                playerData.skill[j].skillNum = 0;
+                playerData.skill[j].skillNum = -1;
                 playerData.skill[j].skillLevel = 0;
                 playerData.skill[j].hasSkill = false;
             }
