@@ -810,7 +810,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     isTorch = Physics.CheckSphere(spherePosition, groundedRadius, layerMask_Torch, QueryTriggerInteraction.Ignore);
                     if (!isTorch)
                     {
-                        Instantiate(equipItem, hitInfo.transform.position + Vector3.up * 0.8f, Quaternion.identity);
+                        Instantiate(equipItem, hitInfo.transform.position + Vector3.up * 0.5f, Quaternion.identity);
                     }
                 }
             }            
