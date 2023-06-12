@@ -55,13 +55,14 @@ public class BossChaseState : BossState
         }
         if (distance <= boss.attackRange && boss.canAttack)
         {
-            int randAtk = Random.Range(1, 5);
+            int randAtk = Random.Range(1, 6);
             switch (randAtk)
             {
                 case 1: boss.ChangeState(new BossWingSlashState()); break;
                 case 2: boss.ChangeState(new BossWingStabAttack()); break;
                 case 3: boss.ChangeState(new BossWingSpinAttack()); break;
                 case 4: boss.ChangeState(new BossPullAttackState()); break;
+                case 5: boss.ChangeState(new BossCastState()); break;
             }
         }
         if (distance <= boss.attackRange && !boss.canAttack)
