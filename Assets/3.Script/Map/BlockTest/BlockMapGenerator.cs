@@ -574,7 +574,7 @@ public class BlockMapGenerator : MonoBehaviour
                         }
                     }*/
 
-                    // 플레이어 스폰 위치 저장 (처음 섬에 1개만 생성)
+                    /*// 플레이어 스폰 위치 저장 (처음 섬에 1개만 생성)
                     if (!isCreatedPlayerSpawner)
                     {
                         int spawnProb = (int)(widthX * widthZ * 0.5f);
@@ -583,7 +583,7 @@ public class BlockMapGenerator : MonoBehaviour
                             isCreatedPlayerSpawner = true;
                             playerSpawnerPos = blockPos + Vector3.up;
                         }
-                    }
+                    }*/
                 }
                 else
                 {
