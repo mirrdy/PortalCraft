@@ -125,8 +125,6 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
                 }
         }
 
-        uiManager.MpCheck(status.maxMp, status.currentMp, 1, SkillCool_1);
-
         if (SkillCoolDelta_1 >= SkillCool_1)
         {
             PlayerControl.instance.animator.SetTrigger("W1");
@@ -134,6 +132,7 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
             StartCoroutine(Strike());
             status.currentMp -= SkillMP_1;
         }
+        uiManager.MpCheck(status.maxMp, status.currentMp, 1, SkillCool_1);
     }
     IEnumerator Strike()
     {
@@ -175,8 +174,7 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
                 }
         }
 
-        uiManager.MpCheck(status.maxMp, status.currentMp, 2, SkillCool_2);
-
+       
         if (SkillCoolDelta_2 >= SkillCool_2)
         {
             PlayerControl.instance.animator.SetTrigger("W2");
@@ -184,6 +182,7 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
             StartCoroutine(WhirlWind());
             status.currentMp -= SkillMP_2;
         }
+        uiManager.MpCheck(status.maxMp, status.currentMp, 2, SkillCool_2);
     }
     IEnumerator WhirlWind()
     {

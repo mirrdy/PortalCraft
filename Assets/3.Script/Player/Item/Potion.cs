@@ -8,13 +8,11 @@ public class Potion : MonoBehaviour
 
     private InGameUIManager uiManager;
 
-    private void Start()
-    {
-        uiManager = GameObject.Find("InGameUIManager").GetComponent<InGameUIManager>();
-    }
 
     public void Use(int slotNumber, int tag)
     {
+        uiManager = GameObject.Find("InGameUIManager").GetComponent<InGameUIManager>();
+
         Status playerData = PlayerControl.instance.playerData.status;
 
         if (tag == 501)
@@ -25,6 +23,7 @@ public class Potion : MonoBehaviour
             {
                 playerData.currentHp = playerData.maxHp;
             }
+            uiManager.HpCheck(playerData.maxHp, playerData.currentHp);
         }
         else if (tag == 502)
         {
@@ -34,6 +33,7 @@ public class Potion : MonoBehaviour
             {
                 playerData.currentMp = playerData.maxMp;
             }
+            uiManager.MpCheck(playerData.maxMp, playerData.currentMp, 0, 0);
         }
     }
 }
