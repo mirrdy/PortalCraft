@@ -21,4 +21,4 @@ MonoBehaviour:
   patrolRange: 5
   gravity: -6
   dropExpNum: 1
-  name: Slime
+  monsterName: Slime
