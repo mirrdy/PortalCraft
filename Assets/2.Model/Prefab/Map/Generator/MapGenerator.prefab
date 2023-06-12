@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockPrefabInfos:
+  - region: 0
+    height: 15
+    isFlat: 0
+    block: {fileID: 7046385389970361336, guid: abe1c9c921894c341ba53610dbfc4b45, type: 3}
   - region: 3
     height: 40
     isFlat: 0
@@ -53,10 +57,6 @@ MonoBehaviour:
     height: 20
     isFlat: 0
     block: {fileID: 2798252439276858965, guid: 103261567964d944b993222ea36d9b08, type: 3}
-  - region: 0
-    height: 15
-    isFlat: 0
-    block: {fileID: 7046385389970361336, guid: abe1c9c921894c341ba53610dbfc4b45, type: 3}
   - region: 0
     height: -100
     isFlat: 0
@@ -101,6 +101,7 @@ MonoBehaviour:
   - {fileID: 3746077249596692989, guid: 08222787c5b6e3d4096ffce08f68309b, type: 3}
   prefab_PortalNPC: {fileID: 1523954917324167652, guid: acb1e63e9249cc0498f41bdd0c81bce0, type: 3}
   prefab_PlayerSpawner: {fileID: 1520078118186438496, guid: 7d99bf3659f1d5d459297b8a03b1371f, type: 3}
+  playerSpawnerPos: {x: 0, y: 0, z: 0}
   prefab_CraftingTable: {fileID: 3765463919957785209, guid: 56fb05317ad8e7144b11d09b9a95a807, type: 3}
   prefab_Deadzone: {fileID: 7441867424590624264, guid: 0160b6716a445cf4aa0726da45a60c9b, type: 3}
   waveLength: 50
@@ -111,6 +112,8 @@ MonoBehaviour:
   islandPos:
   - {x: 0, y: 0, z: 0}
   - {x: 250, y: 0, z: 250}
+  mapData:
+    list_IslandData: []
 --- !u!65 &2239545170735302342
 BoxCollider:
   m_ObjectHideFlags: 0

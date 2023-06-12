@@ -130,6 +130,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2239545170735302340, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}
+      propertyPath: blockPrefabInfos.Array.data[1].block
+      value: 
+      objectReference: {fileID: 7046385389970361336, guid: abe1c9c921894c341ba53610dbfc4b45, type: 3}
+    - target: {fileID: 2239545170735302340, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}
+      propertyPath: blockPrefabInfos.Array.data[2].block
+      value: 
+      objectReference: {fileID: 2798252439276858965, guid: 103261567964d944b993222ea36d9b08, type: 3}
+    - target: {fileID: 2239545170735302340, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}
+      propertyPath: blockPrefabInfos.Array.data[1].height
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 2239545170735302340, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}
+      propertyPath: blockPrefabInfos.Array.data[1].region
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2239545170735302340, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}
+      propertyPath: blockPrefabInfos.Array.data[2].height
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2239545170735302340, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}
+      propertyPath: blockPrefabInfos.Array.data[2].region
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2239545170735302341, guid: 577b95aaadb31e649a4b120427ee50ba, type: 3}
       propertyPath: m_RootOrder
       value: 10
