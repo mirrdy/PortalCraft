@@ -439,10 +439,11 @@ public class BlockMapGenerator : MonoBehaviour
     {
         int islandCount = islandPos.Length;
 
+        System.Random random = new System.Random();
         for (int i = 0; i < islandCount; i++)
         {
-            float randomOffsetX = Random.Range(0, 100);
-            float randomOffsetZ = Random.Range(0, 100);
+            float randomOffsetX = random.Next(0, 100);
+            float randomOffsetZ = random.Next(0, 100);
 
             float totalProgressSize = ((float)widthX * islandCount);
             float progressOffset = i * (100 / islandCount);

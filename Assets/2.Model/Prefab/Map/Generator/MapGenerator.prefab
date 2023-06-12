@@ -45,18 +45,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockPrefabInfos:
-  - region: 0
-    height: 15
-    isFlat: 0
-    block: {fileID: 7046385389970361336, guid: abe1c9c921894c341ba53610dbfc4b45, type: 3}
   - region: 3
     height: 40
     isFlat: 0
     block: {fileID: 8166117886805122766, guid: e43caa5e91edea449ab9fd27a8323770, type: 3}
   - region: 2
-    height: 20
+    height: 33
     isFlat: 0
     block: {fileID: 2798252439276858965, guid: 103261567964d944b993222ea36d9b08, type: 3}
+  - region: 0
+    height: 27
+    isFlat: 0
+    block: {fileID: 7046385389970361336, guid: abe1c9c921894c341ba53610dbfc4b45, type: 3}
   - region: 0
     height: -100
     isFlat: 0
