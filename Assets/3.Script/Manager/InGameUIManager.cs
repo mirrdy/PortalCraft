@@ -923,7 +923,7 @@ public class InGameUIManager : MonoBehaviour
                 skillDown[i].interactable = false;
             }
 
-            if(skillInfo.list_Skill[skillNum].levelLimit <= playerData.playerLevel && playerData.status.skillPoint >= skillInfo.list_Skill[skillNum].skillUpPoint && playerData.playerLevel < 3)
+            if(skillInfo.list_Skill[skillNum].levelLimit <= playerData.playerLevel && playerData.status.skillPoint >= skillInfo.list_Skill[skillNum].skillUpPoint && playerData.skill[i].skillLevel < 3)
             {
                 skillUp[i].interactable = true;
             }
