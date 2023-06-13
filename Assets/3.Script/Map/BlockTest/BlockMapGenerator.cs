@@ -462,11 +462,18 @@ public class BlockMapGenerator : MonoBehaviour
                         continue;
                     }
 
+                    // 노이즈 상단은 존재하지 않는 블록으로 정보 추가
+                    for(int y=noiseValueY+1; y<height; y++)
+                    {
+                        Vector3 tmpPos = new Vector3(x, y, z);
+                        mapData.list_IslandData[i].list_BlockData.Add(new BlockData(tmpPos, i, false, false));
+                    }
+
                     Vector3 pos = new Vector3(x, noiseValueY, z);
                     StartCoroutine(CreateBlock_co(i, pos, true));
 
                     // 노이즈 Y값에 블럭 설치 후 그 밑부분부터는 블록을 생성하지 않고 정보만 배열에 저장함
-                    for (int y = noiseValueY - 1; y > 0; y--)
+                    for (int y = noiseValueY - 1; y >= 0; y--)
                     {
                         pos = new Vector3(x, y, z);
                         StartCoroutine(CreateBlock_co(i, pos, false));
@@ -685,9 +692,38 @@ public class BlockMapGenerator : MonoBehaviour
 
         control.enabled = true;
     }
+    // 개선중
+    private BlockData FindVisibleBlockWithPos(int islandIndex, Vector3 blockPos)
+    {
+        List<BlockData> blocks = mapData.list_IslandData[islandIndex].list_BlockData;
+        //int blockCount = blocks.Count;
+
+        List<BlockData> blockRange = blocks.GetRange((int)(blockPos.x * widthZ * height + blockPos.z * height), height);
+        return blockRange.Find(block => new Vector3(block.x, block.y, block.z).Equals(blockPos));
+
+        /*// i++ 안하고 바로 다음 x,z 찾기
+        for (int i = 0; i < blockCount;)
+        {
+            for (int k = i - 1; k <= i + 1; k++)
+            {
+                if (k < 0 || k >= blockCount)
+                {
+                    continue;
+                }
+                Vector3 vectorForCheck = new Vector3(blocks[k].x, blocks[k].y, blocks[k].z);
+                if (vectorForCheck.Equals(blockPos))
+                {
+                    return blocks[k];
+                }
+            }
+            i += (int)blocks[i].y;
+        }
+        return null;*/
+    }
     public void CheckAroundDestroyedBlock(int islandIndex, Vector3 blockPos)
     {
-        BlockData block = mapData.list_IslandData[islandIndex].list_BlockData.Find(block => new Vector3(block.x, block.y, block.z).Equals(blockPos));
+        //BlockData block = mapData.list_IslandData[islandIndex].list_BlockData.Find(block => new Vector3(block.x, block.y, block.z).Equals(blockPos));
+        BlockData block = FindVisibleBlockWithPos(islandIndex, blockPos);
         block.isExist = false;
         block.isVisible = false;
 
@@ -722,8 +758,9 @@ public class BlockMapGenerator : MonoBehaviour
     }
     private void DrawBlock(int islandIndex, Vector3 blockPos)
     {
-        BlockData block = mapData.list_IslandData[islandIndex].list_BlockData.Find(block => new Vector3(block.x, block.y, block.z).Equals(blockPos));
-        if(block == null)
+        //BlockData block = mapData.list_IslandData[islandIndex].list_BlockData.Find(block => new Vector3(block.x, block.y, block.z).Equals(blockPos));
+        BlockData block = FindVisibleBlockWithPos(islandIndex, blockPos);
+        if (block == null)
         {
             return;
         }
