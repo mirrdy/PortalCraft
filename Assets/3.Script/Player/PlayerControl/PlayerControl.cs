@@ -710,8 +710,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     }
     public void CreateBlock()
     {
-        uiManager.CraftingBlock(playerHand);
-
+        
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
 
@@ -740,6 +739,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     if (!isTorch)
                     {
                         Instantiate(equipItem, hitInfo.transform.position + Vector3.right, Quaternion.identity);
+                        uiManager.CraftingBlock(playerHand);
                     }
                 }
                 else if (xValue < 0)
@@ -749,6 +749,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     if (!isTorch)
                     {
                         Instantiate(equipItem, hitInfo.transform.position + Vector3.left, Quaternion.identity);
+                        uiManager.CraftingBlock(playerHand);
                     }                   
                 }
             }
@@ -762,6 +763,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     if (!isTorch)
                     {
                         Instantiate(equipItem, hitInfo.transform.position + Vector3.up, Quaternion.identity);
+                        uiManager.CraftingBlock(playerHand);
                     }
                 }
                 else if (yValue < 0)
@@ -771,6 +773,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     if (!isTorch)
                     {
                         Instantiate(equipItem, hitInfo.transform.position + Vector3.down, Quaternion.identity);
+                        uiManager.CraftingBlock(playerHand);
                     }
                 }
             }
@@ -784,6 +787,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     if (!isTorch)
                     {
                         Instantiate(equipItem, hitInfo.transform.position + Vector3.forward, Quaternion.identity);
+                        uiManager.CraftingBlock(playerHand);
                     }
                 }
                 else if (zValue < 0)
@@ -793,6 +797,7 @@ public class PlayerControl : MonoBehaviour, IDamage
                     if (!isTorch)
                     {
                         Instantiate(equipItem, hitInfo.transform.position + Vector3.back, Quaternion.identity);
+                        uiManager.CraftingBlock(playerHand);
                     }
                 }
             }
