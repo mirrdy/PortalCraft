@@ -25,8 +25,8 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
     public int SkillMP_2 { get; set; }
     public float SkillCool_2 { get; set; }
 
-    private float SkillCoolDelta_1 = 15;
-    private float SkillCoolDelta_2 = 20;
+    public float SkillCoolDelta_1 = 15;
+    public float SkillCoolDelta_2 = 20;
     #endregion
 
     private InGameUIManager uiManager;
@@ -68,17 +68,17 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
         int skillLevel = PlayerControl.instance.playerData.skill[0].skillLevel;
         switch (skillLevel)
         {
-            case 0:
+            case 1:
             {
                 SkillDamage_1 = 30; SkillMP_1 = 10; SkillCool_1 = 15;
                 break;
             }
-            case 1:
+            case 2:
             {
                 SkillDamage_1 = 30; SkillMP_1 = 15; SkillCool_1 = 10;
                 break;
             }
-            case 2:
+            case 3:
             {
                 SkillDamage_1 = 30; SkillMP_1 = 20; SkillCool_1 = 5;
                 break;
@@ -87,14 +87,14 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
 
         
 
-        if (SkillCoolDelta_1 >= SkillCool_1)
+        if (SkillCoolDelta_1 >= SkillCool_1 && status.currentMp >= SkillMP_1)
         {
             PlayerControl.instance.animator.SetTrigger("A1");
             SkillCoolDelta_1 = 0;
             StartCoroutine(ThreeShot());
-            status.currentMp -= SkillMP_1;
+            
         }
-        uiManager.MpCheck(status.maxMp, status.currentMp, 1, SkillCool_1);
+       
     }   
     IEnumerator ThreeShot()
     {
@@ -127,17 +127,17 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
         int skillLevel = PlayerControl.instance.playerData.skill[1].skillLevel;
         switch (skillLevel)
         {
-            case 0:
+            case 1:
                 {
                     SkillDamage_2 = 200; SkillMP_2 = 20; SkillCool_2 = 15;
                     break;
                 }
-            case 1:
+            case 2:
                 {
                     SkillDamage_2 = 250; SkillMP_2 = 25; SkillCool_2 = 10;
                     break;
                 }
-            case 2:
+            case 3:
                 {
                     SkillDamage_2 = 300; SkillMP_2 = 30; SkillCool_2 = 10;
                     break;
@@ -146,14 +146,14 @@ public class Bow : MonoBehaviour, ISkill_Q, ISkill_E
 
         
 
-        if (SkillCoolDelta_2 >= SkillCool_2)
+        if (SkillCoolDelta_2 >= SkillCool_2 && status.currentMp >= SkillMP_2)
         {
             PlayerControl.instance.animator.SetTrigger("A2");
             SkillCoolDelta_2 = 0;
             StartCoroutine(Snipe());
-            status.currentMp -= SkillMP_2;
+
         }
-        uiManager.MpCheck(status.maxMp, status.currentMp, 2, SkillCool_2);
+
     }
     IEnumerator Snipe()
     {

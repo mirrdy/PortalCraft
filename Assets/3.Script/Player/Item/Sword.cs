@@ -19,8 +19,8 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
     public int SkillMP_2 { get; set; }
     public float SkillCool_2 { get; set; }
 
-    private float SkillCoolDelta_1 = 100;
-    private float SkillCoolDelta_2 = 100;
+    public float SkillCoolDelta_1 = 100;
+    public float SkillCoolDelta_2 = 100;
     private bool isSkill_1;
     private bool isSkill_2;
     #endregion
@@ -108,31 +108,31 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
         int skillLevel = PlayerControl.instance.playerData.skill[0].skillLevel;
         switch (skillLevel)
         {
-            case 0:
+            case 1:
                 {
                     SkillDamage_1 = 80; SkillMP_1 = 10; SkillCool_1 = 5;
                     break;
                 }
-            case 1:
+            case 2:
                 {
                     SkillDamage_1 = 100; SkillMP_1 = 15; SkillCool_1 = 10;
                     break;
                 }
-            case 2:
+            case 3:
                 {
                     SkillDamage_1 = 120; SkillMP_1 = 20; SkillCool_1 = 10;
                     break;
                 }
         }
 
-        if (SkillCoolDelta_1 >= SkillCool_1)
+        if (SkillCoolDelta_1 >= SkillCool_1 && status.currentMp >= SkillMP_1)
         {
             PlayerControl.instance.animator.SetTrigger("W1");
             SkillCoolDelta_1 = 0;
             StartCoroutine(Strike());
-            status.currentMp -= SkillMP_1;
+
         }
-        uiManager.MpCheck(status.maxMp, status.currentMp, 1, SkillCool_1);
+
     }
     IEnumerator Strike()
     {
@@ -157,32 +157,32 @@ public class Sword : MonoBehaviour, ISkill_Q, ISkill_E
         int skillLevel = PlayerControl.instance.playerData.skill[1].skillLevel;
         switch (skillLevel)
         {
-            case 0:
+            case 1:
                 {
                     SkillDamage_2 = 20; SkillMP_2 = 10; SkillCool_2 = 10;
                     break;
                 }
-            case 1:
-                {
-                    SkillDamage_2 = 30; SkillMP_1 = 15; SkillCool_2 = 10;
-                    break;
-                }
             case 2:
                 {
-                    SkillDamage_2 = 40; SkillMP_1 = 20; SkillCool_2 = 10;
+                    SkillDamage_2 = 30; SkillMP_2 = 15; SkillCool_2 = 10;
+                    break;
+                }
+            case 3:
+                {
+                    SkillDamage_2 = 40; SkillMP_2 = 20; SkillCool_2 = 10;
                     break;
                 }
         }
 
        
-        if (SkillCoolDelta_2 >= SkillCool_2)
+        if (SkillCoolDelta_2 >= SkillCool_2 && status.currentMp >= SkillMP_2)
         {
             PlayerControl.instance.animator.SetTrigger("W2");
             SkillCoolDelta_2 = 0;
             StartCoroutine(WhirlWind());
-            status.currentMp -= SkillMP_2;
+
         }
-        uiManager.MpCheck(status.maxMp, status.currentMp, 2, SkillCool_2);
+   
     }
     IEnumerator WhirlWind()
     {

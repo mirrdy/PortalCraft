@@ -593,11 +593,21 @@ public class PlayerControl : MonoBehaviour, IDamage
             {
                 if (equipItem.TryGetComponent(out Bow bow))
                 {
-                    bow.Skill_1();
+                    if (bow.SkillCoolDelta_1 >= bow.SkillCool_1 && playerData.status.currentMp >= bow.SkillMP_1)
+                    {
+                        bow.Skill_1();
+                        playerData.status.currentMp -= bow.SkillMP_1;
+                        uiManager.MpCheck(playerData.status.maxMp, playerData.status.currentMp, 1, bow.SkillCool_1);
+                    }                   
                 }
                 else if (equipItem.TryGetComponent(out Sword sword))
                 {
-                    sword.Skill_1();
+                    if (sword.SkillCoolDelta_1 >= sword.SkillCool_1 && playerData.status.currentMp >= sword.SkillMP_1)
+                    {
+                        sword.Skill_1();
+                        playerData.status.currentMp -= sword.SkillMP_1;
+                        uiManager.MpCheck(playerData.status.maxMp, playerData.status.currentMp, 1, sword.SkillCool_1);
+                    }
                 }
             }
         }      
@@ -610,11 +620,21 @@ public class PlayerControl : MonoBehaviour, IDamage
             {
                 if (equipItem.TryGetComponent(out Bow bow))
                 {
-                    bow.Skill_2();
+                    if (bow.SkillCoolDelta_2 >= bow.SkillCool_2 && playerData.status.currentMp >= bow.SkillMP_2)
+                    {
+                        bow.Skill_2();
+                        playerData.status.currentMp -= bow.SkillMP_2;
+                        uiManager.MpCheck(playerData.status.maxMp, playerData.status.currentMp, 2, bow.SkillCool_2);
+                    }
                 }
                 else if (equipItem.TryGetComponent(out Sword sword))
                 {
-                    sword.Skill_2();
+                    if (sword.SkillCoolDelta_2 >= sword.SkillCool_2 && playerData.status.currentMp >= sword.SkillMP_2)
+                    {
+                        sword.Skill_2();
+                        playerData.status.currentMp -= sword.SkillMP_2;
+                        uiManager.MpCheck(playerData.status.maxMp, playerData.status.currentMp, 2, sword.SkillCool_2);
+                    }
                 }
             }           
         }       
