@@ -622,6 +622,7 @@ public class InGameUIManager : MonoBehaviour
     public void BackTitleSceneBtn()
     {
         LoadingSceneManager.Instance.LoadScene("Title");
+        Time.timeScale = 1;
     }
     #endregion
 
