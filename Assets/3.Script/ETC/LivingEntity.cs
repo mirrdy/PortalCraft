@@ -69,7 +69,7 @@ public class LivingEntity : MonoBehaviour, IDestroyable
             Vector3 dropPoint = transform.position + Random.insideUnitSphere;
             dropPoint.y = transform.position.y;
             Vector3 dropPointSecond = transform.position + Random.insideUnitSphere;
-            dropPointSecond.y = transform.position.y;
+            dropPointSecond.y = transform.position.y+1f;
             switch (rand)
             {
                 case 1:
